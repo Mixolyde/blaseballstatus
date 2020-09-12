@@ -24,13 +24,24 @@ An attempt to replicate [Playoff Status](http://playoffstatus.com)
 * Unit test coverage report
 * Playoff chances
 * Playoff Schedule
+* Clinched Calculations
 
-## Stat Tables
-Playoff Standings
+## Planned Stat Tables
+### Playoff Standings
 ```
-                 Record,     Games Behind,         Playoffs, No Playoffs
- Team, Division,  W,  L, League, Playoffs,    1,  2,  3,  4, *
-Crabs,     High, 70, 29,      -,        -, 100%, 0%, 0%, 0%, 0%
+Wild League
+               | Record|     Games Behind|           Playoffs| No Playoffs
+ Team| Division|  W|  L| League| Playoffs|    1|    2|  3|  4| *
+Crabs|     High| 70| 29|      -|        -| 100%|   0%| 0%| 0%| 0%
+Mints|      Low| 68| 31|      2|        -|   0%| 100%| 0%| 0%| 0%
+```
+
+### Winning Magic Numbers
+```
+Wild League
+               | Record|      Playoffs| No Playoffs
+ Team| Division|  W|  L|    1| 2| 3| 4| *
+Crabs|     High| 70| 24|    5| C| <| <| <
 ```
 
 
