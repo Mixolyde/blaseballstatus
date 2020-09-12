@@ -42,30 +42,25 @@ q:before,q:after {
 }
 abbr,acronym { border:0;
 }
-
 */
 
 body {
 padding-right: 1px;
 padding-left:  1px;
 
-/* padding-right: .5em;
-padding-left: .5em; */
-
-
-/* max-width: 960px; */
+/* 
+padding-right: .5em;
+padding-left: .5em;
+max-width: 960px; */
 margin-right: auto;
 margin-left: auto;
-
 }
 
 p{
 font-family: "Times New Roman", "Bookman Old Style", "Sans-Serif";
 font-size: 100%;
-
 margin-top: 0em;
 margin-bottom: .5em;
-
 }
 
 .atext{
@@ -75,14 +70,11 @@ color:#0000FF;
 }
 
 .description p{
-    margin-left: 1em;
-    margin-right:1em;
-
-
-    -webkit-hyphens: auto;
-    -moz-hyphens: auto;
-    hyphens: auto;
-
+  margin-left: 1em;
+  margin-right:1em;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  hyphens: auto;
 }
 
 .bsclst{
@@ -120,7 +112,6 @@ font-weight: 700;
 font-style: normal;
 display:inline;
 font-size:75%;
-
 }
 
 #snav .hb{
@@ -165,10 +156,7 @@ font-weight: 700;
 margin-top: 0em;
 /*border-left: 1px dotted;border-right: 1px dotted;border-top: 1px dotted;border-bottom: 1px dotted;
 margin-height: 22%;*/
-
 }
-
-
 
 h3 {
 font-family: "Verdana", "Arail", "Sans-Serif";
@@ -189,7 +177,7 @@ table{
 border-collapse: collapse;
 border: 1px solid gray;
 margin: 0px;
- width: 100%;
+width: 100%;
 }
 
 td{
@@ -216,7 +204,6 @@ text-align: center;background: #D2D2D2;
 padding:0px;
 }
 
-
 .tt{
 position: relative;
 }
@@ -239,8 +226,6 @@ position: relative;
   width:min-content;
   color:black;
   white-space: nowrap;
-  
-  
 }
 
 .tt_info{
@@ -251,30 +236,21 @@ vertical-align: super;
 font-size:smaller;
 }
 
-
-
 /* .tt:hover .ttc{
 display:block;
-
 }
-
-
 .tt:hover{
 background-color:#FFFDBF;
- }
- 
- 
- 
+}
+
 .ttc:hover, .ttc:active, .ttc:focus{
 display:none;
- } */
+}
+*/
 
- 
- 
 ul{
 padding-left:1.25rem;
 }
-
 
 nav ul{
 list-style-type: none;
@@ -289,11 +265,8 @@ nav li{
 /* left: 0px; */
 /* margin-left:0px; */
 /* border:1px solid red; */
-
 /*height: 26px; */
-
 margin-bottom: 8px;
-
 }
 
 .libreak{
@@ -315,8 +288,6 @@ text-align: center;
 /* display:-ms-flex; */
 display:-webkit-flex;
 display:flex;
-
-
 -ms-justify-content: space-between;
 -webkit-justify-content: space-between;
 justify-content: space-between;
@@ -326,103 +297,73 @@ justify-content: space-between;
 /* display:-ms-flex; */
 display:-webkit-flex;
 display:flex;
-
 /* -ms-flex-wrap: wrap; */
 -webkit-flex-wrap: wrap;
 flex-wrap: wrap;
-
 margin:0px;
 padding:1px;
 border:1px solid gray;
-
 width:auto;
 }
-
-
 
 .conflst{
 border: none;
 list-style: none;
-
-
 /* display:-ms-flex; */
 display:-webkit-flex;
 display:flex;
-
 /* -ms-flex-wrap: wrap; */
 -webkit-flex-wrap: wrap;
 flex-wrap: wrap;
-
 margin:0;
 padding:0;
-
-
 /* margin: 0px;
 padding: .2%;
 left: 0px; */
-
 width:100%;
-
-
 }
 
-
 .conflst li{
-
 -webkit-flex-grow:1;
 -webkit-flex-shrink:1;
 -webkit-flex-basis:45%;
-
 flex-grow:1;
 flex-shrink:1;
 flex-basis:45%;
-
 border:1px solid gray;
 margin:1px;
-
 padding: .25em;
 text-align:center;
-
-
 }
 
  img{
 border: none;
 max-width: 100%;
 height: auto;
-
-  }
+}
 
 .description{
 margin-bottom:1em;
 padding-left:.25em;
 }
 
-
 header{
 padding-left:.25em;
 }
 
 nav{
-
-
 margin: 0px;
 padding: .25em;
-
 /* margin:1px;
 padding:.5em; */
-
 font-family: "Verdana", "Arail", "Sans-Serif";
 font-size: 100%;
 /* line-height: 170%; /* 165 not big enough */
 border:1px solid gray;
-
-
 -webkit-order:2;
 -webkit-flex-grow:1;
 -webkit-flex-shrink:1;
 -webkit-flex-basis:100%;
-
 order:2;
 flex-grow:1;
 flex-shrink:1;
@@ -434,23 +375,17 @@ margin:0px;
 margin-bottom:1px;
 padding: 1px;
 padding-top:.5em;
-
 border:1px solid gray;
-
 /* margin:1px;
 padding:.25em; */
-
 -webkit-order:1;
 -webkit-flex-grow:1;
 -webkit-flex-shrink:1;
 -webkit-flex-basis:100%;
-
 order:1;
 flex-grow:1;
 flex-shrink:1;
 flex-basis:100%;
-
-
 }
 
 /*
@@ -461,10 +396,8 @@ margin-left: 2em;
 
 ..bsclst{
 margin-left: 2em;
-
 }
 */
-
 
 .breadcrumbs{
 font-family: "Verdana", "Arail", "Sans-Serif";
@@ -472,7 +405,6 @@ font-size:75%;
 font-weight: 400;
 /* white-space: nowrap; */
 line-height: 200%;
-
 }
 
 .breadcrumbs a{
@@ -491,15 +423,11 @@ line-height: 200%;
 color: #969696;
 }
 
-
 /* .leftpane{
 font-family: "Verdana", "Arail", "Serif";font-size: 75%;padding-left: .5em;padding-top: .5em;
 } */
-
-
 /* .trheader{
 font-family: "Verdana", "Arail", "Serif";font-weight: 700;text-align: center;background: #D2D2D2;
-
 } */
 
 /* Active League - Coming Soon - Inactive leagues */
@@ -509,8 +437,6 @@ font-size: 85%;
 font-weight: 700;
 margin-bottom: .25em;
 } */
-
-
 
 footer{
 margin-top:1em;
@@ -523,8 +449,7 @@ background: #D2D2D2;
 }
 
 .gr_loser{
-
-
+  
 }
 
 .gr_notplayed{
@@ -572,61 +497,59 @@ width:10%;
  }
 
 .so{
- width:54%;
+width:54%;
 }
 
-
-
 @media (min-width: 360px) and (max-width:413px) {
-/*        table{
-       font-size: 10.9px;
-       } */
-       .bnr{
-       font-size: 200%;
-       }
- }
+  /* table{
+  font-size: 10.9px;
+  } */
+  .bnr{
+  font-size: 200%;
+  }
+}
 
- @media (min-width: 414px) and (max-width:479px) {
-/*        table{
-       font-size: 12.9px;
-       } */
-       .bnr{
-       font-size: 200%;
-       }
- }
+@media (min-width: 414px) and (max-width:479px) {
+  /* table{
+  font-size: 12.9px;
+  } */
+  .bnr{
+  font-size: 200%;
+  }
+}
 
- @media (min-width: 480px) and (max-width:567px) {
-/*        table{
-       font-size: 14.9px;
-       } */
-       .bnr{
-       font-size: 200%;
-       }
+@media (min-width: 480px) and (max-width:567px) {
+  /* table{
+  font-size: 14.9px;
+  } */
+  .bnr{
+  font-size: 200%;
+  }
 
-       .conflst li{
-                -webkit-flex-basis:22%;
-                flex-basis:22%
-       }
+  .conflst li{
+    -webkit-flex-basis:22%;
+    flex-basis:22%
+  }
 
-       .conflst .c3{
-                -webkit-flex-basis:27%;
-                flex-basis:27%;
-       }
+  .conflst .c3{
+    -webkit-flex-basis:27%;
+    flex-basis:27%;
+  }
 
-       .conflst .c5{
-                -webkit-flex-basis:18%;
-                flex-basis:18%;
-       }
+  .conflst .c5{
+    -webkit-flex-basis:18%;
+    flex-basis:18%;
+  }
 
-       .conflst .c6{
-                -webkit-flex-basis:15%;
-                flex-basis:15%;
-       }
- }
+  .conflst .c6{
+    -webkit-flex-basis:15%;
+    flex-basis:15%;
+  }
+}
 
  /* Iphone5 - 568 : IPAD Landscape   - 768px */
  @media (min-width: 568px) and (max-width:767px) {
-/*        table{
+/* table{
        font-size: 16.0px;
        } */
        .bnr{
@@ -976,14 +899,11 @@ margin-left:7%;
                 -webkit-flex-basis:15%;
                 flex-basis:15%;
        }
- }
+}
 
- /* Total Desktop Mode - add wide mode - no table collapse*/
-
-
- @media print{
- nav{
- display:none;
- }
-
- }
+/* Total Desktop Mode - add wide mode - no table collapse*/
+@media print{
+  nav{
+  display:none;
+  }
+}
