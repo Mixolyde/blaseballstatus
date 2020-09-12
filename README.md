@@ -1,6 +1,6 @@
 # Blaseball Status
 ## About
-An attempt to replicate [Playoff Status](https://playoffstatus.com)
+An attempt to replicate [Playoff Status](http://playoffstatus.com)
  behavior, but for [Blaseball](https://blaseball.com).
 
 ## TODO
