@@ -27,11 +27,11 @@ An attempt to replicate [Playoff Status](http://playoffstatus.com)
 
 ## Stat Tables
 Playoff Standings
-'''
+```
                  Record,     Games Behind,         Playoffs, No Playoffs
  Team, Division,  W,  L, League, Playoffs,    1,  2,  3,  4, *
 Crabs,     High, 70, 29,      -,        -, 100%, 0%, 0%, 0%, 0%
-'''
+```
 
 
 
