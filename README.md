@@ -15,6 +15,7 @@ Published at https://mixolyde.github.io/blaseballstatus
 * Playoff chance pages
 * Magic Number pages
 * Schedule pages
+* Tiebreaker/Sort order description
 * Simulate rest of season X times
 * Automate data fetching and deployment every hour
 * Pick league toggle
@@ -25,6 +26,7 @@ Published at https://mixolyde.github.io/blaseballstatus
 * Postseason chances
 * Postseason Schedule
 * Clinched and Destiny Control Calculations
+* Pull database api code out into a separate library
 
 ## Planned Stat Tables
 ### Playoff Standings
