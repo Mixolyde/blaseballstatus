@@ -28,15 +28,24 @@ void main() {
 
     wildStandings.forEach((row){
       TableRowElement trow = table.addRow();
-      var cell = trow.insertCell(0)
+      trow.insertCell(0)
         ..text = row['nickname']
         ..classes.add('tblteam');
-      cell = trow.insertCell(1)
+      trow.insertCell(1)
         ..text = row['division'];
-      cell = trow.insertCell(2)
+      trow.insertCell(2)
         ..text = row['wins'].toString();
-      cell = trow.insertCell(3)
+      trow.insertCell(3)
         ..text = row['losses'].toString();        
+      trow.insertCell(4)
+        ..text = row['gbLg'].toString();        
+      trow.insertCell(5)
+        ..text = row['gbPo'].toString();        
+      for(int i = 1; i < 6; i++){
+        trow.insertCell(5 + i)
+          ..text = row["po$i"].toString();        
+      }
+        
     });
     
     var sepRow = table.insertRow(6);
