@@ -158,7 +158,7 @@ class Standings {
 
 class Team {
   final String id;
-  final String division = "Wild";
+  final String division = "High";
   final String fullName;
   final String nickname;
   final String shorthand;
