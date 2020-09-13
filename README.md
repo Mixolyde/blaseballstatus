@@ -2,6 +2,8 @@
 ## About
 An attempt to replicate [Playoff Status](http://playoffstatus.com)
  behavior, but for [Blaseball](https://blaseball.com).
+ 
+Published at https://mixolyde.github.io/blaseballstatus
 
 ## TODO
 * Copy CSS
