@@ -29,8 +29,8 @@ void main() {
     wildStandings.forEach((row){
       TableRowElement trow = table.addRow();
       var cell = trow.insertCell(0)
-        ..text = row['nickname'];
-      cell.attributes['class'] = "tblteam";
+        ..text = row['nickname']
+        ..classes.add('tblteam');
       cell = trow.insertCell(1)
         ..text = row['division'];
       cell = trow.insertCell(2)
@@ -38,6 +38,12 @@ void main() {
       cell = trow.insertCell(3)
         ..text = row['losses'].toString();        
     });
+    
+    var sepRow = table.insertRow(6);
+    sepRow.insertCell(0)
+      ..text = '&nbsp;'
+      ..colSpan = 11
+      ..classes.add('sepRow');
     
     //<tr> <td class="sepRow" colspan="11">&nbsp;</td> </tr>
 
