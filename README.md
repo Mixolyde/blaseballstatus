@@ -6,14 +6,12 @@ An attempt to replicate [Playoff Status](http://playoffstatus.com)
 Published at https://mixolyde.github.io/blaseballstatus
 
 ## TODO
-* Copy CSS
 * API data calls
-  * Teams fetch
   * Tiebreaker fetch
-  * League names fetch
+  * League and Division names fetch
   * Schedule fetch
+* Games Behind calculation
 * Auto detect current season
-* Pick league page
 * Playoff chance pages
 * Magic Number pages
 * Schedule pages
@@ -24,9 +22,9 @@ Published at https://mixolyde.github.io/blaseballstatus
 * Playoffstatus.com attribution
 * Tools used
 * Unit test coverage report
-* Playoff chances
-* Playoff Schedule
-* Clinched Calculations
+* Postseason chances
+* Postseason Schedule
+* Clinched and Destiny Control Calculations
 
 ## Planned Stat Tables
 ### Playoff Standings

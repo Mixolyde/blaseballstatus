@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'package:http/http.dart';
 
+final String _allTeamsUrl = "https://www.blaseball.com/database/allTeams";
 final String _seasonUrl = "https://www.blaseball.com/database/season?number=";
 final String _standingsUrl = "https://www.blaseball.com/database/standings?id=";
+
 
 int getCurrentSeasonNumber(){
   return 5;
@@ -22,6 +24,22 @@ Future<Standings> getCurrentStandings() async {
   var standings = Standings.fromJson(parsed);
   //print('Season: $season');
   return standings;
+}
+
+Future<List<Team>> getTeams() async {
+  Standings standings = await getCurrentStandings();
+  var response = await get(_allTeamsUrl);
+  List<dynamic> parsed = json.decode(response.body);
+  List<Team> teams = parsed.map((json) => Team.fromJson(json)).toList();
+  teams.forEach((team) {
+    team.wins = standings.wins[team.id];
+    team.losses = standings.losses[team.id];
+  });
+  return teams;
+}
+
+void sortTeamsNotGrouped(List<Team> teams) {
+  teams.sort((a, b) => b.wins.compareTo(a.wins));
 }
 
 /*
@@ -138,6 +156,48 @@ class Standings {
 
 }
 
+class Team {
+  final String id;
+  final String division = "Wild";
+  final String fullName;
+  final String nickname;
+  final String shorthand;
+  final String emoji;
+  int wins;
+  int losses;
+  
+  Team({this.id, this.fullName, this.nickname, this.shorthand,
+    this.emoji});
+  
+  factory Team.fromJson(Map<String, dynamic> json){
+    return Team(
+      id: json['id'] as String,
+      fullName: json['fullName'] as String,
+      nickname: json['nickname'] as String,
+      shorthand: json['shorthand'] as String,
+      emoji: json['emoji'] as String,
+    );
+  }
+  
+    Map toJson() => {
+      'nickname': nickname,
+      'division': division,
+      'wins': wins,
+      'losses': losses,
+      'gbLg': '-',
+      'gbPo': '-',
+      'po1': '-',
+      'po2': '-',
+      'po3': '-',
+      'po4': '-',
+      'po5': '-',
+    };
+  
+  @override
+  String toString() => "$fullName ($wins - $losses)";
+  
+}
+
 void main() {
   getCurrentSeason()
     .then((s) { 
@@ -147,5 +207,10 @@ void main() {
   getCurrentStandings()
     .then((s) { 
       print(s);
+    });
+  getTeams()
+    .then((s) { 
+      print(s);
     });  
+    
 }
