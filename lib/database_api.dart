@@ -4,7 +4,7 @@ import 'package:http/http.dart';
 final String _ilbId = "d8545021-e9fc-48a3-af74-48685950a183";
 
 final String _allTeamsUrl = "https://www.blaseball.com/database/allTeams";
-final String _leagueUrl = https://www.blaseball.com/database/league?id=" 
+final String _leagueUrl = "https://www.blaseball.com/database/league?id=" 
   + _ilbId;
 final String _seasonUrl = "https://www.blaseball.com/database/season?number=";
 final String _standingsUrl = "https://www.blaseball.com/database/standings?id=";
