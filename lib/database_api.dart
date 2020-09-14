@@ -3,9 +3,11 @@ library database_api;
 import 'dart:convert';
 import 'package:http/http.dart';
 
+part 'league.dart';
 part 'season.dart';
 part 'standings.dart';
 part 'team.dart';
+part 'tiebreakers.dart';
 
 final String _ilbId = "d8545021-e9fc-48a3-af74-48685950a183";
 
@@ -40,6 +42,22 @@ Future<Standings> getCurrentStandings() async {
   return standings;
 }
 
+Future<Division> getDivision(String id) async {
+  var response = await get(_divisionUrl + id);
+  return Division.fromJson(json.decode(response.body));
+}
+
+
+Future<League> getLeague() async {
+  var response = await get(_leagueUrl);
+  return League.fromJson(json.decode(response.body));
+}
+
+Future<Subleague> getSubleague(String id) async {
+  var response = await get(_subleagueUrl + id);
+  return Subleague.fromJson(json.decode(response.body));
+}
+
 Future<List<Team>> getTeams() async {
   Standings standings = await getCurrentStandings();
   var response = await get(_allTeamsUrl);
@@ -52,10 +70,15 @@ Future<List<Team>> getTeams() async {
   return teams;
 }
 
+Future<Tiebreakers> getTiebreakers(String id) async {
+  var response = await get(_tiebreakersUrl + id);
+  var decjson = json.decode(response.body)[0];
+  return Tiebreakers.fromJson(decjson);
+}
+
 void sortTeamsNotGrouped(List<Team> teams) {
   teams.sort((a, b) => b.wins.compareTo(a.wins));
 }
-
 
 void main() {
   getCurrentSeason()
