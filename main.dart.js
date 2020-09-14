@@ -1812,7 +1812,7 @@ r=$
 q=u.w
 p=C.v
 t=3
-return P.eK(W.eg("wildstandings.json"),$async$cq)
+return P.eK(W.eg("aabc11a1-81af-4036-9f18-229c759ca8a9.json"),$async$cq)
 case 3:r.f5=q.a(p.b9(0,b))
 return P.hd(null,s)}})
 return P.he($async$cq,s)},
