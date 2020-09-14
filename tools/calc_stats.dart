@@ -18,7 +18,17 @@ void main() async {
   calculateSubLeague(sub1);
   calculateSubLeague(sub2);
     
+
+  print("Writing out subleague info");
   
+  final filenameJSON = 'web/subleagues.json';
+  var sinkJSON = new File(filenameJSON).openWrite();
+  var subleagueData = [
+  [sub1.id, sub1.name],
+  [sub2.id, sub2.name]
+  ];
+  sinkJSON.write(json.encode(subleagueData));
+  sinkJSON.close();
 }
 
 void calculateSubLeague(Subleague sub) async{
