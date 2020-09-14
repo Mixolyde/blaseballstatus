@@ -8,7 +8,7 @@ void main() {
 
 void apiTests() {
   group('api tests', () {
-    int seasonNumber = 5;
+    int seasonNumber = 6;
     test('Current Season Number', () {
       expect(getCurrentSeasonNumber(), equals(seasonNumber));
     });
