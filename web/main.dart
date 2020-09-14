@@ -62,7 +62,7 @@ void main() {
 
 Future<void> getContentPages() async {
   standingsHTML = await HttpRequest.getString('standings.html');
-  wildStandings = json.decode(await HttpRequest.getString('wildstandings.json'));
+  wildStandings = json.decode(await HttpRequest.getString('aabc11a1-81af-4036-9f18-229c759ca8a9.json'));
 }
 
 void selectLeague1(MouseEvent event) => clickLeague(1);

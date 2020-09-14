@@ -18,6 +18,7 @@ void main() async {
 }
 
 void calculateSubLeague(Subleague sub, List<Team> allTeams) async{
+  print("Calculating status for $sub");
   Division div1 = await getDivision(sub.divisionId1);
   Division div2 = await getDivision(sub.divisionId2);
   List<Team> teams = allTeams.where((t) => 
