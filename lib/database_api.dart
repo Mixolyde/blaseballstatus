@@ -23,7 +23,8 @@ final String _tiebreakersUrl = "https://www.blaseball.com/database/tiebreakers?i
 
 
 int getCurrentSeasonNumber(){
-  return 5;
+  // TODO: replace with API detection 
+  return 6;
 }
 
 Future<Season> getCurrentSeason() async {
