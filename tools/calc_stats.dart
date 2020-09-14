@@ -5,21 +5,54 @@ import '../lib/database_api.dart';
 void main() async {
   print('Beginning stat calculations');
   
+  League league = await getLeague();
+  Subleague sub1 = await getSubleague(league.subleagueId1);
+  Subleague sub2 = await getSubleague(league.subleagueId2);
+  
   List<Team> teams = await getTeams();
+
+  calculateSubLeague(sub1, teams);
+  calculateSubLeague(sub2, teams);
+    
+  
+}
+
+void calculateSubLeague(Subleague sub, List<Team> allTeams) async{
+  Division div1 = await getDivision(sub.divisionId1);
+  Division div2 = await getDivision(sub.divisionId2);
+  List<Team> teams = allTeams.where((t) => 
+    div1.teams.contains(t.id) ||
+    div2.teams.contains(t.id)).toList();
+
   sortTeamsNotGrouped(teams);
-  print('Got team records');
+  
   List<TeamStandings> teamStandings = new List<TeamStandings>();
   teams.forEach((team){
     TeamStandings standing = 
-    new TeamStandings(team.id, team.nickname, team.wins, team.losses)
-      ..division = 'High';
+    new TeamStandings(team.id, team.nickname, team.wins, team.losses);
+    if(div1.teams.contains(team.id)){
+      standing.division = div1.name;
+    } else {
+      standing.division = div2.name;
+    }
     teamStandings.add(standing);
   });
 
-  final filenameJSON = 'web/wildstandings.json';
+  final filenameJSON = 'web/${sub.id}.json';
   var sinkJSON = new File(filenameJSON).openWrite();
   sinkJSON.write(json.encode(teamStandings));
   sinkJSON.close();
+
+}
+
+class LeagueStandings {
+  final String name;
+  final List<TeamStandings> leagueStandings;
+  
+  LeagueStandings(this.name, this.leagueStandings);
+  
+  @override
+  String toString() => "LeagueStandings: $name length: ${leagueStandings.length}";
 }
 
 class TeamStandings {
