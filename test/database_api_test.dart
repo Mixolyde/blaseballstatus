@@ -8,20 +8,21 @@ void main() {
 
 void apiTests() {
   group('api tests', () {
-    int seasonNumber = 6;
+    int seasonNumber = 5;
+    int teamCount = 20;
     test('Current Season Number', () {
-      expect(getCurrentSeasonNumber(), equals(seasonNumber));
+      expect(getCurrentSeasonNumber(), greaterThan(seasonNumber));
     });
     test('Current Season', () async {
       Season current = await getCurrentSeason();
       expect(current, isNotNull);
-      expect(current.seasonNumber, seasonNumber);
+      expect(current.seasonNumber, greaterThan(seasonNumber));
     });
     test('Current Standings', () async {
       Standings current = await getCurrentStandings();
       expect(current, isNotNull);
-      expect(20, current.wins.length);
-      expect(20, current.losses.length);
+      expect(current.wins.length, teamCount);
+      expect(current.losses.length, teamCount);
     });
     test('Get League', () async {
       League current = await getLeague();
