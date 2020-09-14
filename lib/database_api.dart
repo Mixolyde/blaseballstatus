@@ -76,9 +76,6 @@ Future<Tiebreakers> getTiebreakers(String id) async {
   return Tiebreakers.fromJson(decjson);
 }
 
-void sortTeamsNotGrouped(List<Team> teams) {
-  teams.sort((a, b) => b.wins.compareTo(a.wins));
-}
 
 void main() {
   getCurrentSeason()

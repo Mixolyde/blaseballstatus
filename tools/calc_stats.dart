@@ -2,6 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 import '../lib/database_api.dart';
 
+List<Team> allTeams;
+Tiebreakers tiebreakers;
+
 void main() async {
   print('Beginning stat calculations');
   
@@ -9,15 +12,16 @@ void main() async {
   Subleague sub1 = await getSubleague(league.subleagueId1);
   Subleague sub2 = await getSubleague(league.subleagueId2);
   
-  List<Team> teams = await getTeams();
+  allTeams = await getTeams();
+  tiebreakers = await getTiebreakers(league.tiebreakersId);
 
-  calculateSubLeague(sub1, teams);
-  calculateSubLeague(sub2, teams);
+  calculateSubLeague(sub1);
+  calculateSubLeague(sub2);
     
   
 }
 
-void calculateSubLeague(Subleague sub, List<Team> allTeams) async{
+void calculateSubLeague(Subleague sub) async{
   print("Calculating status for $sub");
   Division div1 = await getDivision(sub.divisionId1);
   Division div2 = await getDivision(sub.divisionId2);
@@ -44,6 +48,17 @@ void calculateSubLeague(Subleague sub, List<Team> allTeams) async{
   sinkJSON.write(json.encode(teamStandings));
   sinkJSON.close();
 
+}
+
+
+void sortTeamsNotGrouped(List<Team> teams) {
+  teams.sort((a, b) {
+    if(b.wins != a.wins)
+      return b.wins.compareTo(a.wins);
+    else 
+      return tiebreakers.order.indexOf(a.id)
+        .compareTo(tiebreakers.order.indexOf(b.id));
+  });
 }
 
 class LeagueStandings {
