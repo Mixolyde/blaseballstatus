@@ -7,6 +7,7 @@ import 'package:blaseballstatus/database_api.dart';
 var standingsHTML;
 List<dynamic> wildStandings;
 SiteData sitedata;
+int activeLeague = 1;
 
 void main() {
   getContentPages().then((v) {
@@ -18,19 +19,6 @@ void main() {
     querySelector('#pickLeague1').onClick.listen(selectLeague1);
     querySelector('#pickLeague2').onClick.listen(selectLeague2);
     TableElement table = querySelector("#standingsTable");
-    
-//<td class="tblteam">Crabs</td>
-//<td>High</td>									
-//<td>26</td>
-//<td>10</td>
-//<td>-</td>
-//<td>-</td>
-//<td style="color:#008000;">75%</td>
-//<td style="color:#008000;">14%</td>
-//<td style="color:#008000;">3%</td>
-//<td style="color:#008000;">7%</td>
-//<td style="color:#008000;">&lt;1%</td>
-
     wildStandings.forEach((row){
       TableRowElement trow = table.addRow();
       trow.insertCell(0)
@@ -58,9 +46,6 @@ void main() {
       ..text = '&nbsp;'
       ..colSpan = 11
       ..classes.add('sepRow');
-    
-    //<tr> <td class="sepRow" colspan="11">&nbsp;</td> </tr>
-
   });
   
 }
@@ -72,7 +57,10 @@ Future<void> getContentPages() async {
   wildStandings = json.decode(await HttpRequest.getString('aabc11a1-81af-4036-9f18-229c759ca8a9.json'));
 }
 
-void selectLeague1(MouseEvent event) => clickLeague(1);
+void selectLeague1(MouseEvent event){
+  print(event);
+  clickLeague(1);
+}
 void selectLeague2(MouseEvent event) => clickLeague(2);
 
 void clickLeague(int league){
