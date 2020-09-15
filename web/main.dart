@@ -5,7 +5,8 @@ import 'dart:html';
 import 'package:blaseballstatus/database_api.dart';
 
 var standingsHTML;
-List<dynamic> wildStandings;
+List<dynamic> sub1Standings;
+List<dynamic> sub2Standings;
 SiteData sitedata;
 int activeLeague = 1;
 
@@ -16,10 +17,11 @@ void main() {
     querySelector('#lastUpdate').text = sitedata.lastUpdate;
     querySelector('#mncntnt').children.clear();
     querySelector('#mncntnt').innerHtml = standingsHTML;
+    querySelector('#leagueTitle').text = sitedata.sub1name;
     querySelector('#pickLeague1').onClick.listen(selectLeague1);
     querySelector('#pickLeague2').onClick.listen(selectLeague2);
     TableElement table = querySelector("#standingsTable");
-    wildStandings.forEach((row){
+    sub1Standings.forEach((row){
       TableRowElement trow = table.addRow();
       trow.insertCell(0)
         ..text = row['nickname']
@@ -54,7 +56,8 @@ Future<void> getContentPages() async {
   sitedata = SiteData.fromJson(json.decode(await HttpRequest.getString('sitedata.json')));
   print(sitedata);
   standingsHTML = await HttpRequest.getString('standings.html');
-  wildStandings = json.decode(await HttpRequest.getString('aabc11a1-81af-4036-9f18-229c759ca8a9.json'));
+  sub1Standings = json.decode(await HttpRequest.getString('${sitedata.sub1id}.json'));
+  sub2Standings = json.decode(await HttpRequest.getString('${sitedata.sub2id}.json'));
 }
 
 void selectLeague1(MouseEvent event){

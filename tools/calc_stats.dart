@@ -29,7 +29,7 @@ void main() async {
   var f = new NumberFormat("#", "en_US");
   f.minimumIntegerDigits = 2;
   String lastUpdate = "${dayOfWeek[now.weekday]} ${monthOfYear[now.month]} " +
-    "${now.day} ${now.hour}:${f.format(now.minute)}";
+    "${now.day} ${f.format(now.hour)}${f.format(now.minute)}";
   SiteData sitedata = new SiteData(lastUpdate, sub1.id, 
     sub1.name, sub2.id, sub2.name);
   print(sitedata);
