@@ -44,17 +44,17 @@ Crabs|     High| 70| 24|    5| C| <| <| <
 
 ## Planned release schedule
 * 0.0.1 
-  [*] Wild/Mild league data toggle
-  [ ] Hourly data updates during the season
-  [ ] Games behind math
+- [x] Wild/Mild league data toggle
+- [ ] Hourly data updates during the season
+- [ ] Games behind math
 * 0.0.2
-  [ ] Playoff prediction percentages
-  [ ] Clinch calculations
+- [ ] Playoff prediction percentages
+- [ ] Clinch calculations
 * 0.0.3
-  [ ] Winning magic numbers
-  [ ] Group by division toggle
+- [ ] Winning magic numbers
+- [ ] Group by division toggle
 * 0.0.4
-  [ ] Postseason content
+-  [ ] Postseason content
 
 ## Acknowledgements
 A huge thank you to:
