@@ -22,6 +22,7 @@ Published at https://mixolyde.github.io/blaseballstatus
 * Postseason Schedule
 * Clinched and Destiny Control Calculations
 * Pull database api code out into a separate library
+* About page/acknowledgements
 
 ## Planned Stat Tables
 ### Playoff Standings
@@ -51,6 +52,9 @@ Crabs|     High| 70| 24|    5| C| <| <| <
   - Clinch calculations
 * 0.0.3
   - Winning magic numbers
+  - Group by division toggle
+* 0.0.4
+  - Postseason content
 
 ## Acknowledgements
 A huge thank you to:
