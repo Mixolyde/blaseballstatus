@@ -2,12 +2,17 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:html';
 
+import 'package:blaseballstatus/database_api.dart';
+
 var standingsHTML;
 List<dynamic> wildStandings;
+SiteData sitedata;
 
 void main() {
   getContentPages().then((v) {
     print("Got Content Pages");
+    //set last update time
+    querySelector('#lastUpdate').text = sitedata.lastUpdate;
     querySelector('#mncntnt').children.clear();
     querySelector('#mncntnt').innerHtml = standingsHTML;
     querySelector('#pickLeague1').onClick.listen(selectLeague1);
@@ -61,6 +66,8 @@ void main() {
 }
 
 Future<void> getContentPages() async {
+  sitedata = SiteData.fromJson(json.decode(await HttpRequest.getString('sitedata.json')));
+  print(sitedata);
   standingsHTML = await HttpRequest.getString('standings.html');
   wildStandings = json.decode(await HttpRequest.getString('aabc11a1-81af-4036-9f18-229c759ca8a9.json'));
 }

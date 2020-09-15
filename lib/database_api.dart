@@ -5,6 +5,7 @@ import 'package:http/http.dart';
 
 part 'league.dart';
 part 'season.dart';
+part 'sitedata.dart';
 part 'standings.dart';
 part 'team.dart';
 part 'tiebreakers.dart';

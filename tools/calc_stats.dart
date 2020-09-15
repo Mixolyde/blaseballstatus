@@ -26,7 +26,8 @@ void main() async {
   var now = new DateTime.now();
   String lastUpdate = "${dayOfWeek[now.weekday]} ${monthOfYear[now.month]} " +
     "${now.day} ${now.hour}:${now.minute}";
-  SiteData sitedata = new SiteData(lastUpdate, sub1, sub2);
+  SiteData sitedata = new SiteData(lastUpdate, sub1.id, 
+    sub1.name, sub2.id, sub2.name);
   print(sitedata);
   
   final filenameJSON = 'web/sitedata.json';
@@ -73,26 +74,6 @@ void sortTeamsNotGrouped(List<Team> teams) {
       return tiebreakers.order.indexOf(a.id)
         .compareTo(tiebreakers.order.indexOf(b.id));
   });
-}
-
-class SiteData {
-  final String lastUpdate;
-  final Subleague sub1;
-  final Subleague sub2;
-
-  List<List<String>> get subLists => 
-    [[sub1.id, sub1.name], [sub2.id, sub2.name]];
-  
-  SiteData(this.lastUpdate, this.sub1, this.sub2);
-  
-  Map toJson() => {
-      'lastUpdate': lastUpdate,
-      'sub1': [sub1.id, sub1.name],
-      'sub2': [sub2.id, sub2.name],
-  };
-  
-  @override
-  String toString() => "$lastUpdate $subLists";
 }
 
 class LeagueStandings {
