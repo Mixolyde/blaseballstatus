@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:intl/intl.dart';
 import '../lib/database_api.dart';
+
 
 List<Team> allTeams;
 Tiebreakers tiebreakers;
@@ -24,8 +26,10 @@ void main() async {
 
   print("Writing out site data info");
   var now = new DateTime.now();
+  var f = new NumberFormat("#", "en_US");
+  f.minimumIntegerDigits = 2;
   String lastUpdate = "${dayOfWeek[now.weekday]} ${monthOfYear[now.month]} " +
-    "${now.day} ${now.hour}:${now.minute}";
+    "${now.day} ${now.hour}:${f.format(now.minute)}";
   SiteData sitedata = new SiteData(lastUpdate, sub1.id, 
     sub1.name, sub2.id, sub2.name);
   print(sitedata);
