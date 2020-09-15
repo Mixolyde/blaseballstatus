@@ -7,6 +7,9 @@ class SiteData {
   final String sub2id;
   final String sub2name;
   
+  String get sub1nickname => sub1name.split(' ')[1];
+  String get sub2nickname => sub2name.split(' ')[1];
+  
   SiteData.fromMap({this.lastUpdate, this.sub1id, this.sub1name,
   this.sub2id, this.sub2name});
   

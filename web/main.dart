@@ -16,7 +16,9 @@ void main() {
     //set last update time
     querySelector('#lastUpdate').text = sitedata.lastUpdate;
     querySelector('#pickLeague1').onClick.listen(selectLeague1);
+    querySelector('#pickLeague1').text = sitedata.sub1nickname;
     querySelector('#pickLeague2').onClick.listen(selectLeague2);
+    querySelector('#pickLeague2').text = sitedata.sub2nickname;
     clickLeague(1);
   });
 }
@@ -37,10 +39,10 @@ void clickLeague(int league){
   querySelector('#mncntnt').children.clear();
   querySelector('#mncntnt').innerHtml = standingsHTML;
   if(league == 1){
-    querySelector('#leagueTitle').text = sitedata.sub1name;
+    querySelector('#leagueTitle').text = sitedata.sub1nickname;
     populateStandingsTable(sub1Standings);
   } else {
-    querySelector('#leagueTitle').text = sitedata.sub2name;
+    querySelector('#leagueTitle').text = sitedata.sub2nickname;
     populateStandingsTable(sub2Standings);
   }
 }
