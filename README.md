@@ -45,13 +45,13 @@ Crabs|     High| 70| 24|    5| C| <| <| <
 ## Planned release schedule
 * 0.0.1 
 - [x] Wild/Mild league data toggle
-- [x] Live pull data on refresh (thanks, cors-proxy!)
-- [ ] Games behind math
+- [x] Live pull data on refresh (thanks, [cors-proxy](https://github.com/Society-for-Internet-Blaseball-Research/cors-proxy)!)
+- [x] Games behind math
 * 0.0.2
-- [ ] Playoff prediction percentages
+- [ ] Winning magic numbers
 - [ ] Clinch calculations
 * 0.0.3
-- [ ] Winning magic numbers
+- [ ] Playoff prediction percentages
 - [ ] Group by division toggle
 * 0.0.4
 - [ ] Automate hourly data updates during the season

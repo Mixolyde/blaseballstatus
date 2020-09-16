@@ -51,9 +51,9 @@ Future<List<TeamStandings>> calculateSubLeague(Subleague sub) async{
     TeamStandings standing = 
     new TeamStandings(team.id, team.nickname, team.wins, team.losses);
     if(div1.teams.contains(team.id)){
-      standing.division = div1.name;
+      standing.division = div1.name.split(' ')[1];
     } else {
-      standing.division = div2.name;
+      standing.division = div2.name.split(' ')[1];
     }
     teamStandings.add(standing);
   });
@@ -61,8 +61,20 @@ Future<List<TeamStandings>> calculateSubLeague(Subleague sub) async{
   //compute games back from league leader
   int leagueLeaderDiff = teamStandings[0].wins - 
     teamStandings[0].losses;
-  
-  
+  int lastPlayoffDiff = teamStandings[3].wins - 
+    teamStandings[3].losses;  
+    
+  for (int i = 1; i < teamStandings.length; i++){
+    int teamDiff = teamStandings[i].wins - 
+    teamStandings[i].losses;
+    num gbLg = ( leagueLeaderDiff - teamDiff ) / 2;
+    teamStandings[i].gbLg = formatGamesBehind(gbLg);
+    
+    if(i > 3) {
+      num gbPo = ( lastPlayoffDiff - teamDiff ) / 2;
+      teamStandings[i].gbPo = formatGamesBehind(gbPo);
+    }
+  }
   
   return teamStandings;
 
@@ -79,6 +91,14 @@ void sortTeamsNotGrouped(List<Team> teams) {
   });
 }
 
+String formatGamesBehind(num gb){
+  if(gb == gb.toInt()){
+    return gb.toString();
+  } else {
+    return "${gb.toInt()}½";
+  }
+}
+
 class TeamStandings {
   final String id;
   final String nickname;
@@ -87,8 +107,8 @@ class TeamStandings {
   final wins;
   final losses;
   
-  final String gbLg = '-';
-  final String gbPo = '-';
+  String gbLg = '-';
+  String gbPo = '-';
   final List<String> po = ['-', '-', '-', '-', '-'];
   
   TeamStandings(this.id, this.nickname, this.wins, this.losses);
