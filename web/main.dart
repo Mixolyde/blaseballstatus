@@ -36,9 +36,25 @@ void clickLeague(int league){
   if(league == 1){
     querySelector('#leagueTitle').text = sitedata.sub1nickname;
     populateStandingsTable(sub1Standings);
+    querySelector('#pickLeague1').classes
+      .add('nav-button-active');
+    querySelector('#pickLeague1').classes
+      .remove('nav-button-inactive');
+    querySelector('#pickLeague2').classes
+      .remove('nav-button-active');
+    querySelector('#pickLeague2').classes  
+      .add('nav-button-inactive');
   } else {
     querySelector('#leagueTitle').text = sitedata.sub2nickname;
     populateStandingsTable(sub2Standings);
+    querySelector('#pickLeague1').classes
+      .remove('nav-button-active');
+    querySelector('#pickLeague1').classes  
+      .add('nav-button-inactive');
+    querySelector('#pickLeague2').classes
+      .add('nav-button-active');
+    querySelector('#pickLeague2').classes  
+      .remove('nav-button-inactive');
   }
 }
 
