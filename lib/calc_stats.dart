@@ -58,6 +58,9 @@ Future<List<TeamStandings>> calculateSubLeague(Subleague sub) async{
     teamStandings.add(standing);
   });
   
+  //compute games back from league leader
+  
+  
   return teamStandings;
 
 }
