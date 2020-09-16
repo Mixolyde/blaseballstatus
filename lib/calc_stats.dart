@@ -61,17 +61,29 @@ Future<List<TeamStandings>> calculateSubLeague(Subleague sub) async{
   //compute games back from league leader
   int leagueLeaderDiff = teamStandings[0].wins - 
     teamStandings[0].losses;
+  int leagueLeaderOrder = _tiebreakers.order
+    .indexOf(teamStandings[0].id);
   int lastPlayoffDiff = teamStandings[3].wins - 
     teamStandings[3].losses;  
+  int lastPlayoffOrder = _tiebreakers.order
+    .indexOf(teamStandings[3].id);
     
   for (int i = 1; i < teamStandings.length; i++){
     int teamDiff = teamStandings[i].wins - 
     teamStandings[i].losses;
     num gbLg = ( leagueLeaderDiff - teamDiff ) / 2;
+    if (leagueLeaderOrder < _tiebreakers.order
+      .indexOf(teamStandings[i].id)){
+      gbLg += 1;
+    }
     teamStandings[i].gbLg = formatGamesBehind(gbLg);
     
     if(i > 3) {
       num gbPo = ( lastPlayoffDiff - teamDiff ) / 2;
+      if (lastPlayoffOrder < _tiebreakers.order
+        .indexOf(teamStandings[i].id)){
+        gbPo += 1;
+      }
       teamStandings[i].gbPo = formatGamesBehind(gbPo);
     }
   }
