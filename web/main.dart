@@ -3,11 +3,9 @@ import 'dart:convert';
 import 'dart:html';
 
 import 'package:blaseballstatus/database_api.dart';
+import 'package:blaseballstatus/calc_stats.dart';
 
 var standingsHTML;
-List<dynamic> sub1Standings;
-List<dynamic> sub2Standings;
-SiteData sitedata;
 int activeLeague = 1;
 
 void main() {
@@ -24,11 +22,8 @@ void main() {
 }
 
 Future<void> getContentPages() async {
-  sitedata = SiteData.fromJson(json.decode(await HttpRequest.getString('sitedata.json')));
-  print(sitedata);
+  await calcStats();
   standingsHTML = await HttpRequest.getString('standings.html');
-  sub1Standings = json.decode(await HttpRequest.getString('${sitedata.sub1id}.json'));
-  sub2Standings = json.decode(await HttpRequest.getString('${sitedata.sub2id}.json'));
 }
 
 void selectLeague1(MouseEvent event) => clickLeague(1);
@@ -47,26 +42,26 @@ void clickLeague(int league){
   }
 }
 
-void populateStandingsTable(List<dynamic> subStandings){
+void populateStandingsTable(List<TeamStandings> subStandings){
   TableElement table = querySelector("#standingsTable");
   subStandings.forEach((row){
     TableRowElement trow = table.addRow();
     trow.insertCell(0)
-      ..text = row['nickname']
+      ..text = row.nickname
       ..classes.add('tblteam');
     trow.insertCell(1)
-      ..text = row['division'];
+      ..text = row.division;
     trow.insertCell(2)
-      ..text = row['wins'].toString();
+      ..text = row.wins.toString();
     trow.insertCell(3)
-      ..text = row['losses'].toString();        
+      ..text = row.losses.toString();        
     trow.insertCell(4)
-      ..text = row['gbLg'].toString();        
+      ..text = row.gbLg;        
     trow.insertCell(5)
-      ..text = row['gbPo'].toString();        
-    for(int i = 1; i < 6; i++){
-      trow.insertCell(5 + i)
-        ..text = row["po$i"].toString();        
+      ..text = row.gbPo.toString();        
+    for(int i = 0; i < 5; i++){
+      trow.insertCell(6 + i)
+        ..text = row.po[i].toString();        
     }
       
   });

@@ -1,50 +1,46 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:intl/intl.dart';
-import '../lib/database_api.dart';
+import 'database_api.dart';
 
+SiteData sitedata;
+List<TeamStandings> sub1Standings;
+List<TeamStandings> sub2Standings;
 
-List<Team> allTeams;
-Tiebreakers tiebreakers;
-List<String> dayOfWeek = ["", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-List<String> monthOfYear = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
+List<Team> _allTeams;
+Tiebreakers _tiebreakers;
+List<String> _dayOfWeek = ["", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+List<String> _monthOfYear = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
   "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-void main() async {
+Future<void> calcStats() async {
   print('Beginning stat calculations');
   
   League league = await getLeague();
   Subleague sub1 = await getSubleague(league.subleagueId1);
   Subleague sub2 = await getSubleague(league.subleagueId2);
   
-  allTeams = await getTeams();
-  tiebreakers = await getTiebreakers(league.tiebreakersId);
+  _allTeams = await getTeams();
+  _tiebreakers = await getTiebreakers(league.tiebreakersId);
 
-  calculateSubLeague(sub1);
-  calculateSubLeague(sub2);
+  sub1Standings = await calculateSubLeague(sub1);
+  sub2Standings = await calculateSubLeague(sub2);
     
-
-  print("Writing out site data info");
   var now = new DateTime.now();
   var f = new NumberFormat("#", "en_US");
   f.minimumIntegerDigits = 2;
-  String lastUpdate = "${dayOfWeek[now.weekday]} ${monthOfYear[now.month]} " +
+  String lastUpdate = "${_dayOfWeek[now.weekday]} " + 
+    "${_monthOfYear[now.month]} " +
     "${now.day} ${f.format(now.hour)}${f.format(now.minute)}";
-  SiteData sitedata = new SiteData(lastUpdate, sub1.id, 
+  sitedata = new SiteData(lastUpdate, sub1.id, 
     sub1.name, sub2.id, sub2.name);
   print(sitedata);
-  
-  final filenameJSON = 'web/sitedata.json';
-  var sinkJSON = new File(filenameJSON).openWrite();
-  sinkJSON.write(json.encode(sitedata));
-  sinkJSON.close();
 }
 
-void calculateSubLeague(Subleague sub) async{
+Future<List<TeamStandings>> calculateSubLeague(Subleague sub) async{
   print("Calculating status for $sub");
   Division div1 = await getDivision(sub.divisionId1);
   Division div2 = await getDivision(sub.divisionId2);
-  List<Team> teams = allTeams.where((t) => 
+  List<Team> teams = _allTeams.where((t) => 
     div1.teams.contains(t.id) ||
     div2.teams.contains(t.id)).toList();
 
@@ -61,11 +57,8 @@ void calculateSubLeague(Subleague sub) async{
     }
     teamStandings.add(standing);
   });
-
-  final filenameJSON = 'web/${sub.id}.json';
-  var sinkJSON = new File(filenameJSON).openWrite();
-  sinkJSON.write(json.encode(teamStandings));
-  sinkJSON.close();
+  
+  return teamStandings;
 
 }
 
@@ -75,19 +68,9 @@ void sortTeamsNotGrouped(List<Team> teams) {
     if(b.wins != a.wins)
       return b.wins.compareTo(a.wins);
     else 
-      return tiebreakers.order.indexOf(a.id)
-        .compareTo(tiebreakers.order.indexOf(b.id));
+      return _tiebreakers.order.indexOf(a.id)
+        .compareTo(_tiebreakers.order.indexOf(b.id));
   });
-}
-
-class LeagueStandings {
-  final String name;
-  final List<TeamStandings> leagueStandings;
-  
-  LeagueStandings(this.name, this.leagueStandings);
-  
-  @override
-  String toString() => "LeagueStandings: $name length: ${leagueStandings.length}";
 }
 
 class TeamStandings {
@@ -97,6 +80,10 @@ class TeamStandings {
   String division;
   final wins;
   final losses;
+  
+  final String gbLg = '-';
+  final String gbPo = '-';
+  final List<String> po = ['-', '-', '-', '-', '-'];
   
   TeamStandings(this.id, this.nickname, this.wins, this.losses);
     

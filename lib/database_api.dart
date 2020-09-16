@@ -11,16 +11,17 @@ part 'team.dart';
 part 'tiebreakers.dart';
 
 final String _ilbId = "d8545021-e9fc-48a3-af74-48685950a183";
+final String _apiUrl = "https://cors-proxy.blaseball-reference.com/database/";
 
-final String _allTeamsUrl = "https://www.blaseball.com/database/allTeams";
-final String _divisionUrl = "https://www.blaseball.com/database/division?id=";
-final String _gamesByDateUrl = "https://www.blaseball.com/database/games";
-final String _leagueUrl = "https://www.blaseball.com/database/league?id=" 
+final String _allTeamsUrl = _apiUrl + "allTeams";
+final String _divisionUrl = _apiUrl + "division?id=";
+final String _gamesByDateUrl = _apiUrl + "games";
+final String _leagueUrl = _apiUrl + "league?id=" 
   + _ilbId;
-final String _seasonUrl = "https://www.blaseball.com/database/season?number=";
-final String _standingsUrl = "https://www.blaseball.com/database/standings?id=";
-final String _subleagueUrl = "https://www.blaseball.com/database/subleague?id=";
-final String _tiebreakersUrl = "https://www.blaseball.com/database/tiebreakers?id=";
+final String _seasonUrl = _apiUrl + "season?number=";
+final String _standingsUrl = _apiUrl + "standings?id=";
+final String _subleagueUrl = _apiUrl + "subleague?id=";
+final String _tiebreakersUrl = _apiUrl + "tiebreakers?id=";
 
 
 int getCurrentSeasonNumber(){

@@ -45,7 +45,7 @@ Crabs|     High| 70| 24|    5| C| <| <| <
 ## Planned release schedule
 * 0.0.1 
 - [x] Wild/Mild league data toggle
-- [ ] Hourly data updates during the season
+- [x] Live pull data on refresh (thanks, cors-proxy!)
 - [ ] Games behind math
 * 0.0.2
 - [ ] Playoff prediction percentages
@@ -54,7 +54,8 @@ Crabs|     High| 70| 24|    5| C| <| <| <
 - [ ] Winning magic numbers
 - [ ] Group by division toggle
 * 0.0.4
--  [ ] Postseason content
+- [ ] Automate hourly data updates during the season
+- [ ] Postseason content
 
 ## Acknowledgements
 A huge thank you to:
