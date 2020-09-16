@@ -59,6 +59,9 @@ Future<List<TeamStandings>> calculateSubLeague(Subleague sub) async{
   });
   
   //compute games back from league leader
+  int leagueLeaderDiff = teamStandings[0].wins - 
+    teamStandings[0].losses;
+  
   
   
   return teamStandings;

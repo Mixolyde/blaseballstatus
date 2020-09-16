@@ -7,9 +7,11 @@ void main() {
 }
 
 void apiTests() {
+  apiUrl = "https://blaseball.com/database/";
   group('api tests', () {
     int seasonNumber = 5;
     int teamCount = 20;
+    int divisionCount = 5;
     test('Current Season Number', () {
       expect(getCurrentSeasonNumber(), greaterThan(seasonNumber));
     });
@@ -46,7 +48,7 @@ void apiTests() {
       Division current = await getDivision(subleague.divisionId1);
       expect(current, isNotNull);
       expect(current.teams, isNotNull);
-      expect(5, current.teams.length);
+      expect(current.teams.length, divisionCount);
       print("Division: $current");
     });
     test('Get Tiebreakers', () async {
@@ -54,7 +56,7 @@ void apiTests() {
       Tiebreakers current = await getTiebreakers(league.tiebreakersId);
       expect(current, isNotNull);
       expect(current.order, isNotNull);
-      expect(20, current.order.length);
+      expect(current.order.length, 20);
       print("$current");
     });  
   });

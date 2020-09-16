@@ -10,19 +10,18 @@ part 'standings.dart';
 part 'team.dart';
 part 'tiebreakers.dart';
 
+String apiUrl = "https://cors-proxy.blaseball-reference.com/database/";
+
 final String _ilbId = "d8545021-e9fc-48a3-af74-48685950a183";
-final String _apiUrl = "https://cors-proxy.blaseball-reference.com/database/";
-
-final String _allTeamsUrl = _apiUrl + "allTeams";
-final String _divisionUrl = _apiUrl + "division?id=";
-final String _gamesByDateUrl = _apiUrl + "games";
-final String _leagueUrl = _apiUrl + "league?id=" 
+final String _allTeamsUrl = apiUrl + "allTeams";
+final String _divisionUrl = apiUrl + "division?id=";
+final String _gamesByDateUrl = apiUrl + "games";
+final String _leagueUrl = apiUrl + "league?id=" 
   + _ilbId;
-final String _seasonUrl = _apiUrl + "season?number=";
-final String _standingsUrl = _apiUrl + "standings?id=";
-final String _subleagueUrl = _apiUrl + "subleague?id=";
-final String _tiebreakersUrl = _apiUrl + "tiebreakers?id=";
-
+final String _seasonUrl = apiUrl + "season?number=";
+final String _standingsUrl = apiUrl + "standings?id=";
+final String _subleagueUrl = apiUrl + "subleague?id=";
+final String _tiebreakersUrl = apiUrl + "tiebreakers?id=";
 
 int getCurrentSeasonNumber(){
   // TODO: replace with API detection 
