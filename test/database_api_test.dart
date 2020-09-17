@@ -12,16 +12,22 @@ void apiTests() {
     int seasonNumber = 5;
     int teamCount = 20;
     int divisionCount = 5;
-    test('Current Season Number', () {
-      expect(getCurrentSeasonNumber(), greaterThan(seasonNumber));
+    test('Current Simulation Data', () async {
+      SimulationData data = await getSimulationData();
+      expect(data.season, greaterThan(seasonNumber));
+      expect(data.id, "thisidisstaticyo");
     });
     test('Current Season', () async {
-      Season current = await getCurrentSeason();
+      SimulationData data = await getSimulationData();
+      Season current = await getSeason(data.season);
       expect(current, isNotNull);
       expect(current.seasonNumber, greaterThan(seasonNumber));
+      expect(current.id, data.seasonId);
     });
     test('Current Standings', () async {
-      Standings current = await getCurrentStandings();
+      SimulationData data = await getSimulationData();
+      Season season = await getSeason(data.season);
+      Standings current = await getStandings(season.standings);
       expect(current, isNotNull);
       expect(current.wins.length, teamCount);
       expect(current.losses.length, teamCount);

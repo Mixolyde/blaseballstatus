@@ -5,6 +5,7 @@ import 'package:http/http.dart';
 
 part 'league.dart';
 part 'season.dart';
+part 'simulationdata.dart';
 part 'sitedata.dart';
 part 'standings.dart';
 part 'team.dart';
@@ -19,24 +20,20 @@ final String _gamesByDateUrl = apiUrl + "games";
 final String _leagueUrl = apiUrl + "league?id=" 
   + _ilbId;
 final String _seasonUrl = apiUrl + "season?number=";
+final String _simulationDatUrl = apiUrl + "simulationData";
 final String _standingsUrl = apiUrl + "standings?id=";
 final String _subleagueUrl = apiUrl + "subleague?id=";
 final String _tiebreakersUrl = apiUrl + "tiebreakers?id=";
 
-int getCurrentSeasonNumber(){
-  // TODO: replace with API detection 
-  return 6;
-}
-
-Future<Season> getCurrentSeason() async {
-  var response = await get(_seasonUrl + "${getCurrentSeasonNumber()}");
+Future<Season> getSeason(int season) async {
+  var response = await get(_seasonUrl 
+    + season.toString() );
   //print('Response body: ${response.body}');
   return Season.fromJson(json.decode(response.body));
 }
 
-Future<Standings> getCurrentStandings() async {
-  var season = await getCurrentSeason();
-  var response = await get(_standingsUrl + season.standings);
+Future<Standings> getStandings(String standingsId) async {
+  var response = await get(_standingsUrl + standingsId);
   //print('Response body: ${response.body}');
   var parsed = json.decode(response.body);
   var standings = Standings.fromJson(parsed);
@@ -55,20 +52,26 @@ Future<League> getLeague() async {
   return League.fromJson(json.decode(response.body));
 }
 
+Future<SimulationData> getSimulationData() async {
+  var response = await get(_simulationDatUrl);
+  //print('Response body: ${response.body}');
+  return SimulationData.fromJson(json.decode(response.body));
+}
+
 Future<Subleague> getSubleague(String id) async {
   var response = await get(_subleagueUrl + id);
   return Subleague.fromJson(json.decode(response.body));
 }
 
 Future<List<Team>> getTeams() async {
-  Standings standings = await getCurrentStandings();
+  //Standings standings = await getCurrentStandings();
   var response = await get(_allTeamsUrl);
   List<dynamic> parsed = json.decode(response.body);
   List<Team> teams = parsed.map((json) => Team.fromJson(json)).toList();
-  teams.forEach((team) {
-    team.wins = standings.wins[team.id];
-    team.losses = standings.losses[team.id];
-  });
+  //teams.forEach((team) {
+  //  team.wins = standings.wins[team.id];
+  //  team.losses = standings.losses[team.id];
+  //});
   return teams;
 }
 
@@ -76,22 +79,4 @@ Future<Tiebreakers> getTiebreakers(String id) async {
   var response = await get(_tiebreakersUrl + id);
   var decjson = json.decode(response.body)[0];
   return Tiebreakers.fromJson(decjson);
-}
-
-
-void main() {
-  getCurrentSeason()
-    .then((s) { 
-      print(s);
-    });
-    
-  getCurrentStandings()
-    .then((s) { 
-      print(s);
-    });
-  getTeams()
-    .then((s) { 
-      print(s);
-    });  
-    
 }

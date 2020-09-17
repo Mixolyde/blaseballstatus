@@ -6,8 +6,6 @@ class Team {
   final String nickname;
   final String shorthand;
   final String emoji;
-  int wins;
-  int losses;
   
   Team({this.id, this.fullName, this.nickname, this.shorthand,
     this.emoji});

@@ -10,8 +10,10 @@ int activeLeague = 1;
 
 void main() {
   getContentPages().then((v) {
-    print("Got Content Pages and data");
+    print("Retrieved content pages and data");
     //set last update time
+    querySelector('.wkinfo').text = "Season ${simData.season + 1} "
+      + "Day ${simData.day + 1}";
     querySelector('#lastUpdate').text = sitedata.lastUpdate;
     querySelector('#pickLeague1').onClick.listen(selectLeague1);
     querySelector('#pickLeague1').text = sitedata.sub1nickname;
@@ -30,7 +32,6 @@ void selectLeague1(MouseEvent event) => clickLeague(1);
 void selectLeague2(MouseEvent event) => clickLeague(2);
 
 void clickLeague(int league){
-  print("League $league clicked");
   querySelector('#mncntnt').children.clear();
   querySelector('#mncntnt').innerHtml = standingsHTML;
   if(league == 1){

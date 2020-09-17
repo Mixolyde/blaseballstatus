@@ -3,10 +3,14 @@ import 'package:intl/intl.dart';
 import 'database_api.dart';
 
 SiteData sitedata;
+SimulationData simData;
+
 List<TeamStandings> sub1Standings;
 List<TeamStandings> sub2Standings;
 
 List<Team> _allTeams;
+Season _season;
+Standings _standings;
 Tiebreakers _tiebreakers;
 List<String> _dayOfWeek = ["", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 List<String> _monthOfYear = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
@@ -14,6 +18,10 @@ List<String> _monthOfYear = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"
 
 Future<void> calcStats() async {
   print('Beginning stat calculations');
+  simData = await getSimulationData();
+  _season = await getSeason(simData.season);
+  _standings = await getStandings(_season.standings);
+
   
   League league = await getLeague();
   Subleague sub1 = await getSubleague(league.subleagueId1);
@@ -44,12 +52,13 @@ Future<List<TeamStandings>> calculateSubLeague(Subleague sub) async{
     div1.teams.contains(t.id) ||
     div2.teams.contains(t.id)).toList();
 
-  sortTeamsNotGrouped(teams);
   
   List<TeamStandings> teamStandings = new List<TeamStandings>();
   teams.forEach((team){
     TeamStandings standing = 
-    new TeamStandings(team.id, team.nickname, team.wins, team.losses);
+    new TeamStandings(team.id, team.nickname, 
+      _standings.wins[team.id], 
+      _standings.losses[team.id]);
     if(div1.teams.contains(team.id)){
       standing.division = div1.name.split(' ')[1];
     } else {
@@ -57,6 +66,9 @@ Future<List<TeamStandings>> calculateSubLeague(Subleague sub) async{
     }
     teamStandings.add(standing);
   });
+
+  //sort first then calculate
+  sortTeamsNotGrouped(teamStandings);
   
   //compute games back from league leader
   int leagueLeaderDiff = teamStandings[0].wins - 
@@ -87,19 +99,23 @@ Future<List<TeamStandings>> calculateSubLeague(Subleague sub) async{
       teamStandings[i].gbPo = formatGamesBehind(gbPo);
     }
   }
+
   
   return teamStandings;
 
 }
 
-
-void sortTeamsNotGrouped(List<Team> teams) {
+//sort teams by wins, losses, divine favor
+void sortTeamsNotGrouped(List<TeamStandings> teams) {
   teams.sort((a, b) {
-    if(b.wins != a.wins)
+    if(b.wins != a.wins){
       return b.wins.compareTo(a.wins);
-    else 
+    } else if (b.losses != a.losses){
+      return a.losses.compareTo(b.losses);
+    } else {
       return _tiebreakers.order.indexOf(a.id)
         .compareTo(_tiebreakers.order.indexOf(b.id));
+    }
   });
 }
 
