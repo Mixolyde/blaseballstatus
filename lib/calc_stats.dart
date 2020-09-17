@@ -106,6 +106,8 @@ void sortTeamsNotGrouped(List<Team> teams) {
 String formatGamesBehind(num gb){
   if(gb == gb.toInt()){
     return gb.toString();
+  } else if (gb < 1 ) {
+    return "${gb.toInt()}½";
   } else {
     return "${gb.toInt()}½";
   }
