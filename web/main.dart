@@ -5,15 +5,14 @@ import 'dart:html';
 import 'package:blaseballstatus/database_api.dart';
 import 'package:blaseballstatus/calc_stats.dart';
 
-var gamesbehindHTML;
+String gamesbehindHTML;
 int activeLeague = 1;
+SimulationData simData;
 
 void main() {
   getContentPages().then((v) {
     print("Retrieved content pages and data");
     //set last update time
-    querySelector('.wkinfo').text = "Season ${simData.season + 1} "
-      + "Day ${simData.day + 1}";
     querySelector('#lastUpdate').text = sitedata.lastUpdate;
     querySelector('#pickLeague1').onClick.listen(selectLeague1);
     querySelector('#pickLeague1').text = sitedata.sub1nickname;
@@ -24,16 +23,20 @@ void main() {
 }
 
 Future<void> getContentPages() async {
-  await calcStats();
+  simData = await getSimulationData();
+  querySelector('.wkinfo').text = "Season ${simData.season + 1} "
+    + "Day ${simData.day + 1}";
   gamesbehindHTML = await HttpRequest.getString('gamesbehind.html');
+  setMainContent(gamesbehindHTML);
+  await calcStats(simData.season);
 }
 
 void selectLeague1(MouseEvent event) => clickLeague(1);
 void selectLeague2(MouseEvent event) => clickLeague(2);
 
 void clickLeague(int league){
-  querySelector('#mncntnt').children.clear();
-  querySelector('#mncntnt').innerHtml = gamesbehindHTML;
+  activeLeague = league;
+  setMainContent(gamesbehindHTML);
   if(league == 1){
     querySelector('#leagueTitle').text = sitedata.sub1nickname;
     populateStandingsTable(sub1Standings);
@@ -87,4 +90,9 @@ void populateStandingsTable(List<TeamStandings> subStandings){
     ..colSpan = 7
     ..classes.add('sepRow');  
   
+}
+
+void setMainContent(String html){
+  querySelector('#mncntnt').children.clear();
+  querySelector('#mncntnt').innerHtml = html;
 }

@@ -6,6 +6,12 @@ An attempt to replicate [Playoff Status](http://playoffstatus.com)
 Published at https://mixolyde.github.io/blaseballstatus
 
 ## TODO
+* Loading data indicator
+* Display data as it comes in
+  * Season/Day numbers
+  * League names
+  * Games Behind standings
+  * Other pages
 * Winning Magic Numbers
 * Party Time Magic Numbers
 * Fetch future game schedule

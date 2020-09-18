@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'database_api.dart';
 
 SiteData sitedata;
-SimulationData simData;
 
 List<TeamStandings> sub1Standings;
 List<TeamStandings> sub2Standings;
@@ -16,10 +15,9 @@ List<String> _dayOfWeek = ["", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 List<String> _monthOfYear = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
   "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-Future<void> calcStats() async {
+Future<void> calcStats(int season) async {
   print('Beginning stat calculations');
-  simData = await getSimulationData();
-  _season = await getSeason(simData.season);
+  _season = await getSeason(season);
   _standings = await getStandings(_season.standings);
 
   
