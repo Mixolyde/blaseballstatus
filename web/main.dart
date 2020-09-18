@@ -5,7 +5,7 @@ import 'dart:html';
 import 'package:blaseballstatus/database_api.dart';
 import 'package:blaseballstatus/calc_stats.dart';
 
-var standingsHTML;
+var gamesbehindHTML;
 int activeLeague = 1;
 
 void main() {
@@ -25,7 +25,7 @@ void main() {
 
 Future<void> getContentPages() async {
   await calcStats();
-  standingsHTML = await HttpRequest.getString('standings.html');
+  gamesbehindHTML = await HttpRequest.getString('gamesbehind.html');
 }
 
 void selectLeague1(MouseEvent event) => clickLeague(1);
@@ -33,7 +33,7 @@ void selectLeague2(MouseEvent event) => clickLeague(2);
 
 void clickLeague(int league){
   querySelector('#mncntnt').children.clear();
-  querySelector('#mncntnt').innerHtml = standingsHTML;
+  querySelector('#mncntnt').innerHtml = gamesbehindHTML;
   if(league == 1){
     querySelector('#leagueTitle').text = sitedata.sub1nickname;
     populateStandingsTable(sub1Standings);
@@ -69,24 +69,22 @@ void populateStandingsTable(List<TeamStandings> subStandings){
     trow.insertCell(1)
       ..text = row.division;
     trow.insertCell(2)
-      ..text = row.wins.toString();
+      ..text = (row.favor + 1).toString();
     trow.insertCell(3)
-      ..text = row.losses.toString();        
+      ..text = row.wins.toString();
     trow.insertCell(4)
-      ..text = row.gbLg;        
+      ..text = row.losses.toString();        
     trow.insertCell(5)
+      ..text = row.gbLg;        
+    trow.insertCell(6)
       ..text = row.gbPo.toString();        
-    for(int i = 0; i < 5; i++){
-      trow.insertCell(6 + i)
-        ..text = row.po[i].toString();        
-    }
       
   });
   
   var sepRow = table.insertRow(6);
   sepRow.insertCell(0)
     ..text = '&nbsp;'
-    ..colSpan = 11
+    ..colSpan = 7
     ..classes.add('sepRow');  
   
 }

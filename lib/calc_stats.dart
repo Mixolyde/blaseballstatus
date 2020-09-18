@@ -55,15 +55,18 @@ Future<List<TeamStandings>> calculateSubLeague(Subleague sub) async{
   
   List<TeamStandings> teamStandings = new List<TeamStandings>();
   teams.forEach((team){
-    TeamStandings standing = 
-    new TeamStandings(team.id, team.nickname, 
-      _standings.wins[team.id], 
-      _standings.losses[team.id]);
+    String divName;
     if(div1.teams.contains(team.id)){
-      standing.division = div1.name.split(' ')[1];
+      divName = div1.name.split(' ')[1];
     } else {
-      standing.division = div2.name.split(' ')[1];
+      divName = div2.name.split(' ')[1];
     }
+    
+    TeamStandings standing = 
+    new TeamStandings(team.id, team.nickname, divName,
+      _standings.wins[team.id], 
+      _standings.losses[team.id],
+      _tiebreakers.order.indexOf(team.id));
     teamStandings.add(standing);
   });
 
@@ -132,22 +135,24 @@ String formatGamesBehind(num gb){
 class TeamStandings {
   final String id;
   final String nickname;
-  String subleague;
-  String division;
+  final String division;
   final wins;
   final losses;
+  final int favor;
   
   String gbLg = '-';
   String gbPo = '-';
   final List<String> po = ['-', '-', '-', '-', '-'];
   
-  TeamStandings(this.id, this.nickname, this.wins, this.losses);
+  TeamStandings(this.id, this.nickname, this.division,
+    this.wins, this.losses, this.favor);
     
   Map toJson() => {
     'nickname': nickname,
     'division': division,
     'wins': wins,
     'losses': losses,
+    'favor': favor,
     'gbLg': '-',
     'gbPo': '-',
     'po1': '-',
