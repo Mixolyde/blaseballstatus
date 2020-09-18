@@ -6,7 +6,6 @@ An attempt to replicate [Playoff Status](http://playoffstatus.com)
 Published at https://mixolyde.github.io/blaseballstatus
 
 ## TODO
-* Auto detect current season
 * Winning Magic Numbers
 * Party Time Magic Numbers
 * Fetch future game schedule
