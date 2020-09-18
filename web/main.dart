@@ -24,7 +24,7 @@ void main() {
 
 Future<void> getContentPages() async {
   simData = await getSimulationData();
-  querySelector('.wkinfo').text = "Season ${simData.season + 1} "
+  querySelector('.wkinfo').text = "Season ${simData.season + 1}: "
     + "Day ${simData.day + 1}";
   gamesbehindHTML = await HttpRequest.getString('gamesbehind.html');
   setMainContent(gamesbehindHTML);

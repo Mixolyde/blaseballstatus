@@ -45,13 +45,13 @@ Published at https://mixolyde.github.io/blaseballstatus
 - [ ] Postseason content
 
 ## Acknowledgements
-A huge thank you to:
-* The Game Band
+Huge thank yous to:
+* [The Game Band](https://thegameband.com/)
 * The Blaseball Discord community
 * The SIBR Discord community
-* PlayoffStatus.com
-* Dart for being an awesome language!
-* Peanut plugin for Dart to auto deploy to gh-pages
+* [PlayoffStatus.com](http://PlayoffStatus.com)
+* [Dart](https://dart.dev/) for being an awesome language!
+* [Peanut and Git plugins](https://github.com/kevmoo) for Dart to auto deploy to gh-pages
 
 Created from templates made available by Stagehand under a BSD-style
 [license](https://github.com/dart-lang/stagehand/blob/master/LICENSE).
