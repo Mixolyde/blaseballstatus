@@ -6,12 +6,10 @@ An attempt to replicate [Playoff Status](http://playoffstatus.com)
 Published at https://mixolyde.github.io/blaseballstatus
 
 ## TODO
-* Loading data indicator
 * Display data as it comes in
-  * Season/Day numbers
   * League names
   * Games Behind standings
-  * Other pages
+  * Other pages in background
 * Winning Magic Numbers
 * Party Time Magic Numbers
 * Fetch future game schedule
@@ -24,9 +22,10 @@ Published at https://mixolyde.github.io/blaseballstatus
 * Unit test coverage report
 * Postseason chances
 * Postseason Schedule
-* Playoff berth clinches and destiny control Calculations
+* Playoff berth clinches and destiny control calculations
 * Pull database api code out into a separate library
 * About page/acknowledgements
+* Remember user's last data views
 
 ## Planned release schedule
 * v0.0.1 
@@ -34,6 +33,7 @@ Published at https://mixolyde.github.io/blaseballstatus
 - [x] Live pull data on refresh (thanks, [cors-proxy](https://github.com/Society-for-Internet-Blaseball-Research/cors-proxy)!)
 - [x] Games behind math
 * v0.0.2
+- [ ] Data loading indicator and data filling as it comes in
 - [ ] Winning magic numbers
 - [ ] Party time magic numbers
 - [ ] Clinch calculations
