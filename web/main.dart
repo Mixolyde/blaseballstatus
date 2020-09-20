@@ -16,8 +16,10 @@ SiteData sitedata;
 void main() {
   getContentPages().then((v) {
     print("Retrieved content pages and data");
-    //set last update time
+
     clickLeague(1);
+    
+    addListeners();
   });
 }
 
@@ -27,14 +29,21 @@ Future<void> getContentPages() async {
     + "Day ${simData.day + 1}";
   sitedata = await calcSiteData();
   querySelector('#lastUpdate').text = sitedata.lastUpdate;
-  querySelector('#pickLeague1').onClick.listen(selectLeague1);
   querySelector('#pickLeague1').text = sitedata.sub1nickname;
-  querySelector('#pickLeague2').onClick.listen(selectLeague2);
   querySelector('#pickLeague2').text = sitedata.sub2nickname;
 
   gamesbehindHTML = await HttpRequest.getString('gamesbehind.html');
   setMainContent(gamesbehindHTML);
   await calcStats(simData.season);
+}
+
+void addListeners(){
+  querySelector('#pickLeague1').onClick.listen(selectLeague1);
+  querySelector('#pickLeague2').onClick.listen(selectLeague2);
+  
+  querySelector('#viewGamesBehind').onClick.listen(selectViewGB);
+  querySelector('#viewWinningNumbers').onClick.listen(selectViewW);
+  querySelector('#viewPartyTimeNumbers').onClick.listen(selectViewPT);
 }
 
 void selectLeague1(MouseEvent event) => clickLeague(1);
@@ -67,6 +76,16 @@ void clickLeague(int league){
       .remove('nav-button-inactive');
   }
 }
+
+void selectViewGB(MouseEvent event) => clickView(View.gamesbehind);
+void selectViewW(MouseEvent event) => clickView(View.winningmagic);
+void selectViewPT(MouseEvent event) => clickView(View.partytimemagic);
+
+void clickView(View view){
+  print ("Clicked view: ${view.toString()}");
+
+}
+  
 
 void populateGamesBehindTable(List<TeamStandings> subStandings){
   TableElement table = querySelector("#standingsTable");
