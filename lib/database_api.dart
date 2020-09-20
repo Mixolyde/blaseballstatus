@@ -64,14 +64,9 @@ Future<Subleague> getSubleague(String id) async {
 }
 
 Future<List<Team>> getTeams() async {
-  //Standings standings = await getCurrentStandings();
   var response = await get(_allTeamsUrl);
   List<dynamic> parsed = json.decode(response.body);
   List<Team> teams = parsed.map((json) => Team.fromJson(json)).toList();
-  //teams.forEach((team) {
-  //  team.wins = standings.wins[team.id];
-  //  team.losses = standings.losses[team.id];
-  //});
   return teams;
 }
 

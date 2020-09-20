@@ -2,7 +2,9 @@ import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'database_api.dart';
 
-SiteData sitedata;
+League _league;
+Subleague _sub1;
+Subleague _sub2;
 
 List<TeamStandings> sub1Standings;
 List<TeamStandings> sub2Standings;
@@ -15,31 +17,37 @@ List<String> _dayOfWeek = ["", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 List<String> _monthOfYear = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
   "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-Future<void> calcStats(int season) async {
-  print('Beginning stat calculations');
-  _season = await getSeason(season);
-  _standings = await getStandings(_season.standings);
-
+Future<SiteData> calcSiteData() async {
   
-  League league = await getLeague();
-  Subleague sub1 = await getSubleague(league.subleagueId1);
-  Subleague sub2 = await getSubleague(league.subleagueId2);
+  _league = await getLeague();
+  _sub1 = await getSubleague(_league.subleagueId1);
+  _sub2 = await getSubleague(_league.subleagueId2);
   
-  _allTeams = await getTeams();
-  _tiebreakers = await getTiebreakers(league.tiebreakersId);
-
-  sub1Standings = await calculateSubLeague(sub1);
-  sub2Standings = await calculateSubLeague(sub2);
-    
   var now = new DateTime.now();
   var f = new NumberFormat("#", "en_US");
   f.minimumIntegerDigits = 2;
   String lastUpdate = "${_dayOfWeek[now.weekday]} " + 
     "${_monthOfYear[now.month]} " +
     "${now.day} ${f.format(now.hour)}${f.format(now.minute)}";
-  sitedata = new SiteData(lastUpdate, sub1.id, 
-    sub1.name, sub2.id, sub2.name);
+  SiteData sitedata = new SiteData(lastUpdate, 
+    _sub1.id, _sub1.name, 
+    _sub2.id, _sub2.name);
   print(sitedata);
+
+  return sitedata;
+}  
+
+Future<void> calcStats(int season) async {
+  print('Beginning stat calculations');
+  _season = await getSeason(season);
+  _standings = await getStandings(_season.standings);
+
+  _allTeams = await getTeams();
+  _tiebreakers = await getTiebreakers(_league.tiebreakersId);
+
+  sub1Standings = await calculateSubLeague(_sub1);
+  sub2Standings = await calculateSubLeague(_sub2);
+    
 }
 
 Future<List<TeamStandings>> calculateSubLeague(Subleague sub) async{
