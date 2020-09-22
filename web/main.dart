@@ -10,6 +10,7 @@ enum View { gamesbehind, winningmagic, partytimemagic}
 
 String gamesbehindHTML;
 String winningHTML;
+String partytimeHTML;
 int activeLeague;
 View activeView = View.gamesbehind;
 SimulationData simData;
@@ -38,6 +39,7 @@ Future<void> getContentPages() async {
   setMainContent(gamesbehindHTML);
   await calcStats(simData.season);
   winningHTML = await HttpRequest.getString('winning.html');
+  partytimeHTML = await HttpRequest.getString('winning.html');
 }
 
 void addListeners(){
@@ -87,7 +89,6 @@ void clickView(View view){
   switch(view){
     case View.gamesbehind:
       print("Switch to gamesbehind");
-      html = gamesbehindHTML;
       activeView = view;
       querySelector('#viewGamesBehind').classes
         .add('nav-button-active');
@@ -95,6 +96,16 @@ void clickView(View view){
         .remove('nav-button-active');
       querySelector('#viewPartyTimeNumbers').classes
         .remove('nav-button-active');
+      setMainContent(gamesbehindHTML);
+      
+      if(activeLeague == 1){
+        querySelector('#leagueTitle').text = sitedata.sub1nickname;
+        populateGamesBehindTable(sub1Standings);
+      } else {
+        querySelector('#leagueTitle').text = sitedata.sub2nickname;
+        populateGamesBehindTable(sub2Standings);
+      }
+
       break;
     case View.winningmagic:
       print("Switch to winningmagic");
@@ -105,7 +116,18 @@ void clickView(View view){
       querySelector('#viewWinningNumbers').classes
         .add('nav-button-active');
       querySelector('#viewPartyTimeNumbers').classes
-        .remove('nav-button-active');      break;
+        .remove('nav-button-active');      
+      setMainContent(winningHTML);
+      
+      if(activeLeague == 1){
+        querySelector('#leagueTitle').text = sitedata.sub1nickname;
+        populateWinningTable(sub1Standings);
+      } else {
+        querySelector('#leagueTitle').text = sitedata.sub2nickname;
+        populateWinningTable(sub2Standings);
+      }
+      
+      break;
     case View.partytimemagic:
       print("Switch to partytimemagic");
       activeView = view;
@@ -114,9 +136,17 @@ void clickView(View view){
       querySelector('#viewWinningNumbers').classes
         .remove('nav-button-active');
       querySelector('#viewPartyTimeNumbers').classes
-        .add('nav-button-active');      break;
+        .add('nav-button-active');
+      setMainContent(partytimeHTML);
+      if(activeLeague == 1){
+        querySelector('#leagueTitle').text = sitedata.sub1nickname;
+        populatePartyTimeTable(sub1Standings);
+      } else {
+        querySelector('#leagueTitle').text = sitedata.sub2nickname;
+        populatePartyTimeTable(sub2Standings);
+      }      
+      break;
   }
-      
 
 }
   
@@ -124,20 +154,9 @@ void clickView(View view){
 void populateGamesBehindTable(List<TeamStandings> subStandings){
   TableElement table = querySelector("#standingsTable");
   subStandings.forEach((row){
-    TableRowElement trow = table.addRow();
-    trow.insertCell(0)
-      ..text = row.nickname
-      ..classes.add('tblteam');
-    trow.insertCell(1)
-      ..text = row.division;
-    trow.insertCell(2)
-      ..text = (row.favor + 1).toString();
-    trow.insertCell(3)
-      ..text = row.wins.toString();
-    trow.insertCell(4)
-      ..text = row.losses.toString();   
+    TableRowElement trow = insertCommonCells(table, row);
     trow.insertCell(5)
-      ..text = (row.wins + row.losses).toString();
+      ..text = (row.wins + row.losses).toString();    
     trow.insertCell(6)
       ..text = (99 - (row.wins + row.losses)).toString();       
     trow.insertCell(7)
@@ -146,12 +165,61 @@ void populateGamesBehindTable(List<TeamStandings> subStandings){
       ..text = row.gbPo.toString();
   });
   
-  var sepRow = table.insertRow(6);
+  insertSeparatorRow(table, 6, 9); 
+  
+}
+
+void populateWinningTable(List<TeamStandings> subStandings){
+  TableElement table = querySelector("#standingsTable");
+  subStandings.forEach((row){
+    TableRowElement trow = insertCommonCells(table, row);
+    for(int i = 0; i < 5; i++){
+      trow.insertCell(5 + i)
+        ..text = ' ';
+    }
+  });
+  
+  insertSeparatorRow(table, 6, 10);   
+}
+
+void populatePartyTimeTable(List<TeamStandings> subStandings){
+  TableElement table = querySelector("#standingsTable");
+  subStandings.forEach((row){
+    TableRowElement trow = insertCommonCells(table, row);     
+    for(int i = 0; i < 5; i++){
+      trow.insertCell(5 + i)
+        ..text = ' ';
+    }
+  });
+  
+  insertSeparatorRow(table, 6, 10);   
+}
+
+TableRowElement insertCommonCells(TableElement table, 
+  TeamStandings row){
+  TableRowElement trow = table.addRow();
+  trow.insertCell(0)
+    ..text = row.nickname
+    ..classes.add('tblteam');
+  trow.insertCell(1)
+    ..text = row.division;
+  trow.insertCell(2)
+    ..text = (row.favor + 1).toString();
+  trow.insertCell(3)
+    ..text = row.wins.toString();
+  trow.insertCell(4)
+    ..text = row.losses.toString();   
+
+  return trow;
+
+}
+
+void insertSeparatorRow(TableElement table, int row, int columns){
+  var sepRow = table.insertRow(row);
   sepRow.insertCell(0)
     ..text = '&nbsp;'
-    ..colSpan = 9
+    ..colSpan = columns
     ..classes.add('sepRow');  
-  
 }
 
 void setMainContent(String html){
