@@ -33,7 +33,7 @@ Published at https://mixolyde.github.io/blaseballstatus
 - [x] Live pull data on refresh (thanks, [cors-proxy](https://github.com/Society-for-Internet-Blaseball-Research/cors-proxy)!)
 - [x] Games behind math
 * v0.0.2
-- [ ] Data loading indicator and data filling as it comes in
+- [x] Data loading indicator and data filling as it comes in
 - [ ] Winning magic numbers
 - [ ] Party time magic numbers
 - [ ] Clinch calculations
@@ -52,6 +52,7 @@ Huge thank yous to:
 * [PlayoffStatus.com](http://PlayoffStatus.com)
 * [Dart](https://dart.dev/) for being an awesome language!
 * [Peanut and Git plugins](https://github.com/kevmoo) for Dart to auto deploy to gh-pages
+* [Codeship](https://codeship.com) for continuous integration and automated deployment
 
 Created from templates made available by Stagehand under a BSD-style
 [license](https://github.com/dart-lang/stagehand/blob/master/LICENSE).
