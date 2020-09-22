@@ -9,7 +9,9 @@ enum View { gamesbehind, winningmagic, partytimemagic}
 
 
 String gamesbehindHTML;
-int activeLeague = 1;
+String winningHTML;
+int activeLeague;
+View activeView = View.gamesbehind;
 SimulationData simData;
 SiteData sitedata;
 
@@ -35,6 +37,7 @@ Future<void> getContentPages() async {
   gamesbehindHTML = await HttpRequest.getString('gamesbehind.html');
   setMainContent(gamesbehindHTML);
   await calcStats(simData.season);
+  winningHTML = await HttpRequest.getString('winning.html');
 }
 
 void addListeners(){
@@ -50,6 +53,9 @@ void selectLeague1(MouseEvent event) => clickLeague(1);
 void selectLeague2(MouseEvent event) => clickLeague(2);
 
 void clickLeague(int league){
+  if (league == activeLeague){
+    return;
+  }
   activeLeague = league;
   setMainContent(gamesbehindHTML);
   if(league == 1){
@@ -57,23 +63,15 @@ void clickLeague(int league){
     populateGamesBehindTable(sub1Standings);
     querySelector('#pickLeague1').classes
       .add('nav-button-active');
-    querySelector('#pickLeague1').classes
-      .remove('nav-button-inactive');
     querySelector('#pickLeague2').classes
       .remove('nav-button-active');
-    querySelector('#pickLeague2').classes  
-      .add('nav-button-inactive');
   } else {
     querySelector('#leagueTitle').text = sitedata.sub2nickname;
     populateGamesBehindTable(sub2Standings);
     querySelector('#pickLeague1').classes
       .remove('nav-button-active');
-    querySelector('#pickLeague1').classes  
-      .add('nav-button-inactive');
     querySelector('#pickLeague2').classes
       .add('nav-button-active');
-    querySelector('#pickLeague2').classes  
-      .remove('nav-button-inactive');
   }
 }
 
@@ -82,7 +80,43 @@ void selectViewW(MouseEvent event) => clickView(View.winningmagic);
 void selectViewPT(MouseEvent event) => clickView(View.partytimemagic);
 
 void clickView(View view){
-  print ("Clicked view: ${view.toString()}");
+  if(view == activeView){
+    return;
+  }
+  String html;
+  switch(view){
+    case View.gamesbehind:
+      print("Switch to gamesbehind");
+      html = gamesbehindHTML;
+      activeView = view;
+      querySelector('#viewGamesBehind').classes
+        .add('nav-button-active');
+      querySelector('#viewWinningNumbers').classes
+        .remove('nav-button-active');
+      querySelector('#viewPartyTimeNumbers').classes
+        .remove('nav-button-active');
+      break;
+    case View.winningmagic:
+      print("Switch to winningmagic");
+      html = winningHTML;
+      activeView = view;
+      querySelector('#viewGamesBehind').classes
+        .remove('nav-button-active');
+      querySelector('#viewWinningNumbers').classes
+        .add('nav-button-active');
+      querySelector('#viewPartyTimeNumbers').classes
+        .remove('nav-button-active');      break;
+    case View.partytimemagic:
+      print("Switch to partytimemagic");
+      activeView = view;
+      querySelector('#viewGamesBehind').classes
+        .remove('nav-button-active');
+      querySelector('#viewWinningNumbers').classes
+        .remove('nav-button-active');
+      querySelector('#viewPartyTimeNumbers').classes
+        .add('nav-button-active');      break;
+  }
+      
 
 }
   
