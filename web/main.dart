@@ -62,19 +62,21 @@ void clickLeague(int league){
   setMainContent(gamesbehindHTML);
   if(league == 1){
     querySelector('#leagueTitle').text = sitedata.sub1nickname;
-    populateGamesBehindTable(sub1Standings);
     querySelector('#pickLeague1').classes
       .add('nav-button-active');
     querySelector('#pickLeague2').classes
       .remove('nav-button-active');
+    populateGamesBehindTable(sub1Standings);
   } else {
     querySelector('#leagueTitle').text = sitedata.sub2nickname;
-    populateGamesBehindTable(sub2Standings);
     querySelector('#pickLeague1').classes
       .remove('nav-button-active');
     querySelector('#pickLeague2').classes
       .add('nav-button-active');
+    populateGamesBehindTable(sub2Standings);
   }
+  
+  
 }
 
 void selectViewGB(MouseEvent event) => clickView(View.gamesbehind);
@@ -175,7 +177,7 @@ void populateWinningTable(List<TeamStandings> subStandings){
     TableRowElement trow = insertCommonCells(table, row);
     for(int i = 0; i < 5; i++){
       trow.insertCell(5 + i)
-        ..text = ' ';
+        ..text = row.winning[i];
     }
   });
   
@@ -188,7 +190,7 @@ void populatePartyTimeTable(List<TeamStandings> subStandings){
     TableRowElement trow = insertCommonCells(table, row);     
     for(int i = 0; i < 5; i++){
       trow.insertCell(5 + i)
-        ..text = ' ';
+        ..text = row.losing[i];
     }
   });
   

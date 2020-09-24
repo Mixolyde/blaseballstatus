@@ -7,7 +7,6 @@ Published at https://mixolyde.github.io/blaseballstatus
 
 ## TODO
 * Display data as it comes in
-  * League names
   * Games Behind standings
   * Other pages in background
 * Winning Magic Numbers
@@ -26,6 +25,8 @@ Published at https://mixolyde.github.io/blaseballstatus
 * Pull database api code out into a separate library
 * About page/acknowledgements
 * Remember user's last data views
+* Color table entries
+* Team emoji in table entries
 
 ## Planned release schedule
 * v0.0.1 

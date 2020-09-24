@@ -78,7 +78,15 @@ Future<List<TeamStandings>> calculateSubLeague(Subleague sub) async{
 
   //sort first then calculate
   sortTeamsNotGrouped(teamStandings);
+
+  calculateGamesBehind(teamStandings);
+  calculateWinningMagicNumbers(teamStandings);
   
+  return teamStandings;
+
+}
+
+void calculateGamesBehind(List<TeamStandings> teamStandings) {
   //compute games back from league leader
   int leagueLeaderDiff = teamStandings[0].wins - 
     teamStandings[0].losses;
@@ -107,11 +115,32 @@ Future<List<TeamStandings>> calculateSubLeague(Subleague sub) async{
       }
       teamStandings[i].gbPo = formatGamesBehind(gbPo);
     }
+  }  
+}
+
+void calculateWinningMagicNumbers(List<TeamStandings> teamStandings) {
+  for (int i = 0; i < teamStandings.length; i++){
+    for (int j = 0; j < i && j < 4; j++){
+      teamStandings[i].winning[j] = "DNCD";
+    }
+    for (int k = i; k < 4; k++){
+      //Wb + GRb - Wa + 1
+      int b = i + k + 1;
+      int magic = teamStandings[b].wins +
+        (99 - (teamStandings[b].wins + teamStandings[b].losses)) -
+        teamStandings[i].wins;
+      if (teamStandings[i].favor > teamStandings[b].favor) {
+        //team b wins ties
+        magic += 1;
+      }
+      teamStandings[i].winning[k] = "$magic";
+      
+    }
+    
+    teamStandings[i].winning[4] = "0";
+    
   }
-
   
-  return teamStandings;
-
 }
 
 //sort teams by wins, losses, divine favor
@@ -149,6 +178,8 @@ class TeamStandings {
   String gbLg = '-';
   String gbPo = '-';
   final List<String> po = ['-', '-', '-', '-', '-'];
+  final List<String> winning = ['-', '-', '-', '-', '-'];
+  final List<String> losing = ['-', '-', '-', '-', '-'];
   
   TeamStandings(this.id, this.nickname, this.division,
     this.wins, this.losses, this.favor);
@@ -161,11 +192,6 @@ class TeamStandings {
     'favor': favor,
     'gbLg': '-',
     'gbPo': '-',
-    'po1': '-',
-    'po2': '-',
-    'po3': '-',
-    'po4': '-',
-    'po5': '-',
   };
   
   @override
