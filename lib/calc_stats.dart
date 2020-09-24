@@ -186,6 +186,7 @@ class TeamStandings {
     this.wins, this.losses, this.favor);
     
   Map toJson() => {
+    'id': id,
     'nickname': nickname,
     'division': division,
     'wins': wins,

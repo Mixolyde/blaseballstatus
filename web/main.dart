@@ -199,9 +199,15 @@ void populatePartyTimeTable(List<TeamStandings> subStandings){
 TableRowElement insertCommonCells(TableElement table, 
   TeamStandings row){
   TableRowElement trow = table.addRow();
-  trow.insertCell(0)
+  AnchorElement teamLink = new AnchorElement(
+    href:"https://www.blaseball.com/team/${row.id}")
     ..text = row.nickname
-    ..classes.add('tblteam');
+    ..target = "_new";
+  
+  var cell = trow.insertCell(0);
+  cell.classes.add('tblteam');
+  cell.children.add(teamLink);
+  
   trow.insertCell(1)
     ..text = row.division;
   trow.insertCell(2)
