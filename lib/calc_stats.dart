@@ -6,8 +6,7 @@ League _league;
 Subleague _sub1;
 Subleague _sub2;
 
-List<TeamStandings> sub1Standings;
-List<TeamStandings> sub2Standings;
+List<List<TeamStandings>> subStandings;
 
 List<Team> _allTeams;
 Season _season;
@@ -45,8 +44,10 @@ Future<void> calcStats(int season) async {
   _allTeams = await getTeams();
   _tiebreakers = await getTiebreakers(_league.tiebreakersId);
 
-  sub1Standings = await calculateSubLeague(_sub1);
-  sub2Standings = await calculateSubLeague(_sub2);
+  List<TeamStandings> sub1Standings = await calculateSubLeague(_sub1);
+  List<TeamStandings> sub2Standings = await calculateSubLeague(_sub2);
+  
+  subStandings = [sub1Standings, sub2Standings];
     
 }
 

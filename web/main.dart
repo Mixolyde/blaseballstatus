@@ -7,11 +7,12 @@ import 'package:blaseballstatus/calc_stats.dart';
 
 enum View { gamesbehind, winningmagic, partytimemagic}
 
-
-String gamesbehindHTML;
-String winningHTML;
-String partytimeHTML;
+// 0 or 1;
 int activeLeague;
+String gamesbehindHTML;
+String magicHTML;
+String winningNotesHTML;
+String partytimeNotesHTML;
 View activeView = View.gamesbehind;
 SimulationData simData;
 SiteData sitedata;
@@ -20,7 +21,7 @@ void main() {
   getContentPages().then((v) {
     print("Retrieved content pages and data");
 
-    clickLeague(1);
+    clickLeague(0);
     
     addListeners();
   });
@@ -28,18 +29,20 @@ void main() {
 
 Future<void> getContentPages() async {
   simData = await getSimulationData();
-  querySelector('.wkinfo').text = "Season ${simData.season + 1}: "
-    + "Day ${simData.day + 1}";
+  querySelector('.wkinfo').text = 
+    "Season ${simData.season + 1}: " + 
+    "Day ${simData.day + 1}";
   sitedata = await calcSiteData();
   querySelector('#lastUpdate').text = sitedata.lastUpdate;
-  querySelector('#pickLeague1').text = sitedata.sub1nickname;
-  querySelector('#pickLeague2').text = sitedata.sub2nickname;
+  querySelector('#pickLeague1').text = sitedata.subnicknames[0];
+  querySelector('#pickLeague2').text = sitedata.subnicknames[1];
 
   gamesbehindHTML = await HttpRequest.getString('gamesbehind.html');
   setMainContent(gamesbehindHTML);
   await calcStats(simData.season);
-  winningHTML = await HttpRequest.getString('winning.html');
-  partytimeHTML = await HttpRequest.getString('winning.html');
+  magicHTML = await HttpRequest.getString('magic.html');
+  winningNotesHTML = await HttpRequest.getString('winningNotes.html');
+  partytimeNotesHTML = await HttpRequest.getString('winningNotes.html');
 }
 
 void addListeners(){
@@ -51,31 +54,28 @@ void addListeners(){
   querySelector('#viewPartyTimeNumbers').onClick.listen(selectViewPT);
 }
 
-void selectLeague1(MouseEvent event) => clickLeague(1);
-void selectLeague2(MouseEvent event) => clickLeague(2);
+void selectLeague1(MouseEvent event) => clickLeague(0);
+void selectLeague2(MouseEvent event) => clickLeague(1);
 
 void clickLeague(int league){
   if (league == activeLeague){
     return;
   }
   activeLeague = league;
-  setMainContent(gamesbehindHTML);
-  if(league == 1){
-    querySelector('#leagueTitle').text = sitedata.sub1nickname;
+  if(league == 0){
     querySelector('#pickLeague1').classes
       .add('nav-button-active');
     querySelector('#pickLeague2').classes
       .remove('nav-button-active');
-    populateGamesBehindTable(sub1Standings);
   } else {
-    querySelector('#leagueTitle').text = sitedata.sub2nickname;
     querySelector('#pickLeague1').classes
       .remove('nav-button-active');
     querySelector('#pickLeague2').classes
       .add('nav-button-active');
-    populateGamesBehindTable(sub2Standings);
   }
-  
+
+ 
+  redisplayData();
   
 }
 
@@ -87,69 +87,68 @@ void clickView(View view){
   if(view == activeView){
     return;
   }
-  String html;
-  switch(view){
+  activeView = view;
+  switch(activeView){
     case View.gamesbehind:
       print("Switch to gamesbehind");
-      activeView = view;
       querySelector('#viewGamesBehind').classes
         .add('nav-button-active');
       querySelector('#viewWinningNumbers').classes
         .remove('nav-button-active');
       querySelector('#viewPartyTimeNumbers').classes
         .remove('nav-button-active');
-      setMainContent(gamesbehindHTML);
-      
-      if(activeLeague == 1){
-        querySelector('#leagueTitle').text = sitedata.sub1nickname;
-        populateGamesBehindTable(sub1Standings);
-      } else {
-        querySelector('#leagueTitle').text = sitedata.sub2nickname;
-        populateGamesBehindTable(sub2Standings);
-      }
 
       break;
     case View.winningmagic:
       print("Switch to winningmagic");
-      html = winningHTML;
-      activeView = view;
       querySelector('#viewGamesBehind').classes
         .remove('nav-button-active');
       querySelector('#viewWinningNumbers').classes
         .add('nav-button-active');
       querySelector('#viewPartyTimeNumbers').classes
         .remove('nav-button-active');      
-      setMainContent(winningHTML);
-      
-      if(activeLeague == 1){
-        querySelector('#leagueTitle').text = sitedata.sub1nickname;
-        populateWinningTable(sub1Standings);
-      } else {
-        querySelector('#leagueTitle').text = sitedata.sub2nickname;
-        populateWinningTable(sub2Standings);
-      }
       
       break;
     case View.partytimemagic:
       print("Switch to partytimemagic");
-      activeView = view;
       querySelector('#viewGamesBehind').classes
         .remove('nav-button-active');
       querySelector('#viewWinningNumbers').classes
         .remove('nav-button-active');
       querySelector('#viewPartyTimeNumbers').classes
         .add('nav-button-active');
-      setMainContent(partytimeHTML);
-      if(activeLeague == 1){
-        querySelector('#leagueTitle').text = sitedata.sub1nickname;
-        populatePartyTimeTable(sub1Standings);
-      } else {
-        querySelector('#leagueTitle').text = sitedata.sub2nickname;
-        populatePartyTimeTable(sub2Standings);
-      }      
+
       break;
   }
+  
+  redisplayData();
 
+}
+
+void redisplayData(){
+    switch(activeView){
+    case View.gamesbehind:
+      setMainContent(gamesbehindHTML);
+      querySelector('#leagueTitle').text = 
+        sitedata.subnicknames[activeLeague]; 
+      populateGamesBehindTable(subStandings[activeLeague]);
+      break;
+    case View.winningmagic:
+      setMainContent(magicHTML);
+      querySelector('#leagueTitle').text =
+        "${sitedata.subnicknames[activeLeague]} League Winning Magic Numbers";
+      populateWinningTable(subStandings[activeLeague]);
+      setNotes(winningNotesHTML);
+      break;
+    case View.partytimemagic:
+      setMainContent(magicHTML);
+      querySelector('#leagueTitle').text =
+        "${sitedata.subnicknames[activeLeague]} League Party Time Magic Numbers";
+      populatePartyTimeTable(subStandings[activeLeague]);
+      setNotes(partytimeNotesHTML);
+      break;
+    }
+      
 }
   
 
@@ -227,4 +226,9 @@ void insertSeparatorRow(TableElement table, int row, int columns){
 void setMainContent(String html){
   querySelector('#mncntnt').children.clear();
   querySelector('#mncntnt').innerHtml = html;
+}
+
+void setNotes(String html){
+  querySelector('#notes').children.clear();
+  querySelector('#notes').innerHtml = html;  
 }

@@ -7,14 +7,15 @@ class SiteData {
   final String sub2id;
   final String sub2name;
   
-  String get sub1nickname => sub1name.split(' ')[1];
-  String get sub2nickname => sub2name.split(' ')[1];
+  List<String> get subnicknames => 
+    [sub1name.split(' ')[1],
+    sub2name.split(' ')[1]];
   
   SiteData.fromMap({this.lastUpdate, this.sub1id, this.sub1name,
-  this.sub2id, this.sub2name});
+    this.sub2id, this.sub2name});
   
   SiteData(this.lastUpdate, this.sub1id, this.sub1name,
-  this.sub2id, this.sub2name);
+    this.sub2id, this.sub2name);
   
   factory SiteData.fromJson(Map<String, dynamic> json){
     return SiteData.fromMap(
