@@ -3179,7 +3179,9 @@ k=o.d
 if(typeof k!=="number")return H.a7(k)
 j=m+(99-(m+l))-k
 if(o.f>n.f)++j
-C.b.l(o.z,q,""+j)}if(s>=a.length)return H.f(a,s)
+o=o.z
+if(j>0)C.b.l(o,q,""+j)
+else C.b.l(o,q,"^")}if(s>=a.length)return H.f(a,s)
 C.b.l(a[s].z,4,"0")}},
 qI:function(a){C.b.ah(a,new V.jG())},
 mg:function(a){if(a===C.e.av(a))return C.e.j(a)
