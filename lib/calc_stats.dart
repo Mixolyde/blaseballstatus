@@ -134,7 +134,11 @@ void calculateWinningMagicNumbers(List<TeamStandings> teamStandings) {
         //team b wins ties
         magic += 1;
       }
-      teamStandings[i].winning[k] = "$magic";
+      if (magic > 0){
+        teamStandings[i].winning[k] = "$magic";
+      } else {
+        teamStandings[i].winning[k] = "^";
+      }
       
     }
     
