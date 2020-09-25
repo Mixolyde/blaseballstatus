@@ -124,9 +124,8 @@ void calculateWinningMagicNumbers(List<TeamStandings> teamStandings) {
     for (int j = 0; j < i && j < 4; j++){
       teamStandings[i].winning[j] = "DNCD";
     }
-    for (int k = i; k < 4; k++){
+    for (int b = i + 1; b < 5; b++){
       //Wb + GRb - Wa + 1
-      int b = i + k + 1;
       int magic = teamStandings[b].wins +
         (99 - (teamStandings[b].wins + teamStandings[b].losses)) -
         teamStandings[i].wins;
@@ -134,10 +133,11 @@ void calculateWinningMagicNumbers(List<TeamStandings> teamStandings) {
         //team b wins ties
         magic += 1;
       }
+      //print("WinMN for ${teamStandings[i]} vs. ${teamStandings[b]}: $magic");
       if (magic > 0){
-        teamStandings[i].winning[k] = "$magic";
+        teamStandings[i].winning[b - 1] = "$magic";
       } else {
-        teamStandings[i].winning[k] = "^";
+        teamStandings[i].winning[b - 1] = "^";
       }
       
     }
