@@ -199,8 +199,8 @@ void populatePartyTimeTable(List<TeamStandings> subStandings){
     TableRowElement trow = insertCommonCells(table, row);     
     for(int i = 0; i < 5; i++){
       var cell = trow.insertCell(5 + i)
-        ..text = row.losing[i];
-      switch (row.losing[i]){
+        ..text = row.partytime[i];
+      switch (row.partytime[i]){
         case "PT":
         case "X":
         case "MW":

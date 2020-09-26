@@ -81,8 +81,7 @@ Future<List<TeamStandings>> calculateSubLeague(Subleague sub) async{
   sortTeamsNotGrouped(teamStandings);
 
   calculateGamesBehind(teamStandings);
-  calculateWinningMagicNumbers(teamStandings);
-  calculatePartyTimeMagicNumbers(teamStandings);
+  calculateMagicNumbers(teamStandings);
   
   return teamStandings;
 
@@ -120,7 +119,12 @@ void calculateGamesBehind(List<TeamStandings> teamStandings) {
   }  
 }
 
-void calculateWinningMagicNumbers(List<TeamStandings> teamStandings) {
+void calculateMagicNumbers(List<TeamStandings> teamStandings){
+  _calculateWinningMagicNumbers(teamStandings);
+  _calculatePartyTimeMagicNumbers(teamStandings);
+}
+
+void _calculateWinningMagicNumbers(List<TeamStandings> teamStandings) {
   for (int i = 0; i < teamStandings.length; i++){
     int maxWins = 99 - teamStandings[i].losses;
 
@@ -166,7 +170,7 @@ void calculateWinningMagicNumbers(List<TeamStandings> teamStandings) {
   
 }
 
-void calculatePartyTimeMagicNumbers(List<TeamStandings> teamStandings) {
+void _calculatePartyTimeMagicNumbers(List<TeamStandings> teamStandings) {
   for (int i = 0; i < teamStandings.length; i++){
     var stand = teamStandings[i];
     for(int k = 0; k < 5; k++){
@@ -174,7 +178,11 @@ void calculatePartyTimeMagicNumbers(List<TeamStandings> teamStandings) {
         case '^':
         case 'X':
         case 'PT':
-          stand.losing[k] = stand.winning[k];
+          stand.partytime[k] = stand.winning[k];
+          break;
+        default:
+          print("Find Elim: $stand Berth: $k");
+          
           break;
       } 
     }
@@ -216,7 +224,7 @@ class TeamStandings {
   String gbPo = '-';
   final List<String> po = ['-', '-', '-', '-', '-'];
   final List<String> winning = ['-', '-', '-', '-', '-'];
-  final List<String> losing = ['-', '-', '-', '-', '-'];
+  final List<String> partytime = ['-', '-', '-', '-', '-'];
   
   TeamStandings(this.id, this.nickname, this.division,
     this.wins, this.losses, this.favor);
