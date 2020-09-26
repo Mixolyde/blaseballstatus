@@ -23,9 +23,8 @@ Published at https://mixolyde.github.io/blaseballstatus
 * Pull database api code out into a separate library
 * About page/acknowledgements
 * Remember user's last data views
-* Color table entries
 * Team emoji in table entries
-* Add team links to team names
+* Move project to a blaseball status account
 
 ## Planned release schedule
 * v0.0.1 
