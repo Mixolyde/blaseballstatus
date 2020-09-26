@@ -25,6 +25,7 @@ Published at https://mixolyde.github.io/blaseballstatus
 * Remember user's last data views
 * Team emoji in table entries
 * Move project to a blaseball status account
+* Automated data refreshes
 
 ## Planned release schedule
 * v0.0.1 
