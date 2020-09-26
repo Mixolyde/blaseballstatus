@@ -42,7 +42,7 @@ Future<void> getContentPages() async {
   await calcStats(simData.season);
   magicHTML = await HttpRequest.getString('magic.html');
   winningNotesHTML = await HttpRequest.getString('winningNotes.html');
-  partytimeNotesHTML = await HttpRequest.getString('winningNotes.html');
+  partytimeNotesHTML = await HttpRequest.getString('partytimeNotes.html');
 }
 
 void addListeners(){
@@ -175,8 +175,18 @@ void populateWinningTable(List<TeamStandings> subStandings){
   subStandings.forEach((row){
     TableRowElement trow = insertCommonCells(table, row);
     for(int i = 0; i < 5; i++){
-      trow.insertCell(5 + i)
+      var cell = trow.insertCell(5 + i)
         ..text = row.winning[i];
+      switch (row.winning[i]){
+        case "PT":
+        case "X":
+        case "DNCD":
+          cell.classes.add("redcell");
+          break;
+        default:
+          cell.classes.add("greencell");
+          break;
+      }
     }
   });
   
@@ -188,8 +198,18 @@ void populatePartyTimeTable(List<TeamStandings> subStandings){
   subStandings.forEach((row){
     TableRowElement trow = insertCommonCells(table, row);     
     for(int i = 0; i < 5; i++){
-      trow.insertCell(5 + i)
+      var cell = trow.insertCell(5 + i)
         ..text = row.losing[i];
+      switch (row.losing[i]){
+        case "PT":
+        case "X":
+        case "MW":
+          cell.classes.add("redcell");
+          break;
+        default:
+          cell.classes.add("greencell");
+          break;
+      }
     }
   });
   

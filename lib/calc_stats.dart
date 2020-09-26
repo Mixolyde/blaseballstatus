@@ -82,6 +82,7 @@ Future<List<TeamStandings>> calculateSubLeague(Subleague sub) async{
 
   calculateGamesBehind(teamStandings);
   calculateWinningMagicNumbers(teamStandings);
+  calculatePartyTimeMagicNumbers(teamStandings);
   
   return teamStandings;
 
@@ -163,6 +164,21 @@ void calculateWinningMagicNumbers(List<TeamStandings> teamStandings) {
     
   }
   
+}
+
+void calculatePartyTimeMagicNumbers(List<TeamStandings> teamStandings) {
+  for (int i = 0; i < teamStandings.length; i++){
+    var stand = teamStandings[i];
+    for(int k = 0; k < 5; k++){
+      switch(stand.winning[k]){
+        case '^':
+        case 'X':
+        case 'PT':
+          stand.losing[k] = stand.winning[k];
+          break;
+      } 
+    }
+  }
 }
 
 //sort teams by wins, losses, divine favor
