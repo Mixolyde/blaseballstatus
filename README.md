@@ -9,7 +9,6 @@ Published at https://mixolyde.github.io/blaseballstatus
 * Display data as it comes in
   * Games Behind standings
   * Other pages in background
-* Winning Magic Numbers
 * Party Time Magic Numbers
 * Fetch future game schedule
 * Factor future schedule into magic numbers
@@ -21,7 +20,6 @@ Published at https://mixolyde.github.io/blaseballstatus
 * Unit test coverage report
 * Postseason chances
 * Postseason Schedule
-* Playoff berth clinches and destiny control calculations
 * Pull database api code out into a separate library
 * About page/acknowledgements
 * Remember user's last data views
@@ -36,9 +34,9 @@ Published at https://mixolyde.github.io/blaseballstatus
 - [x] Games behind math
 * v0.0.2
 - [x] Data loading indicator and data filling as it comes in
-- [ ] Winning magic numbers
+- [x] Winning magic numbers
 - [ ] Party time magic numbers
-- [ ] Clinch calculations
+- [x] Clinch calculations
 * v0.0.3
 - [ ] Playoff prediction percentages
 - [ ] Group by division toggle
