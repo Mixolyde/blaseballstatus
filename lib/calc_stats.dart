@@ -121,8 +121,17 @@ void calculateGamesBehind(List<TeamStandings> teamStandings) {
 
 void calculateWinningMagicNumbers(List<TeamStandings> teamStandings) {
   for (int i = 0; i < teamStandings.length; i++){
+    int maxWins = 99 - teamStandings[i].losses;
+
+    //print("${teamStandings[i]} maxWins: $maxWins");
     for (int j = 0; j < i && j < 4; j++){
       teamStandings[i].winning[j] = "DNCD";
+      if( maxWins < teamStandings[j].wins ||
+        (maxWins == teamStandings[j].wins &&
+        teamStandings[i].favor > teamStandings[j].favor)){
+        teamStandings[i].winning[j] = "X";
+      }
+      
     }
     for (int b = i + 1; b < 5; b++){
       //Wb + GRb - Wa + 1
@@ -144,6 +153,14 @@ void calculateWinningMagicNumbers(List<TeamStandings> teamStandings) {
     
     teamStandings[i].winning[4] = "0";
     
+    if(teamStandings[i].winning[0] == "X" &&
+      teamStandings[i].winning[1] == "X" &&
+      teamStandings[i].winning[2] == "X" &&
+      teamStandings[i].winning[3] == "X"){
+      teamStandings[i].winning[4] = "PT";
+    }
+    
+    
   }
   
 }
@@ -156,8 +173,7 @@ void sortTeamsNotGrouped(List<TeamStandings> teams) {
     } else if (b.losses != a.losses){
       return a.losses.compareTo(b.losses);
     } else {
-      return _tiebreakers.order.indexOf(a.id)
-        .compareTo(_tiebreakers.order.indexOf(b.id));
+      return a.favor.compareTo(b.favor);
     }
   });
 }
