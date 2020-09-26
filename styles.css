@@ -422,6 +422,14 @@ flex-basis:100%;
     color: rgb(255, 255, 255);
 }
 
+.redcell {
+  color: #ff0000
+}
+
+.greencell {
+  color: #008000
+}
+
 /*
 .bscp{
 font-family: "Times New Roman", "Bookman Old Style", "Sans-serif";font-size: 100%;
