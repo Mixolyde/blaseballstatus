@@ -155,8 +155,12 @@ void _calculateWinningMagicNumbers(List<TeamStandings> teamStandings) {
       }
       
     }
-    
-    teamStandings[i].winning[4] = "0";
+        
+    if(teamStandings[i].winning[3] == "^"){
+      teamStandings[i].winning[4] = "X";
+    } else {
+      teamStandings[i].winning[4] = "0";
+    }
     
     if(teamStandings[i].winning[0] == "X" &&
       teamStandings[i].winning[1] == "X" &&
@@ -165,9 +169,7 @@ void _calculateWinningMagicNumbers(List<TeamStandings> teamStandings) {
       teamStandings[i].winning[4] = "PT";
     }
     
-    
   }
-  
 }
 
 void _calculatePartyTimeMagicNumbers(List<TeamStandings> teamStandings) {
@@ -181,7 +183,7 @@ void _calculatePartyTimeMagicNumbers(List<TeamStandings> teamStandings) {
           stand.partytime[k] = stand.winning[k];
           break;
         default:
-          print("Find Elim: $stand Berth: $k");
+          //print("Find Elim: $stand Berth: $k");
           
           break;
       } 

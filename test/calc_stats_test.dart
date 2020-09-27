@@ -17,11 +17,12 @@ void main() {
       var standings = getTestTeamStandings();
       calculateMagicNumbers(standings);
       
-      for(int i = 0; i < 6; i++){
-        expect(standings[i].winning[4], "0");
+      
+      for(int i = 0; i < 2; i++){
+        print("${standings[i]} ${standings[i].winning}");
+        expect(standings[i].winning[4], "X");
       }
         
-      print("${standings[0]} ${standings[0].winning}");
       expect(standings[0].winning[0], "^");
       expect(standings[0].winning[1], "^");
       expect(standings[0].winning[2], "^");
@@ -90,19 +91,21 @@ void main() {
     test('End of season Winning Magic Numbers', () {
       var standings = getEndOfSeasonStandings();
       calculateMagicNumbers(standings);
-      
-      for(int i = 0; i < 4; i++){
+      for(int i = 0; i < standings.length; i++){
         print("${standings[i]} ${standings[i].winning}");
-        expect(standings[i].winning[4], "0");
-      }
-      
-      for (int i = 4; i < standings.length; i++){
-        print("${standings[i]} ${standings[i].winning}");
-        expect(standings[i].winning[0], "X");
-        expect(standings[i].winning[1], "X");
-        expect(standings[i].winning[2], "X");
-        expect(standings[i].winning[3], "X"); 
-        expect(standings[i].winning[4], "PT");
+        for (int j = 0; j < 5; j++){
+          if (i >= 4 && j == 4){
+            expect(standings[i].winning[j], "PT");
+            
+          }
+
+          if (i >= 4 && j < 4){
+            expect(standings[i].winning[j], "X");
+          }
+          if (i < 4 && j == 4){
+            expect(standings[i].winning[j], "X");
+          }
+        }
       }
     });      
     
@@ -112,8 +115,9 @@ void main() {
       var standings = getTestTeamStandings();
       calculateMagicNumbers(standings);
       
-      for(int i = 0; i < 6; i++){
-        expect(standings[i].partytime[4], "-");
+      for(int i = 0; i < 2; i++){
+        print("${standings[i]} ${standings[i].partytime}");
+        expect(standings[i].partytime[4], "X");
       }
         
       print("${standings[0]} ${standings[0].partytime}");
@@ -184,18 +188,27 @@ void main() {
       var standings = getEndOfSeasonStandings();
       calculateMagicNumbers(standings);
       
-      for(int i = 0; i < 4; i++){
+      for(int i = 0; i < standings.length; i++){
         print("${standings[i]} ${standings[i].partytime}");
-        expect(standings[i].partytime[4], "-");
-      }
-      
-      for (int i = 4; i < standings.length; i++){
-        print("${standings[i]} ${standings[i].partytime}");
-        expect(standings[i].partytime[0], "X");
-        expect(standings[i].partytime[1], "X");
-        expect(standings[i].partytime[2], "X");
-        expect(standings[i].partytime[3], "X"); 
-        expect(standings[i].partytime[4], "PT");
+        for (int j = 0; j < 5; j++){
+          if (i >= 4 && j == 4){
+            expect(standings[i].partytime[j], "PT");
+            
+          }
+          if (i < 4 && j < 4){
+            if (i > j){
+              expect(standings[i].partytime[j], "X");
+            } else {
+              expect(standings[i].partytime[j], "^");
+            }
+          }
+          if (i >= 4 && j < 4){
+            expect(standings[i].partytime[j], "X");
+          }
+          if (i < 4 && j == 4){
+            expect(standings[i].partytime[j], "X");
+          }
+        }
       }
     });      
     
