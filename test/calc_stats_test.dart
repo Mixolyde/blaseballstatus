@@ -14,7 +14,7 @@ void main() {
   });
   group('Winning magic number tests', () {
     test('Near season end Winning Magic Numbers', () {
-      var standings = getTestTeamStandings();
+      var standings = getLateSeasonStandings();
       calculateMagicNumbers(standings);
       
       
@@ -71,6 +71,49 @@ void main() {
         expect(standings[i].winning[4], "PT");
       }
     });  
+    test('Near season beginning Winning Magic Numbers', () {
+      var standings = getEarlySeasonStandings();
+      calculateMagicNumbers(standings);
+      
+      
+      for(int i = 0; i < 10; i++){
+        //print("${standings[i]} ${standings[i].winning}");
+        expect(standings[i].winning[4], "0");
+      }
+        
+      print("${standings[0]} ${standings[0].winning}");
+      expect(standings[0].winning[0], "63");
+      expect(standings[0].winning[1], "59");
+      expect(standings[0].winning[2], "56");
+      expect(standings[0].winning[3], "53");
+      
+      
+      print("${standings[1]} ${standings[1].winning}");
+      expect(standings[1].winning[0], "DNCD");
+      expect(standings[1].winning[1], "62");
+      expect(standings[1].winning[2], "59");
+      expect(standings[1].winning[3], "56");
+      
+      print("${standings[2]} ${standings[2].winning}");
+      expect(standings[2].winning[0], "DNCD");
+      expect(standings[2].winning[1], "DNCD");
+      expect(standings[2].winning[2], "63");
+      expect(standings[2].winning[3], "60");      
+
+      print("${standings[3]} ${standings[3].winning}");
+      expect(standings[3].winning[0], "DNCD");
+      expect(standings[3].winning[1], "DNCD");
+      expect(standings[3].winning[2], "DNCD");
+      expect(standings[3].winning[3], "62");   
+      
+      for (int i = 4; i < standings.length; i++){
+        print("${standings[i]} ${standings[i].winning}");
+        expect(standings[i].winning[0], "DNCD");
+        expect(standings[i].winning[1], "DNCD");
+        expect(standings[i].winning[2], "DNCD");
+        expect(standings[i].winning[3], "DNCD"); 
+      }
+    });  
     test('New season Winning Magic Numbers', () {
       var standings = getNewSeasonStandings();
       calculateMagicNumbers(standings);
@@ -113,7 +156,7 @@ void main() {
   });  
   group('Party Time magic number tests', () {
     test('Near season end Party Time Magic Numbers', () {
-      var standings = getTestTeamStandings();
+      var standings = getLateSeasonStandings();
       calculateMagicNumbers(standings);
       
       for(int i = 0; i < 2; i++){
@@ -167,6 +210,49 @@ void main() {
         expect(standings[i].partytime[4], "PT");
       }
     });  
+    test('Near season beginning Party Time Magic Numbers', () {
+      var standings = getEarlySeasonStandings();
+      calculateMagicNumbers(standings);
+      
+      
+      for(int i = 0; i < 10; i++){
+        //print("${standings[i]} ${standings[i].partytime}");
+        //expect(standings[i].partytime[4], "MW");
+      }
+        
+      print("${standings[0]} ${standings[0].partytime}");
+      //expect(standings[0].partytime[0], "63");
+      //expect(standings[0].partytime[1], "59");
+      //expect(standings[0].partytime[2], "56");
+      //expect(standings[0].partytime[3], "53");
+      
+      
+      print("${standings[1]} ${standings[1].partytime}");
+      //expect(standings[1].partytime[0], "DNCD");
+      //expect(standings[1].partytime[1], "62");
+      //expect(standings[1].partytime[2], "59");
+      //expect(standings[1].partytime[3], "56");
+      
+      print("${standings[2]} ${standings[2].partytime}");
+      //expect(standings[2].partytime[0], "DNCD");
+      //expect(standings[2].partytime[1], "DNCD");
+      //expect(standings[2].partytime[2], "63");
+      //expect(standings[2].partytime[3], "60");      
+
+      print("${standings[3]} ${standings[3].partytime}");
+      //expect(standings[3].partytime[0], "DNCD");
+      //expect(standings[3].partytime[1], "DNCD");
+      //expect(standings[3].partytime[2], "DNCD");
+      //expect(standings[3].partytime[3], "62");   
+      
+      for (int i = 4; i < standings.length; i++){
+        print("${standings[i]} ${standings[i].partytime}");
+        //expect(standings[i].partytime[0], "DNCD");
+        //expect(standings[i].partytime[1], "DNCD");
+        //expect(standings[i].partytime[2], "DNCD");
+        //expect(standings[i].partytime[3], "DNCD"); 
+      }
+    });  
     test('New season Party Time Magic Numbers', () {
       var standings = getNewSeasonStandings();
       calculateMagicNumbers(standings);
@@ -217,7 +303,24 @@ void main() {
 
 }
 
-List<TeamStandings> getTestTeamStandings(){
+List<TeamStandings> getEarlySeasonStandings(){
+  List<TeamStandings> teamStandings = new List<TeamStandings>();
+  for(int i = 0; i < standingsData.length; i++){
+    teamStandings.add(new TeamStandings(
+      i.toString(),
+      standingsData[i][0],
+      standingsData[i][1],
+      i * 3,
+      34 - (i * 3),
+      standingsData[i][2],
+    ));
+  }
+  
+  sortTeamsNotGrouped(teamStandings);
+  return teamStandings;
+}
+
+List<TeamStandings> getLateSeasonStandings(){
   List<TeamStandings> teamStandings = new List<TeamStandings>();
   for(int i = 0; i < standingsData.length; i++){
     teamStandings.add(new TeamStandings(
@@ -277,8 +380,8 @@ List<List<dynamic>> standingsData = [
 ["Firefighters", "High",  7, 43, 46],
 ["Millenials",   "High", 12, 43, 46],
 ["Dale",          "Low", 11, 37, 53],
-["Jazz Hands",   "High",  8, 36, 53],
+["Jazz Hands",   "High", 13, 36, 53],
 ["Lovers",       "High",  2, 35, 55],
-["Tacos",         "Low",  1, 33, 56]];
+["Tacos",         "Low",  3, 33, 56]];
 
 
