@@ -182,6 +182,7 @@ void _calculateWinningMagicNumbers(List<TeamStandings> teamStandings) {
 void _calculatePartyTimeMagicNumbers(List<TeamStandings> teamStandings) {
   for (int i = 0; i < teamStandings.length; i++){
     var stand = teamStandings[i];
+    int maxWins = 99 - stand.losses;
     for(int k = 0; k < 5; k++){
       switch(stand.winning[k]){
         case '^':
@@ -190,7 +191,21 @@ void _calculatePartyTimeMagicNumbers(List<TeamStandings> teamStandings) {
           stand.partytime[k] = stand.winning[k];
           break;
         default:
-          //print("Find Elim: $stand Berth: $k");
+          if(i <= k) {
+            stand.partytime[k] = "MW";
+          } else if (k == 4) {
+            stand.partytime[k] = "MW";
+          } else {
+            //maxWinsi - Wk
+            //print("Find Elim: $stand Berth: $k");
+            int magic = maxWins - teamStandings[k].wins;
+            //if we don't have favor, elim is one lower
+            if(stand.favor < teamStandings[k].favor) {
+              magic += 1;
+            }
+            stand.partytime[k] = "$magic";
+
+          }
           
           break;
       } 

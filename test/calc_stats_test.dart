@@ -158,48 +158,48 @@ void main() {
     test('Near season end Party Time Magic Numbers', () {
       var standings = getLateSeasonStandings();
       calculateMagicNumbers(standings);
-      
-      for(int i = 0; i < 2; i++){
-        print("${standings[i]} ${standings[i].partytime}");
-        expect(standings[i].partytime[4], "X");
-      }
         
       print("${standings[0]} ${standings[0].partytime}");
       expect(standings[0].partytime[0], "^");
       expect(standings[0].partytime[1], "X");
       expect(standings[0].partytime[2], "X");
       expect(standings[0].partytime[3], "X");
-      
+      expect(standings[0].partytime[4], "X");
       
       print("${standings[1]} ${standings[1].partytime}");
       expect(standings[1].partytime[0], "X");
-      //expect(standings[1].partytime[1], "9");
-      //expect(standings[1].partytime[2], "3"));
+      expect(standings[1].partytime[1], "MW");
+      expect(standings[1].partytime[2], "MW");
       expect(standings[1].partytime[3], "^");
+      expect(standings[1].partytime[4], "X");
       
       print("${standings[2]} ${standings[2].partytime}");
       expect(standings[2].partytime[0], "X");
-      //expect(standings[2].partytime[1], "DNCD");
-      //expect(standings[2].partytime[2], "4");
-      //expect(standings[2].partytime[3], "1");      
+      expect(standings[2].partytime[1], "9");
+      expect(standings[2].partytime[2], "MW");
+      expect(standings[2].partytime[3], "MW");  
+      expect(standings[2].partytime[4], "MW");      
 
       print("${standings[3]} ${standings[3].partytime}");
       expect(standings[3].partytime[0], "X");
-      //expect(standings[3].partytime[1], "DNCD");
-      //expect(standings[3].partytime[2], "DNCD");
-      //expect(standings[3].partytime[3], "6");   
+      expect(standings[3].partytime[1], "3");
+      expect(standings[3].partytime[2], "4");
+      expect(standings[3].partytime[3], "MW");   
+      expect(standings[3].partytime[4], "MW");
       
       print("${standings[4]} ${standings[4].partytime}");
       expect(standings[4].partytime[0], "X");
       expect(standings[4].partytime[1], "X");
-      //expect(standings[4].partytime[2], "DNCD");
-      //expect(standings[4].partytime[3], "DNCD");  
+      expect(standings[4].partytime[2], "1");
+      expect(standings[4].partytime[3], "6");
+      expect(standings[4].partytime[4], "MW");      
 
       print("${standings[5]} ${standings[5].partytime}");
       expect(standings[5].partytime[0], "X");
       expect(standings[5].partytime[1], "X");
       expect(standings[5].partytime[2], "X");
-      //expect(standings[5].partytime[3], "DNCD");  
+      expect(standings[5].partytime[3], "6");  
+      expect(standings[5].partytime[4], "MW"); 
       
       for (int i = 6; i < standings.length; i++){
         print("${standings[i]} ${standings[i].partytime}");
@@ -216,36 +216,47 @@ void main() {
       
       
       for(int i = 0; i < 10; i++){
-        //print("${standings[i]} ${standings[i].partytime}");
-        //expect(standings[i].partytime[4], "MW");
+        expect(standings[i].partytime[4], "MW");
       }
         
       print("${standings[0]} ${standings[0].partytime}");
-      //expect(standings[0].partytime[0], "63");
-      //expect(standings[0].partytime[1], "59");
-      //expect(standings[0].partytime[2], "56");
-      //expect(standings[0].partytime[3], "53");
+      expect(standings[0].partytime[0], "MW");
+      expect(standings[0].partytime[1], "MW");
+      expect(standings[0].partytime[2], "MW");
+      expect(standings[0].partytime[3], "MW");
       
       
       print("${standings[1]} ${standings[1].partytime}");
-      //expect(standings[1].partytime[0], "DNCD");
-      //expect(standings[1].partytime[1], "62");
-      //expect(standings[1].partytime[2], "59");
-      //expect(standings[1].partytime[3], "56");
+      expect(standings[1].partytime[0], "63");
+      expect(standings[1].partytime[1], "MW");
+      expect(standings[1].partytime[2], "MW");
+      expect(standings[1].partytime[3], "MW");
       
       print("${standings[2]} ${standings[2].partytime}");
-      //expect(standings[2].partytime[0], "DNCD");
-      //expect(standings[2].partytime[1], "DNCD");
-      //expect(standings[2].partytime[2], "63");
-      //expect(standings[2].partytime[3], "60");      
+      expect(standings[2].partytime[0], "59");
+      expect(standings[2].partytime[1], "62");
+      expect(standings[2].partytime[2], "MW");
+      expect(standings[2].partytime[3], "MW");      
 
       print("${standings[3]} ${standings[3].partytime}");
-      //expect(standings[3].partytime[0], "DNCD");
-      //expect(standings[3].partytime[1], "DNCD");
-      //expect(standings[3].partytime[2], "DNCD");
-      //expect(standings[3].partytime[3], "62");   
+      expect(standings[3].partytime[0], "56");
+      expect(standings[3].partytime[1], "59");
+      expect(standings[3].partytime[2], "63");
+      expect(standings[3].partytime[3], "MW");   
       
-      for (int i = 4; i < standings.length; i++){
+      print("${standings[4]} ${standings[4].partytime}");
+      expect(standings[4].partytime[0], "53");
+      expect(standings[4].partytime[1], "56");
+      expect(standings[4].partytime[2], "60");
+      expect(standings[4].partytime[3], "62"); 
+
+      print("${standings[5]} ${standings[5].partytime}");
+      expect(standings[5].partytime[0], "50");
+      expect(standings[5].partytime[1], "53");
+      expect(standings[5].partytime[2], "57");
+      expect(standings[5].partytime[3], "60"); 
+
+      for (int i = 6; i < standings.length; i++){
         print("${standings[i]} ${standings[i].partytime}");
         //expect(standings[i].partytime[0], "DNCD");
         //expect(standings[i].partytime[1], "DNCD");
@@ -257,18 +268,29 @@ void main() {
       var standings = getNewSeasonStandings();
       calculateMagicNumbers(standings);
       
-      for(int i = 0; i < 4; i++){
+      for(int i = 0; i < standings.length; i++){
         print("${standings[i]} ${standings[i].partytime}");
-        //expect(standings[i].partytime[4], "MW");
+        expect(standings[i].partytime[4], "MW");
       }
+      
+      print("${standings[0]} ${standings[0].partytime}");
+      expect(standings[0].partytime[0], "MW");
+      expect(standings[0].partytime[1], "MW");
+      expect(standings[0].partytime[2], "MW");
+      expect(standings[0].partytime[3], "MW");
+      
+      print("${standings[1]} ${standings[1].partytime}");
+      expect(standings[1].partytime[0], "99");
+      expect(standings[1].partytime[1], "MW");
+      expect(standings[1].partytime[2], "MW");
+      expect(standings[1].partytime[3], "MW");
       
       for (int i = 4; i < standings.length; i++){
         print("${standings[i]} ${standings[i].partytime}");
-        //expect(standings[i].partytime[0], "-");
-        //expect(standings[i].partytime[1], "-");
-        //expect(standings[i].partytime[2], "-");
-        //expect(standings[i].partytime[3], "-"); 
-        //expect(standings[i].partytime[4], "MW");
+        expect(standings[i].partytime[0], "99");
+        expect(standings[i].partytime[1], "99");
+        expect(standings[i].partytime[2], "99");
+        expect(standings[i].partytime[3], "99"); 
       }
     });    
     test('End of season Party Time Magic Numbers', () {
