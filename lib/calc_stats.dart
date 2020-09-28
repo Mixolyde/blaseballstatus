@@ -149,14 +149,21 @@ void _calculateWinningMagicNumbers(List<TeamStandings> teamStandings) {
       }
       //print("WinMN for ${teamStandings[i]} vs. ${teamStandings[b]}: $magic");
       if (magic > 0){
+        //set magic number
         teamStandings[i].winning[b - 1] = "$magic";
+      } else if (b > 1 && 
+        teamStandings[i].winning.any((s) => s == "^")) {
+        //previous spot guaranteed, so this one can't
+        teamStandings[i].winning[b - 1] = "X";
       } else {
+        //this spot or better guaranteed
         teamStandings[i].winning[b - 1] = "^";
       }
       
     }
         
-    if(teamStandings[i].winning[3] == "^"){
+    if(teamStandings[i].winning[3] == "^" ||
+      teamStandings[i].winning[3] == "X"){
       teamStandings[i].winning[4] = "X";
     } else {
       teamStandings[i].winning[4] = "0";

@@ -23,10 +23,11 @@ void main() {
         expect(standings[i].winning[4], "X");
       }
         
+      print("${standings[0]} ${standings[0].winning}");
       expect(standings[0].winning[0], "^");
-      expect(standings[0].winning[1], "^");
-      expect(standings[0].winning[2], "^");
-      expect(standings[0].winning[3], "^");
+      expect(standings[0].winning[1], "X");
+      expect(standings[0].winning[2], "X");
+      expect(standings[0].winning[3], "X");
       
       
       print("${standings[1]} ${standings[1].winning}");
@@ -122,9 +123,9 @@ void main() {
         
       print("${standings[0]} ${standings[0].partytime}");
       expect(standings[0].partytime[0], "^");
-      expect(standings[0].partytime[1], "^");
-      expect(standings[0].partytime[2], "^");
-      expect(standings[0].partytime[3], "^");
+      expect(standings[0].partytime[1], "X");
+      expect(standings[0].partytime[2], "X");
+      expect(standings[0].partytime[3], "X");
       
       
       print("${standings[1]} ${standings[1].partytime}");
@@ -196,7 +197,7 @@ void main() {
             
           }
           if (i < 4 && j < 4){
-            if (i > j){
+            if (i != j){
               expect(standings[i].partytime[j], "X");
             } else {
               expect(standings[i].partytime[j], "^");
