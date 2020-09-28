@@ -10,6 +10,7 @@ Published at https://mixolyde.github.io/blaseballstatus
   * Games Behind standings
   * Other pages in background
 * Party Time Magic Numbers
+* Change table headers for Wild Cards
 * Fetch future game schedule
 * Factor future schedule into magic numbers
 * Simulated playoff chances
@@ -38,10 +39,12 @@ Published at https://mixolyde.github.io/blaseballstatus
 - [ ] Party time magic numbers
 - [x] Clinch calculations
 * v0.0.3
-- [ ] Playoff prediction percentages
 - [ ] Group by division toggle
+- [ ] Auto refresh data in browser
+- [ ] About and info page
 * v0.0.4
-- [ ] Automate hourly data updates during the season
+- [ ] Playoff prediction percentages
+- [ ] Automate static data updates during the season
 - [ ] Postseason content
 
 ## Acknowledgements
