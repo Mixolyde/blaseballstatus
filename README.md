@@ -38,9 +38,9 @@ Published at https://mixolyde.github.io/blaseballstatus
 - [x] Party time magic numbers
 - [x] Clinch calculations
 * v0.0.3
+- [ ] Auto refresh data in browser
 - [ ] Save last view
 - [ ] Group by division toggle
-- [ ] Auto refresh data in browser
 - [ ] About and info page
 * v0.0.4
 - [ ] Playoff prediction percentages

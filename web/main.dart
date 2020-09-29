@@ -4,6 +4,7 @@ import 'dart:html';
 
 import 'package:blaseballstatus/database_api.dart';
 import 'package:blaseballstatus/calc_stats.dart';
+import 'package:cron/cron.dart';
 
 enum View { gamesbehind, winningmagic, partytimemagic}
 
@@ -24,6 +25,13 @@ void main() {
     clickLeague(0);
     
     addListeners();
+    
+    //setup auto refresh
+    var cron = new Cron();
+    //Every five minutes Mon - Sat
+    cron.schedule(new Schedule.parse('*/5 * * * 1-6'), () async {
+      refreshData();
+    });
   });
 }
 
@@ -43,6 +51,14 @@ Future<void> getContentPages() async {
   magicHTML = await HttpRequest.getString('magic.html');
   winningNotesHTML = await HttpRequest.getString('winningNotes.html');
   partytimeNotesHTML = await HttpRequest.getString('partytimeNotes.html');
+}
+
+Future<void> refreshData() async{
+  //get all data for displaying
+  print('Refreshing data');
+  
+  
+  //redisplayData();
 }
 
 void addListeners(){
