@@ -9,6 +9,7 @@ Published at https://mixolyde.github.io/blaseballstatus
 * Display data as it comes in
   * Games Behind standings
   * Other pages in background
+* Add contributing instructions
 * Fetch future game schedule
 * Factor future schedule into magic numbers
 * Simulated playoff chances
