@@ -16,18 +16,16 @@ List<String> _dayOfWeek = ["", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 List<String> _monthOfYear = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
   "Aug", "Sep", "Oct", "Nov", "Dec"];
 
+NumberFormat f = new NumberFormat("#", "en_US");
+  
 Future<SiteData> calcSiteData() async {
   
   _league = await getLeague();
   _sub1 = await getSubleague(_league.subleagueId1);
   _sub2 = await getSubleague(_league.subleagueId2);
   
-  var now = new DateTime.now();
-  var f = new NumberFormat("#", "en_US");
-  f.minimumIntegerDigits = 2;
-  String lastUpdate = "${_dayOfWeek[now.weekday]} " + 
-    "${_monthOfYear[now.month]} " +
-    "${now.day} ${f.format(now.hour)}${f.format(now.minute)}";
+  String lastUpdate = getUpdateTime();
+  
   SiteData sitedata = new SiteData(lastUpdate, 
     _sub1.id, _sub1.name, 
     _sub2.id, _sub2.name);
@@ -35,6 +33,14 @@ Future<SiteData> calcSiteData() async {
 
   return sitedata;
 }  
+
+String getUpdateTime(){
+  var now = new DateTime.now();
+  f.minimumIntegerDigits = 2;
+  return "${_dayOfWeek[now.weekday]} " + 
+    "${_monthOfYear[now.month]} " +
+    "${now.day} ${f.format(now.hour)}${f.format(now.minute)}";
+}
 
 Future<void> calcStats(int season) async {
   print('Beginning stat calculations');

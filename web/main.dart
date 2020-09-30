@@ -28,8 +28,8 @@ void main() {
     
     //setup auto refresh
     var cron = new Cron();
-    //Every five minutes Mon - Sat
-    cron.schedule(new Schedule.parse('*/5 * * * 1-6'), () async {
+    //Every five minutes from 20-50 after Mon - Sat
+    cron.schedule(new Schedule.parse('20,25,30,35,40,45,50 * * * 1-6'), () async {
       refreshData();
     });
   });
@@ -55,10 +55,31 @@ Future<void> getContentPages() async {
 
 Future<void> refreshData() async{
   //get all data for displaying
-  print('Refreshing data');
+  String lastUpdate = getUpdateTime();
+  print('Refreshing data at $lastUpdate');
+  simData = await getSimulationData();
+  sitedata = await calcSiteData();
+  await calcStats(simData.season);
   
+  TableElement standingsTable = querySelector('#standingsTable');
+  while (standingsTable.rows.length > 2){
+    standingsTable.deleteRow(2);
+  }
   
-  //redisplayData();
+  switch(activeView){
+  case View.gamesbehind:
+    populateGamesBehindTable(subStandings[activeLeague]);
+    break;
+  case View.winningmagic:
+    populateWinningTable(subStandings[activeLeague]);
+    break;
+  case View.partytimemagic:
+    populatePartyTimeTable(subStandings[activeLeague]);
+    break;
+  }
+  
+  querySelector('#lastUpdate').text = sitedata.lastUpdate;
+
 }
 
 void addListeners(){
@@ -106,7 +127,7 @@ void clickView(View view){
   activeView = view;
   switch(activeView){
     case View.gamesbehind:
-      print("Switch to gamesbehind");
+      //print("Switch to gamesbehind");
       querySelector('#viewGamesBehind').classes
         .add('nav-button-active');
       querySelector('#viewWinningNumbers').classes
@@ -116,7 +137,7 @@ void clickView(View view){
 
       break;
     case View.winningmagic:
-      print("Switch to winningmagic");
+      //print("Switch to winningmagic");
       querySelector('#viewGamesBehind').classes
         .remove('nav-button-active');
       querySelector('#viewWinningNumbers').classes
@@ -126,7 +147,7 @@ void clickView(View view){
       
       break;
     case View.partytimemagic:
-      print("Switch to partytimemagic");
+      //print("Switch to partytimemagic");
       querySelector('#viewGamesBehind').classes
         .remove('nav-button-active');
       querySelector('#viewWinningNumbers').classes
