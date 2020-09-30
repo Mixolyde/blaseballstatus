@@ -30,7 +30,9 @@ void main() {
     var cron = new Cron();
     //Every five minutes from 20-50 after Mon - Sat
     cron.schedule(new Schedule.parse('20,25,30,35,40,45,50 * * * 1-6'), () async {
-      refreshData();
+      if(!document.hidden){
+        refreshData();
+      }
     });
   });
 }

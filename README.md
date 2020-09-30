@@ -25,7 +25,6 @@ Published at https://mixolyde.github.io/blaseballstatus
 * Remember user's last data views
 * Team emoji in table entries
 * Move project to a blaseball status account
-* Automated data refreshes [Dart Cron](https://pub.dev/packages/cron)
 
 ## Planned release schedule
 * v0.0.1 
@@ -38,7 +37,7 @@ Published at https://mixolyde.github.io/blaseballstatus
 - [x] Party time magic numbers
 - [x] Clinch calculations
 * v0.0.3
-- [ ] Auto refresh data in browser
+- [x] Auto refresh data in browser
 - [ ] Save last view
 - [ ] Group by division toggle
 - [ ] About and info page
