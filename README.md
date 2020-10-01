@@ -61,8 +61,11 @@ pub global activate peanut
 pub get
 ```
 On Windows, get the Windows Dart SDK zip, unzip it somewhere,
-and add that unzip's bin folder to your PATH variable. You
-typically need to call the '.bat' versions of the helper tools
+and add that unzip's bin folder to your PATH variable. You also need
+to add the Pub Cache bin folder to your PATH, which may be in 
+`c:\Users\<username>\AppData\Roaming\Pub\Cache\bin`.
+
+You typically need to call the '.bat' versions of the helper tools
 in Windows.
 
 ```
@@ -81,7 +84,7 @@ On Windows, there doesn't seem to be a clean way to shutdown
 the local webdev server, so you may have to kill the process
 from Task Manager, or with `taskkill -f -pid ###`.
 
-I find the Windows Git Shell that emulates a lot of Linux
+I find the Windows Git Shell from Github that emulates a lot of Linux
 stuff to be really useful.
 
 ```
