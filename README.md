@@ -22,7 +22,6 @@ Published at https://mixolyde.github.io/blaseballstatus
 * Postseason Schedule
 * Pull database api code out into a separate library
 * About page/acknowledgements
-* Remember user's last data views
 * Team emoji in table entries
 * Move project to a blaseball status account
 
@@ -38,7 +37,7 @@ Published at https://mixolyde.github.io/blaseballstatus
 - [x] Clinch calculations
 * v0.0.3
 - [x] Auto refresh data in browser
-- [ ] Save last view
+- [x] Save last view
 - [ ] Group by division toggle
 - [ ] About and info pages
 * v0.0.4

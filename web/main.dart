@@ -2,27 +2,33 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:html';
 
-import 'package:blaseballstatus/database_api.dart';
 import 'package:blaseballstatus/calc_stats.dart';
+import 'package:blaseballstatus/current_view.dart';
+import 'package:blaseballstatus/database_api.dart';
+
 import 'package:cron/cron.dart';
 
-enum View { gamesbehind, winningmagic, partytimemagic}
-
-// 0 or 1;
-int activeLeague;
 String gamesbehindHTML;
 String magicHTML;
 String winningNotesHTML;
 String partytimeNotesHTML;
-View activeView = View.gamesbehind;
 SimulationData simData;
 SiteData sitedata;
+
+CurrentView currentView = new CurrentView();
 
 void main() {
   getContentPages().then((v) {
     print("Retrieved content pages and data");
+    
+    CurrentView loadedView = loadCurrentView();
+    
+    print("LoadedView: $loadedView");
 
-    clickLeague(0);
+    currentView.activeLeague = loadedView.activeLeague;
+    selectLeagueButton(loadedView.activeLeague);
+    
+    clickView(loadedView.activeView);
     
     addListeners();
     
@@ -68,15 +74,15 @@ Future<void> refreshData() async{
     standingsTable.deleteRow(2);
   }
   
-  switch(activeView){
+  switch(currentView.activeView){
   case View.gamesbehind:
-    populateGamesBehindTable(subStandings[activeLeague]);
+    populateGamesBehindTable(subStandings[currentView.activeLeague]);
     break;
   case View.winningmagic:
-    populateWinningTable(subStandings[activeLeague]);
+    populateWinningTable(subStandings[currentView.activeLeague]);
     break;
   case View.partytimemagic:
-    populatePartyTimeTable(subStandings[activeLeague]);
+    populatePartyTimeTable(subStandings[currentView.activeLeague]);
     break;
   }
   
@@ -96,11 +102,7 @@ void addListeners(){
 void selectLeague1(MouseEvent event) => clickLeague(0);
 void selectLeague2(MouseEvent event) => clickLeague(1);
 
-void clickLeague(int league){
-  if (league == activeLeague){
-    return;
-  }
-  activeLeague = league;
+void selectLeagueButton(int league) {
   if(league == 0){
     querySelector('#pickLeague1').classes
       .add('nav-button-active');
@@ -112,8 +114,16 @@ void clickLeague(int league){
     querySelector('#pickLeague2').classes
       .add('nav-button-active');
   }
+}
 
- 
+void clickLeague(int league){
+  if (league == currentView.activeLeague){
+    return;
+  }
+  currentView.activeLeague = league;
+  saveCurrentView();
+  selectLeagueButton(league);
+
   redisplayData();
   
 }
@@ -123,11 +133,12 @@ void selectViewW(MouseEvent event) => clickView(View.winningmagic);
 void selectViewPT(MouseEvent event) => clickView(View.partytimemagic);
 
 void clickView(View view){
-  if(view == activeView){
+  if(view == currentView.activeView){
     return;
   }
-  activeView = view;
-  switch(activeView){
+  currentView.activeView = view;
+  saveCurrentView();
+  switch(currentView.activeView){
     case View.gamesbehind:
       //print("Switch to gamesbehind");
       querySelector('#viewGamesBehind').classes
@@ -165,25 +176,25 @@ void clickView(View view){
 }
 
 void redisplayData(){
-    switch(activeView){
+    switch(currentView.activeView){
     case View.gamesbehind:
       setMainContent(gamesbehindHTML);
       querySelector('#leagueTitle').text = 
-        sitedata.subnicknames[activeLeague]; 
-      populateGamesBehindTable(subStandings[activeLeague]);
+        sitedata.subnicknames[currentView.activeLeague]; 
+      populateGamesBehindTable(subStandings[currentView.activeLeague]);
       break;
     case View.winningmagic:
       setMainContent(magicHTML);
       querySelector('#leagueTitle').text =
-        "${sitedata.subnicknames[activeLeague]} League Winning Magic Numbers";
-      populateWinningTable(subStandings[activeLeague]);
+        "${sitedata.subnicknames[currentView.activeLeague]} League Winning Magic Numbers";
+      populateWinningTable(subStandings[currentView.activeLeague]);
       setNotes(winningNotesHTML);
       break;
     case View.partytimemagic:
       setMainContent(magicHTML);
       querySelector('#leagueTitle').text =
-        "${sitedata.subnicknames[activeLeague]} League Party Time Magic Numbers";
-      populatePartyTimeTable(subStandings[activeLeague]);
+        "${sitedata.subnicknames[currentView.activeLeague]} League Party Time Magic Numbers";
+      populatePartyTimeTable(subStandings[currentView.activeLeague]);
       setNotes(partytimeNotesHTML);
       break;
     }
@@ -297,3 +308,25 @@ void setNotes(String html){
   querySelector('#notes').children.clear();
   querySelector('#notes').innerHtml = html;  
 }
+
+void saveCurrentView(){
+  print("Saving to local storage");
+  window.localStorage['current_view'] = 
+    json.encode(currentView.toJson());
+    
+  //print("Saved Local storage ${window.localStorage['current_view']}");
+}
+
+CurrentView loadCurrentView(){
+  //print("Loading Local storage ${window.localStorage['current_view']}");
+  if (window.localStorage.containsKey('current_view')){
+    return CurrentView.fromJson(json.decode(
+      window.localStorage['current_view']));
+  } else {
+    CurrentView view = new CurrentView();
+    view.activeLeague = 0;
+    view.activeView = View.gamesbehind;
+    return view;
+  }
+}
+
