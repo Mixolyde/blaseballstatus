@@ -9,7 +9,6 @@ Published at https://mixolyde.github.io/blaseballstatus
 * Display data as it comes in
   * Games Behind standings
   * Other pages in background
-* Add contributing instructions
 * Fetch future game schedule
 * Factor future schedule into magic numbers
 * Simulated playoff chances
@@ -93,9 +92,14 @@ alias killdart='tasklist |grep dart |head -1 |awk '\''{print $2}'\'' | xargs tas
 ### Deploying
 The Peanut plugin will automatically build your static web content
 and commit it to the gh-pages branch. Then you can push the gh-pages
-branch up to github with 
-`git push origin --set-upstream gh-pages`
-and your site should eventually get published to 
+branch up to github.
+
+```
+peanut.bat
+git push origin --set-upstream gh-pages
+```
+
+Your site should eventually get published to 
 `yourusername.github.io/blaseballstatus`.
 
 
