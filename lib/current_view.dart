@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:intl/intl.dart';
 
-enum View { gamesbehind, winningmagic, partytimemagic}
+enum View { about, gamesbehind, winningmagic, partytimemagic}
 
 class CurrentView {
   // 0 or 1

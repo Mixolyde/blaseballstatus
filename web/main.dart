@@ -8,6 +8,7 @@ import 'package:blaseballstatus/database_api.dart';
 
 import 'package:cron/cron.dart';
 
+String aboutHTML;
 String gamesbehindHTML;
 String magicHTML;
 String winningNotesHTML;
@@ -36,7 +37,8 @@ void main() {
     var cron = new Cron();
     //Every five minutes from 20-50 after Mon - Sat
     cron.schedule(new Schedule.parse('20,25,30,35,40,45,50 * * * 1-6'), () async {
-      if(!document.hidden){
+      if(!document.hidden && 
+        currentView.activeView != View.about){
         refreshData();
       }
     });
@@ -56,6 +58,7 @@ Future<void> getContentPages() async {
   gamesbehindHTML = await HttpRequest.getString('gamesbehind.html');
   setMainContent(gamesbehindHTML);
   await calcStats(simData.season);
+  aboutHTML = await HttpRequest.getString('about.html');
   magicHTML = await HttpRequest.getString('magic.html');
   winningNotesHTML = await HttpRequest.getString('winningNotes.html');
   partytimeNotesHTML = await HttpRequest.getString('partytimeNotes.html');
@@ -97,6 +100,7 @@ void addListeners(){
   querySelector('#viewGamesBehind').onClick.listen(selectViewGB);
   querySelector('#viewWinningNumbers').onClick.listen(selectViewW);
   querySelector('#viewPartyTimeNumbers').onClick.listen(selectViewPT);
+  querySelector('#viewAbout').onClick.listen(selectViewAbout);
 }
 
 void selectLeague1(MouseEvent event) => clickLeague(0);
@@ -128,6 +132,7 @@ void clickLeague(int league){
   
 }
 
+void selectViewAbout(MouseEvent event) => clickView(View.about);
 void selectViewGB(MouseEvent event) => clickView(View.gamesbehind);
 void selectViewW(MouseEvent event) => clickView(View.winningmagic);
 void selectViewPT(MouseEvent event) => clickView(View.partytimemagic);
@@ -139,8 +144,24 @@ void clickView(View view){
   currentView.activeView = view;
   saveCurrentView();
   switch(currentView.activeView){
+    case View.about:
+      querySelector('#viewAbout').classes
+        .add('nav-button-active');
+      querySelector('#viewGamesBehind').classes
+        .remove('nav-button-active');
+      querySelector('#viewWinningNumbers').classes
+        .remove('nav-button-active');
+      querySelector('#viewPartyTimeNumbers').classes
+        .remove('nav-button-active');
+        
+      // TODO: display tiebreakerlist
+      //OListElement tbList = querySelector('#tiebreakerlist');
+      
+
+      break;    
     case View.gamesbehind:
-      //print("Switch to gamesbehind");
+      querySelector('#viewAbout').classes
+        .remove('nav-button-active');
       querySelector('#viewGamesBehind').classes
         .add('nav-button-active');
       querySelector('#viewWinningNumbers').classes
@@ -150,7 +171,8 @@ void clickView(View view){
 
       break;
     case View.winningmagic:
-      //print("Switch to winningmagic");
+      querySelector('#viewAbout').classes
+        .remove('nav-button-active');
       querySelector('#viewGamesBehind').classes
         .remove('nav-button-active');
       querySelector('#viewWinningNumbers').classes
@@ -160,7 +182,8 @@ void clickView(View view){
       
       break;
     case View.partytimemagic:
-      //print("Switch to partytimemagic");
+      querySelector('#viewAbout').classes
+        .remove('nav-button-active');
       querySelector('#viewGamesBehind').classes
         .remove('nav-button-active');
       querySelector('#viewWinningNumbers').classes
@@ -177,6 +200,9 @@ void clickView(View view){
 
 void redisplayData(){
     switch(currentView.activeView){
+    case View.about:
+      setMainContent(aboutHTML); 
+      break;
     case View.gamesbehind:
       setMainContent(gamesbehindHTML);
       querySelector('#leagueTitle').text = 
@@ -310,7 +336,6 @@ void setNotes(String html){
 }
 
 void saveCurrentView(){
-  print("Saving to local storage");
   window.localStorage['current_view'] = 
     json.encode(currentView.toJson());
     

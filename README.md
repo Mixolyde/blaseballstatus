@@ -6,9 +6,6 @@ An attempt to replicate [Playoff Status](http://playoffstatus.com)
 Published at https://mixolyde.github.io/blaseballstatus
 
 ## TODO
-* Display data as it comes in
-  * Games Behind standings
-  * Other pages in background
 * Fetch future game schedule
 * Factor future schedule into magic numbers
 * Simulated playoff chances
@@ -20,7 +17,6 @@ Published at https://mixolyde.github.io/blaseballstatus
 * Postseason chances
 * Postseason Schedule
 * Pull database api code out into a separate library
-* About page/acknowledgements
 * Team emoji in table entries
 * Move project to a blaseball status account
 
@@ -37,10 +33,11 @@ Published at https://mixolyde.github.io/blaseballstatus
 * v0.0.3
 - [x] Auto refresh data in browser
 - [x] Save last view
-- [ ] Group by division toggle
-- [ ] About and info pages
+- [x] About and info pages
 * v0.0.4
+- [ ] Group by division toggle
 - [ ] Playoff prediction percentages
+* v0.0.5
 - [ ] Automate static data updates during the season
 - [ ] Postseason content
 
@@ -104,9 +101,9 @@ Your site should eventually get published to
 
 
 ## Acknowledgements
-Huge thank yous to:
+Huge thanks to:
 * [The Game Band](https://thegameband.com/)
-* The Blaseball Discord community
+* [The Blaseball Discord](https://discord.gg/3uFgJhu) community
 * The SIBR Discord community
 * [PlayoffStatus.com](http://PlayoffStatus.com)
 * [Dart](https://dart.dev/) for being an awesome language!
