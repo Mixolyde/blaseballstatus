@@ -47,9 +47,7 @@ void main() {
 
 Future<void> getContentPages() async {
   simData = await getSimulationData();
-  querySelector('.wkinfo').text = 
-    "Season ${simData.season + 1}: " + 
-    "Day ${simData.day + 1}";
+  setSeasonDay(simData.season + 1, simData.day + 1);
   sitedata = await calcSiteData();
   querySelector('#lastUpdate').text = sitedata.lastUpdate;
   querySelector('#pickLeague1').text = sitedata.subnicknames[0];
@@ -69,6 +67,7 @@ Future<void> refreshData() async{
   String lastUpdate = getUpdateTime();
   print('Refreshing data at $lastUpdate');
   simData = await getSimulationData();
+  setSeasonDay(simData.season + 1, simData.day + 1);
   sitedata = await calcSiteData();
   await calcStats(simData.season);
   
@@ -91,6 +90,12 @@ Future<void> refreshData() async{
   
   querySelector('#lastUpdate').text = sitedata.lastUpdate;
 
+}
+
+void setSeasonDay(int season, int day){
+  querySelector('.wkinfo').text = 
+    "Season $season: " + 
+    "Day $day";
 }
 
 void addListeners(){
