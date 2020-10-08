@@ -85,6 +85,7 @@ Future<List<TeamStandings>> calculateSubLeague(Subleague sub) async{
 
   //sort first then calculate
   sortTeamsNotGrouped(teamStandings);
+  reSortDivLeader(teamStandings);
 
   calculateGamesBehind(teamStandings);
   calculateMagicNumbers(teamStandings);
@@ -93,34 +94,63 @@ Future<List<TeamStandings>> calculateSubLeague(Subleague sub) async{
 
 }
 
+void reSortDivLeader(List<TeamStandings> teamStandings){
+  //if the first four teams are the same division, move
+  //the other div leader into 4th
+  String firstDiv = teamStandings.first.division;
+  if(teamStandings.take(4).every((team) =>
+    team.division == firstDiv) ||
+    teamStandings.take(4).every((team) =>
+    team.division != firstDiv)){
+    print("Top four teams are the same division");
+    //find top of other division
+    TeamStandings otherLeader = teamStandings.firstWhere((team) =>
+      team.division != firstDiv);
+    print("Moving $otherLeader");
+    teamStandings.remove(otherLeader);
+    teamStandings.insert(3, otherLeader);
+  }
+    
+}
+
 void calculateGamesBehind(List<TeamStandings> teamStandings) {
-  //compute games back from league leader
-  int leagueLeaderDiff = teamStandings[0].wins - 
-    teamStandings[0].losses;
-  int leagueLeaderOrder = _tiebreakers.order
-    .indexOf(teamStandings[0].id);
+  //compute games back from Division leaders and Wild Card spot
+  Map<String, List<int>> divLeaders = new Map<String, List<int>>();
+  String firstDiv = teamStandings[0].division;
+  divLeaders[firstDiv] = [
+    teamStandings[0].wins - teamStandings[0].losses,
+    teamStandings[0].favor];
+    
+  TeamStandings secondDivLeader = teamStandings.firstWhere((team) =>
+    team.division != firstDiv);
+  divLeaders[secondDivLeader.division] = [
+    secondDivLeader.wins - secondDivLeader.losses,
+    secondDivLeader.favor];
+    
   int lastPlayoffDiff = teamStandings[3].wins - 
     teamStandings[3].losses;  
-  int lastPlayoffOrder = _tiebreakers.order
-    .indexOf(teamStandings[3].id);
+  int lastPlayoffOrder = teamStandings[3].favor;    
     
   for (int i = 1; i < teamStandings.length; i++){
-    int teamDiff = teamStandings[i].wins - 
-    teamStandings[i].losses;
-    num gbLg = ( leagueLeaderDiff - teamDiff ) / 2;
-    if (leagueLeaderOrder < _tiebreakers.order
-      .indexOf(teamStandings[i].id)){
-      gbLg += 1;
-    }
-    teamStandings[i].gbLg = formatGamesBehind(gbLg);
-    
-    if(i > 3) {
-      num gbPo = ( lastPlayoffDiff - teamDiff ) / 2;
-      if (lastPlayoffOrder < _tiebreakers.order
-        .indexOf(teamStandings[i].id)){
-        gbPo += 1;
+    if(teamStandings[i] != secondDivLeader){
+      int teamDiff = teamStandings[i].wins - 
+        teamStandings[i].losses;
+      List divLeader = divLeaders[teamStandings[i].division];
+      num gbDiv = ( divLeader[0] - teamDiff ) / 2;
+      if (divLeader[1] < teamStandings[i].favor){
+        gbDiv += 1;
       }
-      teamStandings[i].gbPo = formatGamesBehind(gbPo);
+      teamStandings[i].gbDiv = formatGamesBehind(gbDiv);
+      print("GbDiv ${teamStandings[i].gbDiv}");
+      
+      if(i > 3) {
+        num gbWc = ( lastPlayoffDiff - teamDiff ) / 2;
+        if (lastPlayoffOrder < teamStandings[i].favor){
+          gbWc += 1;
+        }
+        teamStandings[i].gbWc = formatGamesBehind(gbWc);
+        print("GbWc ${teamStandings[i].gbWc}");
+      }
     }
   }  
 }
@@ -250,8 +280,8 @@ class TeamStandings {
   final losses;
   final int favor;
   
-  String gbLg = '-';
-  String gbPo = '-';
+  String gbDiv = '-';
+  String gbWc = '-';
   final List<String> po = ['-', '-', '-', '-', '-'];
   final List<String> winning = ['-', '-', '-', '-', '-'];
   final List<String> partytime = ['-', '-', '-', '-', '-'];

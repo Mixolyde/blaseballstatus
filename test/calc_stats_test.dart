@@ -3,6 +3,30 @@ import 'package:test/test.dart';
 import '../lib/calc_stats.dart';
 
 void main() {
+  group('Sort div leader tests', () {
+    test('No resort needed', () {
+      var standings = getLateSeasonStandings();
+      List<TeamStandings> top6 = standings.take(6).toList();
+      reSortDivLeader(standings);
+      expect(standings[0], top6[0]);
+      expect(standings[1], top6[1]);
+      expect(standings[2], top6[2]);
+      expect(standings[3], top6[3]);
+      expect(standings[4], top6[4]);
+      expect(standings[5], top6[5]);
+    });  
+    test('Resort needed', () {
+      var standings = getLateSeasonResortNeededStandings();
+      List<TeamStandings> top6 = standings.take(6).toList();
+      reSortDivLeader(standings);
+      expect(standings[0], top6[0]);
+      expect(standings[1], top6[1]);
+      expect(standings[2], top6[2]);
+      expect(standings[3], top6[5]);
+      expect(standings[4], top6[3]);
+      expect(standings[5], top6[4]);
+    });     
+  });
   group('format tests', () {
     test('Format games behind', () {
       expect(formatGamesBehind(0), "0");
@@ -12,6 +36,28 @@ void main() {
       expect(formatGamesBehind(2.5), "2½");
     });  
   });
+  group('Games Behind number tests', () {
+    test('Near season end', () {
+      var standings = getLateSeasonStandings();
+      calculateGamesBehind(standings);
+      
+      expect(standings[0].gbDiv, "-");
+      expect(standings[0].gbWc, "-");
+      
+      expect(standings[1].gbDiv, "-");
+      expect(standings[1].gbWc, "-");
+      
+      expect(standings[2].gbDiv, "1½");
+      expect(standings[2].gbWc, "-");
+      
+      expect(standings[3].gbDiv, "7.0");
+      expect(standings[3].gbWc, "-");
+      
+      expect(standings[4].gbDiv, "22½");
+      expect(standings[4].gbWc, "4½");
+      
+    });  
+  });      
   group('Winning magic number tests', () {
     test('Near season end Winning Magic Numbers', () {
       var standings = getLateSeasonStandings();
@@ -349,6 +395,28 @@ List<TeamStandings> getLateSeasonStandings(){
       i.toString(),
       standingsData[i][0],
       standingsData[i][1],
+      standingsData[i][3],
+      standingsData[i][4],
+      standingsData[i][2],
+    ));
+  }
+  
+  return teamStandings;
+}
+
+List<TeamStandings> getLateSeasonResortNeededStandings(){
+  List<TeamStandings> teamStandings = new List<TeamStandings>();
+  String div;
+  for(int i = 0; i < standingsData.length; i++){
+    if(i < 5) {
+      div = "High";
+    } else {
+      div = "Low";
+    }
+    teamStandings.add(new TeamStandings(
+      i.toString(),
+      standingsData[i][0],
+      div,
       standingsData[i][3],
       standingsData[i][4],
       standingsData[i][2],

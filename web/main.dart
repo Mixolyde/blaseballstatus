@@ -242,9 +242,9 @@ void populateGamesBehindTable(List<TeamStandings> subStandings){
     trow.insertCell(6)
       ..text = (99 - (row.wins + row.losses)).toString();       
     trow.insertCell(7)
-      ..text = row.gbLg;        
+      ..text = row.gbDiv;        
     trow.insertCell(8)
-      ..text = row.gbPo.toString();
+      ..text = row.gbWc.toString();
   });
   
   insertSeparatorRow(table, 6, 9); 
