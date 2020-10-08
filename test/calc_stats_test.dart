@@ -50,13 +50,54 @@ void main() {
       expect(standings[2].gbDiv, "1½");
       expect(standings[2].gbWc, "-");
       
-      expect(standings[3].gbDiv, "7.0");
+      expect(standings[3].gbDiv, "7");
       expect(standings[3].gbWc, "-");
       
       expect(standings[4].gbDiv, "22½");
       expect(standings[4].gbWc, "4½");
       
     });  
+    test('Near season end resort needed', () {
+      var standings = getLateSeasonResortNeededStandings();
+      reSortDivLeader(standings);
+      calculateGamesBehind(standings);
+      
+      int i = 0;
+      print("${standings[i]} ${standings[i].gbDiv} ${standings[i].gbWc}");
+      expect(standings[i].gbDiv, "-");
+      expect(standings[i].gbWc, "-");
+      
+      i = 1;
+      print("${standings[i]} ${standings[i].gbDiv} ${standings[i].gbWc}");
+      expect(standings[i].gbDiv, "12");
+      expect(standings[i].gbWc, "-");
+      
+      i = 2;
+      print("${standings[i]} ${standings[i].gbDiv} ${standings[i].gbWc}");
+      expect(standings[i].gbDiv, "12½");
+      expect(standings[i].gbWc, "-");
+      
+      i = 3;
+      print("${standings[i]} ${standings[i].gbDiv} ${standings[i].gbWc}");
+      expect(standings[i].gbDiv, "-");
+      expect(standings[i].gbWc, "-");
+      
+      i = 4;
+      print("${standings[i]} ${standings[i].gbDiv} ${standings[i].gbWc}");
+      expect(standings[i].gbDiv, "18");
+      expect(standings[i].gbWc, "6½");
+      
+      i = 5;
+      print("${standings[i]} ${standings[i].gbDiv} ${standings[i].gbWc}");
+      expect(standings[i].gbDiv, "22½");
+      expect(standings[i].gbWc, "10");
+      
+      i = 6;
+      print("${standings[i]} ${standings[i].gbDiv} ${standings[i].gbWc}");
+      expect(standings[i].gbDiv, "6½");
+      expect(standings[i].gbWc, "6½");
+      
+    });      
   });      
   group('Winning magic number tests', () {
     test('Near season end Winning Magic Numbers', () {

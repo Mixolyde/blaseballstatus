@@ -126,10 +126,32 @@ void calculateGamesBehind(List<TeamStandings> teamStandings) {
   divLeaders[secondDivLeader.division] = [
     secondDivLeader.wins - secondDivLeader.losses,
     secondDivLeader.favor];
-    
-  int lastPlayoffDiff = teamStandings[3].wins - 
-    teamStandings[3].losses;  
-  int lastPlayoffOrder = teamStandings[3].favor;    
+
+  Map<String, List<int>> wcLeaders = new Map<String, List<int>>();
+  //calculate the wild card leader for each division
+  //if the top three teams are all the same division, then each
+  //division will have a different WC team to beat
+  if(teamStandings.take(3).every((team) => 
+    team.division == firstDiv)){
+    // high, high, high, low
+    print("Different WC Leaders");
+    wcLeaders[firstDiv] = [
+      teamStandings[2].wins - teamStandings[2].losses,
+      teamStandings[2].favor];
+    wcLeaders[secondDivLeader.division] = [
+      secondDivLeader.wins - secondDivLeader.losses,
+      secondDivLeader.favor];
+  } else {
+    //both teams have the same Wild Card leader, 4th place
+    // high, low, high, low, etc..
+    wcLeaders[firstDiv] = [
+      teamStandings[3].wins - teamStandings[3].losses,
+      teamStandings[3].favor];
+    wcLeaders[secondDivLeader.division] = [
+      teamStandings[3].wins - teamStandings[3].losses,
+      teamStandings[3].favor];
+  }
+  
     
   for (int i = 1; i < teamStandings.length; i++){
     if(teamStandings[i] != secondDivLeader){
@@ -141,16 +163,18 @@ void calculateGamesBehind(List<TeamStandings> teamStandings) {
         gbDiv += 1;
       }
       teamStandings[i].gbDiv = formatGamesBehind(gbDiv);
-      print("GbDiv ${teamStandings[i].gbDiv}");
       
       if(i > 3) {
-        num gbWc = ( lastPlayoffDiff - teamDiff ) / 2;
-        if (lastPlayoffOrder < teamStandings[i].favor){
+        List wcLeader = wcLeaders[teamStandings[i].division];
+        num gbWc = ( wcLeader[0] - teamDiff ) / 2;
+        if (wcLeader[1] < teamStandings[i].favor){
           gbWc += 1;
         }
         teamStandings[i].gbWc = formatGamesBehind(gbWc);
-        print("GbWc ${teamStandings[i].gbWc}");
       }
+      
+      print("GbDiv ${teamStandings[i].gbDiv} GbWc ${teamStandings[i].gbWc}");
+
     }
   }  
 }
@@ -264,7 +288,7 @@ void sortTeamsNotGrouped(List<TeamStandings> teams) {
 
 String formatGamesBehind(num gb){
   if(gb == gb.toInt()){
-    return gb.toString();
+    return gb.toInt().toString();
   } else if (gb < 1 ) {
     return "½";
   } else {
@@ -301,6 +325,6 @@ class TeamStandings {
   };
   
   @override
-  String toString() => "Standings: $nickname ($wins - $losses)";
+  String toString() => "Standings: $nickname - $division ($wins - $losses) #$favor";
   
 }

@@ -35,7 +35,7 @@ Published at https://mixolyde.github.io/blaseballstatus
 - [x] Save last view
 - [x] About and info pages
 * v0.0.4
-- [ ] New playoff berth rules
+- [ ] New playoff birth rules
 - [ ] Group by division toggle
 - [ ] Playoff prediction percentages
 * v0.0.5
