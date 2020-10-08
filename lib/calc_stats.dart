@@ -185,6 +185,11 @@ void calculateMagicNumbers(List<TeamStandings> teamStandings){
 }
 
 void _calculateWinningMagicNumbers(List<TeamStandings> teamStandings) {
+  String firstDiv = teamStandings[0].division;
+  String secondDiv = teamStandings.firstWhere((team) =>
+    team.division != firstDiv).division;
+  bool top3Same = teamStandings.take(3).every((team) =>
+    team.division == firstDiv);
   for (int i = 0; i < teamStandings.length; i++){
     int maxWins = 99 - teamStandings[i].losses;
 
@@ -195,35 +200,41 @@ void _calculateWinningMagicNumbers(List<TeamStandings> teamStandings) {
         (maxWins == teamStandings[j].wins &&
         teamStandings[i].favor > teamStandings[j].favor)){
         teamStandings[i].winning[j] = "X";
+      } else if (top3Same && j == 3 && 
+        teamStandings[i].winning[2] == "X" &&
+        teamStandings[i].division == firstDiv){
+        //if top3 are the same, and you can't make 3rd
+        // and you aren't in secondDiv, you can't make 4th either
+        teamStandings[i].winning[j] = "X";
       }
-      
     }
+    
     for (int b = i + 1; b < 5; b++){
-      //Wb + GRb - Wa + 1
-      int magic = teamStandings[b].wins +
-        (99 - (teamStandings[b].wins + teamStandings[b].losses)) -
-        teamStandings[i].wins;
-      if (teamStandings[i].favor > teamStandings[b].favor) {
-        //team b wins ties
-        magic += 1;
-      }
-      //print("WinMN for ${teamStandings[i]} vs. ${teamStandings[b]}: $magic");
-      if (magic > 0){
-        //set magic number
-        teamStandings[i].winning[b - 1] = "$magic";
-      } else if (b > 1 && 
-        teamStandings[i].winning.any((s) => s == "^")) {
-        //previous spot guaranteed, so this one can't
-        teamStandings[i].winning[b - 1] = "X";
+      if (!top3Same || b < 3){
+        setMagicNumber(teamStandings[i], 
+          teamStandings[b], b - 1);
+      } else if (b == 3){
+        //top3 are the same so the 3rd target is 
+        //the 4th team in the top3 division
+        TeamStandings target = teamStandings.where((team) =>
+          team.division == firstDiv).take(4).last;
+        setMagicNumber(teamStandings[i], 
+          target, b - 1);
+      } else if (teamStandings[i].division == firstDiv) {
+        //top3 are the same, so the 4th spot is taken by
+        //other div leader and is not winnable
+        teamStandings[i].winning[3] = "DNCD";
       } else {
-        //this spot or better guaranteed
-        teamStandings[i].winning[b - 1] = "^";
+        //top3 are the same, so the 4th spot of the 4th team
+        //targets the 2nd team in its div
+        TeamStandings target = teamStandings.where((team) =>
+          team.division == secondDiv).take(2).last;
+        setMagicNumber(teamStandings[i], 
+          target, b - 1);  
       }
-      
     }
         
-    if(teamStandings[i].winning[3] == "^" ||
-      teamStandings[i].winning[3] == "X"){
+    if(teamStandings[i].winning.any((s) => s == "^")){
       teamStandings[i].winning[4] = "X";
     } else {
       teamStandings[i].winning[4] = "0";
@@ -237,6 +248,31 @@ void _calculateWinningMagicNumbers(List<TeamStandings> teamStandings) {
     }
     
   }
+}
+
+void setMagicNumber(TeamStandings standing, TeamStandings target,
+  int winningIndex){
+  //Wb + GRb - Wa + 1
+  int magic = target.wins +
+    (99 - (target.wins + target.losses)) -
+    standing.wins;
+  if (standing.favor > target.favor) {
+    //team b wins ties
+    magic += 1;
+  }
+  //print("WinMN for ${teamStandings[i]} vs. ${teamStandings[b]}: $magic");
+  if (magic > 0){
+    //set magic number
+    standing.winning[winningIndex] = "$magic";
+  } else if (winningIndex > 0 && 
+    standing.winning.any((s) => s == "^")) {
+    //previous spot guaranteed, so this one can't
+    standing.winning[winningIndex] = "X";
+  } else {
+    //this spot or better guaranteed
+    standing.winning[winningIndex] = "^";
+  }
+    
 }
 
 void _calculatePartyTimeMagicNumbers(List<TeamStandings> teamStandings) {

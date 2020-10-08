@@ -100,7 +100,7 @@ void main() {
     });      
   });      
   group('Winning magic number tests', () {
-    test('Near season end Winning Magic Numbers', () {
+    test('Near season end', () {
       var standings = getLateSeasonStandings();
       calculateMagicNumbers(standings);
       
@@ -158,7 +158,7 @@ void main() {
         expect(standings[i].winning[4], "PT");
       }
     });  
-    test('Near season beginning Winning Magic Numbers', () {
+    test('Near season beginning', () {
       var standings = getEarlySeasonStandings();
       calculateMagicNumbers(standings);
       
@@ -186,6 +186,57 @@ void main() {
       expect(standings[2].winning[1], "DNCD");
       expect(standings[2].winning[2], "63");
       expect(standings[2].winning[3], "60");      
+
+      print("${standings[3]} ${standings[3].winning}");
+      expect(standings[3].winning[0], "DNCD");
+      expect(standings[3].winning[1], "DNCD");
+      expect(standings[3].winning[2], "DNCD");
+      expect(standings[3].winning[3], "62");   
+      
+      for (int i = 4; i < standings.length; i++){
+        print("${standings[i]} ${standings[i].winning}");
+        expect(standings[i].winning[0], "DNCD");
+        expect(standings[i].winning[1], "DNCD");
+        expect(standings[i].winning[2], "DNCD");
+        expect(standings[i].winning[3], "DNCD"); 
+      }
+    });  
+    test('Near season beginning ReSort Needed', () {
+      var standings = getEarlySeasonResortNeededStandings();
+      reSortDivLeader(standings);
+      calculateMagicNumbers(standings);
+      
+      
+      for(int i = 0; i < 10; i++){
+        //print("${standings[i]} ${standings[i].winning}");
+        expect(standings[i].winning[4], "0");
+      }
+      
+      for(int i = 0; i < 7; i++){
+        //printing top table to view data
+        print("${standings[i]} ${standings[i].winning}");
+      }
+      // 34 played 65 left
+      // 77 vs 62 15 left
+        
+      print("${standings[0]} ${standings[0].winning}");
+      expect(standings[0].winning[0], "63");
+      expect(standings[0].winning[1], "59");
+      expect(standings[0].winning[2], "56");
+      expect(standings[0].winning[3], "DNCD");
+      
+      
+      print("${standings[1]} ${standings[1].winning}");
+      expect(standings[1].winning[0], "DNCD");
+      expect(standings[1].winning[1], "62");
+      expect(standings[1].winning[2], "59");
+      expect(standings[1].winning[3], "DNCD");
+      
+      print("${standings[2]} ${standings[2].winning}");
+      expect(standings[2].winning[0], "DNCD");
+      expect(standings[2].winning[1], "DNCD");
+      expect(standings[2].winning[2], "63");
+      expect(standings[2].winning[3], "DNCD");      
 
       print("${standings[3]} ${standings[3].winning}");
       expect(standings[3].winning[0], "DNCD");
@@ -419,6 +470,29 @@ List<TeamStandings> getEarlySeasonStandings(){
       i.toString(),
       standingsData[i][0],
       standingsData[i][1],
+      i * 3,
+      34 - (i * 3),
+      standingsData[i][2],
+    ));
+  }
+  
+  sortTeamsNotGrouped(teamStandings);
+  return teamStandings;
+}
+
+List<TeamStandings> getEarlySeasonResortNeededStandings(){
+  List<TeamStandings> teamStandings = new List<TeamStandings>();
+  String div;
+  for(int i = 0; i < standingsData.length; i++){
+    if(i < 5) {
+      div = "High";
+    } else {
+      div = "Low";
+    }
+    teamStandings.add(new TeamStandings(
+      i.toString(),
+      standingsData[i][0],
+      div,
       i * 3,
       34 - (i * 3),
       standingsData[i][2],
