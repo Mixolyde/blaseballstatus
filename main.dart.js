@@ -8887,7 +8887,7 @@ t.w.a(a)
 s=F.lh(this.a,a)
 for(r=t.a,q=0;q<5;++q){p=r.a(C.e.a7(s,5+q))
 o=a.Q;(p&&C.j).sC(p,o[q])
-switch(o[q]){case"PT":case"X":case"MW":p.classList.add("redcell")
+switch(o[q]){case"PT":case"X":p.classList.add("redcell")
 break
 default:p.classList.add("greencell")
 break}}},
