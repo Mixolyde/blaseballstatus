@@ -211,14 +211,14 @@ void _calculateWinningMagicNumbers(List<TeamStandings> teamStandings) {
     
     for (int b = i + 1; b < 5; b++){
       if (!top3Same || b < 3){
-        setMagicNumber(teamStandings[i], 
+        setWinningMagicNumber(teamStandings[i], 
           teamStandings[b], b - 1);
       } else if (b == 3){
         //top3 are the same so the 3rd target is 
         //the 4th team in the top3 division
         TeamStandings target = teamStandings.where((team) =>
           team.division == firstDiv).take(4).last;
-        setMagicNumber(teamStandings[i], 
+        setWinningMagicNumber(teamStandings[i], 
           target, b - 1);
       } else if (teamStandings[i].division == firstDiv) {
         //top3 are the same, so the 4th spot is taken by
@@ -229,7 +229,7 @@ void _calculateWinningMagicNumbers(List<TeamStandings> teamStandings) {
         //targets the 2nd team in its div
         TeamStandings target = teamStandings.where((team) =>
           team.division == secondDiv).take(2).last;
-        setMagicNumber(teamStandings[i], 
+        setWinningMagicNumber(teamStandings[i], 
           target, b - 1);  
       }
     }
@@ -250,7 +250,7 @@ void _calculateWinningMagicNumbers(List<TeamStandings> teamStandings) {
   }
 }
 
-void setMagicNumber(TeamStandings standing, TeamStandings target,
+void setWinningMagicNumber(TeamStandings standing, TeamStandings target,
   int winningIndex){
   //Wb + GRb - Wa + 1
   int magic = target.wins +
@@ -276,6 +276,12 @@ void setMagicNumber(TeamStandings standing, TeamStandings target,
 }
 
 void _calculatePartyTimeMagicNumbers(List<TeamStandings> teamStandings) {
+  String firstDiv = teamStandings[0].division;
+  String secondDiv = teamStandings.firstWhere((team) =>
+    team.division != firstDiv).division;
+  bool top3Same = teamStandings.take(3).every((team) =>
+    team.division == firstDiv);
+    
   for (int i = 0; i < teamStandings.length; i++){
     var stand = teamStandings[i];
     int maxWins = 99 - stand.losses;
@@ -291,6 +297,12 @@ void _calculatePartyTimeMagicNumbers(List<TeamStandings> teamStandings) {
             stand.partytime[k] = "MW";
           } else if (k == 4) {
             stand.partytime[k] = "MW";
+          } else if (top3Same && k == 3 && 
+            stand.division == firstDiv) {
+            //party time losses for 4th are the same as 3rd
+            
+            stand.partytime[k] = stand.partytime[k - 1];
+            //print("Adjust for top 3 same ${stand.partytime[k]} ${stand.partytime[k - 1]}");
           } else {
             //maxWinsi - Wk
             //print("Find Elim: $stand Berth: $k");
@@ -300,7 +312,6 @@ void _calculatePartyTimeMagicNumbers(List<TeamStandings> teamStandings) {
               magic += 1;
             }
             stand.partytime[k] = "$magic";
-
           }
           
           break;
