@@ -134,7 +134,6 @@ void calculateGamesBehind(List<TeamStandings> teamStandings) {
   if(teamStandings.take(3).every((team) => 
     team.division == firstDiv)){
     // high, high, high, low
-    print("Different WC Leaders");
     wcLeaders[firstDiv] = [
       teamStandings[2].wins - teamStandings[2].losses,
       teamStandings[2].favor];
@@ -173,7 +172,7 @@ void calculateGamesBehind(List<TeamStandings> teamStandings) {
         teamStandings[i].gbWc = formatGamesBehind(gbWc);
       }
       
-      print("GbDiv ${teamStandings[i].gbDiv} GbWc ${teamStandings[i].gbWc}");
+      //print("GbDiv ${teamStandings[i].gbDiv} GbWc ${teamStandings[i].gbWc}");
 
     }
   }  

@@ -10,7 +10,6 @@ Published at https://mixolyde.github.io/blaseballstatus
 * Factor future schedule into magic numbers
 * Simulated playoff chances
 * Schedule pages
-* Tiebreaker/Sort order description page
 * Automate static data calculations
 * Group by division toggle
 * Unit test coverage report

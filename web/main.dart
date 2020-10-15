@@ -158,10 +158,6 @@ void clickView(View view){
         .remove('nav-button-active');
       querySelector('#viewPartyTimeNumbers').classes
         .remove('nav-button-active');
-        
-      // TODO: display tiebreakerlist
-      //OListElement tbList = querySelector('#tiebreakerlist');
-      
 
       break;    
     case View.gamesbehind:
@@ -204,32 +200,32 @@ void clickView(View view){
 }
 
 void redisplayData(){
-    switch(currentView.activeView){
-    case View.about:
-      setMainContent(aboutHTML); 
-      break;
-    case View.gamesbehind:
-      setMainContent(gamesbehindHTML);
-      querySelector('#leagueTitle').text = 
-        sitedata.subnicknames[currentView.activeLeague]; 
-      populateGamesBehindTable(subStandings[currentView.activeLeague]);
-      break;
-    case View.winningmagic:
-      setMainContent(magicHTML);
-      querySelector('#leagueTitle').text =
-        "${sitedata.subnicknames[currentView.activeLeague]} League Winning Magic Numbers";
-      populateWinningTable(subStandings[currentView.activeLeague]);
-      setNotes(winningNotesHTML);
-      break;
-    case View.partytimemagic:
-      setMainContent(magicHTML);
-      querySelector('#leagueTitle').text =
-        "${sitedata.subnicknames[currentView.activeLeague]} League Party Time Magic Numbers";
-      populatePartyTimeTable(subStandings[currentView.activeLeague]);
-      setNotes(partytimeNotesHTML);
-      break;
-    }
-      
+  switch(currentView.activeView){
+  case View.about:
+    setMainContent(aboutHTML); 
+    populateAboutPageData();
+    break;
+  case View.gamesbehind:
+    setMainContent(gamesbehindHTML);
+    querySelector('#leagueTitle').text = 
+      sitedata.subnicknames[currentView.activeLeague]; 
+    populateGamesBehindTable(subStandings[currentView.activeLeague]);
+    break;
+  case View.winningmagic:
+    setMainContent(magicHTML);
+    querySelector('#leagueTitle').text =
+      "${sitedata.subnicknames[currentView.activeLeague]} League Winning Magic Numbers";
+    populateWinningTable(subStandings[currentView.activeLeague]);
+    setNotes(winningNotesHTML);
+    break;
+  case View.partytimemagic:
+    setMainContent(magicHTML);
+    querySelector('#leagueTitle').text =
+      "${sitedata.subnicknames[currentView.activeLeague]} League Party Time Magic Numbers";
+    populatePartyTimeTable(subStandings[currentView.activeLeague]);
+    setNotes(partytimeNotesHTML);
+    break;
+  }
 }
   
 
@@ -295,6 +291,24 @@ void populatePartyTimeTable(List<TeamStandings> subStandings){
   });
   
   insertSeparatorRow(table, 6, 10);   
+}
+
+void populateAboutPageData(){
+  OListElement tbList = querySelector('#tiebreakerlist');
+  if(tbList.children != null){
+    tbList.children.clear();
+  }
+  List<TeamStandings> allStandings = new List<TeamStandings>();
+    allStandings.addAll(subStandings[0]);
+    allStandings.addAll(subStandings[1]);      
+  for(int favor = 0; favor < 20; favor++){
+    TeamStandings stand = allStandings.firstWhere((team) =>
+      team.favor == favor);
+    LIElement item = new LIElement();
+    item.text = stand.nickname;
+    tbList.children.add(item);
+  }
+      
 }
 
 TableRowElement insertCommonCells(TableElement table, 
