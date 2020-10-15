@@ -280,7 +280,6 @@ void populatePartyTimeTable(List<TeamStandings> subStandings){
       switch (row.partytime[i]){
         case "PT":
         case "X":
-        case "MW":
           cell.classes.add("redcell");
           break;
         default:
