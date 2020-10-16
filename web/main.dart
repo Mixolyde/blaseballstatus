@@ -29,6 +29,9 @@ void main() {
     currentView.activeLeague = loadedView.activeLeague;
     selectLeagueButton(loadedView.activeLeague);
     
+    currentView.groupByDiv = loadedView.groupByDiv;
+    toggleGroupByDivision(loadedView.groupByDiv);
+    
     clickView(loadedView.activeView);
     
     addListeners();
@@ -106,10 +109,24 @@ void addListeners(){
   querySelector('#viewWinningNumbers').onClick.listen(selectViewW);
   querySelector('#viewPartyTimeNumbers').onClick.listen(selectViewPT);
   querySelector('#viewAbout').onClick.listen(selectViewAbout);
+  
+  querySelector('#doGroup').onClick.listen(clickGroupByDivision);
 }
 
 void selectLeague1(MouseEvent event) => clickLeague(0);
 void selectLeague2(MouseEvent event) => clickLeague(1);
+
+void clickLeague(int league){
+  if (league == currentView.activeLeague){
+    return;
+  }
+  currentView.activeLeague = league;
+  selectLeagueButton(league);
+
+  saveCurrentView();
+  redisplayData();
+  
+}
 
 void selectLeagueButton(int league) {
   if(league == 0){
@@ -125,17 +142,6 @@ void selectLeagueButton(int league) {
   }
 }
 
-void clickLeague(int league){
-  if (league == currentView.activeLeague){
-    return;
-  }
-  currentView.activeLeague = league;
-  saveCurrentView();
-  selectLeagueButton(league);
-
-  redisplayData();
-  
-}
 
 void selectViewAbout(MouseEvent event) => clickView(View.about);
 void selectViewGB(MouseEvent event) => clickView(View.gamesbehind);
@@ -147,7 +153,6 @@ void clickView(View view){
     return;
   }
   currentView.activeView = view;
-  saveCurrentView();
   switch(currentView.activeView){
     case View.about:
       querySelector('#viewAbout').classes
@@ -195,8 +200,32 @@ void clickView(View view){
       break;
   }
   
+  saveCurrentView();
   redisplayData();
 
+}
+
+void clickGroupByDivision(MouseEvent event) {
+
+  if(currentView.groupByDiv){
+    currentView.groupByDiv = false;
+    toggleGroupByDivision(false);
+  } else {
+    currentView.groupByDiv = true;
+    toggleGroupByDivision(true);
+  }
+  
+  saveCurrentView();
+  redisplayData();
+}
+
+void toggleGroupByDivision(bool groupByDiv){
+  var groupButton = querySelector('#doGroup');
+  if(groupByDiv){
+    groupButton.classes.add('nav-button-active');
+  } else {
+    groupButton.classes.remove('nav-button-active');
+  }
 }
 
 void redisplayData(){
@@ -210,6 +239,7 @@ void redisplayData(){
     querySelector('#leagueTitle').text = 
       sitedata.subnicknames[currentView.activeLeague]; 
     populateGamesBehindTable(subStandings[currentView.activeLeague]);
+
     break;
   case View.winningmagic:
     setMainContent(magicHTML);
@@ -231,7 +261,15 @@ void redisplayData(){
 
 void populateGamesBehindTable(List<TeamStandings> subStandings){
   TableElement table = querySelector("#standingsTable");
-  subStandings.forEach((row){
+  List<TeamStandings> standings = subStandings.toList();
+  if(currentView.groupByDiv == true){
+    String firstDiv = subStandings[0].division;
+    standings = subStandings.where((t) => t.division == firstDiv).toList();
+    standings.addAll(subStandings.where((t) => 
+      t.division != firstDiv).toList());
+  }
+  
+  standings.forEach((row){
     TableRowElement trow = insertCommonCells(table, row);
     trow.insertCell(5)
       ..text = (row.wins + row.losses).toString();    
@@ -243,13 +281,25 @@ void populateGamesBehindTable(List<TeamStandings> subStandings){
       ..text = row.gbWc.toString();
   });
   
-  insertSeparatorRow(table, 6, 9); 
+  if(currentView.groupByDiv == true){
+    insertSeparatorRow(table, 7, 9); 
+  } else {
+    insertSeparatorRow(table, 6, 9); 
+  }
   
 }
 
 void populateWinningTable(List<TeamStandings> subStandings){
   TableElement table = querySelector("#standingsTable");
-  subStandings.forEach((row){
+  List<TeamStandings> standings = subStandings.toList();
+  if(currentView.groupByDiv == true){
+    String firstDiv = subStandings[0].division;
+    standings = subStandings.where((t) => t.division == firstDiv).toList();
+    standings.addAll(subStandings.where((t) => 
+      t.division != firstDiv).toList());
+  }
+  
+  standings.forEach((row){
     TableRowElement trow = insertCommonCells(table, row);
     for(int i = 0; i < 5; i++){
       var cell = trow.insertCell(5 + i)
@@ -267,12 +317,24 @@ void populateWinningTable(List<TeamStandings> subStandings){
     }
   });
   
-  insertSeparatorRow(table, 6, 10);   
+  if(currentView.groupByDiv == true){
+    insertSeparatorRow(table, 7, 10); 
+  } else {
+    insertSeparatorRow(table, 6, 10); 
+  }
 }
 
 void populatePartyTimeTable(List<TeamStandings> subStandings){
   TableElement table = querySelector("#standingsTable");
-  subStandings.forEach((row){
+  List<TeamStandings> standings = subStandings.toList();
+  if(currentView.groupByDiv == true){
+    String firstDiv = subStandings[0].division;
+    standings = subStandings.where((t) => t.division == firstDiv).toList();
+    standings.addAll(subStandings.where((t) => 
+      t.division != firstDiv).toList());
+  }
+  
+  standings.forEach((row){
     TableRowElement trow = insertCommonCells(table, row);     
     for(int i = 0; i < 5; i++){
       var cell = trow.insertCell(5 + i)
@@ -289,7 +351,11 @@ void populatePartyTimeTable(List<TeamStandings> subStandings){
     }
   });
   
-  insertSeparatorRow(table, 6, 10);   
+  if(currentView.groupByDiv == true){
+    insertSeparatorRow(table, 7, 10); 
+  } else {
+    insertSeparatorRow(table, 6, 10); 
+  }
 }
 
 void populateAboutPageData(){

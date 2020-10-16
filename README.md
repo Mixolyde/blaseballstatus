@@ -35,7 +35,7 @@ Published at https://mixolyde.github.io/blaseballstatus
 - [x] About and info pages
 * v0.0.4
 - [x] New playoff birth rules
-- [ ] Group by division toggle
+- [x] Group by division toggle
 - [ ] Playoff prediction percentages
 * v0.0.5
 - [ ] Automate static data updates during the season
@@ -44,7 +44,8 @@ Published at https://mixolyde.github.io/blaseballstatus
 ## Contributing
 
 ### Installing Dart
-You will need Dart installed and on your $PATH to build and test the app.
+You will need Dart installed and on your $PATH to build and test 
+the app.
 
 On Linux
 ```
