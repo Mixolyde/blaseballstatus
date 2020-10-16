@@ -435,6 +435,7 @@ CurrentView loadCurrentView(){
     CurrentView view = new CurrentView();
     view.activeLeague = 0;
     view.activeView = View.gamesbehind;
+    view.groupByDiv = false;
     return view;
   }
 }
