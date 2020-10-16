@@ -4289,6 +4289,7 @@ r=J.M(s)
 return new Q.cX(H.X(r.i(s,"activeLeague")),C.b.i(C.aa,H.X(r.i(s,"activeView"))),H.la(r.i(s,"groupByDiv")))}else{q=new Q.cX(null,null,null)
 q.a=0
 q.b=C.m
+q.c=!1
 return q}},
 kh:function kh(){},
 kg:function kg(){},
