@@ -4283,14 +4283,16 @@ nE:function(a){var s=document
 J.lF(s.querySelector("#notes")).bT(0)
 J.lK(s.querySelector("#notes"),a)},
 lt:function(){window.localStorage.setItem("current_view",C.k.fd($.a_().bq()))},
-rG:function(){var s,r,q,p="current_view"
-if(window.localStorage.getItem(p)!=null){s=t.U.a(C.k.O(0,window.localStorage.getItem(p)))
+rG:function(){var s,r,q,p,o,n="current_view",m="groupByDiv"
+if(window.localStorage.getItem(n)!=null){s=t.U.a(C.k.O(0,window.localStorage.getItem(n)))
 r=J.M(s)
-return new Q.cX(H.X(r.i(s,"activeLeague")),C.b.i(C.aa,H.X(r.i(s,"activeView"))),H.la(r.i(s,"groupByDiv")))}else{q=new Q.cX(null,null,null)
-q.a=0
-q.b=C.m
-q.c=!1
-return q}},
+q=H.X(r.i(s,"activeLeague"))
+p=C.b.i(C.aa,H.X(r.i(s,"activeView")))
+return new Q.cX(q,p,r.i(s,m)==null?!1:H.la(r.i(s,m)))}else{o=new Q.cX(null,null,null)
+o.a=0
+o.b=C.m
+o.c=!1
+return o}},
 kh:function kh(){},
 kg:function kg(){},
 kk:function kk(a){this.a=a},
