@@ -6,18 +6,19 @@ An attempt to replicate [Playoff Status](http://playoffstatus.com)
 Published at https://mixolyde.github.io/blaseballstatus
 
 ## TODO
+* Put full team names in wide width table column
 * Fetch future game schedule
 * Factor future schedule into magic numbers
-* Simulated playoff chances
+* Simulate playoff chances
 * Schedule pages
 * Automate static data calculations
-* Group by division toggle
 * Unit test coverage report
 * Postseason chances
 * Postseason Schedule
 * Pull database api code out into a separate library
 * Team emoji in table entries
-* Move project to a blaseball status account
+* Move project to a blaseball-specific account on github
+* Get a twitter account and button
 
 ## Planned release schedule
 * v0.0.1 
@@ -36,9 +37,10 @@ Published at https://mixolyde.github.io/blaseballstatus
 * v0.0.4
 - [x] New playoff birth rules
 - [x] Group by division toggle
-- [ ] Playoff prediction percentages
-* v0.0.5
+- [x] Properly calculate games played
 - [ ] Automate static data updates during the season
+* v0.0.5
+- [ ] Playoff prediction percentages
 - [ ] Postseason content
 
 ## Contributing

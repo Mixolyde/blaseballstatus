@@ -19,7 +19,6 @@ List<String> _monthOfYear = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"
 NumberFormat f = new NumberFormat("#", "en_US");
   
 Future<SiteData> calcSiteData() async {
-  
   _league = await getLeague();
   _sub1 = await getSubleague(_league.subleagueId1);
   _sub2 = await getSubleague(_league.subleagueId2);
@@ -42,23 +41,27 @@ String getUpdateTime(){
     "${now.day} ${f.format(now.hour)}${f.format(now.minute)}";
 }
 
-Future<void> calcStats(int season) async {
+Future<void> calcStats(SimulationData simData) async {
   print('Beginning stat calculations');
-  _season = await getSeason(season);
+  _season = await getSeason(simData.season);
+  List<Game> games = await getGames(simData.season, simData.day);
   _standings = await getStandings(_season.standings);
 
   _allTeams = await getTeams();
   _tiebreakers = await getTiebreakers(_league.tiebreakersId);
 
-  List<TeamStandings> sub1Standings = await calculateSubLeague(_sub1);
-  List<TeamStandings> sub2Standings = await calculateSubLeague(_sub2);
+  List<TeamStandings> sub1Standings = 
+    await calculateSubLeague(_sub1, games);
+  List<TeamStandings> sub2Standings = 
+    await calculateSubLeague(_sub2, games);
   
   subStandings = [sub1Standings, sub2Standings];
     
 }
 
-Future<List<TeamStandings>> calculateSubLeague(Subleague sub) async{
-  print("Calculating status for $sub");
+Future<List<TeamStandings>> calculateSubLeague(Subleague sub, List<Game> games) async{
+  int day = games[0].day;
+  print("Calculating status for Day $day $sub");
   Division div1 = await getDivision(sub.divisionId1);
   Division div2 = await getDivision(sub.divisionId2);
   List<Team> teams = _allTeams.where((t) => 
@@ -75,10 +78,16 @@ Future<List<TeamStandings>> calculateSubLeague(Subleague sub) async{
       divName = div2.name.split(' ')[1];
     }
     
+    Game todayGame = games.firstWhere((g) =>
+      g.awayTeam == team.id || g.homeTeam == team.id);
+    int gamesPlayed = todayGame.gameComplete ?
+      day + 1 : day;
+    
     TeamStandings standing = 
-    new TeamStandings(team.id, team.nickname, divName,
+      new TeamStandings(team.id, team.nickname, divName,
       _standings.wins[team.id], 
       _standings.losses[team.id],
+      gamesPlayed,
       _tiebreakers.order.indexOf(team.id));
     teamStandings.add(standing);
   });
@@ -118,13 +127,15 @@ void calculateGamesBehind(List<TeamStandings> teamStandings) {
   Map<String, List<int>> divLeaders = new Map<String, List<int>>();
   String firstDiv = teamStandings[0].division;
   divLeaders[firstDiv] = [
-    teamStandings[0].wins - teamStandings[0].losses,
+    teamStandings[0].wins - 
+      (teamStandings[0].gamesPlayed - teamStandings[0].wins),
     teamStandings[0].favor];
     
   TeamStandings secondDivLeader = teamStandings.firstWhere((team) =>
     team.division != firstDiv);
   divLeaders[secondDivLeader.division] = [
-    secondDivLeader.wins - secondDivLeader.losses,
+    secondDivLeader.wins - 
+      (secondDivLeader.gamesPlayed - secondDivLeader.wins),
     secondDivLeader.favor];
 
   Map<String, List<int>> wcLeaders = new Map<String, List<int>>();
@@ -135,27 +146,30 @@ void calculateGamesBehind(List<TeamStandings> teamStandings) {
     team.division == firstDiv)){
     // high, high, high, low
     wcLeaders[firstDiv] = [
-      teamStandings[2].wins - teamStandings[2].losses,
+      teamStandings[2].wins - 
+        (teamStandings[2].gamesPlayed - teamStandings[2].wins),
       teamStandings[2].favor];
     wcLeaders[secondDivLeader.division] = [
-      secondDivLeader.wins - secondDivLeader.losses,
+      secondDivLeader.wins - 
+        (secondDivLeader.gamesPlayed - secondDivLeader.wins),
       secondDivLeader.favor];
   } else {
     //both teams have the same Wild Card leader, 4th place
     // high, low, high, low, etc..
     wcLeaders[firstDiv] = [
-      teamStandings[3].wins - teamStandings[3].losses,
+      teamStandings[3].wins - 
+        (teamStandings[3].gamesPlayed - teamStandings[3].wins),
       teamStandings[3].favor];
     wcLeaders[secondDivLeader.division] = [
-      teamStandings[3].wins - teamStandings[3].losses,
+      teamStandings[3].wins - 
+        (teamStandings[3].gamesPlayed - teamStandings[3].wins),
       teamStandings[3].favor];
   }
   
-    
   for (int i = 1; i < teamStandings.length; i++){
     if(teamStandings[i] != secondDivLeader){
       int teamDiff = teamStandings[i].wins - 
-        teamStandings[i].losses;
+        (teamStandings[i].gamesPlayed - teamStandings[i].wins);
       List divLeader = divLeaders[teamStandings[i].division];
       num gbDiv = ( divLeader[0] - teamDiff ) / 2;
       if (divLeader[1] < teamStandings[i].favor){
@@ -190,7 +204,8 @@ void _calculateWinningMagicNumbers(List<TeamStandings> teamStandings) {
   bool top3Same = teamStandings.take(3).every((team) =>
     team.division == firstDiv);
   for (int i = 0; i < teamStandings.length; i++){
-    int maxWins = 99 - teamStandings[i].losses;
+    int maxWins = (99 - teamStandings[i].gamesPlayed) +
+      teamStandings[i].wins;
 
     //print("${teamStandings[i]} maxWins: $maxWins");
     for (int j = 0; j < i && j < 4; j++){
@@ -253,7 +268,7 @@ void setWinningMagicNumber(TeamStandings standing, TeamStandings target,
   int winningIndex){
   //Wb + GRb - Wa + 1
   int magic = target.wins +
-    (99 - (target.wins + target.losses)) -
+    (99 - target.gamesPlayed) -
     standing.wins;
   if (standing.favor > target.favor) {
     //team b wins ties
@@ -283,7 +298,7 @@ void _calculatePartyTimeMagicNumbers(List<TeamStandings> teamStandings) {
     
   for (int i = 0; i < teamStandings.length; i++){
     var stand = teamStandings[i];
-    int maxWins = 99 - stand.losses;
+    int maxWins = (99 - stand.gamesPlayed) + stand.wins;
     for(int k = 0; k < 5; k++){
       switch(stand.winning[k]){
         case '^':
@@ -344,9 +359,10 @@ class TeamStandings {
   final String id;
   final String nickname;
   final String division;
-  final wins;
-  final losses;
+  final int wins;
+  final int losses;
   final int favor;
+  final int gamesPlayed;
   
   String gbDiv = '-';
   String gbWc = '-';
@@ -355,7 +371,7 @@ class TeamStandings {
   final List<String> partytime = ['-', '-', '-', '-', '-'];
   
   TeamStandings(this.id, this.nickname, this.division,
-    this.wins, this.losses, this.favor);
+    this.wins, this.losses, this.gamesPlayed, this.favor);
     
   Map toJson() => {
     'id': id,

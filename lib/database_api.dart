@@ -3,6 +3,7 @@ library database_api;
 import 'dart:convert';
 import 'package:http/http.dart';
 
+part 'game.dart';
 part 'league.dart';
 part 'season.dart';
 part 'simulationdata.dart';
@@ -68,6 +69,13 @@ Future<List<Team>> getTeams() async {
   List<dynamic> parsed = json.decode(response.body);
   List<Team> teams = parsed.map((json) => Team.fromJson(json)).toList();
   return teams;
+}
+
+Future<List<Game>> getGames(int season, int day) async {
+  var response = await get(_gamesByDateUrl + "?day=$day&season=$season");
+  List<dynamic> parsed = json.decode(response.body);
+  List<Game> games = parsed.map((json) => Game.fromJson(json)).toList();
+  return games;
 }
 
 Future<Tiebreakers> getTiebreakers(String id) async {

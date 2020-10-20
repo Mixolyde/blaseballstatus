@@ -58,7 +58,7 @@ Future<void> getContentPages() async {
 
   gamesbehindHTML = await HttpRequest.getString('gamesbehind.html');
   setMainContent(gamesbehindHTML);
-  await calcStats(simData.season);
+  await calcStats(simData);
   aboutHTML = await HttpRequest.getString('about.html');
   magicHTML = await HttpRequest.getString('magic.html');
   winningNotesHTML = await HttpRequest.getString('winningNotes.html');
@@ -72,7 +72,7 @@ Future<void> refreshData() async{
   simData = await getSimulationData();
   setSeasonDay(simData.season + 1, simData.day + 1);
   sitedata = await calcSiteData();
-  await calcStats(simData.season);
+  await calcStats(simData);
   
   TableElement standingsTable = querySelector('#standingsTable');
   while (standingsTable.rows.length > 2){
@@ -272,9 +272,9 @@ void populateGamesBehindTable(List<TeamStandings> subStandings){
   standings.forEach((row){
     TableRowElement trow = insertCommonCells(table, row);
     trow.insertCell(5)
-      ..text = (row.wins + row.losses).toString();    
+      ..text = row.gamesPlayed.toString();    
     trow.insertCell(6)
-      ..text = (99 - (row.wins + row.losses)).toString();       
+      ..text = (99 - row.gamesPlayed).toString();       
     trow.insertCell(7)
       ..text = row.gbDiv;        
     trow.insertCell(8)
