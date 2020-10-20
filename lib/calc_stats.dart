@@ -319,13 +319,11 @@ void _calculatePartyTimeMagicNumbers(List<TeamStandings> teamStandings) {
   }
 }
 
-//sort teams by wins, losses, divine favor
+//sort teams by wins, divine favor
 void sortTeamsNotGrouped(List<TeamStandings> teams) {
   teams.sort((a, b) {
     if(b.wins != a.wins){
       return b.wins.compareTo(a.wins);
-    } else if (b.losses != a.losses){
-      return a.losses.compareTo(b.losses);
     } else {
       return a.favor.compareTo(b.favor);
     }
