@@ -24,12 +24,19 @@ Future<void> main() async {
   Directory temp = Directory.systemTemp;
   print(temp);
   
-  //final filenameJSON = 'sitedata.json';
-  //final filenameJSON = 'web/${sub.id}.json';
-  //var sinkJSON = new File(filenameJSON).openWrite();
-  //sinkJSON.write(json.encode(sitedata));
-  //sinkJSON.close();
+  String filenameJSON = temp.path + '/sitedata.json';
+  var sinkJSON = new File(filenameJSON).openWrite();
+  sinkJSON.write(json.encode(sitedata));
+  sinkJSON.close();
   
+  filenameJSON = temp.path + '/${sitedata.sub1id}.json';
+  sinkJSON = new File(filenameJSON).openWrite();
+  sinkJSON.write(json.encode(subStandings[0]));
+  sinkJSON.close();
   
+  filenameJSON = temp.path + '/${sitedata.sub2id}.json';
+  sinkJSON = new File(filenameJSON).openWrite();
+  sinkJSON.write(json.encode(subStandings[1]));
+  sinkJSON.close();
 
 }

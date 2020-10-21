@@ -379,9 +379,13 @@ class TeamStandings {
     'division': division,
     'wins': wins,
     'losses': losses,
+    'gamesPlayed': gamesPlayed,
     'favor': favor,
-    'gbLg': '-',
-    'gbPo': '-',
+    'gbDiv': gbDiv,
+    'gbWc': gbWc,
+    'po': po,
+    'winning': winning,
+    'partytime': partytime,
   };
   
   @override
