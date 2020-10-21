@@ -527,6 +527,7 @@ List<TeamStandings> getEarlySeasonStandings(){
       standingsData[i][1],
       i * 3,
       34 - (i * 3),
+      34,
       standingsData[i][2],
     ));
   }
@@ -550,6 +551,7 @@ List<TeamStandings> getEarlySeasonResortNeededStandings(){
       div,
       i * 3,
       34 - (i * 3),
+      34,
       standingsData[i][2],
     ));
   }
@@ -567,6 +569,7 @@ List<TeamStandings> getLateSeasonStandings(){
       standingsData[i][1],
       standingsData[i][3],
       standingsData[i][4],
+      standingsData[i][3] + standingsData[i][4],
       standingsData[i][2],
     ));
   }
@@ -589,6 +592,7 @@ List<TeamStandings> getLateSeasonResortNeededStandings(){
       div,
       standingsData[i][3],
       standingsData[i][4],
+      standingsData[i][3] + standingsData[i][4],
       standingsData[i][2],
     ));
   }
@@ -603,6 +607,7 @@ List<TeamStandings> getNewSeasonStandings(){
       i.toString(),
       standingsData[i][0],
       standingsData[i][1],
+      0,
       0,
       0,
       standingsData[i][2],
@@ -623,6 +628,7 @@ List<TeamStandings> getEndOfSeasonStandings(){
       standingsData[i][1],
       99 - i,
       i,
+      99,
       standingsData[i][2],
     ));
   }
