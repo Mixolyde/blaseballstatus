@@ -44,7 +44,13 @@ String getUpdateTime(){
 Future<void> calcStats(SimulationData simData) async {
   print('Beginning stat calculations');
   _season = await getSeason(simData.season);
-  List<Game> games = await getGames(simData.season, simData.day);
+  
+  List<Game> games;
+  if (simData.day < 99){
+    games = await getGames(simData.season, simData.day);
+  } else {
+    games = await getGames(simData.season, 98);
+  }
   _standings = await getStandings(_season.standings);
 
   _allTeams = await getTeams();
@@ -78,10 +84,14 @@ Future<List<TeamStandings>> calculateSubLeague(Subleague sub, List<Game> games) 
       divName = div2.name.split(' ')[1];
     }
     
-    Game todayGame = games.firstWhere((g) =>
-      g.awayTeam == team.id || g.homeTeam == team.id);
-    int gamesPlayed = todayGame.gameComplete ?
-      day + 1 : day;
+    int gamesPlayed = 99;
+    if (day < 99){
+      //regular season
+      Game todayGame = games.firstWhere((g) =>
+        g.awayTeam == team.id || g.homeTeam == team.id);
+      gamesPlayed = todayGame.gameComplete ?
+        day + 1 : day;
+    }
     
     TeamStandings standing = 
       new TeamStandings(team.id, team.nickname, divName,

@@ -96,9 +96,13 @@ Future<void> refreshData() async{
 }
 
 void setSeasonDay(int season, int day){
-  querySelector('.wkinfo').text = 
-    "Season $season: " + 
-    "Day $day";
+  if(day < 100){
+    querySelector('.wkinfo').text = 
+      "Season $season: Day $day";
+  } else {
+    querySelector('.wkinfo').text = 
+      "Season $season: Postseason";    
+  }
 }
 
 void addListeners(){
