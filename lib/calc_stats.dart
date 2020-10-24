@@ -9,6 +9,7 @@ Subleague _sub2;
 List<List<TeamStandings>> subStandings;
 
 List<Team> _allTeams;
+SimulationData _simData;
 Season _season;
 Standings _standings;
 Tiebreakers _tiebreakers;
@@ -18,7 +19,7 @@ List<String> _monthOfYear = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"
 
 NumberFormat f = new NumberFormat("#", "en_US");
   
-Future<SiteData> calcSiteData() async {
+Future<SiteData> calcSiteData(SimulationData simData) async {
   _league = await getLeague();
   _sub1 = await getSubleague(_league.subleagueId1);
   _sub2 = await getSubleague(_league.subleagueId2);
@@ -26,6 +27,7 @@ Future<SiteData> calcSiteData() async {
   String lastUpdate = getUpdateTime();
   
   SiteData sitedata = new SiteData(lastUpdate, 
+    simData.season, simData.day,
     _sub1.id, _sub1.name, 
     _sub2.id, _sub2.name);
   print(sitedata);

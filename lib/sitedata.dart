@@ -2,6 +2,8 @@ part of database_api;
 
 class SiteData {
   final String lastUpdate;
+  final int season;
+  final int day;
   final String sub1id;
   final String sub1name;
   final String sub2id;
@@ -11,15 +13,21 @@ class SiteData {
     [sub1name.split(' ')[1],
     sub2name.split(' ')[1]];
   
-  SiteData.fromMap({this.lastUpdate, this.sub1id, this.sub1name,
+  SiteData.fromMap({this.lastUpdate, 
+    this.season, this.day,
+    this.sub1id, this.sub1name,
     this.sub2id, this.sub2name});
   
-  SiteData(this.lastUpdate, this.sub1id, this.sub1name,
+  SiteData(this.lastUpdate, 
+    this.season, this.day,
+    this.sub1id, this.sub1name,
     this.sub2id, this.sub2name);
   
   factory SiteData.fromJson(Map<String, dynamic> json){
     return SiteData.fromMap(
       lastUpdate: json['lastUpdate'] as String,
+      season: json['season'] as int,
+      day: json['day'] as int,
       sub1id: json['sub1id'] as String,
       sub1name: json['sub1name'] as String,
       sub2id: json['sub2id'] as String,
@@ -29,9 +37,11 @@ class SiteData {
   
   Map toJson() => {
       'lastUpdate': lastUpdate,
-      'sub1id': sub1id,
+      'season':   season,
+      'day':      day,
+      'sub1id':   sub1id,
       'sub1name': sub1name,
-      'sub2id': sub2id,
+      'sub2id':   sub2id,
       'sub2name': sub2name,
   };
   
