@@ -24,19 +24,34 @@ Future<void> main() async {
   Directory temp = Directory.systemTemp;
   print(temp);
   
-  String filenameJSON = temp.path + '/sitedata.json';
+  String filenameJSON = temp.path + '/data/sitedata.json';
   var sinkJSON = new File(filenameJSON).openWrite();
   sinkJSON.write(json.encode(sitedata));
   sinkJSON.close();
   
-  filenameJSON = temp.path + '/${sitedata.sub1id}.json';
+  filenameJSON = temp.path + '/data/${sitedata.sub1id}.json';
   sinkJSON = new File(filenameJSON).openWrite();
   sinkJSON.write(json.encode(subStandings[0]));
   sinkJSON.close();
   
-  filenameJSON = temp.path + '/${sitedata.sub2id}.json';
+  filenameJSON = temp.path + '/data/${sitedata.sub2id}.json';
   sinkJSON = new File(filenameJSON).openWrite();
   sinkJSON.write(json.encode(subStandings[1]));
   sinkJSON.close();
 
+  uploadFiles();
+
 }
+
+void uploadFiles() {
+  Process.run('/usr/bin/aws', ['s3', 'cp', '/tmp/data/',
+    's3://blaseball-status/data/', '--include="*.json"',
+    '--recursive']).then((ProcessResult results) {
+    print(results.stdout);
+    print(results.stderr);
+  });
+
+}
+
+
+

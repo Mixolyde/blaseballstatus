@@ -69,7 +69,7 @@ Future<void> calcStats(SimulationData simData) async {
 
 Future<List<TeamStandings>> calculateSubLeague(Subleague sub, List<Game> games) async{
   int day = games[0].day;
-  print("Day $day $sub");
+  print("Day ${day + 1} $sub");
   Division div1 = await getDivision(sub.divisionId1);
   Division div2 = await getDivision(sub.divisionId2);
   List<Team> teams = _allTeams.where((t) => 
