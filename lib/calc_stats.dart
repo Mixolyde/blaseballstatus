@@ -44,7 +44,7 @@ String getUpdateTime(){
 }
 
 Future<void> calcStats(SimulationData simData) async {
-  print('Beginning stat calculations');
+  print('Beginning stat calculations for season: ${simData.season + 1}');
   _season = await getSeason(simData.season);
   
   List<Game> games;

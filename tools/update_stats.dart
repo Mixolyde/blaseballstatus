@@ -8,13 +8,13 @@ import '../lib/database_api.dart';
 Future<void> main() async {  
   apiUrl = "https://blaseball.com/database/";
   
+  //overall blaseball status data
+  SimulationData simData = await getSimulationData();
   //site data
-  print("Getting site data");
-  SiteData sitedata = await calcSiteData();
+  SiteData sitedata = await calcSiteData(simData);
   print(sitedata);
   
-  //get subleague standings
-  SimulationData simData = await getSimulationData();
+  //get subleague standings and calculate stats
   await calcStats(simData);
   
   //print out data
