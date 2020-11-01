@@ -46,7 +46,7 @@ Future<void> main() async {
 void uploadFiles() {
   Process.run('/usr/bin/aws', ['s3', 'cp', '/tmp/data/',
     's3://blaseball-status/data/', '--include="*.json"',
-    '--recursive']).then((ProcessResult results) {
+    '--recursive', '--acl=public-read']).then((ProcessResult results) {
     print(results.stdout);
     print(results.stderr);
   });
