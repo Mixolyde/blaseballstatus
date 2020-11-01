@@ -21,6 +21,8 @@ Future<void> main() async {
   print(subStandings[0]);
   print(subStandings[1]);
   
+  //TODO write out tiebreakers for about page
+  
   Directory temp = Directory.systemTemp;
   print(temp);
   

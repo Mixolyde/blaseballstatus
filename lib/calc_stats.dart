@@ -373,8 +373,8 @@ class TeamStandings {
   final String division;
   final int wins;
   final int losses;
-  final int favor;
   final int gamesPlayed;
+  final int favor;
   
   String gbDiv = '-';
   String gbWc = '-';
@@ -384,6 +384,23 @@ class TeamStandings {
   
   TeamStandings(this.id, this.nickname, this.division,
     this.wins, this.losses, this.gamesPlayed, this.favor);
+    
+  TeamStandings.fromMap({this.id, 
+    this.nickname, this.division,
+    this.wins, this.losses,
+    this.gamesPlayed, this.favor});
+    
+  factory TeamStandings.fromJson(Map<String, dynamic> json){
+    return TeamStandings.fromMap(
+      id: json['id'] as String,
+      nickname: json['nickname'] as String,
+      division: json['division'] as String,
+      wins: json['wins'] as int,
+      losses: json['losses'] as int,
+      gamesPlayed: json['gamesPlayed'] as int,
+      favor: json['favor'] as int,
+    );
+  }
     
   Map toJson() => {
     'id': id,

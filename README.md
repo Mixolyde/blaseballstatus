@@ -14,11 +14,12 @@ Published at https://mixolyde.github.io/blaseballstatus
 * Automate static data calculations
 * Unit test coverage report
 * Postseason chances
-* Postseason Schedule
+* Postseason schedule
 * Pull database api code out into a separate library
 * Team emoji in table entries
 * Move project to a blaseball-specific account on github
 * Get a twitter account and button
+* Reduce API calls during siesta
 
 ## Planned release schedule
 * v0.0.1 
