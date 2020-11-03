@@ -13,8 +13,8 @@ final String _sitedataUrl = _apiUrl + "sitedata.json";
 
 Future<SiteData> getSiteData() async {
   var response = await get( _sitedataUrl );
-  print('Url: $_sitedataUrl');
-  print('Response body: ${response.body}');
+  //print('Url: $_sitedataUrl');
+  //print('Response body: ${response.body}');
   
   SiteData sitedata = SiteData.fromJson(json.decode(response.body));
 

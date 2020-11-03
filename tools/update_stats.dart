@@ -15,13 +15,11 @@ Future<void> main() async {
   print(sitedata);
   
   //get subleague standings and calculate stats
-  await calcStats(simData);
+  List<List<TeamStandings>> subStandings = await calcStats(simData);
   
   //print out data
   print(subStandings[0]);
   print(subStandings[1]);
-  
-  //TODO write out tiebreakers for about page
   
   Directory temp = Directory.systemTemp;
   print(temp);

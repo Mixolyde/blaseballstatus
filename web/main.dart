@@ -5,6 +5,7 @@ import 'dart:html';
 import 'package:blaseballstatus/calc_stats.dart';
 import 'package:blaseballstatus/current_view.dart';
 import 'package:blaseballstatus/database_api.dart';
+import 'package:blaseballstatus/s3_api.dart' as s3;
 
 import 'package:cron/cron.dart';
 
@@ -13,7 +14,6 @@ String gamesbehindHTML;
 String magicHTML;
 String winningNotesHTML;
 String partytimeNotesHTML;
-SimulationData simData;
 SiteData sitedata;
 
 CurrentView currentView = new CurrentView();
@@ -23,7 +23,6 @@ void main() {
     print("Retrieved content pages and data");
     
     CurrentView loadedView = loadCurrentView();
-    
     print("LoadedView: $loadedView");
 
     currentView.activeLeague = loadedView.activeLeague;
@@ -39,7 +38,7 @@ void main() {
     //setup auto refresh
     var cron = new Cron();
     //Every five minutes from 20-50 after Mon - Sat
-    cron.schedule(new Schedule.parse('20,25,30,35,40,45,50 * * * 1-6'), () async {
+    cron.schedule(new Schedule.parse('21,26,31,36,41,46,51 * * * 1-6'), () async {
       if(!document.hidden && 
         currentView.activeView != View.about){
         refreshData();
@@ -49,16 +48,16 @@ void main() {
 }
 
 Future<void> getContentPages() async {
-  simData = await getSimulationData();
-  setSeasonDay(simData.season + 1, simData.day + 1);
-  sitedata = await calcSiteData(simData);
+  sitedata = await s3.getSiteData();
+  setSeasonDay(sitedata.season + 1, sitedata.day + 1);
+  subStandings = await s3.getSubStandings(sitedata);
+  
   querySelector('#lastUpdate').text = sitedata.lastUpdate;
   querySelector('#pickLeague1').text = sitedata.subnicknames[0];
   querySelector('#pickLeague2').text = sitedata.subnicknames[1];
 
   gamesbehindHTML = await HttpRequest.getString('gamesbehind.html');
   setMainContent(gamesbehindHTML);
-  await calcStats(simData);
   aboutHTML = await HttpRequest.getString('about.html');
   magicHTML = await HttpRequest.getString('magic.html');
   winningNotesHTML = await HttpRequest.getString('winningNotes.html');
@@ -67,12 +66,10 @@ Future<void> getContentPages() async {
 
 Future<void> refreshData() async{
   //get all data for displaying
-  String lastUpdate = getUpdateTime();
-  print('Refreshing data at $lastUpdate');
-  simData = await getSimulationData();
-  setSeasonDay(simData.season + 1, simData.day + 1);
-  sitedata = await calcSiteData(simData);
-  await calcStats(simData);
+  print('Refreshing data');
+  sitedata = await s3.getSiteData();
+  setSeasonDay(sitedata.season + 1, sitedata.day + 1);
+  subStandings = await s3.getSubStandings(sitedata);
   
   TableElement standingsTable = querySelector('#standingsTable');
   while (standingsTable.rows.length > 2){
@@ -243,7 +240,6 @@ void redisplayData(){
     querySelector('#leagueTitle').text = 
       sitedata.subnicknames[currentView.activeLeague]; 
     populateGamesBehindTable(subStandings[currentView.activeLeague]);
-
     break;
   case View.winningmagic:
     setMainContent(magicHTML);

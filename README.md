@@ -11,7 +11,6 @@ Published at https://mixolyde.github.io/blaseballstatus
 * Factor future schedule into magic numbers
 * Simulate playoff chances
 * Schedule pages
-* Automate static data calculations
 * Unit test coverage report
 * Postseason chances
 * Postseason schedule
@@ -20,6 +19,7 @@ Published at https://mixolyde.github.io/blaseballstatus
 * Move project to a blaseball-specific account on github
 * Get a twitter account and button
 * Reduce API calls during siesta
+* Store tiebreakers in static file
 
 ## Planned release schedule
 * v0.0.1 
@@ -39,9 +39,10 @@ Published at https://mixolyde.github.io/blaseballstatus
 - [x] New playoff birth rules
 - [x] Group by division toggle
 - [x] Properly calculate games played
-- [ ] Automate static data updates during the season
+- [x] Automate static data updates during the season
 * v0.0.5
 - [ ] Playoff prediction percentages
+* v0.0.6
 - [ ] Postseason content
 
 ## Contributing

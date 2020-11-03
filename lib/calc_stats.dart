@@ -43,7 +43,7 @@ String getUpdateTime(){
     "${now.day} ${f.format(now.hour)}${f.format(now.minute)}";
 }
 
-Future<void> calcStats(SimulationData simData) async {
+Future<List<List<TeamStandings>>> calcStats(SimulationData simData) async {
   print('Beginning stat calculations for season: ${simData.season + 1}');
   _season = await getSeason(simData.season);
   
@@ -63,7 +63,7 @@ Future<void> calcStats(SimulationData simData) async {
   List<TeamStandings> sub2Standings = 
     await calculateSubLeague(_sub2, games);
   
-  subStandings = [sub1Standings, sub2Standings];
+  return [sub1Standings, sub2Standings];
     
 }
 
