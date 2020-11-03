@@ -388,7 +388,16 @@ class TeamStandings {
   TeamStandings.fromMap({this.id, 
     this.nickname, this.division,
     this.wins, this.losses,
-    this.gamesPlayed, this.favor});
+    this.gamesPlayed, this.favor,
+    this.gbDiv, this.gbWc,
+    po, winning, partytime}){
+    for(int i = 0; i < 5; i++){
+      this.po[i] = po[i].toString();
+      this.winning[i] = winning[i].toString();
+      this.partytime[i] = partytime[i].toString();
+    }
+  }
+    
     
   factory TeamStandings.fromJson(Map<String, dynamic> json){
     return TeamStandings.fromMap(
@@ -399,6 +408,11 @@ class TeamStandings {
       losses: json['losses'] as int,
       gamesPlayed: json['gamesPlayed'] as int,
       favor: json['favor'] as int,
+      gbDiv: json['gbDiv'] as String,
+      gbWc: json['gbWc'] as String,
+      po: json['po'] as List<dynamic>,
+      winning: json['winning'] as List<dynamic>,
+      partytime: json['partytime'] as List<dynamic>,
     );
   }
     

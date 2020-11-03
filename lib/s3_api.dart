@@ -26,14 +26,22 @@ Future<List<List<TeamStandings>>> getSubStandings(SiteData sitedata) async {
   print('Url: ${_apiUrl + sitedata.sub1id}.json');
   //print('Response body: ${response.body}');
   
-  List<TeamStandings> sub1Standings = new List<TeamStandings>();
-  json.decode(response.body).forEach((j){ 
-    TeamStandings standings = TeamStandings.fromJson(j);
-    
-    sub1Standings.add(standings);
-  });
+  List<TeamStandings> sub1Standings = decodeStandings(response.body);
 
-  List<TeamStandings> sub2Standings;
+  response = await get( _apiUrl + "${sitedata.sub2id}.json");
+  print('Url: ${_apiUrl + sitedata.sub2id}.json');
+  
+  List<TeamStandings> sub2Standings = decodeStandings(response.body);
   
   return [sub1Standings, sub2Standings];
+}
+
+List<TeamStandings> decodeStandings(String body){
+  List<TeamStandings> subStandings = new List<TeamStandings>();
+  json.decode(body).forEach((j){ 
+    TeamStandings standings = TeamStandings.fromJson(j);
+    subStandings.add(standings);
+  });
+  
+  return subStandings;
 }
