@@ -6,6 +6,7 @@ import 'package:blaseballstatus/calc_stats.dart';
 import 'package:blaseballstatus/current_view.dart';
 import 'package:blaseballstatus/database_api.dart';
 import 'package:blaseballstatus/s3_api.dart' as s3;
+import 'package:blaseballstatus/site_objects.dart';
 
 import 'package:cron/cron.dart';
 

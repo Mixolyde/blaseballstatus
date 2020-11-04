@@ -1,4 +1,4 @@
-part of database_api;
+part of site_objects;
 
 class SiteData {
   final String lastUpdate;

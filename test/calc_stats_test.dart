@@ -1,6 +1,7 @@
 import 'package:test/test.dart';
 
 import '../lib/calc_stats.dart';
+import '../lib/site_objects.dart';
 
 void main() {
   group('Sort div leader tests', () {

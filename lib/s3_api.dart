@@ -3,8 +3,9 @@ library s3_api;
 import 'dart:convert';
 import 'package:http/http.dart';
 
-import 'database_api.dart';
 import 'calc_stats.dart';
+import 'database_api.dart';
+import 'site_objects.dart';
 
 
 String _apiUrl = "https://blaseball-status.s3.amazonaws.com/data/";

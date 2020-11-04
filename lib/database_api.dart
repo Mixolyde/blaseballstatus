@@ -2,12 +2,12 @@ library database_api;
 
 import 'dart:convert';
 import 'package:http/http.dart';
+import 'site_objects.dart';
 
 part 'game.dart';
 part 'league.dart';
 part 'season.dart';
 part 'simulationdata.dart';
-part 'sitedata.dart';
 part 'standings.dart';
 part 'team.dart';
 part 'tiebreakers.dart';

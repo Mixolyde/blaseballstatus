@@ -1,6 +1,7 @@
 import 'package:test/test.dart';
 
 import '../lib/database_api.dart';
+import '../lib/site_objects.dart';
 
 void main() {
   apiTests();
