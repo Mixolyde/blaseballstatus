@@ -44,11 +44,16 @@ Completed Game
 "homeStrikes":3,"repeatCount":0,"seriesIndex":1,
 "terminology":"b67e9bbb-1495-4e1b-b517-f1444b0a6c8b",
 "topOfInning":false,"atBatStrikes":0,
-"awayTeamName":"Miami Dale","gameComplete":true,
-"homeTeamName":"Boston Flowers","isPostseason":false,
-"seriesLength":3,"awayTeamColor":"#9141ba",
-"awayTeamEmoji":"0x1F6A4","basesOccupied":[],
-"homeTeamColor":"#f7d1ff","homeTeamEmoji":"0x1F339",
+"awayTeamName":"Miami Dale",
+"gameComplete":true,
+"homeTeamName":"Boston Flowers",
+"isPostseason":false,
+"seriesLength":3,
+"awayTeamColor":"#9141ba",
+"awayTeamEmoji":"0x1F6A4",
+"basesOccupied":[],
+"homeTeamColor":"#f7d1ff",
+"homeTeamEmoji":"0x1F339",
 "awayBatterName":"","halfInningOuts":0,
 "homeBatterName":"","awayPitcherName":"Sixpack Santiago",
 "baseRunnerNames":[],"baserunnerCount":0,
@@ -63,10 +68,40 @@ Unplayed Game
 "startTime":null,"endTime":null,
 "data":{"id":"c814d7fc-682d-48f9-9e08-1a22a138fc8d",
 "day":98,"phase":0,
-"rules":"4ae9d46a-5408-460a-84fb-cbd8d03fff6c","shame":false,"inning":0,"season":9,"weather":11,"awayOdds":0,"awayTeam":"3f8bbb15-61c0-4e3f-8e4a-907a5fb1565e","homeOdds":0,"homeTeam":"b63be8c2-576a-4d6e-8daf-814f8bcea96f","outcomes":[],"awayBases":5,"awayScore":0,"finalized":false,"gameStart":false,"homeBases":5,"homeScore":0,"statsheet":"5b4fcbe6-797c-42ed-a57d-0f6f9653f7c0","atBatBalls":0,"awayBatter":null,"homeBatter":null,"lastUpdate":"","awayPitcher":null,"awayStrikes":3,"baseRunners":[],"homePitcher":null,"homeStrikes":3,"repeatCount":0,"seriesIndex":3,"terminology":"b67e9bbb-1495-4e1b-b517-f1444b0a6c8b","topOfInning":true,"atBatStrikes":0,"awayTeamName":"Boston Flowers","gameComplete":false,"homeTeamName":"Miami Dale","isPostseason":false,"seriesLength":3,"awayTeamColor":"#f7d1ff","awayTeamEmoji":"0x1F339","basesOccupied":[],"homeTeamColor":"#9141ba","homeTeamEmoji":"0x1F6A4","awayBatterName":"","halfInningOuts":0,"homeBatterName":"","awayPitcherName":"","baseRunnerNames":[],"baserunnerCount":0,"halfInningScore":0,"homePitcherName":"","awayTeamNickname":"Flowers","homeTeamNickname":"Dale","awayTeamBatterCount":0,"homeTeamBatterCount":0,"awayTeamSecondaryColor":"#f7d1ff","homeTeamSecondaryColor":"#cd76fa"}}
+"rules":"4ae9d46a-5408-460a-84fb-cbd8d03fff6c",
+"shame":false,"inning":0,"season":9,
+"weather":11,
+"awayOdds":0,"awayTeam":"3f8bbb15-61c0-4e3f-8e4a-907a5fb1565e",
+"homeOdds":0,"homeTeam":"b63be8c2-576a-4d6e-8daf-814f8bcea96f",
+"outcomes":[],"awayBases":5,"awayScore":0,
+"finalized":false,"gameStart":false,
+"homeBases":5,"homeScore":0,
+"statsheet":"5b4fcbe6-797c-42ed-a57d-0f6f9653f7c0",
+"atBatBalls":0,"awayBatter":null,"homeBatter":null,
+"lastUpdate":"","awayPitcher":null,"awayStrikes":3,
+"baseRunners":[],"homePitcher":null,"homeStrikes":3,
+"repeatCount":0,"seriesIndex":3
+,"terminology":"b67e9bbb-1495-4e1b-b517-f1444b0a6c8b",
+"topOfInning":true,"atBatStrikes":0,
+"awayTeamName":"Boston Flowers",
+"gameComplete":false,
+"homeTeamName":"Miami Dale","isPostseason":false,
+"seriesLength":3,"awayTeamColor":"#f7d1ff",
+"awayTeamEmoji":"0x1F339","basesOccupied":[],
+"homeTeamColor":"#9141ba","homeTeamEmoji":"0x1F6A4",
+"awayBatterName":"","halfInningOuts":0,
+"homeBatterName":"","awayPitcherName":"",
+"baseRunnerNames":[],"baserunnerCount":0,
+"halfInningScore":0,"homePitcherName":"",
+"awayTeamNickname":"Flowers",
+"homeTeamNickname":"Dale","awayTeamBatterCount":0,
+"homeTeamBatterCount":0,"awayTeamSecondaryColor":"#f7d1ff",
+"homeTeamSecondaryColor":"#cd76fa"}}
 */
 class Game {
   String gameId;
+  int day;
+  bool gameComplete;
   
   
 }
