@@ -18,6 +18,11 @@ Future<void> calculateChances() async {
   List<TeamSim> sims = new List<TeamSim>();
   standings.wins.forEach((id, count) {
     print("Creating TeamSim $id $count");
+    int actualWins = games.where((g) =>
+      (g.awayTeam == id && g.awayScore > g.homeScore) ||
+      (g.homeTeam == id && g.homeScore > g.awayScore)).length;
+    
+    
   });
   
   //simulate season 1,000 times and gather results
@@ -45,6 +50,8 @@ class TeamSim {
   int actualWins_save;
   int wins_save;
   int losses_save;
+  
+  TeamSim(this.id, this.actualWins, this.wins, this.losses);
   
   void save(){
     actualWins_save = actualWins;

@@ -60,14 +60,19 @@ class Game {
   final String id;  
   final String awayTeam;
   final String awayTeamNickname;
+  final int awayScore;
   final String homeTeam;
   final String homeTeamNickname;
+  final int homeScore;
   final bool gameComplete;
   final int season;
   final int day;
   
   Game({this.id, this.awayTeam, this.awayTeamNickname,
-    this.homeTeam, this.homeTeamNickname, this.gameComplete,
+    this.awayScore,
+    this.homeTeam, this.homeTeamNickname, 
+    this.homeScore,
+    this.gameComplete,
     this.season, this.day});
     
   factory Game.fromJson(Map<String, dynamic> json){
@@ -75,8 +80,10 @@ class Game {
       id: json['id'] as String,
       awayTeam: json['awayTeam'] as String,
       awayTeamNickname: json['awayTeamNickname'] as String,
+      awayScore: json['awayScore'] as int,
       homeTeam: json['homeTeam'] as String,
-      homeTeamNickname: json['homeTeamNickname'] as String, 
+      homeTeamNickname: json['homeTeamNickname'] as String,
+      homeScore: json['homeScore'] as int,      
       gameComplete: json['gameComplete'] as bool,
       season: json['season'] as int,
       day: json['day'] as int,

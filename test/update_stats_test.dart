@@ -10,13 +10,13 @@ import '../lib/site_objects.dart';
 void main() {
   group('update tests', () {
     test('update and load objects', () async {
-      update.main();
+      await update.main();
       
       Directory temp = Directory.systemTemp;
       File aws = new File(temp.path + '/data/sitedata.json');
       
       bool exists = await aws.exists();
-      if(exists){
+      // if(exists){
 
         String filenameJSON = temp.path + '/data/sitedata.json';
         String body = await new File(filenameJSON).readAsString();     
@@ -46,9 +46,9 @@ void main() {
         expect(standings[0].id.length, greaterThan(0));
         expect(standings[0].gbDiv.length, greaterThan(0));
         expect(standings[0].gbWc.length, greaterThan(0));      
-      } else {
-        print ("Test output file not found");
-      }
+      //} else {
+        //print ("Test output file not found");
+      //}
       
     });
   });
