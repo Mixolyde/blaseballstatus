@@ -5,7 +5,6 @@ import '../lib/calc_stats.dart';
 import '../lib/database_api.dart';
 import '../lib/site_objects.dart';
 
-
 Future<void> main() async {  
   apiUrl = "https://blaseball.com/database/";
   
@@ -40,7 +39,11 @@ Future<void> main() async {
   sinkJSON.write(json.encode(subStandings[1]));
   sinkJSON.close();
 
-  uploadFiles();
+  File aws = new File("/usr/bin/aws");
+  bool exists = await aws.exists();
+  if(exists){
+    uploadFiles();
+  }
 
 }
 
