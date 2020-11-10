@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:intl/intl.dart';
 import '../lib/calc_stats.dart';
 import '../lib/database_api.dart';
+import '../lib/sim_season.dart';
 import '../lib/site_objects.dart';
 
 Future<void> main() async {  
@@ -20,6 +21,8 @@ Future<void> main() async {
   //print out data
   print(subStandings[0]);
   print(subStandings[1]);
+  
+  var chances = await calculateChances();
   
   Directory temp = Directory.systemTemp;
   print(temp);
