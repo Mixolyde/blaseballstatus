@@ -27,6 +27,9 @@ Future<void> main() async {
   Directory temp = Directory.systemTemp;
   print(temp);
   
+  Directory dataDir = new Directory(temp.path + '/data/');
+  await dataDir.create(recursive: true);
+  
   String filenameJSON = temp.path + '/data/sitedata.json';
   var sinkJSON = new File(filenameJSON).openWrite();
   sinkJSON.write(json.encode(sitedata));
