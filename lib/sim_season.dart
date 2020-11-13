@@ -15,30 +15,34 @@ Future<void> calculateChances() async {
   standings = await getStandings(season.standings);
   games = await getAllGames(simData.season);
   
+  print(games[0]);
+  
   List<TeamSim> sims = new List<TeamSim>();
   standings.wins.forEach((id, count) {
-    print("Creating TeamSim $id $count");
+    //print("Creating TeamSim $id $count");
     int actualWins = games.where((g) =>
       (g.awayTeam == id && g.awayScore > g.homeScore) ||
       (g.homeTeam == id && g.homeScore > g.awayScore)).length;
-    
-    
+    TeamSim sim = new TeamSim(id, actualWins,
+      count, standings.losses[id]);
+    sim.save();
+    sims.add(sim);
+    print(sim);
   });
   
-  //simulate season 1,000 times and gather results
-  _simulateSeason(games);
+  //simulate season X times and gather results
+  simulateSeason(games, sims);
   
 }
 
-void _simulateSeason(List<Game> games){
-  //get current standings
-  
-  //calculate "real" win rate"
-  
+List<TeamSim> simulateSeason(List<Game> games, List<TeamSim> sims){
   //simulate unplayed games
+  games.where((g) => !g.gameComplete).forEach((g) {
+    print("Simulate outcome of $g");
+  });
   
   //return standings
-
+  return sims;
 }
 
 class TeamSim {
@@ -65,6 +69,6 @@ class TeamSim {
     losses = losses_save;
   }
   
-  
+  String toString() => "$id $actualWins-$losses ($wins - $losses)";
   
 }

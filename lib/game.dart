@@ -80,10 +80,10 @@ class Game {
       id: json['id'] as String,
       awayTeam: json['awayTeam'] as String,
       awayTeamNickname: json['awayTeamNickname'] as String,
-      awayScore: json['awayScore'] as int,
+      awayScore: json['awayScore'].toInt() as int,
       homeTeam: json['homeTeam'] as String,
       homeTeamNickname: json['homeTeamNickname'] as String,
-      homeScore: json['homeScore'] as int,      
+      homeScore: json['homeScore'].toInt() as int,      
       gameComplete: json['gameComplete'] as bool,
       season: json['season'] as int,
       day: json['day'] as int,
@@ -92,6 +92,7 @@ class Game {
   }
 
   @override
-  String toString() => "$awayTeamNickname @ $homeTeamNickname Completed: $gameComplete";
+  String toString() => "Day $day $awayTeamNickname @ $homeTeamNickname " +
+    "Completed: $gameComplete Score $awayScore-$homeScore";
   
 }
