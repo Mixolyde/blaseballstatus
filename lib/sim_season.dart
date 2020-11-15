@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:intl/intl.dart';
-import 'chronicler_api.dart';
 import 'calc_stats.dart';
 import 'database_api.dart';
 
@@ -35,14 +34,12 @@ Future<void> calculateChances() async {
   
 }
 
-List<TeamSim> simulateSeason(List<Game> games, List<TeamSim> sims){
+void simulateSeason(List<Game> games, List<TeamSim> sims){
   //simulate unplayed games
   games.where((g) => !g.gameComplete).forEach((g) {
     print("Simulate outcome of $g");
   });
   
-  //return standings
-  return sims;
 }
 
 class TeamSim {

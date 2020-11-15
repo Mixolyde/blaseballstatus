@@ -78,6 +78,17 @@ Future<List<Game>> getGames(int season, int day) async {
   return games;
 }
 
+Future<List<Game>> getAllGames(int season) async {
+  List<Game> games = new List<Game>();
+  for(int day = 0; day < 130; day++){
+    print("Getting day games: Season $season Day $day");
+    List<Game> dayGames = await getGames(season, day);
+    games.addAll(dayGames);
+  }
+
+  return games;
+}
+
 Future<Tiebreakers> getTiebreakers(String id) async {
   var response = await get(_tiebreakersUrl + id);
   var decjson = json.decode(response.body)[0];

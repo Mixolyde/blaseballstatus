@@ -82,6 +82,15 @@ void apiTests() {
       expect(current[0], isNotNull);      
       print("Day 98 Game 0: ${current[0]}");
     });     
+    test('Get all games of season', () async {
+      SimulationData data = await getSimulationData();
+      List<Game> current = await getAllGames(data.season);
+      expect(current, isNotNull);
+      expect(current.length, greaterThan(10));
+      expect(current[0], isNotNull);      
+      print("Day 0 Game 0: ${current[0]}");
+      print("Last Game: ${current.last}");
+    }, timeout: Timeout(Duration(minutes: 2)));     
   });
 
 }
