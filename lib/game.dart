@@ -60,10 +60,10 @@ class Game {
   final String id;  
   final String awayTeam;
   final String awayTeamNickname;
-  final int awayScore;
+  final num awayScore;
   final String homeTeam;
   final String homeTeamNickname;
-  final int homeScore;
+  final num homeScore;
   final bool gameComplete;
   final int season;
   final int day;
@@ -80,10 +80,10 @@ class Game {
       id: json['id'] as String,
       awayTeam: json['awayTeam'] as String,
       awayTeamNickname: json['awayTeamNickname'] as String,
-      awayScore: json['awayScore'].toInt() as int,
+      awayScore: json['awayScore'] as num,
       homeTeam: json['homeTeam'] as String,
       homeTeamNickname: json['homeTeamNickname'] as String,
-      homeScore: json['homeScore'].toInt() as int,      
+      homeScore: json['homeScore'] as num,      
       gameComplete: json['gameComplete'] as bool,
       season: json['season'] as int,
       day: json['day'] as int,
