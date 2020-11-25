@@ -4,13 +4,13 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'site_objects.dart';
 
-part 'game.dart';
-part 'league.dart';
-part 'season.dart';
-part 'simulationdata.dart';
-part 'standings.dart';
-part 'team.dart';
-part 'tiebreakers.dart';
+part 'src/game.dart';
+part 'src/league.dart';
+part 'src/season.dart';
+part 'src/simulationdata.dart';
+part 'src/standings.dart';
+part 'src/team.dart';
+part 'src/tiebreakers.dart';
 
 String apiUrl = "https://cors-proxy.blaseball-reference.com/database/";
 

@@ -1,4 +1,4 @@
 library site_objects;
 
-part 'sitedata.dart';
-part 'team_standings.dart';
+part 'src/sitedata.dart';
+part 'src/team_standings.dart';
