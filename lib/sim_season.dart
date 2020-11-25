@@ -10,7 +10,7 @@ Standings standings;
 List<Game> games;
 Random rand = new Random(0);
 
-Future<void> calculateChances() async {
+Future<void> calculateChances(int numSims) async {
   simData = await getSimulationData();
   season = await getSeason(simData.season);
   standings = await getStandings(season.standings);
@@ -18,10 +18,23 @@ Future<void> calculateChances() async {
   
   print(games[0]);
   
+  Map<String, List<num>> results = runSimulations(games, standings, numSims);
+  
+}
+
+Map<String, List<num>> runSimulations(List<Game> games, Standings standings, int numSims){
   Map<String, TeamSim> sims = mapTeamSims(standings, games);
   
   //simulate season X times and gather results
-  simulateSeason(games, sims);
+  Map<String, List<num>> results = new Map<String, List<num>>();
+  
+  for (int count = 0; count < numSims; count++){
+    simulateSeason(games, sims);
+    
+    sims.values.forEach((sim) => sim.load());
+  }  
+  
+  return results;
   
 }
 

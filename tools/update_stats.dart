@@ -22,7 +22,7 @@ Future<void> main() async {
   print(subStandings[0]);
   print(subStandings[1]);
   
-  var chances = await calculateChances();
+  var chances = await calculateChances(5);
   
   Directory temp = Directory.systemTemp;
   print(temp);
