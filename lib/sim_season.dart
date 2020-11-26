@@ -15,7 +15,7 @@ Future<void> calculateChances(List<List<TeamStandings>> subStandings, int numSim
   season = await getSeason(simData.season);
   games = await getAllGames(simData.season);
     
-  print(games[0]);
+  //print(games[0]);
   
   runSimulations(games, subStandings, numSims);
   
@@ -27,26 +27,51 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
   
   //simulate season X times and gather results
   Map<String, List<num>> counts = new Map<String, List<num>>();
+  sims.keys.forEach((key) => counts[key] = [0, 0, 0, 0, 0]);
   List<List<TeamSim>> simsByLeague = new List<List<TeamSim>>();
   standings.forEach((standingList) {
     List<TeamSim> simList = new List<TeamSim>();
     standingList.forEach((standing) {
       simList.add(sims[standing.id]);
     });
+    simsByLeague.add(simList);
   });
   
   for (int count = 0; count < numSims; count++){
     simulateSeason(games, sims);
+    print("Completed sim count $count");
     
     //sort and count positions
     simsByLeague.forEach((simLeague) {
       sortTeamSimsNotGrouped(simLeague);
+      print("Sorted simleague: $simLeague");
+      for (int i = 0; i < simLeague.length; i++){
+        switch(i){
+          case 0:
+          case 1:
+          case 2:
+          case 3:
+            counts[simLeague[i].id][i]++;
+            break;
+          default:
+            counts[simLeague[i].id][4]++;
+            break;
+        }
+      }
     });
     
     sims.values.forEach((sim) => sim.load());
   }  
   
   //update standings with counts / numSims and formatted
+  print(counts);
+  standings.forEach((standingList) => standingList.forEach((standing) {
+    for(int i = 0; i < 5; i++){
+      standing.po[i] = formatPercent(counts[standing.id][i] / numSims);
+    }
+    print("Standing ${standing.id} po: ${standing.po}");
+  }));
+  
 }
 
 void simulateSeason(List<Game> games, Map<String, TeamSim> sims){
@@ -67,7 +92,7 @@ void simulateSeason(List<Game> games, Map<String, TeamSim> sims){
       awayChance = (WPa * (1 - WPh)) / 
        ((WPa * (1 - WPh) + WPh * ( 1 - WPa)));
     }
-    print("Calculated away win chance: $awayChance");    
+    //print("Calculated away win chance: $awayChance");    
     if(rand.nextDouble() < awayChance){
       awaySim.actualWins++;
       awaySim.wins++;
@@ -121,6 +146,17 @@ void sortTeamSimsNotGrouped(List<TeamSim> teams) {
     teams.remove(otherLeader);
     teams.insert(3, otherLeader);
   }  
+}
+
+String formatPercent(num perc){
+  perc *= 100;
+  if(perc < 1){
+    return "<1%";
+  } else if (perc > 99){
+    return ">99%";
+  } else {
+    return "${perc.floor().toString()}%";
+  }
 }
 
 class TeamSim {

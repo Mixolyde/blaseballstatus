@@ -115,17 +115,21 @@ void main() {
   });
   group('run multiple simulations', () {
     test('Short season', () { 
-      int numTeams = 8;
-      int numGames = 19;
-      int numCompleted = 5;
-      int numSims = 5;
+      int numTeams = 20;
+      int numGames = 29;
+      int numCompleted = 16;
+      int numSims = 101;
       List<List<TeamStandings>> standings = createStandings(numTeams);
       List<Game> games = createSeasonOfGames(numGames, numCompleted, 
         numTeams, standings,
-        [0.2, 0.2, 0.3, 0.4, 0.5, 0.6,
-        0.7, 0.8]);    
+        [0.475, 0.475, 0.475, 0.475, 0.475, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.525,
+        0.525, 0.525, 0.525, 0.525]);    
       runSimulations(games, standings, numSims);
-      
+      standings.forEach((league) => league.forEach((stand) {
+        for(int i = 0; i < 5; i++){
+          expect(stand.po[i], isNot('-'));
+        }
+      }));
       
       
     }); 
@@ -152,7 +156,7 @@ Game createRandomGame(int day, bool completed,
   int homeScore = 0;
   int awayScore = 0;
   if(completed){
-    print("Creating completed game with awayChance $awayChance");
+    //print("Creating completed game with awayChance $awayChance");
     int low = rand.nextInt(10);
     int high = low + 1 + rand.nextInt(10);
     if(rand.nextDouble() < awayChance){
@@ -194,7 +198,7 @@ List<Game> createSeasonOfGames(int numDays, int completedDays,
   for(int day = 0; day < numDays; day++){
     for(int matchup = 0; matchup < numTeams / 2; matchup++){
       //randomly assign matchups
-      print("Creating matchup $matchup day $day");
+      //print("Creating matchup $matchup day $day");
       //create game between matchups
       int team1 = matchup * 2 + 1;
       int team2 = matchup * 2 + 2;
