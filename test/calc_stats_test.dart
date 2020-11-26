@@ -60,7 +60,7 @@ void main() {
     });  
     test('Near season end resort needed', () {
       var standings = getLateSeasonResortNeededStandings();
-      reSortDivLeader(standings);
+      sortTeamsNotGrouped(standings);
       calculateGamesBehind(standings);
       
       int i = 0;
@@ -204,7 +204,7 @@ void main() {
     });  
     test('Near season beginning ReSort Needed', () {
       var standings = getEarlySeasonResortNeededStandings();
-      reSortDivLeader(standings);
+      sortTeamsNotGrouped(standings);
       calculateMagicNumbers(standings);
       
       
@@ -405,7 +405,7 @@ void main() {
     });  
     test('Near season beginning ReSort Needed', () {
       var standings = getEarlySeasonResortNeededStandings();
-      reSortDivLeader(standings);
+      sortTeamsNotGrouped(standings);
       calculateMagicNumbers(standings);
       
       

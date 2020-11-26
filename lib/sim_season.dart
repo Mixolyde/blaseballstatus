@@ -27,11 +27,21 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
   
   //simulate season X times and gather results
   Map<String, List<num>> counts = new Map<String, List<num>>();
+  List<List<TeamSim>> simsByLeague = new List<List<TeamSim>>();
+  standings.forEach((standingList) {
+    List<TeamSim> simList = new List<TeamSim>();
+    standingList.forEach((standing) {
+      simList.add(sims[standing.id]);
+    });
+  });
   
   for (int count = 0; count < numSims; count++){
     simulateSeason(games, sims);
     
     //sort and count positions
+    simsByLeague.forEach((simLeague) {
+      sortTeamSimsNotGrouped(simLeague);
+    });
     
     sims.values.forEach((sim) => sim.load());
   }  
@@ -79,7 +89,7 @@ Map<String, TeamSim> mapTeamSims(List<List<TeamStandings>> standings, List<Game>
         (g.awayTeam == standing.id && g.awayScore > g.homeScore) ||
         (g.homeTeam == standing.id && g.homeScore > g.awayScore)).length;
       TeamSim sim = new TeamSim(standing.id, actualWins,
-        standing.wins, standing.losses);
+        standing.wins, standing.losses, standing.favor, standing.division);
       sim.save();
       sims[sim.id] = sim;
     });
@@ -87,17 +97,46 @@ Map<String, TeamSim> mapTeamSims(List<List<TeamStandings>> standings, List<Game>
   return sims;
 }
 
+//sort teams by wins, divine favor, resort by division
+void sortTeamSimsNotGrouped(List<TeamSim> teams) {
+  teams.sort((a, b) {
+    if(b.wins != a.wins){
+      return b.wins.compareTo(a.wins);
+    } else {
+      return a.favor.compareTo(b.favor);
+    }
+  });
+  //if the first four teams are the same division, move
+  //the other div leader into 4th
+  String firstDiv = teams.first.division;
+  if(teams.take(4).every((team) =>
+    team.division == firstDiv) ||
+    teams.take(4).every((team) =>
+    team.division != firstDiv)){
+    print("Top four teams are the same division");
+    //find top of other division
+    TeamSim otherLeader = teams.firstWhere((team) =>
+      team.division != firstDiv);
+    print("Moving $otherLeader");
+    teams.remove(otherLeader);
+    teams.insert(3, otherLeader);
+  }  
+}
+
 class TeamSim {
   String id;
   int actualWins;
   int wins;
   int losses;
+  int favor;
+  String division;
   
   int actualWins_save;
   int wins_save;
   int losses_save;
   
-  TeamSim(this.id, this.actualWins, this.wins, this.losses);
+  TeamSim(this.id, this.actualWins, this.wins, this.losses,
+    this.favor, this.division);
   
   void save(){
     actualWins_save = actualWins;

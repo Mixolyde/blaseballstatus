@@ -38,7 +38,7 @@ void main() {
       }
       Map<String, TeamSim> sims = new Map<String, TeamSim>();
       for(int i = 1; i < 5; i++){
-        sims["Team $i"] = new TeamSim("Team $i", 0, 0, 0);
+        sims["Team $i"] = new TeamSim("Team $i", 0, 0, 0, i, "Div 0");
       };
       sims.values.forEach((sim) => sim.save());
       
