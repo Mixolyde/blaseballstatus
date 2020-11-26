@@ -8,7 +8,7 @@ void main() {
     test('No resort needed', () {
       var standings = getLateSeasonStandings();
       List<TeamStandings> top6 = standings.take(6).toList();
-      reSortDivLeader(standings);
+      sortTeamsNotGrouped(standings);
       expect(standings[0], top6[0]);
       expect(standings[1], top6[1]);
       expect(standings[2], top6[2]);
@@ -19,7 +19,7 @@ void main() {
     test('Resort needed', () {
       var standings = getLateSeasonResortNeededStandings();
       List<TeamStandings> top6 = standings.take(6).toList();
-      reSortDivLeader(standings);
+      sortTeamsNotGrouped(standings);
       expect(standings[0], top6[0]);
       expect(standings[1], top6[1]);
       expect(standings[2], top6[2]);

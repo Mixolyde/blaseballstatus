@@ -3,11 +3,12 @@ import 'package:test/test.dart';
 
 import '../lib/database_api.dart';
 import '../lib/sim_season.dart';
+import '../lib/site_objects.dart';
 
 Random rand = new Random(0);
 
 void main() {
-  group('season simulation tests', () {
+  group('single simulation', () {
     test('Short season', () {
       List<Game> games = new List<Game>();
       for (int i = 0; i < 10; i++){
@@ -16,7 +17,7 @@ void main() {
         games.add(createRandomGame(i, false,
           "Team 3", "Team 4", 0.75));
       }
-      Standings standings = createStandings(4);
+      List<List<TeamStandings>> standings = createStandings(4);
       print(standings);
       Map<String, TeamSim> sims = mapTeamSims(standings, games);
       print(sims);
@@ -52,9 +53,9 @@ void main() {
 
     });   
     test('new long season', () {
-      int numTeams = 10;
+      int numTeams = 12;
       int numGames = 29;
-      Standings standings = createStandings(numTeams);
+      List<List<TeamStandings>> standings = createStandings(numTeams);
       List<Game> games = createSeasonOfGames(numGames, 0, 
         numTeams, standings);
       print(standings);
@@ -68,14 +69,14 @@ void main() {
       });
     }); 
     test('partial long season', () {
-      int numTeams = 10;
+      int numTeams = 12;
       int numGames = 29;
       int numCompleted = 19;
-      Standings standings = createStandings(numTeams);
+      List<List<TeamStandings>> standings = createStandings(numTeams);
       List<Game> games = createSeasonOfGames(numGames, numCompleted, 
         numTeams, standings,
-        [0.1, 0.2, 0.3, 0.4, 0.5, 0.6,
-        0.7, 0.8, 0.9, 0.99]);
+        [0.2, 0.2, 0.3, 0.3, 0.4, 0.5, 0.6,
+        0.7, 0.8, 0.8, 0.9, 0.99]);
       print(standings);
       Map<String, TeamSim> sims = mapTeamSims(standings, games);
       print(sims);
@@ -87,21 +88,19 @@ void main() {
       });
     });     
     test('partial long season with varying wins', () {
-      int numTeams = 10;
+      int numTeams = 12;
       int numGames = 39;
       int numCompleted = 29;
-      Standings standings = createStandings(numTeams);
+      List<List<TeamStandings>> standings = createStandings(numTeams);
       List<Game> games = createSeasonOfGames(numGames, numCompleted, 
         numTeams, standings,
-        [0.2, 0.2, 0.3, 0.4, 0.5, 0.6,
-        0.7, 0.8, 0.9, 0.99]);
+        [0.2, 0.2, 0.3, 0.3, 0.4, 0.5, 0.6,
+        0.7, 0.8, 0.8, 0.9, 0.99]);
       List<int> winVariances = [2, 0, -1, 3, 1, 0, -2, 0, 1, -1];
       //apply variances to standings
       for (int i = 0; i < winVariances.length; i++){
-        standings.wins["Team ${i + 1}"] += winVariances[i];
-        if(standings.wins["Team ${i + 1}"] < 0){
-          standings.wins["Team ${i + 1}"] = 0;
-        }
+        standings[(i + 1) % 2].firstWhere((stand) => stand.id == "Team ${i + 1}").
+            wins += winVariances[i];
       }
       print(standings);
       Map<String, TeamSim> sims = mapTeamSims(standings, games);
@@ -114,20 +113,38 @@ void main() {
       }
     }); 
   });
-  
+  group('run multiple simulations', () {
+    test('Short season', () { 
+      int numTeams = 8;
+      int numGames = 19;
+      int numCompleted = 5;
+      int numSims = 5;
+      List<List<TeamStandings>> standings = createStandings(numTeams);
+      List<Game> games = createSeasonOfGames(numGames, numCompleted, 
+        numTeams, standings,
+        [0.2, 0.2, 0.3, 0.4, 0.5, 0.6,
+        0.7, 0.8]);    
+      runSimulations(games, standings, numSims);
+      
+      
+      
+    }); 
+  });    
 }
 
-Standings createStandings(int numTeams){
-  Map<String, int> wins = new Map<String, int> ();
-  Map<String, int> losses = new Map<String, int> ();
-  
-  for(int i = 1; i <= numTeams; i++){
-    wins["Team $i"] = 0;
-    losses["Team $i"] = 0;
+List<List<TeamStandings>> createStandings(int numTeams){
+  List<List<TeamStandings>> standings = new List<List<TeamStandings>>();
+  for(int league = 0; league < 2; league++){
+    standings.add( new List<TeamStandings>() );
   }
   
-  return new Standings( id: "Standings", 
-    losses: losses, wins: wins);
+  for(int team = 1; team <= numTeams; team++){
+    TeamStandings stand = new TeamStandings(
+      "Team $team", "The Team ${team}s", "Div ${team % 4}",
+      0, 0, 0, team);
+    standings[team % 2].add(stand);
+  }
+  return standings;
 }
 
 Game createRandomGame(int day, bool completed, 
@@ -164,9 +181,9 @@ Game createRandomGame(int day, bool completed,
 }
 
 List<Game> createSeasonOfGames(int numDays, int completedDays,
-  int numTeams, Standings standings, [List<num> initialChances]){
-  if(numTeams % 2 != 0){
-    throw new ArgumentError("NumTeams must be even");
+  int numTeams, List<List<TeamStandings>> standings, [List<num> initialChances]){
+  if(numTeams % 4 != 0){
+    throw new ArgumentError("NumTeams must be divisible by four");
   }
   List<Game> games = new List<Game>();
   if(initialChances == null || initialChances.length != numTeams){
@@ -186,11 +203,15 @@ List<Game> createSeasonOfGames(int numDays, int completedDays,
       if(played.gameComplete){
         //update standings
         if(played.awayScore > played.homeScore){
-          standings.wins[played.awayTeam]++;
-          standings.losses[played.homeTeam]++;
+          standings[team1 % 2].firstWhere((stand) => stand.id == "Team $team1").
+            losses++;
+          standings[team2 % 2].firstWhere((stand) => stand.id == "Team $team2").
+            wins++;
         } else {
-          standings.wins[played.homeTeam]++;
-          standings.losses[played.awayTeam]++;
+          standings[team1 % 2].firstWhere((stand) => stand.id == "Team $team1").
+            wins++;
+          standings[team2 % 2].firstWhere((stand) => stand.id == "Team $team2").
+            losses++;
         }
       }
       games.add(played);

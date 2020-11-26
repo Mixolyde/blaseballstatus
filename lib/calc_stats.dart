@@ -107,32 +107,13 @@ Future<List<TeamStandings>> calculateSubLeague(Subleague sub, List<Game> games) 
 
   //sort first then calculate
   sortTeamsNotGrouped(teamStandings);
-  reSortDivLeader(teamStandings);
+
 
   calculateGamesBehind(teamStandings);
   calculateMagicNumbers(teamStandings);
   
   return teamStandings;
 
-}
-
-void reSortDivLeader(List<TeamStandings> teamStandings){
-  //if the first four teams are the same division, move
-  //the other div leader into 4th
-  String firstDiv = teamStandings.first.division;
-  if(teamStandings.take(4).every((team) =>
-    team.division == firstDiv) ||
-    teamStandings.take(4).every((team) =>
-    team.division != firstDiv)){
-    print("Top four teams are the same division");
-    //find top of other division
-    TeamStandings otherLeader = teamStandings.firstWhere((team) =>
-      team.division != firstDiv);
-    print("Moving $otherLeader");
-    teamStandings.remove(otherLeader);
-    teamStandings.insert(3, otherLeader);
-  }
-    
 }
 
 void calculateGamesBehind(List<TeamStandings> teamStandings) {
@@ -347,7 +328,7 @@ void _calculatePartyTimeMagicNumbers(List<TeamStandings> teamStandings) {
   }
 }
 
-//sort teams by wins, divine favor
+//sort teams by wins, divine favor, resort by division
 void sortTeamsNotGrouped(List<TeamStandings> teams) {
   teams.sort((a, b) {
     if(b.wins != a.wins){
@@ -356,6 +337,21 @@ void sortTeamsNotGrouped(List<TeamStandings> teams) {
       return a.favor.compareTo(b.favor);
     }
   });
+  //if the first four teams are the same division, move
+  //the other div leader into 4th
+  String firstDiv = teams.first.division;
+  if(teams.take(4).every((team) =>
+    team.division == firstDiv) ||
+    teams.take(4).every((team) =>
+    team.division != firstDiv)){
+    print("Top four teams are the same division");
+    //find top of other division
+    TeamStandings otherLeader = teams.firstWhere((team) =>
+      team.division != firstDiv);
+    print("Moving $otherLeader");
+    teams.remove(otherLeader);
+    teams.insert(3, otherLeader);
+  }  
 }
 
 String formatGamesBehind(num gb){

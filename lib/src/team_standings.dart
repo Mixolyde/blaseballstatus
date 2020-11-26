@@ -4,8 +4,8 @@ class TeamStandings {
   final String id;
   final String nickname;
   final String division;
-  final int wins;
-  final int losses;
+  int wins;
+  int losses;
   final int gamesPlayed;
   final int favor;
   
