@@ -24,7 +24,7 @@ part of database_api;
 */
 class SimulationData {
   final String id;
-  final int day;
+  int day;
   final String league;
   final int season;
   final String seasonId;

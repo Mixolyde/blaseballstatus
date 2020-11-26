@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:test/test.dart';
 
+import '../lib/calc_stats.dart';
 import '../lib/database_api.dart';
 import '../lib/sim_season.dart';
 import '../lib/site_objects.dart';
@@ -17,7 +18,7 @@ void main() {
         games.add(createRandomGame(i, false,
           "Team 3", "Team 4", 0.75));
       }
-      List<List<TeamStandings>> standings = createStandings(4);
+      List<List<TeamStandings>> standings = createStandings(4, 0);
       print(standings);
       Map<String, TeamSim> sims = mapTeamSims(standings, games);
       print(sims);
@@ -55,7 +56,7 @@ void main() {
     test('new long season', () {
       int numTeams = 12;
       int numGames = 29;
-      List<List<TeamStandings>> standings = createStandings(numTeams);
+      List<List<TeamStandings>> standings = createStandings(numTeams, 0);
       List<Game> games = createSeasonOfGames(numGames, 0, 
         numTeams, standings);
       print(standings);
@@ -72,11 +73,12 @@ void main() {
       int numTeams = 12;
       int numGames = 29;
       int numCompleted = 19;
-      List<List<TeamStandings>> standings = createStandings(numTeams);
+      List<List<TeamStandings>> standings = createStandings(numTeams, numCompleted);
       List<Game> games = createSeasonOfGames(numGames, numCompleted, 
         numTeams, standings,
-        [0.2, 0.2, 0.3, 0.3, 0.4, 0.5, 0.6,
-        0.7, 0.8, 0.8, 0.9, 0.99]);
+        [0.2, 0.2, 0.3, 0.3, 
+         0.4, 0.5, 0.6, 0.7, 
+         0.8, 0.8, 0.9, 0.99]);
       print(standings);
       Map<String, TeamSim> sims = mapTeamSims(standings, games);
       print(sims);
@@ -91,11 +93,12 @@ void main() {
       int numTeams = 12;
       int numGames = 39;
       int numCompleted = 29;
-      List<List<TeamStandings>> standings = createStandings(numTeams);
+      List<List<TeamStandings>> standings = createStandings(numTeams, numCompleted);
       List<Game> games = createSeasonOfGames(numGames, numCompleted, 
         numTeams, standings,
-        [0.2, 0.2, 0.3, 0.3, 0.4, 0.5, 0.6,
-        0.7, 0.8, 0.8, 0.9, 0.99]);
+        [0.2, 0.2, 0.3, 0.3, 
+         0.4, 0.5, 0.6, 0.7, 
+         0.8, 0.8, 0.9, 0.99]);
       List<int> winVariances = [2, 0, -1, 3, 1, 0, -2, 0, 1, -1];
       //apply variances to standings
       for (int i = 0; i < winVariances.length; i++){
@@ -119,10 +122,13 @@ void main() {
       int numGames = 29;
       int numCompleted = 16;
       int numSims = 101;
-      List<List<TeamStandings>> standings = createStandings(numTeams);
+      List<List<TeamStandings>> standings = createStandings(numTeams, numCompleted);
       List<Game> games = createSeasonOfGames(numGames, numCompleted, 
         numTeams, standings,
-        [0.475, 0.475, 0.475, 0.475, 0.475, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.525,
+        [0.475, 0.475, 0.475, 0.475, 
+        0.475, 0.5, 0.5, 0.5, 
+        0.5, 0.5, 0.5, 0.5, 
+        0.5, 0.5, 0.5, 0.525,
         0.525, 0.525, 0.525, 0.525]);    
       runSimulations(games, standings, numSims);
       standings.forEach((league) => league.forEach((stand) {
@@ -130,13 +136,67 @@ void main() {
           expect(stand.po[i], isNot('-'));
         }
       }));
-      
+    });      
+    test('complete season', () { 
+      int numTeams = 20;
+      int numGames = 29;
+      int numCompleted = 29;
+      int numSims = 101;
+      List<List<TeamStandings>> standings = createStandings(numTeams, numCompleted);
+      List<Game> games = createSeasonOfGames(numGames, numCompleted, 
+        numTeams, standings,
+        [0.475, 0.475, 0.475, 0.475, 
+         0.475, 0.5, 0.5, 0.5, 
+         0.5, 0.5, 0.5, 0.5,
+         0.5, 0.5, 0.5, 0.525,
+        0.525, 0.525, 0.525, 0.525]);    
+      runSimulations(games, standings, numSims);
+      standings.forEach((league) => league.forEach((stand) {
+        for(int i = 0; i < 5; i++){
+          expect(stand.po[i], isNot('-'));
+        }
+      }));   
+    });      
+    test('almost complete season with clinches', () { 
+      int numTeams = 20;
+      int numGames = 99;
+      int numCompleted = 92;
+      int numSims = 11;
+      List<List<TeamStandings>> standings = createStandings(numTeams, numCompleted);
+
+      List<Game> games = createSeasonOfGames(numGames, numCompleted, 
+        numTeams, standings,
+        [0.1, 0.1, 0.2, 0.2, 0.3, 0.3, 0.4, 0.4, 0.5, 0.5, 0.5, 0.5,
+        0.6, 0.6, 0.7, 0.7, 0.8, 0.8, 0.9, 0.9]); 
+      sortTeamsNotGrouped(standings[0]);
+      sortTeamsNotGrouped(standings[1]);
+      calculateMagicNumbers(standings[0]);
+      calculateMagicNumbers(standings[1]);
+      standings.forEach((standingList) => standingList.forEach((standing) {
+        print("Magic Numbers Standing ${standing.id} winning: ${standing.winning}");
+      }));        
+      runSimulations(games, standings, numSims);
+      standings.forEach((league) => league.forEach((stand) {
+        for(int i = 0; i < 5; i++){
+          expect(stand.po[i], isNot('-'));
+          switch(stand.winning[i]){
+            case '^':
+            case 'X':
+            case 'PT':
+              expect(stand.po[i], stand.winning[i]);
+              break;
+            default:
+              expect(stand.po[i].endsWith("%"), true);
+              break;
+          }
+        }
+      }));       
       
     }); 
   });    
 }
 
-List<List<TeamStandings>> createStandings(int numTeams){
+List<List<TeamStandings>> createStandings(int numTeams, int gamesPlayed){
   List<List<TeamStandings>> standings = new List<List<TeamStandings>>();
   for(int league = 0; league < 2; league++){
     standings.add( new List<TeamStandings>() );
@@ -145,7 +205,7 @@ List<List<TeamStandings>> createStandings(int numTeams){
   for(int team = 1; team <= numTeams; team++){
     TeamStandings stand = new TeamStandings(
       "Team $team", "The Team ${team}s", "Div ${team % 4}",
-      0, 0, 0, team);
+      0, 0, gamesPlayed, team);
     standings[team % 2].add(stand);
   }
   return standings;
@@ -191,7 +251,7 @@ List<Game> createSeasonOfGames(int numDays, int completedDays,
   }
   List<Game> games = new List<Game>();
   if(initialChances == null || initialChances.length != numTeams){
-    initialChances = List<num>.filled(numTeams, 0.25);
+    initialChances = List<num>.filled(numTeams, 0.5);
     print(initialChances);
   }
   

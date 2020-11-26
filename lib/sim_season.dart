@@ -39,12 +39,12 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
   
   for (int count = 0; count < numSims; count++){
     simulateSeason(games, sims);
-    print("Completed sim count $count");
+    print("Completed simulation count $count");
     
     //sort and count positions
     simsByLeague.forEach((simLeague) {
       sortTeamSimsNotGrouped(simLeague);
-      print("Sorted simleague: $simLeague");
+      //print("Sorted simleague: $simLeague");
       for (int i = 0; i < simLeague.length; i++){
         switch(i){
           case 0:
@@ -67,7 +67,16 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
   print(counts);
   standings.forEach((standingList) => standingList.forEach((standing) {
     for(int i = 0; i < 5; i++){
-      standing.po[i] = formatPercent(counts[standing.id][i] / numSims);
+      switch(standing.winning[i]){
+        case '^':
+        case 'X':
+        case 'PT':
+          standing.po[i] = standing.winning[i];
+          break;
+        default:
+          standing.po[i] = formatPercent(counts[standing.id][i] / numSims);
+          break;
+      }
     }
     print("Standing ${standing.id} po: ${standing.po}");
   }));

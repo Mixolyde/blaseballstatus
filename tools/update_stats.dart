@@ -11,6 +11,8 @@ Future<void> main() async {
   
   //overall blaseball status data
   SimulationData simData = await getSimulationData();
+  //TODO Remove this hack after siesta/cup
+  simData.day = 100;
   //site data
   SiteData sitedata = await calcSiteData(simData);
   print(sitedata);
@@ -22,7 +24,9 @@ Future<void> main() async {
   print(subStandings[0]);
   print(subStandings[1]);
   
-  var chances = await calculateChances(subStandings, 5);
+  int numSims = 10007;
+  //numSims = 17;
+  var chances = await calculateChances(subStandings, numSims);
   
   Directory temp = Directory.systemTemp;
   print(temp);

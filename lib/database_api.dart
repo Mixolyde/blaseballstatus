@@ -18,8 +18,7 @@ final String _ilbId = "d8545021-e9fc-48a3-af74-48685950a183";
 final String _allTeamsUrl = apiUrl + "allTeams";
 final String _divisionUrl = apiUrl + "division?id=";
 final String _gamesByDateUrl = apiUrl + "games";
-final String _leagueUrl = apiUrl + "league?id=" 
-  + _ilbId;
+final String _leagueUrl = apiUrl + "league?id=" + _ilbId;
 final String _seasonUrl = apiUrl + "season?number=";
 final String _simulationDatUrl = apiUrl + "simulationData";
 final String _standingsUrl = apiUrl + "standings?id=";
