@@ -139,9 +139,9 @@ void main() {
     });      
     test('complete season', () { 
       int numTeams = 20;
-      int numGames = 29;
-      int numCompleted = 29;
-      int numSims = 101;
+      int numGames = 99;
+      int numCompleted = 0;
+      int numSims = 10007;
       List<List<TeamStandings>> standings = createStandings(numTeams, numCompleted);
       List<Game> games = createSeasonOfGames(numGames, numCompleted, 
         numTeams, standings,

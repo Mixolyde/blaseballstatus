@@ -24,7 +24,7 @@ Future<void> main() async {
   print(subStandings[0]);
   print(subStandings[1]);
   
-  int numSims = 10007;
+  int numSims = 100003;
   //numSims = 17;
   var chances = await calculateChances(subStandings, numSims);
   
