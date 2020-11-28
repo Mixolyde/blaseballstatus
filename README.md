@@ -7,9 +7,7 @@ Published at https://mixolyde.github.io/blaseballstatus
 
 ## TODO
 * Put full team names in wide width table column
-* Fetch future game schedule
 * Factor future schedule into magic numbers
-* Simulate playoff chances
 * Schedule pages
 * Unit test coverage report
 * Postseason chances
@@ -19,7 +17,6 @@ Published at https://mixolyde.github.io/blaseballstatus
 * Move project to a blaseball-specific account on github
 * Get a twitter account and button
 * Reduce API calls during siesta
-* Store tiebreakers in static file
 
 ## Planned release schedule
 * v0.0.1 
@@ -41,7 +38,7 @@ Published at https://mixolyde.github.io/blaseballstatus
 - [x] Properly calculate games played
 - [x] Automate static data updates during the season
 * v0.0.5
-- [ ] Playoff prediction percentages
+- [x] Playoff prediction percentages
 * v0.0.6
 - [ ] Postseason content
 
