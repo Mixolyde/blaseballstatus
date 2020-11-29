@@ -6,7 +6,6 @@ An attempt to replicate [Playoff Status](http://playoffstatus.com)
 Published at https://mixolyde.github.io/blaseballstatus
 
 ## TODO
-* Put full team names in wide width table column
 * Factor future schedule into magic numbers
 * Schedule pages
 * Unit test coverage report
