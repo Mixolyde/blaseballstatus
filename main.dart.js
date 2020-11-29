@@ -3828,31 +3828,30 @@ a.toString
 s=C.x.cA(a,-1)
 r=b.a
 q=W.jV(j+H.c(r))
-p=b.c
-C.p.sA(q,p)
+C.p.sA(q,b.c)
 q.target="_new"
-o=W.jV(j+H.c(r))
-C.p.sA(o,p)
-o.target="_new"
+p=W.jV(j+H.c(r))
+C.p.sA(p,b.b)
+p.target="_new"
 s.toString
-p=t.a
-n=p.a(C.e.a_(s,0))
-n.classList.add("tblteam")
-r=document
-m=r.createElement("span")
+r=t.a
+o=r.a(C.e.a_(s,0))
+o.classList.add("tblteam")
+n=document
+m=n.createElement("span")
 m.classList.add("wide")
-l=r.createElement("span")
+l=n.createElement("span")
 l.classList.add("narrow")
-m.appendChild(o)
+m.appendChild(p)
 l.appendChild(q)
-n.appendChild(m)
-n.appendChild(l)
-r=p.a(C.e.a_(s,1));(r&&C.f).sA(r,b.d)
-r=p.a(C.e.a_(s,2))
+o.appendChild(m)
+o.appendChild(l)
+n=r.a(C.e.a_(s,1));(n&&C.f).sA(n,b.d)
+n=r.a(C.e.a_(s,2))
 k=b.x
-if(typeof k!=="number")return k.H();(r&&C.f).sA(r,C.c.j(k+1))
-k=p.a(C.e.a_(s,3));(k&&C.f).sA(k,J.ah(b.e))
-p=p.a(C.e.a_(s,4));(p&&C.f).sA(p,J.ah(b.f))
+if(typeof k!=="number")return k.H();(n&&C.f).sA(n,C.c.j(k+1))
+k=r.a(C.e.a_(s,3));(k&&C.f).sA(k,J.ah(b.e))
+r=r.a(C.e.a_(s,4));(r&&C.f).sA(r,J.ah(b.f))
 return s},
 c_:function(a,b,c){var s,r
 a.toString
