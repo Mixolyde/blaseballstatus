@@ -4,6 +4,7 @@ class TeamStandings {
   final String id;
   final String fullName;
   final String nickname;
+  final String emoji;
   final String division;
   int wins;
   int losses;
@@ -16,11 +17,12 @@ class TeamStandings {
   final List<String> winning = ['-', '-', '-', '-', '-'];
   final List<String> partytime = ['-', '-', '-', '-', '-'];
   
-  TeamStandings(this.id, this.fullName, this.nickname, this.division,
+  TeamStandings(this.id, this.fullName, this.nickname, 
+    this.emoji, this.division,
     this.wins, this.losses, this.gamesPlayed, this.favor);
     
   TeamStandings.fromMap({this.id, this.fullName,
-    this.nickname, this.division,
+    this.nickname, this.emoji, this.division,
     this.wins, this.losses,
     this.gamesPlayed, this.favor,
     this.gbDiv, this.gbWc,
@@ -37,6 +39,7 @@ class TeamStandings {
       id: json['id'] as String,
       fullName: json['fullName'] as String,
       nickname: json['nickname'] as String,
+      emoji: json['emoji'] as String,
       division: json['division'] as String,
       wins: json['wins'] as int,
       losses: json['losses'] as int,
@@ -54,6 +57,7 @@ class TeamStandings {
     'id': id,
     'fullName': fullName,
     'nickname': nickname,
+    'emoji': emoji,
     'division': division,
     'wins': wins,
     'losses': losses,
