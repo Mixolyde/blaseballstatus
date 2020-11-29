@@ -459,7 +459,7 @@ TableRowElement insertCommonCells(TableElement table,
     ..target = "_new";
   AnchorElement longTeamLink = new AnchorElement(
     href:"https://www.blaseball.com/team/${row.id}")
-    ..text = row.nickname
+    ..text = row.fullName
     ..target = "_new";    
   
   var cell = trow.insertCell(0);
