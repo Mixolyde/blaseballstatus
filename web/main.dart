@@ -453,14 +453,27 @@ void populateAboutPageData(){
 TableRowElement insertCommonCells(TableElement table, 
   TeamStandings row){
   TableRowElement trow = table.addRow();
-  AnchorElement teamLink = new AnchorElement(
+  AnchorElement shortTeamLink = new AnchorElement(
     href:"https://www.blaseball.com/team/${row.id}")
     ..text = row.nickname
     ..target = "_new";
+  AnchorElement longTeamLink = new AnchorElement(
+    href:"https://www.blaseball.com/team/${row.id}")
+    ..text = row.nickname
+    ..target = "_new";    
   
   var cell = trow.insertCell(0);
   cell.classes.add('tblteam');
-  cell.children.add(teamLink);
+  SpanElement wideSpan = new SpanElement();
+  wideSpan.classes.add('wide');
+  SpanElement narrowSpan = new SpanElement();
+  narrowSpan.classes.add('narrow');
+  wideSpan.children.add(longTeamLink);
+  narrowSpan.children.add(shortTeamLink);
+  
+  cell.children.add(wideSpan);
+  cell.children.add(narrowSpan);
+  
   
   trow.insertCell(1)
     ..text = row.division;

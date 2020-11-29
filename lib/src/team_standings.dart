@@ -2,6 +2,7 @@ part of site_objects;
 
 class TeamStandings {
   final String id;
+  final String fullName;
   final String nickname;
   final String division;
   int wins;
@@ -15,10 +16,10 @@ class TeamStandings {
   final List<String> winning = ['-', '-', '-', '-', '-'];
   final List<String> partytime = ['-', '-', '-', '-', '-'];
   
-  TeamStandings(this.id, this.nickname, this.division,
+  TeamStandings(this.id, this.fullName, this.nickname, this.division,
     this.wins, this.losses, this.gamesPlayed, this.favor);
     
-  TeamStandings.fromMap({this.id, 
+  TeamStandings.fromMap({this.id, this.fullName,
     this.nickname, this.division,
     this.wins, this.losses,
     this.gamesPlayed, this.favor,
@@ -31,10 +32,10 @@ class TeamStandings {
     }
   }
     
-    
   factory TeamStandings.fromJson(Map<String, dynamic> json){
     return TeamStandings.fromMap(
       id: json['id'] as String,
+      fullName: json['fullName'] as String,
       nickname: json['nickname'] as String,
       division: json['division'] as String,
       wins: json['wins'] as int,
@@ -51,6 +52,7 @@ class TeamStandings {
     
   Map toJson() => {
     'id': id,
+    'fullName': fullName,
     'nickname': nickname,
     'division': division,
     'wins': wins,
