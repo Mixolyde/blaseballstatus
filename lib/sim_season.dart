@@ -13,6 +13,7 @@ Random rand = new Random(0);
 Future<void> calculateChances(List<List<TeamStandings>> subStandings, int numSims) async {
   simData = await getSimulationData();
   season = await getSeason(simData.season);
+  print("Getting game data");
   games = await getAllGames(simData.season);
     
   //print(games[0]);
@@ -39,7 +40,9 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
   
   for (int count = 0; count < numSims; count++){
     simulateSeason(games, sims);
-    print("Completed simulation count $count");
+    if (count % 1000 == 0){
+      print("Completed simulation count $count");
+    }
     
     //sort and count positions
     simsByLeague.forEach((simLeague) {
@@ -64,6 +67,7 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
   }  
   
   //update standings with counts / numSims and formatted
+  print("Completed $numSims simulations");
   print(counts);
   standings.forEach((standingList) => standingList.forEach((standing) {
     for(int i = 0; i < 5; i++){
