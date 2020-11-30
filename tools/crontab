@@ -1,0 +1,3 @@
+#ec2-user crontab for loading
+20,25,30,35,40,45,50 * * * 1-6 /home/ec2-user/dart-sdk/bin/dart /home/ec2-user/projects/blaseballstatus/tools/update_stats.dart
+
