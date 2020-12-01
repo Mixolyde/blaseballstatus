@@ -460,7 +460,16 @@ TableRowElement insertCommonCells(TableElement table,
   AnchorElement longTeamLink = new AnchorElement(
     href:"https://www.blaseball.com/team/${row.id}")
     ..text = row.fullName
-    ..target = "_new";    
+    ..target = "_new";  
+  SpanElement emojiSpan = new SpanElement();
+  print("Emoji string: ${row.emoji}");
+  if(row.emoji.startsWith("0")){
+    emojiSpan.innerHtml = " &#${row.emoji.substring(1, row.emoji.length)};";
+  } else if (row.nickname == "Lift") {
+    emojiSpan.innerHtml = " &#x1F3CB;";
+  } else {
+    emojiSpan.innerHtml = "  ";
+  }
   
   var cell = trow.insertCell(0);
   cell.classes.add('tblteam');
@@ -473,6 +482,7 @@ TableRowElement insertCommonCells(TableElement table,
   
   cell.children.add(wideSpan);
   cell.children.add(narrowSpan);
+  cell.children.add(emojiSpan);
   
   
   trow.insertCell(1)

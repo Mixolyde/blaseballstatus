@@ -12,7 +12,6 @@ Published at https://mixolyde.github.io/blaseballstatus
 * Postseason chances
 * Postseason schedule
 * Pull database api code out into a separate library
-* Team emoji in table entries
 * Move project to a blaseball-specific account on github
 * Get a twitter account and button
 * Reduce API calls during siesta
@@ -40,6 +39,8 @@ Published at https://mixolyde.github.io/blaseballstatus
 - [x] Playoff prediction percentages
 * v0.0.6
 - [ ] Postseason content
+- [x] Add emoji to team rows
+- [x] Show full team name in wide view
 
 ## Contributing
 
