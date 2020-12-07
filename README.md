@@ -6,14 +6,14 @@ An attempt to replicate [Playoff Status](http://playoffstatus.com)
 Published at https://mixolyde.github.io/blaseballstatus
 
 ## TODO
+* Postseason chances
+* Postseason schedule
+* Get a twitter account and button
 * Factor future schedule into magic numbers
 * Schedule pages
 * Unit test coverage report
-* Postseason chances
-* Postseason schedule
 * Pull database api code out into a separate library
 * Move project to a blaseball-specific account on github
-* Get a twitter account and button
 * Reduce API calls during siesta
 
 ## Planned release schedule

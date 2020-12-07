@@ -6,6 +6,7 @@ import 'site_objects.dart';
 
 part 'src/game.dart';
 part 'src/league.dart';
+part 'src/playoffs.dart';
 part 'src/season.dart';
 part 'src/simulationdata.dart';
 part 'src/standings.dart';
@@ -19,6 +20,9 @@ final String _allTeamsUrl = apiUrl + "allTeams";
 final String _divisionUrl = apiUrl + "division?id=";
 final String _gamesByDateUrl = apiUrl + "games";
 final String _leagueUrl = apiUrl + "league?id=" + _ilbId;
+final String _playoffsUrl = apiUrl + "playoffs?number=";
+final String _playoffMatchupsUrl = apiUrl + "playoffMatchups?ids=";
+final String _playoffRoundUrl = apiUrl + "playoffRound?id=";
 final String _seasonUrl = apiUrl + "season?number=";
 final String _simulationDatUrl = apiUrl + "simulationData";
 final String _standingsUrl = apiUrl + "standings?id=";
@@ -92,4 +96,29 @@ Future<Tiebreakers> getTiebreakers(String id) async {
   var response = await get(_tiebreakersUrl + id);
   var decjson = json.decode(response.body)[0];
   return Tiebreakers.fromJson(decjson);
+}
+
+Future<Playoffs> getPlayoffs(int season) async {
+  var response = await get(_playoffsUrl 
+    + season.toString() );
+  //print('Response body: ${response.body}');
+  return Playoffs.fromJson(json.decode(response.body));
+}
+
+Future<PlayoffRound> getPlayoffRound(String roundID) async {
+  var response = await get(_playoffRoundUrl 
+    + roundID );
+  //print('Response body: ${response.body}');
+  return PlayoffRound.fromJson(json.decode(response.body));
+}
+
+Future<List<PlayoffMatchups>> getPlayoffMatchups(List<String> matchIDs) async {
+  var response = await get(_playoffMatchupsUrl 
+    + matchIDs.join(','));
+  //print('Response body: ${response.body}');
+  List<dynamic> parsed = json.decode(response.body);
+  List<PlayoffMatchups> matchups = parsed.map((json) => 
+    PlayoffMatchups.fromJson(json)).toList();
+  
+  return matchups;
 }

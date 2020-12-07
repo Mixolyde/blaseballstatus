@@ -9,7 +9,7 @@ void main() {
 
 void apiTests() {
   apiUrl = "https://blaseball.com/database/";
-  group('api tests', () {
+  group('regular season', () {
     int seasonNumber = 5;
     int teamCount = 20;
     int divisionCount = 5;
@@ -92,5 +92,61 @@ void apiTests() {
       print("Last Game: ${current.last}");
     }, timeout: Timeout(Duration(minutes: 2)));     
   });
+  group('postseason', () {
+    int seasonNumber = 10;
+    int teamCount = 20;
+    int divisionCount = 5;
+    test('playoffs', () async {
+      Playoffs current = await getPlayoffs(seasonNumber);
+      expect(current, isNotNull);
+      expect(current.season, seasonNumber);
+      expect(current.id, isNotNull);
+      expect(current.numberOfRounds, 4);
+      expect(current.rounds.length, 4);
+      expect(current.winner, isNotNull);
+      print(current);
+    });
+    //[6f7d7507-2768-4237-a2f3-f7c4ee1d6aa6, 2fc8cd07-48b2-460d-8b8d-10aee5c9f1c9, c378bb0c-2baa-4452-8d83-4546510c2a26, 653fe888-0a34-4663-bd2c-4a32f519d763]
+    test('round', () async {
+      List<String> roundIds = [
+        "6f7d7507-2768-4237-a2f3-f7c4ee1d6aa6", 
+        "2fc8cd07-48b2-460d-8b8d-10aee5c9f1c9",
+        "c378bb0c-2baa-4452-8d83-4546510c2a26",
+        "653fe888-0a34-4663-bd2c-4a32f519d763"];
+      PlayoffRound current = await getPlayoffRound(roundIds[0]);
+      expect(current, isNotNull);
+      expect(current.id, "6f7d7507-2768-4237-a2f3-f7c4ee1d6aa6");
+      expect(current.matchupIDs, isNotNull);
+      expect(current.gameIDs, isNotNull);
+      expect(current.winnerIDs, isNotNull);
+      expect(current.roundNumber, 0);
+      expect(current.special, false);
+      expect(current.gameIndex, 2);
+      print(current.matchupIDs);
+    });
+    test('matchups', () async {
+      List<String> matchupIDs = [
+        "cb8208c2-6473-4ab2-990c-8a0f04d2f6f6", 
+        "a7853495-54fe-4c8b-93a2-18c8075d9e7b", 
+        "618b7f75-da29-4860-bbc6-c82a80d55c5f", 
+        "136e7769-f3e2-4f86-9f34-8abbf6b7d58e", 
+        "05664891-7844-470c-9b9f-212038380e89", 
+        "24a8ff8a-d2bb-4d9b-ace2-8cd2be211326", 
+        "d85ec2f7-a824-469b-bc84-1259172ccf17", 
+        "969ac1c9-84ad-4d1a-8232-8bafa1a1ce51"];
 
+      List<PlayoffMatchups> current = await getPlayoffMatchups(matchupIDs);
+      expect(current, isNotNull);
+      expect(current.length, 8);
+      PlayoffMatchups first = current[0];
+      print(first);
+      expect(first.id, "618b7f75-da29-4860-bbc6-c82a80d55c5f");
+      expect(first.awaySeed, isNull);
+      expect(first.awayTeam, isNull);
+      expect(first.awayWins, 0);
+      expect(first.homeSeed, 1);
+      expect(first.homeTeam.length, 36);
+      expect(first.homeWins, 0);
+    });
+  });
 }
