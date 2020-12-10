@@ -122,3 +122,21 @@ Future<List<PlayoffMatchups>> getPlayoffMatchups(List<String> matchIDs) async {
   
   return matchups;
 }
+
+Future<CompletePostseason> getCompletePostseason(int season) async {
+  Playoffs playoffs = await getPlayoffs(season);
+  Map<String, PlayoffRound> playoffRounds = new Map<String, PlayoffRound>();
+  Map<String, PlayoffMatchups> playoffMatchups = new Map<String, PlayoffMatchups>();
+  
+  playoffs.rounds.forEach((id) async {
+    playoffRounds[id] = await getPlayoffRound(id);
+    List<PlayoffMatchups> matchups = await 
+      getPlayoffMatchups(playoffRounds[id].matchupIDs);
+    matchups.forEach((matchup){
+      playoffMatchups[matchup.id] = matchup;
+    });
+  });
+  
+  return new CompletePostseason(id: playoffs.id, playoffs: playoffs, 
+    playoffRounds: playoffRounds, playoffMatchups: playoffMatchups);
+}

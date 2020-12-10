@@ -148,5 +148,16 @@ void apiTests() {
       expect(first.homeTeam.length, 36);
       expect(first.homeWins, 0);
     });
+    test('complete postseason', () async {
+      CompletePostseason current = await getCompletePostseason(seasonNumber);
+      expect(current, isNotNull);
+      expect(current.playoffs.season, seasonNumber);
+      expect(current.id, isNotNull);
+      expect(current.id, current.playoffs.id);
+      expect(current.playoffs.numberOfRounds, 4);
+      expect(current.playoffs.rounds.length, 4);
+      expect(current.playoffs.winner, isNotNull);
+      print(current);
+    });    
   });
 }

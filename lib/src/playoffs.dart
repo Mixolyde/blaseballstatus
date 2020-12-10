@@ -1,5 +1,19 @@
 part of database_api;
 
+class CompletePostseason {
+  final String id;
+  final Playoffs playoffs;
+  final Map<String, PlayoffRound> playoffRounds;
+  final Map<String, PlayoffMatchups> playoffMatchups;
+  
+  CompletePostseason({this.id, this.playoffs, this.playoffRounds,
+    this.playoffMatchups});
+  
+  @override
+  String toString() => "Complete PostSeason ${playoffRounds.keys.length} Rounds " +
+    "${playoffMatchups.keys.length} Matchups";
+}
+
 /*
   "id": "d30b9002-6e9d-4c31-bb86-68b69ad32a75",
   "name": "Season 4 Postseason",

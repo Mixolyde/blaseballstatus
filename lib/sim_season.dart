@@ -15,6 +15,7 @@ Future<void> calculateChances(List<List<TeamStandings>> subStandings, int numSim
   season = await getSeason(simData.season);
   print("Getting game data");
   games = await getAllGames(simData.season);
+  CompletePostseason postSeason = await getCompletePostseason(simData.season);
     
   //print(games[0]);
   
