@@ -16,6 +16,7 @@ class TeamStandings {
   final List<String> po = ['-', '-', '-', '-', '-'];
   final List<String> winning = ['-', '-', '-', '-', '-'];
   final List<String> partytime = ['-', '-', '-', '-', '-'];
+  final List<String> post = ['-', '-', '-', '-', '-'];  
   
   TeamStandings(this.id, this.fullName, this.nickname, 
     this.emoji, this.division,
@@ -26,11 +27,14 @@ class TeamStandings {
     this.wins, this.losses,
     this.gamesPlayed, this.favor,
     this.gbDiv, this.gbWc,
-    po, winning, partytime}){
+    po, winning, partytime, post}){
     for(int i = 0; i < 5; i++){
       this.po[i] = po[i].toString();
       this.winning[i] = winning[i].toString();
       this.partytime[i] = partytime[i].toString();
+      if(post != null){
+        this.post[i] = post[i].toString();
+      }
     }
   }
     
@@ -50,6 +54,7 @@ class TeamStandings {
       po: json['po'] as List<dynamic>,
       winning: json['winning'] as List<dynamic>,
       partytime: json['partytime'] as List<dynamic>,
+      post: json['post'] as List<dynamic>,
     );
   }
     
@@ -68,9 +73,10 @@ class TeamStandings {
     'po': po,
     'winning': winning,
     'partytime': partytime,
+    'post': post,
   };
   
   @override
-  String toString() => "Standings: $nickname - $division ($wins - $losses) #$favor";
+  String toString() => "Standings: $nickname - $division ($wins - $losses) Favor: #$favor";
   
 }
