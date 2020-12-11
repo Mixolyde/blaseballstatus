@@ -32,9 +32,7 @@ class TeamStandings {
       this.po[i] = po[i].toString();
       this.winning[i] = winning[i].toString();
       this.partytime[i] = partytime[i].toString();
-      if(post != null){
-        this.post[i] = post[i].toString();
-      }
+      this.post[i] = post[i].toString();
     }
   }
     
