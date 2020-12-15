@@ -28,8 +28,12 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
   Map<String, TeamSim> sims = mapTeamSims(standings, games);
   
   //simulate season X times and gather results
-  Map<String, List<num>> counts = new Map<String, List<num>>();
-  sims.keys.forEach((key) => counts[key] = [0, 0, 0, 0, 0]);
+  Map<String, List<num>> poCounts = new Map<String, List<num>>();
+  Map<String, List<num>> postCounts = new Map<String, List<num>>();
+  // counts for each league playoff berth and no playoffs
+  sims.keys.forEach((key) => poCounts[key] = [0, 0, 0, 0, 0]);
+  // counts for ILB champ, ILB series, League series, Round 1, WC Round
+  sims.keys.forEach((key) => postCounts[key] = [0, 0, 0, 0, 0]);
   List<List<TeamSim>> simsByLeague = new List<List<TeamSim>>();
   standings.forEach((standingList) {
     List<TeamSim> simList = new List<TeamSim>();
@@ -41,13 +45,14 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
   
   for (int count = 0; count < numSims; count++){
     simulateSeason(games, sims);
+    simulatePostSeason(simsByLeague);
     if (count % 1000 == 0){
       print("Completed simulation count $count");
     }
     
     //sort and count positions
     simsByLeague.forEach((simLeague) {
-      sortTeamSimsNotGrouped(simLeague);
+      sortTeamSims(simLeague);
       //print("Sorted simleague: $simLeague");
       for (int i = 0; i < simLeague.length; i++){
         switch(i){
@@ -55,10 +60,10 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
           case 1:
           case 2:
           case 3:
-            counts[simLeague[i].id][i]++;
+            poCounts[simLeague[i].id][i]++;
             break;
           default:
-            counts[simLeague[i].id][4]++;
+            poCounts[simLeague[i].id][4]++;
             break;
         }
       }
@@ -69,7 +74,7 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
   
   //update standings with counts / numSims and formatted
   print("Completed $numSims simulations");
-  print(counts);
+  print(poCounts);
   standings.forEach((standingList) => standingList.forEach((standing) {
     for(int i = 0; i < 5; i++){
       switch(standing.winning[i]){
@@ -79,7 +84,7 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
           standing.po[i] = standing.winning[i];
           break;
         default:
-          standing.po[i] = formatPercent(counts[standing.id][i] / numSims);
+          standing.po[i] = formatPercent(poCounts[standing.id][i] / numSims);
           break;
       }
     }
@@ -117,6 +122,23 @@ void simulateSeason(List<Game> games, Map<String, TeamSim> sims){
       awaySim.losses++;        
     }    
   });
+}
+  
+void simulatePostSeason(List<List<TeamSim>> simsByLeague){
+  //simulate complete playoff run
+  simsByLeague.forEach((simLeague) {
+    sortTeamSims(simLeague);
+    // wild card round
+    // pick a random team not in playoffs and simulate
+    int nonPlayoffCount = simLeague.length - 4;
+    int wildCardIndex = rand.nextInt(nonPlayoffCount) + 3;
+    TeamSim wildCard = simLeague[wildCardIndex];
+    print("WildCard pick $wildCardIndex $wildCard");
+    
+    // round 1
+    // subleague round
+  });
+  // ilb round
   
 }
 
@@ -136,8 +158,8 @@ Map<String, TeamSim> mapTeamSims(List<List<TeamStandings>> standings, List<Game>
   return sims;
 }
 
-//sort teams by wins, divine favor, resort by division
-void sortTeamSimsNotGrouped(List<TeamSim> teams) {
+//sort teams by wins, divine favor
+void sortTeamSims(List<TeamSim> teams) {
   teams.sort((a, b) {
     if(b.wins != a.wins){
       return b.wins.compareTo(a.wins);
@@ -185,6 +207,12 @@ class TeamSim {
   int wins_save;
   int losses_save;
   
+  bool wcSeries = false;
+  bool r1Series = false;
+  bool slSeries = false;
+  bool ilbSeries = false;
+  bool ilbChamp = false;
+  
   TeamSim(this.id, this.actualWins, this.wins, this.losses,
     this.favor, this.division);
   
@@ -198,6 +226,11 @@ class TeamSim {
     actualWins = actualWins_save;
     wins = wins_save;
     losses = losses_save;
+    wcSeries = false;
+    r1Series = false;
+    slSeries = false;
+    ilbSeries = false;
+    ilbChamp = false;
   }
   
   String toString() => "$id Wins $wins Record: ($actualWins - $losses) " +
