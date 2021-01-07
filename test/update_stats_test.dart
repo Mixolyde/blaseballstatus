@@ -45,5 +45,5 @@ void main() {
       expect(standings[0].gbDiv.length, greaterThan(0));
       expect(standings[0].gbWc.length, greaterThan(0));      
     });
-  }, timeout: Timeout(Duration(minutes: 2)));
+  }, timeout: Timeout(Duration(minutes: 4)));
 }

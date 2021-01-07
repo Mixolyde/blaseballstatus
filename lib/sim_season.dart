@@ -88,7 +88,7 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
           break;
       }
     }
-    print("Standing ${standing.id} po: ${standing.po}");
+    //print("Standing ${standing.id} po: ${standing.po}");
   }));
   
 }
@@ -99,20 +99,9 @@ void simulateSeason(List<Game> games, Map<String, TeamSim> sims){
     TeamSim awaySim = sims[g.awayTeam];
     TeamSim homeSim = sims[g.homeTeam];
     //print("Simulate outcome of $g");
-    num awayChance = .5;
-    if(awaySim.actualWins_save != homeSim.actualWins_save ||
-      awaySim.losses_save != homeSim.losses_save){
-      //print("Uneven match: ${awaySim.actualWins_save}-${awaySim.losses_save} vs. " +
-      //  "${homeSim.actualWins_save}-${homeSim.losses_save}");
-      //Pa = (WPa * (1 - WPh)) / 
-      // ((WPa * (1 - WPh) + WPh * ( 1 - WPa)))
-      num WPa = awaySim.wins_save / (awaySim.losses_save + awaySim.wins_save);
-      num WPh = homeSim.wins_save / (homeSim.losses_save + homeSim.wins_save);
-      awayChance = (WPa * (1 - WPh)) / 
-       ((WPa * (1 - WPh) + WPh * ( 1 - WPa)));
-    }
-    //print("Calculated away win chance: $awayChance");    
-    if(rand.nextDouble() < awayChance){
+    TeamSim winner = simulateGame(awaySim, homeSim);
+    
+    if(winner == awaySim){
       awaySim.actualWins++;
       awaySim.wins++;
       homeSim.losses++;
@@ -126,19 +115,78 @@ void simulateSeason(List<Game> games, Map<String, TeamSim> sims){
   
 void simulatePostSeason(List<List<TeamSim>> simsByLeague){
   //simulate complete playoff run
+  List<TeamSim> leagueChampSims = new List<TeamSim>();
+  
   simsByLeague.forEach((simLeague) {
     sortTeamSims(simLeague);
+    
+    List<TeamSim> round1Sims = new List<TeamSim>(4);
+    round1Sims[0] = simLeague[0];
+    round1Sims[1] = simLeague[1];
+    round1Sims[2] = simLeague[2];
+    
+    List<TeamSim> round2Sims = new List<TeamSim>(2);
+    
     // wild card round
     // pick a random team not in playoffs and simulate
     int nonPlayoffCount = simLeague.length - 4;
-    int wildCardIndex = rand.nextInt(nonPlayoffCount) + 3;
+    int wildCardIndex = rand.nextInt(nonPlayoffCount) + 4;
     TeamSim wildCard = simLeague[wildCardIndex];
-    print("WildCard pick $wildCardIndex $wildCard");
+    //print("WildCard pick $wildCardIndex $wildCard");
+    //simulate 3 win series with wild card pic
+    TeamSim wildseriesWinner = simulateSeries(simLeague[3], wildCard, 2);
+    wildseriesWinner.wcSeries = true;
+    round1Sims[3] = wildseriesWinner;
+    print("WildCard pick $wildCardIndex $wildCard WildSeriesWinner $wildseriesWinner");
     
     // round 1
     // subleague round
   });
   // ilb round
+  
+}
+
+TeamSim simulateGame(TeamSim awaySim, TeamSim homeSim){
+  //default away chance
+  num awayChance = .5;
+  if(awaySim.actualWins_save != homeSim.actualWins_save ||
+    awaySim.losses_save != homeSim.losses_save){
+    //print("Uneven match: ${awaySim.actualWins_save}-${awaySim.losses_save} vs. " +
+    //  "${homeSim.actualWins_save}-${homeSim.losses_save}");
+    //Pa = (WPa * (1 - WPh)) / 
+    // ((WPa * (1 - WPh) + WPh * ( 1 - WPa)))
+    num WPa = awaySim.wins_save / (awaySim.losses_save + awaySim.wins_save);
+    num WPh = homeSim.wins_save / (homeSim.losses_save + homeSim.wins_save);
+    awayChance = (WPa * (1 - WPh)) / 
+     ((WPa * (1 - WPh) + WPh * ( 1 - WPa)));
+  }
+  
+  //print("Calculated away win chance: $awayChance");    
+  if(rand.nextDouble() < awayChance){
+    return awaySim;
+  } else {
+    return homeSim;        
+  }    
+  
+}
+
+TeamSim simulateSeries(TeamSim awaySim, TeamSim homeSim, int winsNeeded){
+  int awayWins = 0;
+  int homeWins = 0;
+  TeamSim winner;
+  while(awayWins < winsNeeded && homeWins < winsNeeded){
+    winner = simulateGame(awaySim, homeSim);
+    if(winner == awaySim){
+      awayWins++;
+    } else {
+      homeWins++;
+    }
+  }
+  if(awayWins >= winsNeeded){
+    return awaySim;
+  } else {
+    return homeSim;
+  }
   
 }
 

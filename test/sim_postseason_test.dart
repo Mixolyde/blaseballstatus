@@ -15,7 +15,7 @@ void main() {
     test('complete season', () { 
       int numTeams = 20;
       int numGames = 99;
-      int numCompleted = 0;
+      int numCompleted = 99;
       int numSims = 19;
       List<List<TeamStandings>> standings = createStandings(numTeams, numCompleted);
       List<Game> games = createSeasonOfGames(numGames, numCompleted, 
@@ -24,7 +24,7 @@ void main() {
          0.475, 0.5, 0.5, 0.5, 
          0.5, 0.5, 0.5, 0.5,
          0.5, 0.5, 0.5, 0.525,
-        0.525, 0.525, 0.525, 0.525]);    
+        0.525, 0.525, 0.525, 0.525]); 
       runSimulations(games, standings, numSims);
       standings.forEach((league) => league.forEach((stand) {
         for(int i = 0; i < 5; i++){

@@ -9,6 +9,39 @@ import '../lib/site_objects.dart';
 Random rand = new Random(0);
 
 void main() {
+  group('single game', () {
+    test('Teams with no games', () {
+      //id, this.actualWins, this.wins, this.losses, this.favor, this.division
+      TeamSim awaySim = new TeamSim("Team 1", 0, 0, 0, 1, "Div 1");
+      TeamSim homeSim = new TeamSim("Team 2", 0, 0, 0, 2, "Div 1");
+      awaySim.save();
+      homeSim.save();
+      
+      TeamSim result = simulateGame(awaySim, homeSim);
+      expect(result, isNotNull);
+      
+    });  
+    test('Unbalanced away team', () {
+      TeamSim awaySim = new TeamSim("Team 1", 1000, 1000, 0, 1, "Div 1");
+      TeamSim homeSim = new TeamSim("Team 2", 0, 0, 1000, 2, "Div 1");
+      awaySim.save();
+      homeSim.save();
+      
+      TeamSim result = simulateGame(awaySim, homeSim);
+      expect(result, awaySim);
+      
+    }); 
+    test('Unbalanced home team', () {
+      TeamSim awaySim = new TeamSim("Team 1", 0, 0, 1000, 1, "Div 1");
+      TeamSim homeSim = new TeamSim("Team 2", 1000, 1000, 0, 2, "Div 1");
+      awaySim.save();
+      homeSim.save();
+      
+      TeamSim result = simulateGame(awaySim, homeSim);
+      expect(result, homeSim);
+      
+    });     
+  });
   group('single simulation', () {
     test('Short season', () {
       List<Game> games = new List<Game>();
