@@ -29,8 +29,10 @@ void main() {
       standings.forEach((league) => league.forEach((stand) {
         for(int i = 0; i < 5; i++){
           expect(stand.po[i], isNot('-'));
+          expect(stand.post[i], isNot('-'));
         }
-      }));   
+      })); 
+      //total number of ilb champs should be numSims
     });
   });
 }

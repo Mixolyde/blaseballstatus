@@ -53,19 +53,36 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
     //sort and count positions
     simsByLeague.forEach((simLeague) {
       sortTeamSims(simLeague);
+      TeamSim sim;
       //print("Sorted simleague: $simLeague");
       for (int i = 0; i < simLeague.length; i++){
+        sim = simLeague[i];
         switch(i){
           case 0:
           case 1:
           case 2:
           case 3:
-            poCounts[simLeague[i].id][i]++;
+            poCounts[sim.id][i]++;
             break;
           default:
-            poCounts[simLeague[i].id][4]++;
+            poCounts[sim.id][4]++;
             break;
         }
+        if(sim.ilbChamp){
+          postCounts[sim.id][0]++;
+        }
+        if(sim.ilbSeries){
+          postCounts[sim.id][1]++;
+        }
+        if(sim.slSeries){
+          postCounts[sim.id][2]++;
+        }  
+        if(sim.r1Series){
+          postCounts[sim.id][3]++;
+        }   
+        if(sim.wcSeries){
+          postCounts[sim.id][4]++;
+        }        
       }
     });
     
@@ -74,7 +91,8 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
   
   //update standings with counts / numSims and formatted
   print("Completed $numSims simulations");
-  print(poCounts);
+  print("poCounts $poCounts");
+  print("postCounts $postCounts");
   standings.forEach((standingList) => standingList.forEach((standing) {
     for(int i = 0; i < 5; i++){
       switch(standing.winning[i]){
@@ -87,8 +105,12 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
           standing.po[i] = formatPercent(poCounts[standing.id][i] / numSims);
           break;
       }
+      
+      //postseason percents
+      standing.post[i] = formatPercent(postCounts[standing.id][i] / numSims);
+
     }
-    //print("Standing ${standing.id} po: ${standing.po}");
+    print("$standing Po ${standing.po} Post ${standing.post}");
   }));
   
 }
@@ -132,17 +154,33 @@ void simulatePostSeason(List<List<TeamSim>> simsByLeague){
     int nonPlayoffCount = simLeague.length - 4;
     int wildCardIndex = rand.nextInt(nonPlayoffCount) + 4;
     TeamSim wildCard = simLeague[wildCardIndex];
+    simLeague.take(4).forEach((sim) => sim.wcSeries = true);
+    wildCard.wcSeries = true;
     //print("WildCard pick $wildCardIndex $wildCard");
     //simulate 3 win series with wild card pic
-    TeamSim wildseriesWinner = simulateSeries(simLeague[3], wildCard, 2);
-    wildseriesWinner.wcSeries = true;
-    round1Sims[3] = wildseriesWinner;
-    print("WildCard pick $wildCardIndex $wildCard WildSeriesWinner $wildseriesWinner");
+    TeamSim wildSeriesWinner = simulateSeries(simLeague[3], wildCard, 2);
+    round1Sims[3] = wildSeriesWinner;
+    //print("WildCard pick $wildCardIndex $wildCard WildSeriesWinner $wildSeriesWinner");
+    round1Sims.forEach((sim) => sim.r1Series = true);
     
     // round 1
+    TeamSim r1SeriesWinnerA = simulateSeries(round1Sims[0], round1Sims[3], 3);
+    TeamSim r1SeriesWinnerB = simulateSeries(round1Sims[1], round1Sims[2], 3);
+    
     // subleague round
+    List<TeamSim> slRoundSims = new List<TeamSim>(2);
+    slRoundSims[0] = r1SeriesWinnerA;
+    slRoundSims[1] = r1SeriesWinnerB;
+    slRoundSims.forEach((sim) => sim.slSeries = true);
+    
+    TeamSim slWinner = simulateSeries(slRoundSims[0], slRoundSims[1], 3);
+    leagueChampSims.add(slWinner);
   });
   // ilb round
+  leagueChampSims.forEach((sim) => sim.ilbSeries = true);
+  TeamSim ilbWinner = simulateSeries(leagueChampSims[0], leagueChampSims[1], 3);
+  //print("ILBWinner: $ilbWinner");
+  ilbWinner.ilbChamp = true;
   
 }
 
