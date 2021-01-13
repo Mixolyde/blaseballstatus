@@ -7,6 +7,7 @@ Published at https://mixolyde.github.io/blaseballstatus
 
 ## TODO
 * Postseason chances
+* Handle postseason data live
 * Postseason schedule
 * Get a twitter account and button
 * Factor future schedule into magic numbers
@@ -41,6 +42,9 @@ Published at https://mixolyde.github.io/blaseballstatus
 - [ ] Postseason content
 - [x] Add emoji to team rows
 - [x] Show full team name in wide view
+* v0.0.7
+- [ ] Live Postseason chance updates
+
 
 ## Contributing
 

@@ -6,6 +6,7 @@ class TeamStandings {
   final String nickname;
   final String emoji;
   final String division;
+  final String subleague;
   int wins;
   int losses;
   final int gamesPlayed;
@@ -19,11 +20,11 @@ class TeamStandings {
   final List<String> post = ['-', '-', '-', '-', '-'];  
   
   TeamStandings(this.id, this.fullName, this.nickname, 
-    this.emoji, this.division,
+    this.emoji, this.subleague, this.division,
     this.wins, this.losses, this.gamesPlayed, this.favor);
     
   TeamStandings.fromMap({this.id, this.fullName,
-    this.nickname, this.emoji, this.division,
+    this.nickname, this.emoji, this.subleague, this.division,
     this.wins, this.losses,
     this.gamesPlayed, this.favor,
     this.gbDiv, this.gbWc,
@@ -42,6 +43,7 @@ class TeamStandings {
       fullName: json['fullName'] as String,
       nickname: json['nickname'] as String,
       emoji: json['emoji'] as String,
+      subleague: json['subleague'] as String,
       division: json['division'] as String,
       wins: json['wins'] as int,
       losses: json['losses'] as int,
@@ -61,6 +63,7 @@ class TeamStandings {
     'fullName': fullName,
     'nickname': nickname,
     'emoji': emoji,
+    'subleague': subleague,
     'division': division,
     'wins': wins,
     'losses': losses,
@@ -75,6 +78,6 @@ class TeamStandings {
   };
   
   @override
-  String toString() => "Standings: $nickname - $division ($wins - $losses) Favor: #$favor";
+  String toString() => "Standings: $nickname - $subleague $division ($wins - $losses) Favor: #$favor";
   
 }

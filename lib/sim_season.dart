@@ -94,6 +94,9 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
   print("poCounts $poCounts");
   print("postCounts $postCounts");
   standings.forEach((standingList) => standingList.forEach((standing) {
+    bool top3 = standing.winning.take(3).any((win) => win == "^");
+    bool top4 = top3 || standing.winning[3] == "^";
+    
     for(int i = 0; i < 5; i++){
       switch(standing.winning[i]){
         case '^':
@@ -107,8 +110,14 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
       }
       
       //postseason percents
-      standing.post[i] = formatPercent(postCounts[standing.id][i] / numSims);
-
+      //TODO handle ^ and X in i=3 and 4
+      if(i == 3 && top3) {
+        standing.post[i] = "^";
+      } else if ( i == 4 && top4){
+        standing.post[i] = "^";
+      } else {
+        standing.post[i] = formatPercent(postCounts[standing.id][i] / numSims);
+      }
     }
     print("$standing Po ${standing.po} Post ${standing.post}");
   }));

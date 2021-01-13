@@ -14,8 +14,9 @@ String aboutHTML;
 String chancesNotesHTML;
 String gamesbehindHTML;
 String magicHTML;
-String winningNotesHTML;
 String partytimeNotesHTML;
+String postseasonHTML;
+String winningNotesHTML;
 SiteData sitedata;
 
 CurrentView currentView = new CurrentView();
@@ -64,6 +65,7 @@ Future<void> getContentPages() async {
   magicHTML = await HttpRequest.getString('magic.html');
   chancesNotesHTML = await HttpRequest.getString('chancesNotes.html');
   partytimeNotesHTML = await HttpRequest.getString('partytimeNotes.html');
+  postseasonHTML = await HttpRequest.getString('postseason.html');
   winningNotesHTML = await HttpRequest.getString('winningNotes.html');
 }
 
@@ -92,6 +94,9 @@ Future<void> refreshData() async{
   case View.chances:
     populateChancesTable(subStandings[currentView.activeLeague]);
     break;    
+  case View.postseason:
+    populatePostseasonTable(subStandings);
+    break; 
   }
   
   querySelector('#lastUpdate').text = sitedata.lastUpdate;
@@ -117,6 +122,7 @@ void addListeners(){
   querySelector('#viewWinningNumbers').onClick.listen(selectViewW);
   querySelector('#viewPartyTimeNumbers').onClick.listen(selectViewPT);
   querySelector('#viewAbout').onClick.listen(selectViewAbout);
+  querySelector('#viewPostseasonChances').onClick.listen(selectViewPost);
   
   querySelector('#doGroup').onClick.listen(clickGroupByDivision);
 }
@@ -155,6 +161,7 @@ void selectViewAbout(MouseEvent event) => clickView(View.about);
 void selectViewC(MouseEvent event) => clickView(View.chances);
 void selectViewGB(MouseEvent event) => clickView(View.gamesbehind);
 void selectViewPT(MouseEvent event) => clickView(View.partytimemagic);
+void selectViewPost(MouseEvent event) => clickView(View.postseason);
 void selectViewW(MouseEvent event) => clickView(View.winningmagic);
 
 void clickView(View view){
@@ -174,6 +181,8 @@ void clickView(View view){
         .remove('nav-button-active');
       querySelector('#viewPartyTimeNumbers').classes
         .remove('nav-button-active');
+      querySelector('#viewPostseasonChances').classes
+        .remove('nav-button-active');        
 
       break;    
     case View.chances:
@@ -187,6 +196,8 @@ void clickView(View view){
         .remove('nav-button-active');
       querySelector('#viewPartyTimeNumbers').classes
         .remove('nav-button-active');
+      querySelector('#viewPostseasonChances').classes
+        .remove('nav-button-active');        
 
       break;       
     case View.gamesbehind:
@@ -200,6 +211,8 @@ void clickView(View view){
         .remove('nav-button-active');
       querySelector('#viewPartyTimeNumbers').classes
         .remove('nav-button-active');
+      querySelector('#viewPostseasonChances').classes
+        .remove('nav-button-active');        
 
       break;
     case View.winningmagic:
@@ -213,6 +226,8 @@ void clickView(View view){
         .add('nav-button-active');
       querySelector('#viewPartyTimeNumbers').classes
         .remove('nav-button-active');      
+      querySelector('#viewPostseasonChances').classes
+        .remove('nav-button-active');        
       
       break;
     case View.partytimemagic:
@@ -226,8 +241,23 @@ void clickView(View view){
         .remove('nav-button-active');
       querySelector('#viewPartyTimeNumbers').classes
         .add('nav-button-active');
+      querySelector('#viewPostseasonChances').classes
+        .remove('nav-button-active');        
 
       break;
+    case View.postseason:
+      querySelector('#viewAbout').classes
+        .remove('nav-button-active');
+      querySelector('#viewChances').classes
+        .remove('nav-button-active');        
+      querySelector('#viewGamesBehind').classes
+        .remove('nav-button-active');
+      querySelector('#viewWinningNumbers').classes
+        .remove('nav-button-active');
+      querySelector('#viewPartyTimeNumbers').classes
+        .remove('nav-button-active');
+      querySelector('#viewPostseasonChances').classes
+        .add('nav-button-active');        
   }
   
   saveCurrentView();
@@ -291,6 +321,12 @@ void redisplayData(){
     populatePartyTimeTable(subStandings[currentView.activeLeague]);
     setNotes(partytimeNotesHTML);
     break;
+  case View.postseason:
+    setMainContent(postseasonHTML);
+    querySelector('#leagueTitle').text =
+      "Internet League Blaseball Post Season Chances";
+    populatePostseasonTable(subStandings);
+    break;  
   }
 }
   
@@ -363,6 +399,62 @@ void populateChancesTable(List<TeamStandings> subStandings){
   }
 }
 
+void populatePostseasonTable(List<List<TeamStandings>> allStandings){
+  TableElement table = querySelector("#standingsTable");
+  List<TeamStandings> standings = new List<TeamStandings>();
+  standings.addAll(allStandings[0]);
+  standings.addAll(allStandings[1]);
+
+  standings.sort((a, b) {
+    if(currentView.groupByDiv){
+      if(a.subleague != b.subleague){
+        return a.subleague.compareTo(b.subleague);
+      } else if (a.division != b.division){
+        return a.division.compareTo(b.division);
+      }
+    }
+    for(int i = 0; i < 5; i++){
+      if(b.post[i] != a.post[i]){
+        return getOrderValue(b.post[i]).compareTo(getOrderValue(a.post[i]));
+      }
+    }
+    return 0;
+  });
+  
+  standings.forEach((row){
+    TableRowElement trow = insertCommonCells(table, row, showLeague: true);
+    for(int i = 0; i < 5; i++){
+      var cell = trow.insertCell(6 + i)
+        ..text = row.post[i];
+      if(row.winning[4] == "PT" || row.winning[3] == "DNCD" ){
+        cell.classes.add("redcell");
+      } else {
+        cell.classes.add("greencell");
+      }
+
+    }
+  });
+  
+  if(currentView.groupByDiv == true){
+    insertSeparatorRow(table, 7, 11); 
+    insertSeparatorRow(table, 13, 11); 
+    insertSeparatorRow(table, 19, 11); 
+  } 
+}
+
+int getOrderValue(String percent){
+  if(percent == "<1%"){
+    return 0;
+  } else if(percent == ">99%"){
+    return 100;
+  } else if(percent == "^"){
+    return 101;
+  } else {
+    String digits = percent.replaceAll("%", "");
+    return int.parse(digits);
+  }
+}
+
 void populateWinningTable(List<TeamStandings> subStandings){
   TableElement table = querySelector("#standingsTable");
   List<TeamStandings> standings = subStandings.toList();
@@ -374,7 +466,7 @@ void populateWinningTable(List<TeamStandings> subStandings){
   }
   
   standings.forEach((row){
-    TableRowElement trow = insertCommonCells(table, row);
+    TableRowElement trow = insertCommonCells(table, row, showLeague:true);
     for(int i = 0; i < 5; i++){
       var cell = trow.insertCell(5 + i)
         ..text = row.winning[i];
@@ -451,7 +543,7 @@ void populateAboutPageData(){
 }
 
 TableRowElement insertCommonCells(TableElement table, 
-  TeamStandings row){
+  TeamStandings row, {showLeague = false} ){
   TableRowElement trow = table.addRow();
   AnchorElement shortTeamLink = new AnchorElement(
     href:"https://www.blaseball.com/team/${row.id}")
@@ -462,7 +554,7 @@ TableRowElement insertCommonCells(TableElement table,
     ..text = row.fullName
     ..target = "_new";  
   SpanElement emojiSpan = new SpanElement();
-  print("Emoji string: ${row.emoji}");
+  //print("Emoji string: ${row.emoji}");
   if(row.emoji.startsWith("0")){
     emojiSpan.innerHtml = " &#${row.emoji.substring(1, row.emoji.length)};";
   } else if (row.nickname == "Lift") {
@@ -484,14 +576,19 @@ TableRowElement insertCommonCells(TableElement table,
   cell.children.add(narrowSpan);
   cell.children.add(emojiSpan);
   
-  
-  trow.insertCell(1)
+  int leagueAdjust = 0;
+  if(showLeague){
+    leagueAdjust = 1;
+    trow.insertCell(1)
+      ..text = row.subleague;    
+  }
+  trow.insertCell(1 + leagueAdjust)
     ..text = row.division;
-  trow.insertCell(2)
+  trow.insertCell(2 + leagueAdjust)
     ..text = (row.favor + 1).toString();
-  trow.insertCell(3)
+  trow.insertCell(3 + leagueAdjust)
     ..text = row.wins.toString();
-  trow.insertCell(4)
+  trow.insertCell(4 + leagueAdjust)
     ..text = row.losses.toString();   
 
   return trow;

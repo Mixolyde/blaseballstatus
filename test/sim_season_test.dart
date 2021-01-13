@@ -239,6 +239,7 @@ List<List<TeamStandings>> createStandings(int numTeams, int gamesPlayed){
     TeamStandings stand = new TeamStandings(
       "Team $team", "The Full Team ${team}s", 
       "The Team ${team}s", "Emoji ${team}",
+      "League ${team % 2}",
       "Div ${team % 4}",
       0, 0, gamesPlayed, team);
     standings[team % 2].add(stand);
