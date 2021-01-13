@@ -466,7 +466,7 @@ void populateWinningTable(List<TeamStandings> subStandings){
   }
   
   standings.forEach((row){
-    TableRowElement trow = insertCommonCells(table, row, showLeague:true);
+    TableRowElement trow = insertCommonCells(table, row);
     for(int i = 0; i < 5; i++){
       var cell = trow.insertCell(5 + i)
         ..text = row.winning[i];
