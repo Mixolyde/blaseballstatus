@@ -39,7 +39,7 @@ Published at https://mixolyde.github.io/blaseballstatus
 * v0.0.5
 - [x] Playoff prediction percentages
 * v0.0.6
-- [ ] Postseason content
+- [x] Postseason content
 - [x] Add emoji to team rows
 - [x] Show full team name in wide view
 * v0.0.7
