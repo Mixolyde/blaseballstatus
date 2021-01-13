@@ -99,7 +99,7 @@ Future<List<TeamStandings>> calculateSubLeague(Subleague sub, List<Game> games) 
     TeamStandings standing = 
       new TeamStandings(team.id, 
       team.fullName, team.nickname, team.emoji,
-      sub.name,
+      sub.name.split(' ')[1],
       divName,
       _standings.wins[team.id], 
       _standings.losses[team.id],
