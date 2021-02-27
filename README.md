@@ -6,12 +6,11 @@ An attempt to replicate [Playoff Status](http://playoffstatus.com)
 Published at https://mixolyde.github.io/blaseballstatus
 
 ## TODO
-* Postseason chances
-* Handle postseason data live
+* Schedule pages
 * Postseason schedule
+* Handle postseason data live
 * Get a twitter account and button
 * Factor future schedule into magic numbers
-* Schedule pages
 * Unit test coverage report
 * Pull database api code out into a separate library
 * Move project to a blaseball-specific account on github
@@ -43,6 +42,7 @@ Published at https://mixolyde.github.io/blaseballstatus
 - [x] Add emoji to team rows
 - [x] Show full team name in wide view
 * v0.0.7
+- [ ] Schedule pages
 - [ ] Live Postseason chance updates
 
 

@@ -11,8 +11,7 @@ Future<void> main() async {
   
   //overall blaseball status data
   SimulationData simData = await getSimulationData();
-  //TODO Remove this hack after siesta/cup
-  simData.day = 100;
+
   //site data
   SiteData sitedata = await calcSiteData(simData);
   print(sitedata);
