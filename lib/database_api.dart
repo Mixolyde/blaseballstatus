@@ -99,10 +99,14 @@ Future<Tiebreakers> getTiebreakers(String id) async {
 }
 
 Future<Playoffs> getPlayoffs(int season) async {
+  print('GetPlayoffs Request URL: ${_playoffsUrl + season.toString()}');
   var response = await get(_playoffsUrl 
     + season.toString() );
-  //print('Response body: ${response.body}');
-  return Playoffs.fromJson(json.decode(response.body));
+  print('Response body: ${response.body}');
+  if(response.body == "")
+    return null;
+  else
+    return Playoffs.fromJson(json.decode(response.body));
 }
 
 Future<PlayoffRound> getPlayoffRound(String roundID) async {
@@ -125,6 +129,9 @@ Future<List<PlayoffMatchups>> getPlayoffMatchups(List<String> matchIDs) async {
 
 Future<CompletePostseason> getCompletePostseason(int season) async {
   Playoffs playoffs = await getPlayoffs(season);
+  if(playoffs == null){
+    return null;
+  }
   Map<String, PlayoffRound> playoffRounds = new Map<String, PlayoffRound>();
   Map<String, PlayoffMatchups> playoffMatchups = new Map<String, PlayoffMatchups>();
   

@@ -158,6 +158,13 @@ void apiTests() {
       expect(current.playoffs.rounds.length, 4);
       expect(current.playoffs.winner, isNotNull);
       print(current);
+    });   
+    test('current postseason', () async {
+      SimulationData data = await getSimulationData();
+      expect(data.season, greaterThan(seasonNumber));      
+      CompletePostseason current = await getCompletePostseason(data.season);
+      print(current);
     });    
   });
+  
 }

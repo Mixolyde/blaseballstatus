@@ -26,19 +26,21 @@ class SimulationData {
   final String id;
   int day;
   final String league;
+  final int playOffRound;
   final int season;
   final String seasonId;
   final String eraTitle;
   final String subEraTitle;
 
-  SimulationData({this.id, this.day, this.league,
-  this.season, this.seasonId, this.eraTitle, this.subEraTitle});
+  SimulationData({this.id, this.day, this.league, this.playOffRound,
+    this.season, this.seasonId, this.eraTitle, this.subEraTitle});
   
   factory SimulationData.fromJson(Map<String, dynamic> json){
     return SimulationData(
       id: json['id'] as String,
       day: json['day'] as int,
       league: json['league'] as String,
+      playOffRound: json['playOffRound'] as int,
       season: json['season'] as int,
       seasonId: json['seasonId'] as String,
       eraTitle: json['eraTitle'] as String,
@@ -47,10 +49,6 @@ class SimulationData {
   }
   
   @override
-  String toString() => "Season $season, Day $day";
+  String toString() => "Season $season, Day $day, PlayoffRound $playOffRound";
 
-  
-  
-  
-  
 }
