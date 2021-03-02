@@ -19,7 +19,6 @@ Future<void> calculateChances(List<List<TeamStandings>> subStandings, int numSim
     
   //print(games[0]);
 
-  
   runSimulations(games, subStandings, numSims);
   
 }
@@ -211,7 +210,7 @@ TeamSim simulateGame(TeamSim awaySim, TeamSim homeSim, int teamCount){
       ((WPa * (1 - WPh) + WPh * ( 1 - WPa)));
     //adjust chance for N-team league average without this team
     //WP'(N) = WP - ((WP - .500) / (N - 1))
-    awayChance = awayChance - ((awayChance - .5) / teamCount - 1);
+    awayChance = awayChance - ((awayChance - .5) / (teamCount - 1));
   }
   
   //print("Calculated away win chance: $awayChance");    
