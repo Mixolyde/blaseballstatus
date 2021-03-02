@@ -99,10 +99,10 @@ Future<Tiebreakers> getTiebreakers(String id) async {
 }
 
 Future<Playoffs> getPlayoffs(int season) async {
-  print('GetPlayoffs Request URL: ${_playoffsUrl + season.toString()}');
+  //print('GetPlayoffs Request URL: ${_playoffsUrl + season.toString()}');
   var response = await get(_playoffsUrl 
     + season.toString() );
-  print('Response body: ${response.body}');
+  //print('Response body: ${response.body}');
   if(response.body == "")
     return null;
   else
