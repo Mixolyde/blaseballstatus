@@ -18,6 +18,7 @@ Future<void> calculateChances(List<List<TeamStandings>> subStandings, int numSim
   CompletePostseason postSeason = await getCompletePostseason(simData.season);
     
   //print(games[0]);
+
   
   runSimulations(games, subStandings, numSims);
   
@@ -130,7 +131,7 @@ void simulateSeason(List<Game> games, Map<String, TeamSim> sims){
     TeamSim awaySim = sims[g.awayTeam];
     TeamSim homeSim = sims[g.homeTeam];
     //print("Simulate outcome of $g");
-    TeamSim winner = simulateGame(awaySim, homeSim);
+    TeamSim winner = simulateGame(awaySim, homeSim, sims.length);
     
     if(winner == awaySim){
       awaySim.actualWins++;
@@ -145,6 +146,8 @@ void simulateSeason(List<Game> games, Map<String, TeamSim> sims){
 }
   
 void simulatePostSeason(List<List<TeamSim>> simsByLeague){
+  int teamCount = simsByLeague.fold(0, (sum, sub) => sum + sub.length);
+  
   //simulate complete playoff run
   List<TeamSim> leagueChampSims = new List<TeamSim>();
   
@@ -167,14 +170,14 @@ void simulatePostSeason(List<List<TeamSim>> simsByLeague){
     wildCard.wcSeries = true;
     //print("WildCard pick $wildCardIndex $wildCard");
     //simulate 3 win series with wild card pic
-    TeamSim wildSeriesWinner = simulateSeries(simLeague[3], wildCard, 2);
+    TeamSim wildSeriesWinner = simulateSeries(simLeague[3], wildCard, 2, teamCount);
     round1Sims[3] = wildSeriesWinner;
     //print("WildCard pick $wildCardIndex $wildCard WildSeriesWinner $wildSeriesWinner");
     round1Sims.forEach((sim) => sim.r1Series = true);
     
     // round 1
-    TeamSim r1SeriesWinnerA = simulateSeries(round1Sims[0], round1Sims[3], 3);
-    TeamSim r1SeriesWinnerB = simulateSeries(round1Sims[1], round1Sims[2], 3);
+    TeamSim r1SeriesWinnerA = simulateSeries(round1Sims[0], round1Sims[3], 3, teamCount);
+    TeamSim r1SeriesWinnerB = simulateSeries(round1Sims[1], round1Sims[2], 3, teamCount);
     
     // subleague round
     List<TeamSim> slRoundSims = new List<TeamSim>(2);
@@ -182,18 +185,18 @@ void simulatePostSeason(List<List<TeamSim>> simsByLeague){
     slRoundSims[1] = r1SeriesWinnerB;
     slRoundSims.forEach((sim) => sim.slSeries = true);
     
-    TeamSim slWinner = simulateSeries(slRoundSims[0], slRoundSims[1], 3);
+    TeamSim slWinner = simulateSeries(slRoundSims[0], slRoundSims[1], 3, teamCount);
     leagueChampSims.add(slWinner);
   });
   // ilb round
   leagueChampSims.forEach((sim) => sim.ilbSeries = true);
-  TeamSim ilbWinner = simulateSeries(leagueChampSims[0], leagueChampSims[1], 3);
+  TeamSim ilbWinner = simulateSeries(leagueChampSims[0], leagueChampSims[1], 3, teamCount);
   //print("ILBWinner: $ilbWinner");
   ilbWinner.ilbChamp = true;
   
 }
 
-TeamSim simulateGame(TeamSim awaySim, TeamSim homeSim){
+TeamSim simulateGame(TeamSim awaySim, TeamSim homeSim, int teamCount){
   //default away chance
   num awayChance = .5;
   if(awaySim.actualWins_save != homeSim.actualWins_save ||
@@ -205,7 +208,10 @@ TeamSim simulateGame(TeamSim awaySim, TeamSim homeSim){
     num WPa = awaySim.wins_save / (awaySim.losses_save + awaySim.wins_save);
     num WPh = homeSim.wins_save / (homeSim.losses_save + homeSim.wins_save);
     awayChance = (WPa * (1 - WPh)) / 
-     ((WPa * (1 - WPh) + WPh * ( 1 - WPa)));
+      ((WPa * (1 - WPh) + WPh * ( 1 - WPa)));
+    //adjust chance for N-team league average without this team
+    //WP'(N) = WP - ((WP - .500) / (N - 1))
+    awayChance = awayChance - ((awayChance - .5) / teamCount - 1);
   }
   
   //print("Calculated away win chance: $awayChance");    
@@ -217,12 +223,12 @@ TeamSim simulateGame(TeamSim awaySim, TeamSim homeSim){
   
 }
 
-TeamSim simulateSeries(TeamSim awaySim, TeamSim homeSim, int winsNeeded){
+TeamSim simulateSeries(TeamSim awaySim, TeamSim homeSim, int winsNeeded, int teamCount){
   int awayWins = 0;
   int homeWins = 0;
   TeamSim winner;
   while(awayWins < winsNeeded && homeWins < winsNeeded){
-    winner = simulateGame(awaySim, homeSim);
+    winner = simulateGame(awaySim, homeSim, teamCount);
     if(winner == awaySim){
       awayWins++;
     } else {
@@ -269,11 +275,11 @@ void sortTeamSims(List<TeamSim> teams) {
     team.division == firstDiv) ||
     teams.take(4).every((team) =>
     team.division != firstDiv)){
-    print("Top four teams are the same division");
+    //print("Top four teams are the same division");
     //find top of other division
     TeamSim otherLeader = teams.firstWhere((team) =>
       team.division != firstDiv);
-    print("Moving $otherLeader");
+    //print("Moving $otherLeader");
     teams.remove(otherLeader);
     teams.insert(3, otherLeader);
   }  
