@@ -41,7 +41,7 @@ void main() {
     //setup auto refresh
     var cron = new Cron();
     //Every five minutes from 20-50 after Mon - Sat
-    cron.schedule(new Schedule.parse('21,26,31,36,41,46,51 * * * 1-6'), () async {
+    cron.schedule(new Schedule.parse('1,21,26,31,36,41,46,51 * * * 1-6'), () async {
       if(!document.hidden && 
         currentView.activeView != View.about){
         refreshData();
@@ -52,6 +52,7 @@ void main() {
 
 Future<void> getContentPages() async {
   sitedata = await s3.getSiteData();
+  print("Initial sitedata: $sitedata");
   setSeasonDay(sitedata.season + 1, sitedata.day + 1);
   subStandings = await s3.getSubStandings(sitedata);
   
@@ -73,6 +74,8 @@ Future<void> refreshData() async{
   //get all data for displaying
   print('Refreshing data');
   sitedata = await s3.getSiteData();
+  print("Updated sitedata: $sitedata");
+  
   setSeasonDay(sitedata.season + 1, sitedata.day + 1);
   subStandings = await s3.getSubStandings(sitedata);
   
