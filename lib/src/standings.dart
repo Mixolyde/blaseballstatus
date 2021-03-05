@@ -112,7 +112,7 @@ class Standings {
     Map<String, double> runs = runsMap.map(
       (k, v) { return new MapEntry(k.toString(), double.parse(v.toString())); });
     var gamesPlayedMap = json['gamesPlayed'] as Map<String, dynamic>;  
-    Map<String, int> gamesPlayed = winsMap.map(
+    Map<String, int> gamesPlayed = gamesPlayed.map(
       (k, v) { return new MapEntry(k.toString(), int.parse(v.toString())); });
     return Standings(
       id: json['id'] as String,
