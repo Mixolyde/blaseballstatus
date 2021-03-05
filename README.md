@@ -7,6 +7,7 @@ Published at https://mixolyde.github.io/blaseballstatus
 
 ## TODO
 * Display real records in tables
+* Add ARCHITECTURE.MD
 * Postseason schedule
 * Handle postseason data live
 * Team rank history over season chart

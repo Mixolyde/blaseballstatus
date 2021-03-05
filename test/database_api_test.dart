@@ -30,7 +30,7 @@ void apiTests() {
       Season season = await getSeason(data.season);
       Standings current = await getStandings(season.standings);
       expect(current, isNotNull);
-      expect(current.wins.length, teamCount);
+      expect(current.wins.length, greaterThanOrEqualTo(teamCount));
       expect(current.losses.length, greaterThanOrEqualTo(teamCount));
     });
     test('Get League', () async {
