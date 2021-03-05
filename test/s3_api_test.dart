@@ -20,7 +20,7 @@ void apiTests() {
       SiteData data = await getSiteData();
       List<List<TeamStandings>> subStandings = await getSubStandings(data);
       expect(subStandings[0], isNotNull);
-      expect(subStandings[0].length, 10);
+      expect(subStandings[0].length, greaterThanOrEqualTo(10));
       expect(subStandings[0][0].id, isNotNull);
       expect(subStandings[0][9].gbDiv, isNot('-'));
       expect(subStandings[0][9].gbWc, isNot('-'));
