@@ -38,8 +38,6 @@ class TeamStandings {
   }
     
   factory TeamStandings.fromJson(Map<String, dynamic> json){
-    print("fromJson Literal gbDiv: ${json['gbDiv']} ToString: ${json['gbDiv'] as String}");
-    print("fromJson Literal gbWc: ${json['gbWc']} ToString: ${json['gbWc'] as String}");
     return TeamStandings.fromMap(
       id: json['id'] as String,
       fullName: json['fullName'] as String,
