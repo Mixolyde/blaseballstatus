@@ -345,8 +345,6 @@ void populateGamesBehindTable(List<TeamStandings> subStandings){
   }
   
   standings.forEach((row){
-    print("Literal gbDiv: ${row.gbDiv} ToString: ${row.gbDiv.toString()}");
-    print("Literal gbWc: ${row.gbWc} ToString: ${row.gbWc.toString()}");
     TableRowElement trow = insertCommonCells(table, row);
     trow.insertCell(5)
       ..text = row.gamesPlayed.toString();    
