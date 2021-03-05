@@ -90,10 +90,7 @@ Future<List<TeamStandings>> calculateSubLeague(Subleague sub, List<Game> games) 
     int gamesPlayed = 99;
     if (day < 99){
       //regular season
-      Game todayGame = games.firstWhere((g) =>
-        g.awayTeam == team.id || g.homeTeam == team.id);
-      gamesPlayed = todayGame.gameComplete ?
-        day + 1 : day;
+      gamesPlayed = _standings.gamesPlayed[team.id];
     }
     
     TeamStandings standing = 

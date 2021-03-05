@@ -6,8 +6,10 @@ An attempt to replicate [Playoff Status](http://playoffstatus.com)
 Published at https://mixolyde.github.io/blaseballstatus
 
 ## TODO
+* Display real records in tables
 * Postseason schedule
 * Handle postseason data live
+* Team rank history over season chart
 * Schedule pages
 * Get a twitter account and button
 * Factor future schedule into magic numbers

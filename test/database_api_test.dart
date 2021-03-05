@@ -31,7 +31,7 @@ void apiTests() {
       Standings current = await getStandings(season.standings);
       expect(current, isNotNull);
       expect(current.wins.length, teamCount);
-      expect(current.losses.length, teamCount);
+      expect(current.losses.length, greaterThanOrEqualTo(teamCount));
     });
     test('Get League', () async {
       League current = await getLeague();
@@ -55,7 +55,7 @@ void apiTests() {
       Division current = await getDivision(subleague.divisionId1);
       expect(current, isNotNull);
       expect(current.teams, isNotNull);
-      expect(current.teams.length, divisionCount);
+      expect(current.teams.length, greaterThanOrEqualTo(divisionCount));
       print("Division: $current");
     });
     test('Get Tiebreakers', () async {
@@ -63,7 +63,7 @@ void apiTests() {
       Tiebreakers current = await getTiebreakers(league.tiebreakersId);
       expect(current, isNotNull);
       expect(current.order, isNotNull);
-      expect(current.order.length, 20);
+      expect(current.order.length, greaterThanOrEqualTo(teamCount));
       print("$current");
     });  
     test('Get games first day of season', () async {

@@ -345,6 +345,8 @@ void populateGamesBehindTable(List<TeamStandings> subStandings){
   }
   
   standings.forEach((row){
+    print("Literal gbDiv: ${row.gbDiv} ToString: ${row.gbDiv.toString()}");
+    print("Literal gbWc: ${row.gbWc} ToString: ${row.gbWc.toString()}");
     TableRowElement trow = insertCommonCells(table, row);
     trow.insertCell(5)
       ..text = row.gamesPlayed.toString();    
@@ -353,7 +355,7 @@ void populateGamesBehindTable(List<TeamStandings> subStandings){
     trow.insertCell(7)
       ..text = row.gbDiv;        
     trow.insertCell(8)
-      ..text = row.gbWc.toString();
+      ..text = row.gbWc;
   });
   
   if(currentView.groupByDiv == true){
