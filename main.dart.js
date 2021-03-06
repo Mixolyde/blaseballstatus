@@ -3823,7 +3823,7 @@ r=p.a_(a,new F.jJ(s))
 o=P.ac(r,!0,r.$ti.h("f.E"))
 p=p.a_(a,new F.jK(s))
 C.b.N(o,P.ac(p,!0,p.$ti.h("f.E")))}C.b.C(o,new F.jL(q))
-if($.K().c===!0)F.b2(q,7,9)
+if($.K().c===!0)F.b2(q,8,9)
 else F.b2(q,6,9)},
 mD:function(a){var s,r,q=t.y.a(document.querySelector("#standingsTable")),p=J.aG(a),o=p.ai(a)
 if($.K().c===!0){s=p.i(a,0).e
@@ -3831,16 +3831,16 @@ r=p.a_(a,new F.jG(s))
 o=P.ac(r,!0,r.$ti.h("f.E"))
 p=p.a_(a,new F.jH(s))
 C.b.N(o,P.ac(p,!0,p.$ti.h("f.E")))}C.b.C(o,new F.jI(q))
-if($.K().c===!0)F.b2(q,7,10)
+if($.K().c===!0)F.b2(q,8,10)
 else F.b2(q,6,10)},
 mG:function(a){var s=t.y.a(document.querySelector("#standingsTable")),r=H.l([],t.C),q=J.O(a)
 C.b.N(r,q.i(a,0))
 C.b.N(r,q.i(a,1))
 C.b.af(r,new F.jP())
 C.b.C(r,new F.jQ(s))
-if($.K().c===!0){F.b2(s,7,11)
-F.b2(s,13,11)
-F.b2(s,19,11)}},
+if($.K().c===!0){F.b2(s,8,11)
+F.b2(s,15,11)
+F.b2(s,22,11)}},
 mq:function(a){if(a==="<1%")return 0
 else if(a===">99%")return 100
 else if(a==="^")return 101
@@ -3852,7 +3852,7 @@ r=p.a_(a,new F.jR(s))
 o=P.ac(r,!0,r.$ti.h("f.E"))
 p=p.a_(a,new F.jS(s))
 C.b.N(o,P.ac(p,!0,p.$ti.h("f.E")))}C.b.C(o,new F.jT(q))
-if($.K().c===!0)F.b2(q,7,10)
+if($.K().c===!0)F.b2(q,8,10)
 else F.b2(q,6,10)},
 mF:function(a){var s,r,q=t.y.a(document.querySelector("#standingsTable")),p=J.aG(a),o=p.ai(a)
 if($.K().c===!0){s=p.i(a,0).e
@@ -3860,7 +3860,7 @@ r=p.a_(a,new F.jM(s))
 o=P.ac(r,!0,r.$ti.h("f.E"))
 p=p.a_(a,new F.jN(s))
 C.b.N(o,P.ac(p,!0,p.$ti.h("f.E")))}C.b.C(o,new F.jO(q))
-if($.K().c===!0)F.b2(q,7,10)
+if($.K().c===!0)F.b2(q,8,10)
 else F.b2(q,6,10)},
 qI:function(){var s,r,q,p,o=document,n=t.b8.a(o.querySelector("#tiebreakerlist"))
 n.toString
