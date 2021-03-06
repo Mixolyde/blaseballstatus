@@ -6,7 +6,6 @@ An attempt to replicate [Playoff Status](http://playoffstatus.com)
 Published at https://mixolyde.github.io/blaseballstatus
 
 ## TODO
-* Display real records in tables
 * Add ARCHITECTURE.MD
 * Probability paper acknowledgement
 * Postseason schedule

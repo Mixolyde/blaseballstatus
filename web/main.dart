@@ -439,9 +439,9 @@ void populatePostseasonTable(List<List<TeamStandings>> allStandings){
   });
   
   if(currentView.groupByDiv == true){
-    insertSeparatorRow(table, 8, 11); 
-    insertSeparatorRow(table, 15, 11); 
-    insertSeparatorRow(table, 22, 11); 
+    insertSeparatorRow(table, 7, 11); 
+    insertSeparatorRow(table, 14, 11); 
+    insertSeparatorRow(table, 21, 11); 
   } 
 }
 
@@ -591,8 +591,9 @@ TableRowElement insertCommonCells(TableElement table,
     ..text = (row.favor + 1).toString();
   trow.insertCell(3 + leagueAdjust)
     ..text = row.wins.toString();
+  String record = "(${row.gamesPlayed - row.losses} - ${row.losses})";
   trow.insertCell(4 + leagueAdjust)
-    ..text = row.losses.toString();   
+    ..text = record;   
 
   return trow;
 
