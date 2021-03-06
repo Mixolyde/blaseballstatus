@@ -99,10 +99,10 @@ Future<Tiebreakers> getTiebreakers(String id) async {
 }
 
 Future<Playoffs> getPlayoffs(int season) async {
-  //print('GetPlayoffs Request URL: ${_playoffsUrl + season.toString()}');
+  print('GetPlayoffs Request URL: ${_playoffsUrl + season.toString()}');
   var response = await get(_playoffsUrl 
     + season.toString() );
-  //print('Response body: ${response.body}');
+  print('Response body: ${response.body}');
   if(response.body == "")
     return null;
   else
@@ -137,11 +137,14 @@ Future<CompletePostseason> getCompletePostseason(int season) async {
   
   playoffs.rounds.forEach((id) async {
     playoffRounds[id] = await getPlayoffRound(id);
-    List<PlayoffMatchups> matchups = await 
-      getPlayoffMatchups(playoffRounds[id].matchupIDs);
-    matchups.forEach((matchup){
-      playoffMatchups[matchup.id] = matchup;
-    });
+    if (playoffRounds[id].matchupIDs.length > 0){
+      List<PlayoffMatchups> matchups = await 
+        getPlayoffMatchups(playoffRounds[id].matchupIDs);
+      if(matchups != null){}
+      matchups.forEach((matchup){
+        playoffMatchups[matchup.id] = matchup;
+      });
+    }
   });
   
   return new CompletePostseason(id: playoffs.id, playoffs: playoffs, 

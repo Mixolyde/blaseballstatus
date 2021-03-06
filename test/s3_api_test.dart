@@ -28,7 +28,7 @@ void apiTests() {
       expect(subStandings[0][0].partytime[0], isNot('-'));      
       
       expect(subStandings[1], isNotNull);
-      expect(subStandings[1].length, 10);
+      expect(subStandings[1].length, greaterThanOrEqualTo(10));
       expect(subStandings[1][0].id, isNotNull);
       expect(subStandings[1][9].gbDiv, isNot('-'));
       expect(subStandings[1][9].gbWc, isNot('-'));      
