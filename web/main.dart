@@ -357,7 +357,7 @@ void populateGamesBehindTable(List<TeamStandings> subStandings){
   });
   
   if(currentView.groupByDiv == true){
-    insertSeparatorRow(table, 7, 9); 
+    insertSeparatorRow(table, 8, 9); 
   } else {
     insertSeparatorRow(table, 6, 9); 
   }
@@ -396,7 +396,7 @@ void populateChancesTable(List<TeamStandings> subStandings){
   });
   
   if(currentView.groupByDiv == true){
-    insertSeparatorRow(table, 7, 10); 
+    insertSeparatorRow(table, 8, 10); 
   } else {
     insertSeparatorRow(table, 6, 10); 
   }
@@ -439,9 +439,9 @@ void populatePostseasonTable(List<List<TeamStandings>> allStandings){
   });
   
   if(currentView.groupByDiv == true){
-    insertSeparatorRow(table, 7, 11); 
-    insertSeparatorRow(table, 13, 11); 
-    insertSeparatorRow(table, 19, 11); 
+    insertSeparatorRow(table, 8, 11); 
+    insertSeparatorRow(table, 15, 11); 
+    insertSeparatorRow(table, 22, 11); 
   } 
 }
 
@@ -487,7 +487,7 @@ void populateWinningTable(List<TeamStandings> subStandings){
   });
   
   if(currentView.groupByDiv == true){
-    insertSeparatorRow(table, 7, 10); 
+    insertSeparatorRow(table, 8, 10); 
   } else {
     insertSeparatorRow(table, 6, 10); 
   }
@@ -521,7 +521,7 @@ void populatePartyTimeTable(List<TeamStandings> subStandings){
   });
   
   if(currentView.groupByDiv == true){
-    insertSeparatorRow(table, 7, 10); 
+    insertSeparatorRow(table, 8, 10); 
   } else {
     insertSeparatorRow(table, 6, 10); 
   }
