@@ -3868,7 +3868,7 @@ C.ad.cr(n)
 s=H.l([],t.C)
 C.b.N(s,J.aA($.az,0))
 C.b.N(s,J.aA($.az,1))
-for(r=0;r<20;++r){q=C.b.eW(s,new F.jF(r))
+for(r=0;r<s.length;++r){q=C.b.eW(s,new F.jF(r))
 p=o.createElement("li")
 C.a7.sw(p,q.c)
 n.appendChild(p)}},
