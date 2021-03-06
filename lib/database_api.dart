@@ -102,7 +102,7 @@ Future<Playoffs> getPlayoffs(int season) async {
   print('GetPlayoffs Request URL: ${_playoffsUrl + season.toString()}');
   var response = await get(_playoffsUrl 
     + season.toString() );
-  print('Response body: ${response.body}');
+  //print('Response body: ${response.body}');
   if(response.body == "")
     return null;
   else
@@ -110,8 +110,7 @@ Future<Playoffs> getPlayoffs(int season) async {
 }
 
 Future<PlayoffRound> getPlayoffRound(String roundID) async {
-  var response = await get(_playoffRoundUrl 
-    + roundID );
+  var response = await get(_playoffRoundUrl + roundID );
   //print('Response body: ${response.body}');
   return PlayoffRound.fromJson(json.decode(response.body));
 }
