@@ -591,7 +591,7 @@ TableRowElement insertCommonCells(TableElement table,
     ..text = (row.favor + 1).toString();
   trow.insertCell(3 + leagueAdjust)
     ..text = row.wins.toString();
-  String record = "(${row.gamesPlayed - row.losses} - ${row.losses})";
+  String record = "${row.gamesPlayed - row.losses} - ${row.losses}";
   trow.insertCell(4 + leagueAdjust)
     ..text = record;   
 
