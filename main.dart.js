@@ -3913,7 +3913,7 @@ m=b.y
 r=b.x
 if(typeof m!=="number")return m.a5()
 if(typeof r!=="number")return H.F(r)
-h="("+(m-r)+" - "+r+")"
+h=""+(m-r)+" - "+r
 p=p.a(C.d.W(s,4+i));(p&&C.f).sw(p,h)
 return s},
 b2:function(a,b,c){var s,r
