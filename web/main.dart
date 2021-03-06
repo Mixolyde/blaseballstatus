@@ -535,7 +535,7 @@ void populateAboutPageData(){
   List<TeamStandings> allStandings = new List<TeamStandings>();
     allStandings.addAll(subStandings[0]);
     allStandings.addAll(subStandings[1]);      
-  for(int favor = 0; favor < 20; favor++){
+  for(int favor = 0; favor < allStandings.length; favor++){
     TeamStandings stand = allStandings.firstWhere((team) =>
       team.favor == favor);
     LIElement item = new LIElement();
