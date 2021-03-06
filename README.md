@@ -3,10 +3,9 @@
 An attempt to replicate [Playoff Status](http://playoffstatus.com)
  behavior, but for [Blaseball](https://blaseball.com).
  
-Published at https://mixolyde.github.io/blaseballstatus
+Published at https://mixolyde.net/blaseballstatus/
 
 ## TODO
-* Add ARCHITECTURE.MD
 * Probability paper acknowledgement
 * Postseason schedule
 * Handle postseason data live
@@ -111,6 +110,24 @@ git push origin --set-upstream gh-pages
 
 Your site should eventually get published to 
 `yourusername.github.io/blaseballstatus`.
+
+## Architecture
+There are two main code components, and three infrastructure components.
+
+### Code components
+1. `tools/update_stats.dart` - a CLI script which generates the json data files
+for the site and uploads them to an S3 bucket in AWS.
+2. `web` - All of the web site code that gets published to the gh-pages branch
+by the dart plugin Peanut.
+
+### Infrastructure components
+1. AWS S3 - A public data bucket for holding the json data structures with all of the stats and season
+data.
+2. AWS EC2 - A very simple server with a cronjob for periodically running
+`tools\update_stats.dart`
+3. Codeship - An automated build service which automatically tests the code
+and deploys the published web site to the gh-pages branch, which is picked up
+by github and deployed to the site.
 
 
 ## Acknowledgements
