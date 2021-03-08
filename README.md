@@ -6,6 +6,8 @@ An attempt to replicate [Playoff Status](http://playoffstatus.com)
 Published at https://mixolyde.net/blaseballstatus/
 
 ## TODO
+* Add games left to magic number pages
+* Make simulation count an argument to script
 * Probability paper acknowledgement
 * Postseason schedule
 * Handle postseason data live
