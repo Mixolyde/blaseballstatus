@@ -125,8 +125,10 @@ void populateWinningTable(List<TeamStandings> subStandings, bool groupByDiv){
   
   standings.forEach((row){
     TableRowElement trow = insertCommonCells(table, row);
+    var cell = trow.insertCell(5)
+      ..text = (99 - row.gamesPlayed).toString();      
     for(int i = 0; i < 5; i++){
-      var cell = trow.insertCell(5 + i)
+      var cell = trow.insertCell(6 + i)
         ..text = row.winning[i];
       switch (row.winning[i]){
         case "PT":
@@ -142,9 +144,9 @@ void populateWinningTable(List<TeamStandings> subStandings, bool groupByDiv){
   });
   
   if(groupByDiv == true){
-    insertSeparatorRow(table, 8, 10); 
+    insertSeparatorRow(table, 8, 11); 
   } else {
-    insertSeparatorRow(table, 6, 10); 
+    insertSeparatorRow(table, 6, 11); 
   }
 }
 
@@ -159,9 +161,11 @@ void populatePartyTimeTable(List<TeamStandings> subStandings, bool groupByDiv){
   }
   
   standings.forEach((row){
-    TableRowElement trow = insertCommonCells(table, row);     
+    TableRowElement trow = insertCommonCells(table, row);   
+    var cell = trow.insertCell(5)
+      ..text = (99 - row.gamesPlayed).toString();    
     for(int i = 0; i < 5; i++){
-      var cell = trow.insertCell(5 + i)
+      var cell = trow.insertCell(6 + i)
         ..text = row.partytime[i];
       switch (row.partytime[i]){
         case "PT":
@@ -176,9 +180,9 @@ void populatePartyTimeTable(List<TeamStandings> subStandings, bool groupByDiv){
   });
   
   if(groupByDiv == true){
-    insertSeparatorRow(table, 8, 10); 
+    insertSeparatorRow(table, 8, 11); 
   } else {
-    insertSeparatorRow(table, 6, 10); 
+    insertSeparatorRow(table, 6, 11); 
   }
 }
 
