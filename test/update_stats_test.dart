@@ -10,7 +10,7 @@ import '../lib/site_objects.dart';
 void main() {
   group('update tests', () {
     test('update and load objects', () async {
-      await update.main();
+      await update.main(["-c", "100"]);
       
       Directory temp = Directory.systemTemp;
       File aws = new File(temp.path + '/data/sitedata.json');

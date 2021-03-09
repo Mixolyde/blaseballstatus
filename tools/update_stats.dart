@@ -1,12 +1,20 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:args/args.dart';
 import 'package:intl/intl.dart';
 import '../lib/calc_stats.dart';
 import '../lib/database_api.dart';
 import '../lib/sim_season.dart';
 import '../lib/site_objects.dart';
 
-Future<void> main() async {  
+const simCount = 'sim-count';
+
+Future<void> main(List<String> args) async {  
+  var parser = ArgParser();
+  parser.addOption(simCount, abbr: 'c',  defaultsTo: '103');
+  var results = parser.parse(args);
+  int numSims = int.parse(results[simCount]);
+  
   apiUrl = "https://blaseball.com/database/";
   
   //overall blaseball status data
@@ -23,7 +31,7 @@ Future<void> main() async {
   print(subStandings[0]);
   print(subStandings[1]);
   
-  int numSims = 100003;
+
   //numSims = 17;
   var chances = await calculateChances(subStandings, numSims);
   
