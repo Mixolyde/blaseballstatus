@@ -70,7 +70,7 @@ void apiTests() {
       SimulationData data = await getSimulationData();
       List<Game> current = await getGames(data.season, 0);
       expect(current, isNotNull);
-      expect(current.length, 10);
+      expect(current.length, greaterThanOrEqualTo(10));
       expect(current[0], isNotNull);      
       print("Day 0 Game 0: ${current[0]}");
     });   
@@ -78,7 +78,7 @@ void apiTests() {
       SimulationData data = await getSimulationData();
       List<Game> current = await getGames(data.season, 98);
       expect(current, isNotNull);
-      expect(current.length, 10);
+      expect(current.length, greaterThanOrEqualTo(10));
       expect(current[0], isNotNull);      
       print("Day 98 Game 0: ${current[0]}");
     });     
