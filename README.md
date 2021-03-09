@@ -8,6 +8,7 @@ Published at https://mixolyde.net/blaseballstatus/
 ## TODO
 * Add games left to magic number pages
 * Make simulation count an argument to script
+* Figure out what's up with tied records getting weird sim results
 * Probability paper acknowledgement
 * Postseason schedule
 * Handle postseason data live
