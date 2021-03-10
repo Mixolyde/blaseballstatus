@@ -6,7 +6,6 @@ An attempt to replicate [Playoff Status](http://playoffstatus.com)
 Published at https://mixolyde.net/blaseballstatus/
 
 ## TODO
-* Make simulation count an argument to script
 * Figure out what's up with tied records getting weird sim results
 * Postseason schedule
 * Handle postseason data live

@@ -204,8 +204,8 @@ TeamSim simulateGame(TeamSim awaySim, TeamSim homeSim, int teamCount){
     //  "${homeSim.actualWins_save}-${homeSim.losses_save}");
     //Pa = (WPa * (1 - WPh)) / 
     // ((WPa * (1 - WPh) + WPh * ( 1 - WPa)))
-    num WPa = awaySim.wins_save / (awaySim.losses_save + awaySim.wins_save);
-    num WPh = homeSim.wins_save / (homeSim.losses_save + homeSim.wins_save);
+    num WPa = awaySim.actualWins_save / (awaySim.losses_save + awaySim.actualWins_save);
+    num WPh = homeSim.actualWins_save / (homeSim.losses_save + homeSim.actualWins_save);
     awayChance = (WPa * (1 - WPh)) / 
       ((WPa * (1 - WPh) + WPh * ( 1 - WPa)));
     //adjust chance for N-team league average without this team
