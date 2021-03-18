@@ -279,19 +279,31 @@ void main() {
         for (int j = 0; j < 5; j++){
           if (i >= 4 && j == 4){
             expect(standings[i].winning[j], "PT");
-            
-          }
-
-          if (i >= 4 && j < 4){
-            expect(standings[i].winning[j], "X");
-          }
-          if (i < 4 && j == 4){
+          } else if (i == j && j < 4){
+            expect(standings[i].winning[j], "^");
+          } else {
             expect(standings[i].winning[j], "X");
           }
         }
       }
     });      
-    
+    test('End of season with resort', () {
+      var standings = getEndOfSeasonResortNeededStandings();
+      sortTeamsNotGrouped(standings);
+      calculateMagicNumbers(standings);
+      for(int i = 0; i < standings.length; i++){
+        print("${standings[i]} ${standings[i].winning}");
+        for (int j = 0; j < 5; j++){
+          if (i >= 4 && j == 4){
+            expect(standings[i].winning[j], "PT");
+          } else if (i == j && j < 4){
+            expect(standings[i].winning[j], "^");
+          } else {
+            expect(standings[i].winning[j], "X");
+          }
+        }
+      }
+    });      
   });  
   group('Party Time magic number tests', () {
     test('Near season end', () {
@@ -496,25 +508,32 @@ void main() {
         for (int j = 0; j < 5; j++){
           if (i >= 4 && j == 4){
             expect(standings[i].partytime[j], "PT");
-            
-          }
-          if (i < 4 && j < 4){
-            if (i != j){
-              expect(standings[i].partytime[j], "X");
-            } else {
-              expect(standings[i].partytime[j], "^");
-            }
-          }
-          if (i >= 4 && j < 4){
-            expect(standings[i].partytime[j], "X");
-          }
-          if (i < 4 && j == 4){
+          } else if (i == j && j < 4){
+            expect(standings[i].partytime[j], "^");
+          } else {
             expect(standings[i].partytime[j], "X");
           }
         }
       }
     });      
-    
+    test('End of season, resort needed', () {
+      var standings = getEndOfSeasonResortNeededStandings();
+      sortTeamsNotGrouped(standings);
+      calculateMagicNumbers(standings);
+      
+      for(int i = 0; i < standings.length; i++){
+        print("${standings[i]} ${standings[i].partytime}");
+        for (int j = 0; j < 5; j++){
+          if (i >= 4 && j == 4){
+            expect(standings[i].partytime[j], "PT");
+          } else if (i == j && j < 4){
+            expect(standings[i].partytime[j], "^");
+          } else {
+            expect(standings[i].partytime[j], "X");
+          }
+        }
+      }
+    });     
   });  
 
 }
@@ -654,7 +673,32 @@ List<TeamStandings> getEndOfSeasonStandings(){
   
   sortTeamsNotGrouped(teamStandings);
   return teamStandings;
-  
+}
+
+List<TeamStandings> getEndOfSeasonResortNeededStandings(){
+  List<TeamStandings> teamStandings = new List<TeamStandings>();
+  String div;
+  for(int i = 0; i < standingsData.length; i++){
+    if(i < 5) {
+      div = "High";
+    } else {
+      div = "Low";
+    }
+    teamStandings.add(new TeamStandings(
+      i.toString(),
+      standingsData[i][0],
+      standingsData[i][0],
+      "emoji $i",
+      "League 0",
+      div,
+      99 - i,
+      i,
+      99,
+      standingsData[i][2],
+    ));
+  }
+
+  return teamStandings;
 }
 
 List<List<dynamic>> standingsData = [

@@ -231,7 +231,11 @@ void _calculateWinningMagicNumbers(List<TeamStandings> teamStandings) {
       } else if (teamStandings[i].division == firstDiv) {
         //top3 are the same, so the 4th spot is taken by
         //other div leader and is not winnable
-        teamStandings[i].winning[3] = "DNCD";
+        if(teamStandings[i].winning.any((s) => s == "^")){
+          teamStandings[i].winning[3] = "X";
+        } else {
+          teamStandings[i].winning[3] = "DNCD";
+        }
       } else {
         //top3 are the same, so the 4th spot of the 4th team
         //targets the 2nd team in its div
