@@ -8,6 +8,7 @@ Published at https://mixolyde.net/blaseballstatus/
 ## TODO
 * Figure out what's up with tied records getting weird sim results
 * Postseason schedule
+* Copy/pastable links to views.
 * Handle postseason data live
 * Team rank history over season chart
 * Schedule pages
