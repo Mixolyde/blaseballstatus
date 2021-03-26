@@ -26,20 +26,19 @@ void main() {
   getContentPages().then((v) {
     print("Retrieved content pages and data");
     
-    print("Location hash: ${window.location.hash}");
-    
-    //TODO: If hash.length > 2, convert hash to currentView
-    // else, load from disk if it exists
-    CurrentView loadedView = loadCurrentView();
-    print("LoadedView: $loadedView");
+    if(window.location.hash.length > 2){
+      currentView = CurrentView.fromHash(window.location.hash);
+      print("Loaded view from hash: $currentView");
+    } else {
+      // else, load from disk if it exists
+      currentView = loadCurrentView();
+      print("Loaded view from storage: $currentView");
+    }
 
-    currentView.activeLeague = loadedView.activeLeague;
     selectLeagueButton();
-    
-    currentView.groupByDiv = loadedView.groupByDiv;
     selectGroupByDivision();
-    
-    clickView(loadedView.activeView);
+    selectViewButton();
+    redisplayData();
     
     addListeners();
     

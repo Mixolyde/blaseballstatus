@@ -13,11 +13,23 @@ class CurrentView {
   
   CurrentView.fromHash(String hash){
     print("Restoring view from hash: $hash");
+    //#activeLeague=0&activeView=0&groupByDiv=false
+    RegExp exp = RegExp(r"#activeLeague=(\w+)&activeView=(\w+)&groupByDiv=(\w+)");
+    Match match = exp.firstMatch(hash);
+    if(match != null){
+      //print(match.groups([1, 2, 3]));
+      activeLeague = int.parse(match.group(1));
+      activeView = View.values[int.parse(match.group(2))];
+      groupByDiv = match.group(3) == "true" ? true : false;
+    } else {
+      print("$hash did not match regex");
+      activeLeague = 0;
+      activeView = View.values[1];
+      groupByDiv = false;
+    }
     
 
-    activeLeague = 0;
-    activeView = View.values[0];
-    groupByDiv = false;
+
   }
 
   factory CurrentView.fromJson(Map<String, dynamic> json){
