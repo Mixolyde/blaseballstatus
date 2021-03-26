@@ -109,9 +109,9 @@ void populatePostseasonTable(List<List<TeamStandings>> allStandings, bool groupB
   });
   
   if(groupByDiv == true){
-    insertSeparatorRow(table, 7, 11); 
-    insertSeparatorRow(table, 14, 11); 
-    insertSeparatorRow(table, 21, 11); 
+    insertSeparatorRow(table, 8, 11); 
+    insertSeparatorRow(table, 15, 11); 
+    insertSeparatorRow(table, 22, 11); 
   } 
 }
 
