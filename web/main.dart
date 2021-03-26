@@ -26,14 +26,18 @@ void main() {
   getContentPages().then((v) {
     print("Retrieved content pages and data");
     
+    print("Location hash: ${window.location.hash}");
+    
+    //TODO: If hash.length > 2, convert hash to currentView
+    // else, load from disk if it exists
     CurrentView loadedView = loadCurrentView();
     print("LoadedView: $loadedView");
 
     currentView.activeLeague = loadedView.activeLeague;
-    selectLeagueButton(loadedView.activeLeague);
+    selectLeagueButton();
     
     currentView.groupByDiv = loadedView.groupByDiv;
-    toggleGroupByDivision(loadedView.groupByDiv);
+    selectGroupByDivision();
     
     clickView(loadedView.activeView);
     
@@ -118,6 +122,8 @@ void setSeasonDay(int season, int day){
 }
 
 void addListeners(){
+  window.onPopState.listen(handlePopState);
+  
   querySelector('#pickLeague1').onClick.listen(selectLeague1);
   querySelector('#pickLeague2').onClick.listen(selectLeague2);
   
@@ -131,6 +137,19 @@ void addListeners(){
   querySelector('#doGroup').onClick.listen(clickGroupByDivision);
 }
 
+void handlePopState(PopStateEvent event){
+  //print("PopStateEvent: ${event.toString()} ${event.type.toString()} ${event.timeStamp.toString()} ");
+  if(event.state != null){
+    print("State: ${event.state}");
+    Map<String, dynamic> jsonState = Map.from(event.state);
+    currentView = CurrentView.fromJson(jsonState);
+    selectLeagueButton();
+    selectGroupByDivision();
+    selectViewButton();
+    redisplayData();
+  }
+}
+
 void selectLeague1(MouseEvent event) => clickLeague(0);
 void selectLeague2(MouseEvent event) => clickLeague(1);
 
@@ -139,15 +158,16 @@ void clickLeague(int league){
     return;
   }
   currentView.activeLeague = league;
-  selectLeagueButton(league);
+  selectLeagueButton();
 
   saveCurrentView();
+  pushViewState();
   redisplayData();
   
 }
 
-void selectLeagueButton(int league) {
-  if(league == 0){
+void selectLeagueButton() {
+  if(currentView.activeLeague == 0){
     querySelector('#pickLeague1').classes
       .add('nav-button-active');
     querySelector('#pickLeague2').classes
@@ -173,6 +193,15 @@ void clickView(View view){
     return;
   }
   currentView.activeView = view;
+  selectViewButton();
+
+  saveCurrentView();
+  pushViewState();
+  redisplayData();
+
+}
+
+void selectViewButton(){
   switch(currentView.activeView){
     case View.about:
       querySelector('#viewAbout').classes
@@ -262,30 +291,27 @@ void clickView(View view){
         .remove('nav-button-active');
       querySelector('#viewPostseasonChances').classes
         .add('nav-button-active');        
-  }
-  
-  saveCurrentView();
-  redisplayData();
-
+  }  
 }
 
 void clickGroupByDivision(MouseEvent event) {
 
   if(currentView.groupByDiv){
     currentView.groupByDiv = false;
-    toggleGroupByDivision(false);
+    selectGroupByDivision();
   } else {
     currentView.groupByDiv = true;
-    toggleGroupByDivision(true);
+    selectGroupByDivision();
   }
   
   saveCurrentView();
+  pushViewState();
   redisplayData();
 }
 
-void toggleGroupByDivision(bool groupByDiv){
+void selectGroupByDivision(){
   var groupButton = querySelector('#doGroup');
-  if(groupByDiv){
+  if(currentView.groupByDiv){
     groupButton.classes.add('nav-button-active');
   } else {
     groupButton.classes.remove('nav-button-active');
@@ -332,6 +358,16 @@ void redisplayData(){
     populatePostseasonTable(subStandings, currentView.groupByDiv);
     break;  
   }
+
+}
+
+void pushViewState(){
+  //update URL with popstate
+  window.history.pushState(currentView.toJson(), "", 
+    "/#activeLeague=${currentView.activeLeague}" +
+    "&activeView=${currentView.activeView.index}" +
+    "&groupByDiv=${currentView.groupByDiv}");
+  
 }
   
 void setMainContent(String html){

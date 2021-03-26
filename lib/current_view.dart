@@ -11,6 +11,15 @@ class CurrentView {
   
   CurrentView({this.activeLeague, this.activeView, this.groupByDiv});
   
+  CurrentView.fromHash(String hash){
+    print("Restoring view from hash: $hash");
+    
+
+    activeLeague = 0;
+    activeView = View.values[0];
+    groupByDiv = false;
+  }
+
   factory CurrentView.fromJson(Map<String, dynamic> json){
     //key1: json["key1"] == null ? null : json["key1"],
     return CurrentView(

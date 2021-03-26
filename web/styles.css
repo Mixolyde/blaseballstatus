@@ -228,19 +228,6 @@ th {
   font-size:smaller;
 }
 
-/* .tt:hover .ttc {
-  display:block;
-}
-
-.tt:hover {
-  background-color:#FFFDBF;
-}
-
-.ttc:hover, .ttc:active, .ttc:focus {
-  display:none;
-}
-*/
-
 ul {
   padding-left:1.25rem;
 }
@@ -391,9 +378,10 @@ nav {
 }
 
 .nav-button {
-  /* display: flex; */
+  box-sizing: content-box;
+  cursor: pointer;
+  display: inline-flex;
   font-size: 11px;
-  /* font-family: "Open Sans", "Helvetica Neue", sans-serif; */
   text-transform: uppercase;
   background: rgb(255, 255, 255);
   color: rgb(0, 0, 0);
@@ -413,6 +401,10 @@ nav {
   border-image: initial;
 }
 
+.nav-button:focus {
+  outline: none;
+}
+
 .nav-button-active {
   background-color: rgb(0, 0, 0);
   color: rgb(255, 255, 255);
@@ -425,17 +417,6 @@ nav {
 .greencell {
   color: #008000
 }
-
-/*
-.bscp {
-  font-family: "Times New Roman", "Bookman Old Style", sans-serif;font-size: 100%;
-  margin-left: 2em;
-}
-
-.bsclst {
-  margin-left: 2em;
-}
-*/
 
 .breadcrumbs {
   font-family: Verdana, Arial, sans-serif;
@@ -460,25 +441,6 @@ nav {
 .grayed {
   color: #969696;
 }
-
-/* 
-.leftpane {
-  font-family: Verdana, Arial, "Serif";font-size: 75%;padding-left: .5em;padding-top: .5em;
-} 
-.trheader {
-  font-family: Verdana, Arial, "Serif";font-weight: 700;text-align: center;background: #D2D2D2;
-} 
-*/
-
-/* Active League - Coming Soon - Inactive leagues */
-/* 
-.AL {
-  font-family: Verdana, Arial;
-  font-size: 85%;
-  font-weight: 700;
-  margin-bottom: .25em;
-} 
-*/
 
 footer {
   margin-top:1em;
@@ -554,11 +516,8 @@ footer {
 }
 
 @media (min-width: 360px) and (max-width:413px) {
-  /* table {
-  font-size: 10.9px;
-  } */
   .bnr{
-  font-size: 200%;
+    font-size: 200%;
   }
 }
 
@@ -574,10 +533,6 @@ footer {
 }
 
 @media (min-width: 480px) and (max-width:567px) {
-
-  /* table {
-    font-size: 14.9px;
-  } */
 
   .bnr {
     font-size: 200%;
@@ -665,11 +620,6 @@ footer {
     margin-left: 5%;
     margin-right: 5%;
   }
-
-  /* table {
-    font-size: 16px;
-    border-collapse: separate;
-  } */
 
   ul {
     padding-left:3.25rem;
@@ -760,16 +710,6 @@ footer {
     -webkit-flex-basis:15%;
     flex-basis:15%;
   }
-
-/* 
-.wide {
-  display:initial;
-}
-
-.narrow {
-  display:none;
-} 
-*/
 
 } /* End IPAD Portrait   - 768px - nav on left pane -  */
 
