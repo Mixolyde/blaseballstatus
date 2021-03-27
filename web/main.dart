@@ -363,7 +363,7 @@ void redisplayData(){
 void pushViewState(){
   //update URL with popstate
   window.history.pushState(currentView.toJson(), "", 
-    "/#activeLeague=${currentView.activeLeague}" +
+    "#activeLeague=${currentView.activeLeague}" +
     "&activeView=${currentView.activeView.index}" +
     "&groupByDiv=${currentView.groupByDiv}");
   
