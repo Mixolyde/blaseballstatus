@@ -29,11 +29,12 @@ void main() {
     if(window.location.hash.length > 2){
       currentView = CurrentView.fromHash(window.location.hash);
       print("Loaded view from hash: $currentView");
+      replaceViewState();
     } else {
       // else, load from disk if it exists
       currentView = loadCurrentView();
       print("Loaded view from storage: $currentView");
-      pushViewState();
+      replaceViewState();
     }
 
     selectLeagueButton();
@@ -364,10 +365,13 @@ void redisplayData(){
 void pushViewState(){
   //update URL with popstate
   window.history.pushState(currentView.toJson(), "", 
-    "#activeLeague=${currentView.activeLeague}" +
-    "&activeView=${currentView.activeView.index}" +
-    "&groupByDiv=${currentView.groupByDiv}");
-  
+    currentView.toHash());
+}
+
+void replaceViewState(){
+  //update URL with popstate
+  window.history.replaceState(currentView.toJson(), "", 
+    currentView.toHash());
 }
   
 void setMainContent(String html){

@@ -14,7 +14,7 @@ class CurrentView {
   CurrentView.fromHash(String hash){
     print("Restoring view from hash: $hash");
     //#activeLeague=0&activeView=0&groupByDiv=false
-    RegExp exp = RegExp(r"#activeLeague=(\w+)&activeView=(\w+)&groupByDiv=(\w+)");
+    RegExp exp = RegExp(r"#activeLeague=([0|1])&activeView=(\w+)&groupByDiv=(\w+)");
     Match match = exp.firstMatch(hash);
     if(match != null){
       //print(match.groups([1, 2, 3]));
@@ -27,9 +27,6 @@ class CurrentView {
       activeView = View.values[1];
       groupByDiv = false;
     }
-    
-
-
   }
 
   factory CurrentView.fromJson(Map<String, dynamic> json){
@@ -47,6 +44,10 @@ class CurrentView {
     'activeView': activeView.index,
     'groupByDiv': groupByDiv,
   };
+  
+  String toHash() => "#activeLeague=${activeLeague}" +
+    "&activeView=${activeView.index}" +
+    "&groupByDiv=${groupByDiv}";
   
   String toString() => "League: $activeLeague View: $activeView GroupByDiv: $groupByDiv";
 }
