@@ -33,6 +33,7 @@ void main() {
       // else, load from disk if it exists
       currentView = loadCurrentView();
       print("Loaded view from storage: $currentView");
+      pushViewState();
     }
 
     selectLeagueButton();
