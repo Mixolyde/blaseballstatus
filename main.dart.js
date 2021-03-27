@@ -3548,7 +3548,7 @@ case C.p:F.cQ($.n5)
 J.aZ(document.querySelector(s),"Internet League Blaseball Post Season Chances")
 F.n3($.aM,$.G().c)
 break}},
-kZ:function(){var s=window.history,r=$.G().b0(),q="/#activeLeague="+H.c($.G().a)+("&activeView="+$.G().b.a)+("&groupByDiv="+H.c($.G().c))
+kZ:function(){var s=window.history,r=$.G().b0(),q="#activeLeague="+H.c($.G().a)+("&activeView="+$.G().b.a)+("&groupByDiv="+H.c($.G().c))
 s.toString
 s.pushState(new P.ji([],[]).aq(r),"",q)},
 cQ:function(a){var s="#mncntnt",r=document
