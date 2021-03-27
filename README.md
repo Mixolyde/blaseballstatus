@@ -9,6 +9,8 @@ Published at https://mixolyde.net/blaseballstatus/
 * Figure out what's up with tied records getting weird sim results
 * Postseason schedule
 * Copy/pastable links to views
+* Replace view state on initial load
+* Disable wild/mild and group by buttons on not applicable pages
 * Handle postseason data live
 * Team rank history over season chart
 * Schedule pages
