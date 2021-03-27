@@ -8,8 +8,6 @@ Published at https://mixolyde.net/blaseballstatus/
 ## TODO
 * Figure out what's up with tied records getting weird sim results
 * Postseason schedule
-* Copy/pastable links to views
-* Replace view state on initial load
 * Disable wild/mild and group by buttons on not applicable pages
 * Handle postseason data live
 * Team rank history over season chart
@@ -47,7 +45,7 @@ Published at https://mixolyde.net/blaseballstatus/
 - [x] Add emoji to team rows
 - [x] Show full team name in wide view
 * v0.0.7
-- [ ] Linkable view states with history
+- [x] Linkable view states with history
 - [ ] Live Postseason chance updates
 - [ ] Live Postseason schedule updates
 * v0.0.8
