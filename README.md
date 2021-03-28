@@ -46,6 +46,7 @@ Published at https://mixolyde.net/blaseballstatus/
 - [x] Show full team name in wide view
 * v0.0.7
 - [x] Linkable view states with history
+- [x] Add donation button
 - [ ] Live Postseason chance updates
 - [ ] Live Postseason schedule updates
 * v0.0.8
