@@ -386,3 +386,37 @@ class PlayoffRound {
   @override
   String toString() => "$id $name Round $roundNumber";
 }
+
+class PlayoffBracketEntry{
+  //position in display bracket [0-18]
+  final int position;
+  final int seed;
+  final String teamId;
+  final String teamNickname;
+  final int wins;
+
+  PlayoffBracketEntry({this.position, this.seed, 
+    this.teamId, this.teamNickname, this.wins});
+    
+  factory PlayoffBracketEntry.fromJson(Map<String, dynamic> json){
+    return PlayoffBracketEntry(
+      position: json['position'] as int,
+      seed: json['seed'] as int,
+      teamId: json['teamId'] as String,
+      teamNickname: json['teamNickname'] as String,
+      wins: json['wins'] as int,  
+    );
+  }  
+  
+  Map toJson() => {
+    'position': position,
+    'seed': seed,
+    'teamId': teamId,
+    'teamNickname': teamNickname,
+    'wins': wins,
+  };
+    
+  @override
+  String toString() => "$position $seed $teamNickname $wins";
+  
+}
