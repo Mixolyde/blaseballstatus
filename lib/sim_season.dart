@@ -10,16 +10,84 @@ Season season;
 List<Game> games;
 Random rand = new Random(0);
 
-Future<void> calculateChances(List<List<TeamStandings>> subStandings, int numSims) async {
+Future<void> calculateChances(List<List<TeamStandings>> subStandings, int numSims, 
+  List<PlayoffBracketEntry> entries) async {
   simData = await getSimulationData();
   season = await getSeason(simData.season);
   print("Getting game data");
   games = await getAllGames(simData.season);
-  //CompletePostseason postSeason = await getCompletePostseason(simData.season);
+  print("Getting postseason data");
     
   //print(games[0]);
 
   runSimulations(games, subStandings, numSims);
+  
+}
+
+// 0 - Seed 4    4 - Seed 1
+// 1 - Seed 5    5 - TBD   
+//                         
+//               6 - Seed 2
+//               7 - Seed 3
+
+//               8 - Seed 2
+//               9 - Seed 3
+// 2 - Seed 4   10 - Seed 1
+// 3 - Seed 5   11 - TBD
+
+// 12, 13, 14, 15, 16, 17, 18 - TBD
+Future<List<PlayoffBracketEntry>> calculatePlayoffBracketEntries(
+  CompletePostseason postSeason, List<List<TeamStandings>> subStandings) async {
+  List<PlayoffBracketEntry> entries = List.generate(19, (i) =>
+    new PlayoffBracketEntry(      
+      position: i,
+      seed: 0,
+      teamId: "",
+      teamNickname: "TBD",
+      wins: 0));
+  
+  entries[0].seed = 4;
+  entries[1].seed = 5;
+  entries[2].seed = 4;
+  entries[3].seed = 5;  
+  entries[4].seed = 1;
+  entries[6].seed = 2;
+  entries[7].seed = 3;  
+  entries[8].seed = 2;
+  entries[9].seed = 3;    
+  entries[10].seed = 1;
+  
+  entries[0].teamNickname = "Seed";
+  entries[1].teamNickname = "Seed";
+  entries[2].teamNickname = "Seed";
+  entries[3].teamNickname = "Seed";  
+  entries[4].teamNickname = "Seed";
+  entries[6].teamNickname = "Seed";
+  entries[7].teamNickname = "Seed";  
+  entries[8].teamNickname = "Seed";
+  entries[9].teamNickname = "Seed";    
+  entries[10].teamNickname = "Seed";
+  
+  if(postSeason == null){
+    return entries;
+  }
+  
+  print(postSeason);
+  print(postSeason.playoffRounds.values);
+  PlayoffRound round0 = postSeason.playoffRounds.values.firstWhere(
+    (r) => r.roundNumber == 0);
+  print ("Round0: $round0");
+  PlayoffRound round1 = postSeason.playoffRounds.values.firstWhere(
+    (r) => r.roundNumber == 1);
+  print ("Round1: $round1");
+  PlayoffRound round2 = postSeason.playoffRounds.values.firstWhere(
+    (r) => r.roundNumber == 2);
+  print ("Round2: $round2");
+  PlayoffRound round3 = postSeason.playoffRounds.values.firstWhere(
+    (r) => r.roundNumber == 3);
+  print ("Round3: $round3");
+  
+  return entries;
   
 }
 

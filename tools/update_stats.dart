@@ -33,7 +33,10 @@ Future<void> main(List<String> args) async {
   
 
   //numSims = 17;
-  var chances = await calculateChances(subStandings, numSims);
+  CompletePostseason postSeason = await getCompletePostseason(simData.season);
+  List<PlayoffBracketEntry> entries = await calculatePlayoffBracketEntries(postSeason, subStandings);
+  var chances = await calculateChances(subStandings, numSims, entries);
+
   
   Directory temp = Directory.systemTemp;
   print(temp);
@@ -45,6 +48,11 @@ Future<void> main(List<String> args) async {
   var sinkJSON = new File(filenameJSON).openWrite();
   sinkJSON.write(json.encode(sitedata));
   sinkJSON.close();
+  
+  filenameJSON = temp.path + '/data/entries.json';
+  sinkJSON = new File(filenameJSON).openWrite();
+  sinkJSON.write(json.encode(entries));
+  sinkJSON.close();  
   
   filenameJSON = temp.path + '/data/${sitedata.sub1id}.json';
   sinkJSON = new File(filenameJSON).openWrite();

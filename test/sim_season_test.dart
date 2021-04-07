@@ -174,7 +174,7 @@ void main() {
       int numTeams = 20;
       int numGames = 99;
       int numCompleted = 0;
-      int numSims = 10007;
+      int numSims = 2007;
       List<List<TeamStandings>> standings = createStandings(numTeams, numCompleted);
       List<Game> games = createSeasonOfGames(numGames, numCompleted, 
         numTeams, standings,
@@ -226,7 +226,22 @@ void main() {
       }));       
       
     }); 
-  });    
+  });   
+  group('playoff bracket entries', () {
+    test('null post season', () async { 
+      int numTeams = 20;
+      int numCompleted = 16;
+      List<List<TeamStandings>> standings = createStandings(numTeams, numCompleted);
+      
+      List<PlayoffBracketEntry> entries = await calculatePlayoffBracketEntries(
+        null, standings);
+      
+      expect(entries.length, 19);
+      expect(entries[0].teamNickname, "Seed");
+      expect(entries[18].teamNickname, "TBD");
+    });
+  });
+    
 }
 
 List<List<TeamStandings>> createStandings(int numTeams, int gamesPlayed){
