@@ -15,5 +15,12 @@ Future<void> main() async {
   CompletePostseason postseason = await getCompletePostseason(simData.season);
   
   print("CompletePostseason: $postseason");
+
+  //site data
+  SiteData sitedata = await calcSiteData(simData);
+  print(sitedata);
+  
+  //get subleague standings and calculate stats
+  List<List<TeamStandings>> subStandings = await calcStats(simData);
   
 }

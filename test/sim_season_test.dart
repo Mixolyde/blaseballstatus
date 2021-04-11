@@ -11,7 +11,7 @@ Random rand = new Random(0);
 void main() {
   group('single game', () {
     test('Teams with no games', () {
-      //id, this.actualWins, this.wins, this.losses, this.favor, this.division
+      //id, this.notLosses, this.wins, this.losses, this.favor, this.division
       TeamSim awaySim = new TeamSim("Team 1", 0, 0, 0, 1, "Div 1");
       TeamSim homeSim = new TeamSim("Team 2", 0, 0, 0, 2, "Div 1");
       awaySim.save();
@@ -57,8 +57,8 @@ void main() {
       print(sims);
       simulateSeason(games, sims);
       sims.values.forEach((sim){
-        expect(sim.actualWins == sim.wins, true);
-        expect(sim.actualWins + sim.losses, 10);
+        expect(sim.notLosses == sim.wins, true);
+        expect(sim.notLosses + sim.losses, 10);
         print(sim);
       });
     });   
@@ -80,7 +80,7 @@ void main() {
       
       sims.values.forEach((sim) => sim.load());
       sims.values.forEach((sim) {
-        expect(sim.actualWins, 0);
+        expect(sim.notLosses, 0);
         expect(sim.wins, 0);
         expect(sim.losses, 0);
       });
@@ -97,8 +97,8 @@ void main() {
       print(sims);
       simulateSeason(games, sims);
       sims.values.forEach((sim){
-        expect(sim.actualWins == sim.wins, true);
-        expect(sim.actualWins + sim.losses, numGames);
+        expect(sim.notLosses == sim.wins, true);
+        expect(sim.notLosses + sim.losses, numGames);
         print(sim);
       });
     }); 
@@ -117,8 +117,8 @@ void main() {
       print(sims);
       simulateSeason(games, sims);
       sims.values.forEach((sim){
-        expect(sim.actualWins == sim.wins, true);
-        expect(sim.actualWins + sim.losses, numGames);
+        expect(sim.notLosses == sim.wins, true);
+        expect(sim.notLosses + sim.losses, numGames);
         print(sim);
       });
     });     
@@ -143,8 +143,8 @@ void main() {
       simulateSeason(games, sims);
       for (int i = 0; i < winVariances.length; i++){
         TeamSim sim = sims["Team ${i + 1}"];
-        expect(sim.wins, sim.actualWins + winVariances[i]);
-        expect(sim.actualWins + sim.losses, numGames);
+        expect(sim.wins, sim.notLosses + winVariances[i]);
+        expect(sim.notLosses + sim.losses, numGames);
         print(sim);
       }
     }); 

@@ -201,11 +201,11 @@ void simulateSeason(List<Game> games, Map<String, TeamSim> sims){
     TeamSim winner = simulateGame(awaySim, homeSim, sims.length);
     
     if(winner == awaySim){
-      awaySim.actualWins++;
+      awaySim.notLosses++;
       awaySim.wins++;
       homeSim.losses++;
     } else {
-      homeSim.actualWins++;
+      homeSim.notLosses++;
       homeSim.wins++;
       awaySim.losses++;        
     }    
@@ -266,14 +266,14 @@ void simulatePostSeason(List<List<TeamSim>> simsByLeague){
 TeamSim simulateGame(TeamSim awaySim, TeamSim homeSim, int teamCount){
   //default away chance
   num awayChance = .5;
-  if(awaySim.actualWins_save != homeSim.actualWins_save ||
+  if(awaySim.notLosses_save != homeSim.notLosses_save ||
     awaySim.losses_save != homeSim.losses_save){
     //print("Uneven match: ${awaySim.actualWins_save}-${awaySim.losses_save} vs. " +
     //  "${homeSim.actualWins_save}-${homeSim.losses_save}");
     //Pa = (WPa * (1 - WPh)) / 
     // ((WPa * (1 - WPh) + WPh * ( 1 - WPa)))
-    num WPa = awaySim.actualWins_save / (awaySim.losses_save + awaySim.actualWins_save);
-    num WPh = homeSim.actualWins_save / (homeSim.losses_save + homeSim.actualWins_save);
+    num WPa = awaySim.notLosses_save / (awaySim.losses_save + awaySim.notLosses_save);
+    num WPh = homeSim.notLosses_save / (homeSim.losses_save + homeSim.notLosses_save);
     awayChance = (WPa * (1 - WPh)) / 
       ((WPa * (1 - WPh) + WPh * ( 1 - WPa)));
     //adjust chance for N-team league average without this team
@@ -365,13 +365,13 @@ String formatPercent(num perc){
 
 class TeamSim {
   String id;
-  int actualWins;
+  int notLosses;
   int wins;
   int losses;
   int favor;
   String division;
   
-  int actualWins_save;
+  int notLosses_save;
   int wins_save;
   int losses_save;
   
@@ -381,17 +381,17 @@ class TeamSim {
   bool ilbSeries = false;
   bool ilbChamp = false;
   
-  TeamSim(this.id, this.actualWins, this.wins, this.losses,
+  TeamSim(this.id, this.notLosses, this.wins, this.losses,
     this.favor, this.division);
   
   void save(){
-    actualWins_save = actualWins;
+    notLosses_save = notLosses;
     wins_save = wins;
     losses_save = losses;
   }
   
   void load(){
-    actualWins = actualWins_save;
+    notLosses = notLosses_save;
     wins = wins_save;
     losses = losses_save;
     wcSeries = false;
@@ -401,7 +401,7 @@ class TeamSim {
     ilbChamp = false;
   }
   
-  String toString() => "$id Wins $wins Record: ($actualWins - $losses) " +
-    "Saved: $actualWins_save $wins_save $losses_save";
+  String toString() => "$id Wins $wins Record: ($notLosses - $losses) " +
+    "Saved: $notLosses_save $wins_save $losses_save";
   
 }
