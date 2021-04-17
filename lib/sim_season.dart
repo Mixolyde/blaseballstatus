@@ -24,12 +24,15 @@ Future<void> calculateChances(List<List<TeamStandings>> subStandings, int numSim
   
 }
 
+//Seeds are 1-indexed for display
+// League 1
 // 0 - Seed 4    4 - Seed 1
 // 1 - Seed 5    5 - TBD   
 //                         
 //               6 - Seed 2
 //               7 - Seed 3
 
+// League 2
 //               8 - Seed 2
 //               9 - Seed 3
 // 2 - Seed 4   10 - Seed 1
@@ -38,14 +41,23 @@ Future<void> calculateChances(List<List<TeamStandings>> subStandings, int numSim
 // 12, 13, 14, 15, 16, 17, 18 - TBD
 Future<List<PlayoffBracketEntry>> calculatePlayoffBracketEntries(
   CompletePostseason postSeason, List<List<TeamStandings>> subStandings) async {
+    
+  String league1 = subStandings[0][0].subleague;
+  String league2 = subStandings[1][0].subleague;
+  
+  print("Leagues: $league1 $league2");
+  
+  //default entries for no post season data
   List<PlayoffBracketEntry> entries = List.generate(19, (i) =>
     new PlayoffBracketEntry(      
       position: i,
       seed: 0,
-      teamId: "",
+      teamID: "",
       teamNickname: "TBD",
+      subleague: "TBD",
       wins: 0));
   
+  // 1-indexed for display
   entries[0].seed = 4;
   entries[1].seed = 5;
   entries[2].seed = 4;
@@ -68,27 +80,222 @@ Future<List<PlayoffBracketEntry>> calculatePlayoffBracketEntries(
   entries[9].teamNickname = "Seed";    
   entries[10].teamNickname = "Seed";
   
+  entries[0].subleague = league1;
+  entries[1].subleague = league1;
+  entries[2].subleague = league2;
+  entries[3].subleague = league2;  
+  entries[4].subleague = league1;
+  entries[5].subleague = league1;
+  entries[6].subleague = league1;
+  entries[7].subleague = league1;  
+  entries[8].subleague = league2;
+  entries[9].subleague = league2;    
+  entries[10].subleague = league2;  
+  entries[11].subleague = league2; 
+  entries[12].subleague = league1; 
+  entries[13].subleague = league1; 
+  entries[14].subleague = league2; 
+  entries[15].subleague = league2; 
+  entries[16].subleague = league1; 
+  entries[17].subleague = league2; 
+  
   if(postSeason == null){
+    // not in postseason, yet, return defaults
     return entries;
   }
   
   print(postSeason);
   print(postSeason.playoffRounds.values);
+  
+  // Wild Card Round (2 wins needed)
   PlayoffRound round0 = postSeason.playoffRounds.values.firstWhere(
     (r) => r.roundNumber == 0);
   print ("Round0: $round0");
+  
+  //matchup seeds are 0-indexed, lower seed is always home
+  PlayoffMatchup league1Matchup = locateMatchup(postSeason, round0, subStandings[0]);
+  print ("league1Matchup: $league1Matchup");
+  TeamStandings homeStanding = subStandings[0].firstWhere((standing) => 
+    standing.id == league1Matchup.homeTeam);
+  TeamStandings awayStanding = subStandings[0].firstWhere((standing) => 
+    standing.id == league1Matchup.awayTeam);
+  populatePlayoffMatchupEntries(entries[0], entries[1], 
+    homeStanding, awayStanding, league1Matchup);
+
+  PlayoffMatchup league2Matchup = locateMatchup(postSeason, round0, subStandings[1]);    
+  print ("league2Matchup: $league2Matchup");
+  homeStanding = subStandings[1].firstWhere((standing) => 
+    standing.id == league2Matchup.homeTeam);
+  awayStanding = subStandings[1].firstWhere((standing) => 
+    standing.id == league2Matchup.awayTeam);
+  populatePlayoffMatchupEntries(entries[2], entries[3], 
+    homeStanding, awayStanding, league2Matchup);
+  
+  // Round 2 (3 wins needed)
   PlayoffRound round1 = postSeason.playoffRounds.values.firstWhere(
     (r) => r.roundNumber == 1);
   print ("Round1: $round1");
+  if(round1.matchupIDs.length > 0){
+    PlayoffMatchup matchup = locateMatchup(postSeason, 
+      round1, subStandings[0], seed: 0 );
+    
+    print ("league1 Matchup High Seed: $matchup");
+    homeStanding = subStandings[0].firstWhere((standing) => 
+      standing.id == matchup.homeTeam);
+    awayStanding = subStandings[0].firstWhere((standing) => 
+      standing.id == matchup.awayTeam);
+    populatePlayoffMatchupEntries(entries[4], entries[5], 
+      homeStanding, awayStanding, matchup);
+      
+    matchup = locateMatchup(postSeason, 
+      round1, subStandings[0], seed: 1 );
+    
+    print ("league1 Matchup Low Seed: $matchup");
+    homeStanding = subStandings[0].firstWhere((standing) => 
+      standing.id == matchup.homeTeam);
+    awayStanding = subStandings[0].firstWhere((standing) => 
+      standing.id == matchup.awayTeam);
+    populatePlayoffMatchupEntries(entries[6], entries[7], 
+      homeStanding, awayStanding, matchup);
+
+    matchup = locateMatchup(postSeason, 
+      round1, subStandings[1], seed: 1 );
+    
+    print ("league2 Matchup Low Seed: $matchup");
+    homeStanding = subStandings[1].firstWhere((standing) => 
+      standing.id == matchup.homeTeam);
+    awayStanding = subStandings[1].firstWhere((standing) => 
+      standing.id == matchup.awayTeam);
+    populatePlayoffMatchupEntries(entries[8], entries[9], 
+      homeStanding, awayStanding, matchup);
+
+      matchup = locateMatchup(postSeason, 
+      round1, subStandings[1], seed: 0 );
+    
+    print ("league2 Matchup High Seed: $matchup");
+    homeStanding = subStandings[1].firstWhere((standing) => 
+      standing.id == matchup.homeTeam);
+    awayStanding = subStandings[1].firstWhere((standing) => 
+      standing.id == matchup.awayTeam);
+    populatePlayoffMatchupEntries(entries[10], entries[11], 
+      homeStanding, awayStanding, matchup);
+  }
+  
+  // Subleague series (3 wins needed)
   PlayoffRound round2 = postSeason.playoffRounds.values.firstWhere(
     (r) => r.roundNumber == 2);
-  print ("Round2: $round2");
+  //print ("Round2: $round2");
+
+  if(round2.matchupIDs.length > 0){
+    PlayoffMatchup matchup = locateMatchup(postSeason, 
+      round2, subStandings[0]);
+    
+    print ("league1 Finals Matchup: $matchup");
+    homeStanding = subStandings[0].firstWhere((standing) => 
+      standing.id == matchup.homeTeam);
+    awayStanding = subStandings[0].firstWhere((standing) => 
+      standing.id == matchup.awayTeam);
+    populatePlayoffMatchupEntries(entries[12], entries[13], 
+      homeStanding, awayStanding, matchup);
+  
+    matchup = locateMatchup(postSeason, 
+      round2, subStandings[1]);
+    
+    print ("league2 Finals Matchup: $matchup");
+    homeStanding = subStandings[1].firstWhere((standing) => 
+      standing.id == matchup.homeTeam);
+    awayStanding = subStandings[1].firstWhere((standing) => 
+      standing.id == matchup.awayTeam);
+    populatePlayoffMatchupEntries(entries[14], entries[15], 
+      homeStanding, awayStanding, matchup);
+  }
+  
+  // ILB Series (3 wins needed)
   PlayoffRound round3 = postSeason.playoffRounds.values.firstWhere(
     (r) => r.roundNumber == 3);
-  print ("Round3: $round3");
+  //print ("Round3: $round3");
+  if(round3.matchupIDs.length > 0){
+    PlayoffMatchup matchup = postSeason.playoffMatchups[round3.matchupIDs[0]];
+    
+    print ("ILB Finals Matchup: $matchup");
+    TeamStandings league1Standing = subStandings[0].firstWhere((standing) => 
+      standing.id == matchup.homeTeam ||
+      standing.id == matchup.awayTeam);
+    TeamStandings league2Standing = subStandings[1].firstWhere((standing) => 
+      standing.id == matchup.awayTeam ||
+      standing.id == matchup.homeTeam);
+
+    //entry 15 is always the league1 seed, 16 is the league2 seed
+    entries[16].teamID = league1Standing.id;
+    entries[17].teamID = league2Standing.id;
+    entries[16].teamNickname = league1Standing.nickname;
+    entries[17].teamNickname = league2Standing.nickname;
+    
+    if(league1Standing.id == matchup.homeTeam){
+      entries[16].wins = matchup.homeWins;
+      entries[17].wins = matchup.awayWins;
+      //convert to 1-index for display
+      entries[16].seed = matchup.homeSeed + 1;
+      entries[17].seed = matchup.awaySeed + 1;
+    } else {
+      entries[16].wins = matchup.awayWins;
+      entries[17].wins = matchup.homeWins;
+      //convert to 1-index for display
+      entries[16].seed = matchup.awaySeed + 1;
+      entries[17].seed = matchup.homeSeed + 1;
+    }
+    
+    if(entries[16].wins >= 3){
+      print("$league1 team won the ILB");
+      entries[18].teamID = entries[16].teamID;
+      entries[18].teamNickname = entries[16].teamNickname;
+      entries[18].wins = entries[16].wins;
+      entries[18].seed = entries[16].seed;
+    } else if(entries[17].wins >= 3) {
+      print("$league2 team won the ILB");
+      entries[18].teamID = entries[17].teamID;
+      entries[18].teamNickname = entries[17].teamNickname;
+      entries[18].wins = entries[17].wins;
+      entries[18].seed = entries[17].seed;
+    }
+
+      
+  }
   
   return entries;
   
+}
+
+PlayoffMatchup locateMatchup(CompletePostseason postSeason, PlayoffRound round,
+  List<TeamStandings> subStandings, {int seed} ){
+  print("Searching for matchup with seed: $seed");
+  if(seed != null){
+    return postSeason.playoffMatchups.values.firstWhere(
+      (matchup) => round.matchupIDs.contains(matchup.id) &&
+      matchup.homeSeed == seed && 
+      subStandings.any((standing) => standing.id == matchup.awayTeam)
+    );
+  } else {
+    return postSeason.playoffMatchups.values.firstWhere(
+      (matchup) => round.matchupIDs.contains(matchup.id) &&
+      subStandings.any((standing) => standing.id == matchup.awayTeam)
+    );
+    
+  }
+}
+
+void populatePlayoffMatchupEntries(PlayoffBracketEntry homeEntry, 
+    PlayoffBracketEntry awayEntry, TeamStandings homeStanding, 
+    TeamStandings awayStanding, PlayoffMatchup matchup){
+  homeEntry.teamID = matchup.homeTeam;
+  awayEntry.teamID = matchup.awayTeam;
+  homeEntry.teamNickname = homeStanding.nickname;
+  awayEntry.teamNickname = awayStanding.nickname;
+  homeEntry.wins = matchup.homeWins;
+  awayEntry.wins = matchup.awayWins;
+  //convert to 1-index for display
+  homeEntry.seed = matchup.homeSeed + 1;
+  awayEntry.seed = matchup.awaySeed + 1;
 }
 
 void runSimulations(List<Game> games, List<List<TeamStandings>> standings, 

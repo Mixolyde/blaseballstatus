@@ -26,9 +26,9 @@ class SimulationData {
   final String id;
   int day;
   final String league;
-  final int playOffRound;
-  final int season;
-  final String seasonId;
+  int playOffRound;
+  int season;
+  String seasonId;
   final String eraTitle;
   final String subEraTitle;
 
@@ -49,6 +49,6 @@ class SimulationData {
   }
   
   @override
-  String toString() => "Season $season, Day $day, PlayoffRound $playOffRound";
+  String toString() => "Season $season, Day $day, League $league, PlayoffRound $playOffRound";
 
 }

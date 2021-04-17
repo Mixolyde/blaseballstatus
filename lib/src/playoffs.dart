@@ -4,7 +4,7 @@ class CompletePostseason {
   final String id;
   final Playoffs playoffs;
   final Map<String, PlayoffRound> playoffRounds;
-  final Map<String, PlayoffMatchups> playoffMatchups;
+  final Map<String, PlayoffMatchup> playoffMatchups;
   
   CompletePostseason({this.id, this.playoffs, this.playoffRounds,
     this.playoffMatchups});
@@ -222,7 +222,7 @@ class Playoffs {
     "gamesNeeded":"3"
 */
 
-class PlayoffMatchups {
+class PlayoffMatchup {
   final String id;
   final String name;
   final int awaySeed;
@@ -232,12 +232,12 @@ class PlayoffMatchups {
   final String homeTeam;
   final int homeWins;
   
-  PlayoffMatchups({this.id, this.name, this.awaySeed, this.awayTeam,
+  PlayoffMatchup({this.id, this.name, this.awaySeed, this.awayTeam,
     this.awayWins, this.homeSeed, this.homeTeam,
     this.homeWins});
   
-  factory PlayoffMatchups.fromJson(Map<String, dynamic> json){
-    return PlayoffMatchups(
+  factory PlayoffMatchup.fromJson(Map<String, dynamic> json){
+    return PlayoffMatchup(
       id: json['id'] as String,
       name: json['name'] as String,
       awaySeed: json['awaySeed'] as int,
@@ -250,7 +250,7 @@ class PlayoffMatchups {
   }
   
   @override
-  String toString() => "$id $awayTeam vs. $homeTeam ($awayWins - $homeWins)";
+  String toString() => "$id $awayTeam (Seed $awaySeed) vs. $homeTeam (Seed $homeSeed) ($awayWins - $homeWins)";
 }
 
 /*
@@ -391,21 +391,21 @@ class PlayoffBracketEntry{
   //position in display bracket [0-18]
   final int position;
   int seed;
-  String teamId;
+  String teamID;
   String teamNickname;
-  String leagueId;
+  String subleague;
   int wins;
 
   PlayoffBracketEntry({this.position, this.seed, 
-    this.teamId, this.teamNickname, this.leagueId, this.wins});
+    this.teamID, this.teamNickname, this.subleague, this.wins});
     
   factory PlayoffBracketEntry.fromJson(Map<String, dynamic> json){
     return PlayoffBracketEntry(
       position: json['position'] as int,
       seed: json['seed'] as int,
-      teamId: json['teamId'] as String,
+      teamID: json['teamID'] as String,
       teamNickname: json['teamNickname'] as String,
-      leagueId: json['leagueId'] as String,
+      subleague: json['subleague'] as String,
       wins: json['wins'] as int,  
     );
   }  
@@ -413,13 +413,13 @@ class PlayoffBracketEntry{
   Map toJson() => {
     'position': position,
     'seed': seed,
-    'teamId': teamId,
+    'teamID': teamID,
     'teamNickname': teamNickname,
-    'leagueId': leagueId,
+    'subleague': subleague,
     'wins': wins,
   };
     
   @override
-  String toString() => "$position $seed $teamNickname $leagueId $wins";
+  String toString() => "Index:$position Seed:$seed Team:$teamNickname League:$subleague Wins:$wins";
   
 }

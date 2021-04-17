@@ -9,6 +9,7 @@ import '../lib/site_objects.dart';
 Random rand = new Random(0);
 
 void main() {
+  apiUrl = "https://blaseball.com/database/";
   group('single game', () {
     test('Teams with no games', () {
       //id, this.notLosses, this.wins, this.losses, this.favor, this.division
@@ -239,6 +240,64 @@ void main() {
       expect(entries.length, 19);
       expect(entries[0].teamNickname, "Seed");
       expect(entries[18].teamNickname, "TBD");
+      
+      expect(entries[0].subleague, standings[0][0].subleague);
+      expect(entries[2].subleague, standings[1][0].subleague);
+      expect(entries[16].subleague, standings[0][0].subleague);
+      expect(entries[17].subleague, standings[1][0].subleague);
+      expect(entries[18].subleague, "TBD");
+    });
+    test('live post season', () async {
+      SimulationData simData = await getSimulationData();
+      SiteData sitedata = await calcSiteData(simData);
+      List<List<TeamStandings>> subStandings = await calcStats(simData);
+      CompletePostseason postseason = await getCompletePostseason(simData.season);    
+      
+      List<PlayoffBracketEntry> entries = await calculatePlayoffBracketEntries(
+        postseason, subStandings);
+        
+      expect(entries.length, 19);
+        
+    });        
+    test('full post season', () async {
+      SimulationData simData = await getSimulationData();
+      SimulationData oldSimData = new SimulationData(
+        id: simData.id,
+        day: 113,
+        league: "d8545021-e9fc-48a3-af74-48685950a183",
+        playOffRound: 3,
+        season: 14,
+        seasonId: "645cdd84-175f-42f1-a9f3-d9014d97ae3b",
+        eraTitle: simData.eraTitle,
+        subEraTitle: simData.subEraTitle,
+      );
+      
+      SiteData sitedata = await calcSiteData(oldSimData);
+      List<List<TeamStandings>> subStandings = await calcStats(oldSimData);
+      CompletePostseason postseason = await getCompletePostseason(oldSimData.season);    
+      
+      List<PlayoffBracketEntry> entries = await calculatePlayoffBracketEntries(
+        postseason, subStandings);
+        
+      expect(entries.length, 19);
+      entries.forEach((entry) {
+        print("Testing entry: $entry");
+        expect(entry.teamNickname, isNot("Seed"));
+        expect(entry.teamNickname, isNot("TBD"));
+        expect(entry.seed, greaterThan(0));
+      });    
+
+      expect(entries[16].teamNickname, "Wild Wings");
+      expect(entries[16].wins, 1);
+      expect(entries[16].seed, 5);
+
+      expect(entries[17].teamNickname, "Moist Talkers");
+      expect(entries[17].wins, 3);
+      expect(entries[17].seed, 2);
+
+      expect(entries[18].teamNickname, "Moist Talkers");
+      expect(entries[18].wins, 3);
+      expect(entries[18].seed, 2);
     });
   });
     

@@ -115,13 +115,13 @@ Future<PlayoffRound> getPlayoffRound(String roundID) async {
   return PlayoffRound.fromJson(json.decode(response.body));
 }
 
-Future<List<PlayoffMatchups>> getPlayoffMatchups(List<String> matchIDs) async {
+Future<List<PlayoffMatchup>> getPlayoffMatchups(List<String> matchIDs) async {
   var response = await get(_playoffMatchupsUrl 
     + matchIDs.join(','));
   //print('Response body: ${response.body}');
   List<dynamic> parsed = json.decode(response.body);
-  List<PlayoffMatchups> matchups = parsed.map((json) => 
-    PlayoffMatchups.fromJson(json)).toList();
+  List<PlayoffMatchup> matchups = parsed.map((json) => 
+    PlayoffMatchup.fromJson(json)).toList();
   
   return matchups;
 }
@@ -132,13 +132,13 @@ Future<CompletePostseason> getCompletePostseason(int season) async {
     return null;
   }
   Map<String, PlayoffRound> playoffRounds = new Map<String, PlayoffRound>();
-  Map<String, PlayoffMatchups> playoffMatchups = new Map<String, PlayoffMatchups>();
+  Map<String, PlayoffMatchup> playoffMatchups = new Map<String, PlayoffMatchup>();
   
   await Future.forEach(playoffs.rounds, (id) async {
     playoffRounds[id] = await getPlayoffRound(id);
     print("Fetched round ${playoffRounds[id]} with ${playoffRounds[id].matchupIDs.length} matchupIDs");
     if (playoffRounds[id].matchupIDs.length > 0){
-      List<PlayoffMatchups> matchups = await 
+      List<PlayoffMatchup> matchups = await 
         getPlayoffMatchups(playoffRounds[id].matchupIDs);
       if(matchups != null){
         matchups.forEach((matchup){
