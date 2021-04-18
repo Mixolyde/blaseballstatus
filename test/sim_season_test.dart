@@ -298,6 +298,7 @@ void main() {
       expect(entries[18].teamNickname, "Moist Talkers");
       expect(entries[18].wins, 3);
       expect(entries[18].seed, 2);
+      expect(entries[18].subleague, "Mild");
     });
   });
     

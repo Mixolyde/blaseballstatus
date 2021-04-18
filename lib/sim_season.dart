@@ -251,12 +251,14 @@ Future<List<PlayoffBracketEntry>> calculatePlayoffBracketEntries(
       entries[18].teamNickname = entries[16].teamNickname;
       entries[18].wins = entries[16].wins;
       entries[18].seed = entries[16].seed;
+      entries[18].subleague = entries[16].subleague;
     } else if(entries[17].wins >= 3) {
       print("$league2 team won the ILB");
       entries[18].teamID = entries[17].teamID;
       entries[18].teamNickname = entries[17].teamNickname;
       entries[18].wins = entries[17].wins;
       entries[18].seed = entries[17].seed;
+      entries[18].subleague = entries[17].subleague;
     }
 
       

@@ -135,10 +135,10 @@ void apiTests() {
         "d85ec2f7-a824-469b-bc84-1259172ccf17", 
         "969ac1c9-84ad-4d1a-8232-8bafa1a1ce51"];
 
-      List<PlayoffMatchups> current = await getPlayoffMatchups(matchupIDs);
+      List<PlayoffMatchup> current = await getPlayoffMatchups(matchupIDs);
       expect(current, isNotNull);
       expect(current.length, 8);
-      PlayoffMatchups first = current[0];
+      PlayoffMatchup first = current[0];
       print(first);
       expect(first.id, "618b7f75-da29-4860-bbc6-c82a80d55c5f");
       expect(first.awaySeed, isNull);
