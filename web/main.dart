@@ -12,6 +12,7 @@ import 'package:blaseballstatus/web/populate_tables.dart';
 import 'package:cron/cron.dart';
 
 String aboutHTML;
+String bracketHTML;
 String chancesNotesHTML;
 String gamesbehindHTML;
 String magicHTML;
@@ -69,6 +70,7 @@ Future<void> getContentPages() async {
   gamesbehindHTML = await HttpRequest.getString('gamesbehind.html');
   setMainContent(gamesbehindHTML);
   aboutHTML = await HttpRequest.getString('about.html');
+  bracketHTML = await HttpRequest.getString('bracket.html');
   magicHTML = await HttpRequest.getString('magic.html');
   chancesNotesHTML = await HttpRequest.getString('chancesNotes.html');
   partytimeNotesHTML = await HttpRequest.getString('partytimeNotes.html');
@@ -118,7 +120,7 @@ void setSeasonDay(int season, int day){
       "Season $season: Day $day";
   } else {
     querySelector('.wkinfo').text = 
-      "Season $season: Postseason";    
+      "Season $season: Day $day (Postseason)";    
   }
 }
 
@@ -134,6 +136,7 @@ void addListeners(){
   querySelector('#viewPartyTimeNumbers').onClick.listen(selectViewPT);
   querySelector('#viewAbout').onClick.listen(selectViewAbout);
   querySelector('#viewPostseasonChances').onClick.listen(selectViewPost);
+  querySelector('#viewPlayoffBracket').onClick.listen(selectViewBracket);
   
   querySelector('#doGroup').onClick.listen(clickGroupByDivision);
 }
@@ -188,6 +191,7 @@ void selectViewGB(MouseEvent event) => clickView(View.gamesbehind);
 void selectViewPT(MouseEvent event) => clickView(View.partytimemagic);
 void selectViewPost(MouseEvent event) => clickView(View.postseason);
 void selectViewW(MouseEvent event) => clickView(View.winningmagic);
+void selectViewBracket(MouseEvent event) => clickView(View.bracket);
 
 void clickView(View view){
   if(view == currentView.activeView){
@@ -217,6 +221,8 @@ void selectViewButton(){
         .remove('nav-button-active');
       querySelector('#viewPostseasonChances').classes
         .remove('nav-button-active');        
+      querySelector('#viewPlayoffBracket').classes
+        .remove('nav-button-active');
 
       break;    
     case View.chances:
@@ -232,6 +238,8 @@ void selectViewButton(){
         .remove('nav-button-active');
       querySelector('#viewPostseasonChances').classes
         .remove('nav-button-active');        
+      querySelector('#viewPlayoffBracket').classes
+        .remove('nav-button-active');
 
       break;       
     case View.gamesbehind:
@@ -247,6 +255,8 @@ void selectViewButton(){
         .remove('nav-button-active');
       querySelector('#viewPostseasonChances').classes
         .remove('nav-button-active');        
+      querySelector('#viewPlayoffBracket').classes
+        .remove('nav-button-active');
 
       break;
     case View.winningmagic:
@@ -262,6 +272,8 @@ void selectViewButton(){
         .remove('nav-button-active');      
       querySelector('#viewPostseasonChances').classes
         .remove('nav-button-active');        
+      querySelector('#viewPlayoffBracket').classes
+        .remove('nav-button-active');
       
       break;
     case View.partytimemagic:
@@ -277,6 +289,8 @@ void selectViewButton(){
         .add('nav-button-active');
       querySelector('#viewPostseasonChances').classes
         .remove('nav-button-active');        
+      querySelector('#viewPlayoffBracket').classes
+        .remove('nav-button-active');
 
       break;
     case View.postseason:
@@ -291,7 +305,28 @@ void selectViewButton(){
       querySelector('#viewPartyTimeNumbers').classes
         .remove('nav-button-active');
       querySelector('#viewPostseasonChances').classes
-        .add('nav-button-active');        
+        .add('nav-button-active');
+      querySelector('#viewPlayoffBracket').classes
+        .remove('nav-button-active');
+      
+      break;
+    case View.bracket:
+      querySelector('#viewAbout').classes
+        .remove('nav-button-active');
+      querySelector('#viewChances').classes
+        .remove('nav-button-active');        
+      querySelector('#viewGamesBehind').classes
+        .remove('nav-button-active');
+      querySelector('#viewWinningNumbers').classes
+        .remove('nav-button-active');
+      querySelector('#viewPartyTimeNumbers').classes
+        .remove('nav-button-active');
+      querySelector('#viewPostseasonChances').classes
+        .remove('nav-button-active');
+      querySelector('#viewPlayoffBracket').classes
+        .add('nav-button-active');
+      
+      break;
   }  
 }
 
@@ -358,6 +393,11 @@ void redisplayData(){
       "Internet League Blaseball Post Season Chances";
     populatePostseasonTable(subStandings, currentView.groupByDiv);
     break;  
+  case View.bracket:
+    setMainContent(bracketHTML);
+    querySelector('#leagueTitle').text =
+      "Internet League Blaseball Post Season Bracket";
+    break;
   }
 
 }
