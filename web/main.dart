@@ -22,6 +22,7 @@ String winningNotesHTML;
 SiteData sitedata;
 
 CurrentView currentView = new CurrentView();
+List<PlayoffBracketEntry> entries = new List<PlayoffBracketEntry>();
 
 void main() {
   getContentPages().then((v) {
@@ -59,9 +60,12 @@ void main() {
 
 Future<void> getContentPages() async {
   sitedata = await s3.getSiteData();
+  
   print("Initial sitedata: $sitedata");
   setSeasonDay(sitedata.season + 1, sitedata.day + 1);
   subStandings = await s3.getSubStandings(sitedata);
+
+  entries = await s3.getPlayoffBracketEntries();
   
   querySelector('#lastUpdate').text = sitedata.lastUpdate;
   querySelector('#pickLeague1').text = sitedata.subnicknames[0];
@@ -87,9 +91,13 @@ Future<void> refreshData() async{
   setSeasonDay(sitedata.season + 1, sitedata.day + 1);
   subStandings = await s3.getSubStandings(sitedata);
   
+  entries = await s3.getPlayoffBracketEntries();
+  
   TableElement standingsTable = querySelector('#standingsTable');
-  while (standingsTable.rows.length > 2){
-    standingsTable.deleteRow(2);
+  if(standingsTable != null){
+    while (standingsTable.rows.length > 2){
+      standingsTable.deleteRow(2);
+    }
   }
   
   switch(currentView.activeView){
@@ -395,8 +403,7 @@ void redisplayData(){
     break;  
   case View.bracket:
     setMainContent(bracketHTML);
-    querySelector('#leagueTitle').text =
-      "Internet League Blaseball Post Season Bracket";
+    populatePlayoffBracket(entries);
     break;
   }
 

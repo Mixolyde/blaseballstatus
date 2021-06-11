@@ -11,15 +11,31 @@ import 'site_objects.dart';
 String _apiUrl = "https://blaseball-status.s3.amazonaws.com/data/";
 
 final String _sitedataUrl = _apiUrl + "sitedata.json";
+final String _entriesUrl = _apiUrl + "entries.json";
 
 Future<SiteData> getSiteData() async {
   var response = await get( _sitedataUrl );
-  print('SiteData Url: $_sitedataUrl');
+  //print('SiteData Url: $_sitedataUrl');
   //print('Response body: ${response.body}');
   
   SiteData sitedata = SiteData.fromJson(json.decode(response.body));
 
   return sitedata;
+}
+
+Future<List<PlayoffBracketEntry>> getPlayoffBracketEntries() async {
+  var response = await get( _entriesUrl );
+  //print('PlayoffBracketEntries Url: $_entriesUrl');
+  //print('Response body: ${response.body}');
+  
+  List<PlayoffBracketEntry> entries = new List<PlayoffBracketEntry>();
+  json.decode(response.body).forEach((j){ 
+    PlayoffBracketEntry entry = PlayoffBracketEntry.fromJson(j);
+    entries.add(entry);
+  });
+
+  return entries;
+
 }
 
 Future<List<List<TeamStandings>>> getSubStandings(SiteData sitedata) async {

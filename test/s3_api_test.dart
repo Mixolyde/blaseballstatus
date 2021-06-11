@@ -35,5 +35,9 @@ void apiTests() {
       expect(subStandings[1][0].winning[0], isNot('-'));
       expect(subStandings[1][0].partytime[0], isNot('-'));        
     });
+    test('Current playoff entries', () async {
+      List<PlayoffBracketEntry> entries = await getPlayoffBracketEntries();
+      expect(entries.length, 19);
+    });
   });
 }

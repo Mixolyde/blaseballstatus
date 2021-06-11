@@ -32,6 +32,11 @@ void populateGamesBehindTable(List<TeamStandings> subStandings, bool groupByDiv)
   
 }
 
+void populatePlayoffBracket(List<PlayoffBracketEntry> entries){
+  print("Bracket 0: ${entries[0]}");
+  
+}
+
 void populateChancesTable(List<TeamStandings> subStandings, bool groupByDiv){
   TableElement table = querySelector("#standingsTable");
   List<TeamStandings> standings = subStandings.toList();
