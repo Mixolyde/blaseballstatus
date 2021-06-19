@@ -18,6 +18,8 @@ Published at https://mixolyde.net/blaseballstatus/
 * Pull database api code out into a separate library
 * Move project to a blaseball-specific account on github
 * Reduce API calls during siesta
+* Copy the live ticker to the top of the page
+* Show era and subera descriptions
 
 ## Planned release schedule
 * v0.0.1 
