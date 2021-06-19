@@ -18,6 +18,8 @@ Published at https://mixolyde.net/blaseballstatus/
 * Pull database api code out into a separate library
 * Move project to a blaseball-specific account on github
 * Reduce API calls during siesta
+* Copy the live ticker to the top of the page
+* Show era and subera descriptions
 
 ## Planned release schedule
 * v0.0.1 
@@ -137,7 +139,7 @@ by github and deployed to the site.
 Huge thanks to:
 * [The Game Band](https://thegameband.com/)
 * [The Blaseball Discord](https://discord.gg/3uFgJhu) community
-* The SIBR Discord community
+* The [SIBR](https://github.com/Society-for-Internet-Blaseball-Research) Discord community
 * [PlayoffStatus.com](http://PlayoffStatus.com)
 * [Dart](https://dart.dev/) for being an awesome language!
 * [Peanut and Git plugins](https://github.com/kevmoo) for Dart to auto deploy to gh-pages
