@@ -74,7 +74,7 @@ class Playoffs {
   }
   
   @override
-  String toString() => "$id $name $season";
+  String toString() => "$id Name: $name Season: $season";
 }
 
 /*

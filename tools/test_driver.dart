@@ -40,18 +40,13 @@ Future<void> main() async {
   print(sitedata);
   
   //get subleague standings and calculate stats
-  List<List<TeamStandings>> subStandings = await calcStats(oldSimData);
+  //List<List<TeamStandings>> subStandings = await calcStats(oldSimData);
   //CompletePostseason postseason = await getCompletePostseason(oldSimData.season);
   
   //print("CompletePostseason: $postseason");
   
-  List<PlayoffBracketEntry> entries = await calculatePlayoffBracketEntries(
-    null, subStandings);
-    
-  Directory temp = Directory.systemTemp;
-  String filenameJSON = temp.path + '/data/entries.json';
-  var sinkJSON = new File(filenameJSON).openWrite();
-  sinkJSON.write(json.encode(entries));
-  sinkJSON.close();
+  Playoffs playoffs = await getPlayoffs(19);
+  
+  print(playoffs);
   
 }
