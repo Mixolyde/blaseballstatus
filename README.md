@@ -10,6 +10,7 @@ Published at https://mixolyde.net/blaseballstatus/
 * Postseason schedule
 * Disable wild/mild and group by buttons on not applicable pages
 * Handle postseason data live
+* Fix destiny check on postseason page when top 3 are same league
 * Team rank history over season chart
 * Schedule pages
 * Get a twitter account and button
