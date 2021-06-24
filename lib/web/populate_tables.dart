@@ -33,8 +33,69 @@ void populateGamesBehindTable(List<TeamStandings> subStandings, bool groupByDiv)
 }
 
 void populatePlayoffBracket(List<PlayoffBracketEntry> entries){
+
   print("Bracket 0: ${entries[0]}");
   
+  // Set Leagues
+  ["brk-mu_1_2", "brk-mu_2_1", "brk-mu_2_2", "brk-mu_3_1"].forEach((s) =>
+    querySelector("#$s .brk-date").text = "${entries[0].subleague} League"
+  );
+  
+  ["brk-mu_1_7", "brk-mu_2_3", "brk-mu_2_4", "brk-mu_3_2"].forEach((s) =>
+    querySelector("#$s .brk-date").text = "${entries[2].subleague} League"
+  );
+  
+  // Set Entries
+  var matchupIDs = [
+    "brk-mu_1_2", "brk-mu_1_7", 
+    "brk-mu_2_1", "brk-mu_2_2", 
+    "brk-mu_2_3", "brk-mu_2_4",
+    "brk-mu_3_1", "brk-mu_3_2",
+    "brk-mu_4_1"
+  ];
+  
+  SpanElement span;
+  
+  for(int index = 0; index < matchupIDs.length; index++){
+    print("Matchup $index");
+    var top = entries[index * 2];
+    var bottom = entries[index * 2 + 1];
+    
+    span = querySelector("#${matchupIDs[index]} .brk-tteam .brk-tseed");
+      span.text = getEntryText(top);
+    assignBracketClass(span, top);
+    
+    span = querySelector("#${matchupIDs[index]} .brk-bteam .brk-tseed");
+      span.text = getEntryText(bottom); 
+    assignBracketClass(span, bottom);
+    
+  }
+  
+  var winner = entries[18];
+  span = querySelector("#brk-final-box .brk-tseed");
+  if (winner.teamNickname == "TBD"){
+    span.text = "TBD";
+  } else {
+    span.text = "(${winner.seed}) ${winner.teamNickname}";
+  }
+  
+}
+
+String getEntryText(PlayoffBracketEntry entry){
+  if (entry.teamNickname == "Seed"){
+    return "(${entry.seed}) Seed";
+  } else if (entry.teamNickname == "TBD"){
+    return "TBD";
+  } else {
+    return "(${entry.seed}) ${entry.teamNickname} Wins: ${entry.wins}";
+  }
+}
+
+void assignBracketClass(SpanElement span, PlayoffBracketEntry entry){
+  if (entry.teamNickname == "TBD"){
+    span.classes.add("brk-ttbd");
+    span.classes.remove("brk-tseed");
+  }
 }
 
 void populateChancesTable(List<TeamStandings> subStandings, bool groupByDiv){

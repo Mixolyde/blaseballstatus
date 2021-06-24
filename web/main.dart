@@ -116,6 +116,9 @@ Future<void> refreshData() async{
   case View.postseason:
     populatePostseasonTable(subStandings, currentView.groupByDiv);
     break; 
+  case View.bracket:
+    populatePlayoffBracket(entries);
+    break;    
   }
   
   querySelector('#lastUpdate').text = sitedata.lastUpdate;
