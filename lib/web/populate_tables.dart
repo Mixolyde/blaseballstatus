@@ -57,16 +57,16 @@ void populatePlayoffBracket(List<PlayoffBracketEntry> entries){
   SpanElement span;
   
   for(int index = 0; index < matchupIDs.length; index++){
-    print("Matchup $index");
+    //print("Matchup $index");
     var top = entries[index * 2];
     var bottom = entries[index * 2 + 1];
     
     span = querySelector("#${matchupIDs[index]} .brk-tteam .brk-tseed");
-      span.text = getEntryText(top);
+    span.text = getEntryText(top);
     assignBracketClass(span, top);
     
     span = querySelector("#${matchupIDs[index]} .brk-bteam .brk-tseed");
-      span.text = getEntryText(bottom); 
+    span.text = getEntryText(bottom); 
     assignBracketClass(span, bottom);
     
   }
@@ -94,7 +94,8 @@ String getEntryText(PlayoffBracketEntry entry){
 void assignBracketClass(SpanElement span, PlayoffBracketEntry entry){
   if (entry.teamNickname == "TBD"){
     span.classes.add("brk-ttbd");
-    span.classes.remove("brk-tseed");
+  } else {
+    span.classes.remove("brk-ttbd");
   }
 }
 

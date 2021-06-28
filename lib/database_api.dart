@@ -102,8 +102,9 @@ Future<Playoffs> getPlayoffs(int season) async {
   print('GetPlayoffs Request URL: ${_playoffsUrl + season.toString()}');
   var response = await get(_playoffsUrl 
     + season.toString() );
-  //print('Response body: ${response.body}');
-  if(response.body == "")
+  //print('Response body: ***${response.body}***');
+  if(response.body == null || response.body == "" 
+    || response.body.contains("error"))
     return null;
   else
     return Playoffs.fromJson(json.decode(response.body));
