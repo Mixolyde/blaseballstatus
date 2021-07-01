@@ -14,7 +14,7 @@ final String _sitedataUrl = _apiUrl + "sitedata.json";
 final String _entriesUrl = _apiUrl + "entries.json";
 
 Future<SiteData> getSiteData() async {
-  var response = await get( _sitedataUrl );
+  var response = await get( Uri.parse(_sitedataUrl ));
   //print('SiteData Url: $_sitedataUrl');
   //print('Response body: ${response.body}');
   
@@ -24,7 +24,7 @@ Future<SiteData> getSiteData() async {
 }
 
 Future<List<PlayoffBracketEntry>> getPlayoffBracketEntries() async {
-  var response = await get( _entriesUrl );
+  var response = await get( Uri.parse(_entriesUrl ));
   //print('PlayoffBracketEntries Url: $_entriesUrl');
   //print('Response body: ${response.body}');
   
@@ -39,13 +39,13 @@ Future<List<PlayoffBracketEntry>> getPlayoffBracketEntries() async {
 }
 
 Future<List<List<TeamStandings>>> getSubStandings(SiteData sitedata) async {
-  var response = await get( _apiUrl + "${sitedata.sub1id}.json");
+  var response = await get( Uri.parse(_apiUrl + "${sitedata.sub1id}.json"));
   print('Standings 1 Url: ${_apiUrl + sitedata.sub1id}.json');
   //print('Response body: ${response.body}');
   
   List<TeamStandings> sub1Standings = decodeStandings(response.body);
 
-  response = await get( _apiUrl + "${sitedata.sub2id}.json");
+  response = await get( Uri.parse(_apiUrl + "${sitedata.sub2id}.json"));
   print('Standings 2 Url: ${_apiUrl + sitedata.sub2id}.json');
   
   List<TeamStandings> sub2Standings = decodeStandings(response.body);

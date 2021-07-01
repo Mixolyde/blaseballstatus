@@ -30,14 +30,14 @@ final String _subleagueUrl = apiUrl + "subleague?id=";
 final String _tiebreakersUrl = apiUrl + "tiebreakers?id=";
 
 Future<Season> getSeason(int season) async {
-  var response = await get(_seasonUrl 
-    + season.toString() );
+  var response = await get(Uri.parse(_seasonUrl 
+    + season.toString()) );
   //print('Response body: ${response.body}');
   return Season.fromJson(json.decode(response.body));
 }
 
 Future<Standings> getStandings(String standingsId) async {
-  var response = await get(_standingsUrl + standingsId);
+  var response = await get(Uri.parse(_standingsUrl + standingsId));
   //print('Response body: ${response.body}');
   var parsed = json.decode(response.body);
   var standings = Standings.fromJson(parsed);
@@ -46,36 +46,36 @@ Future<Standings> getStandings(String standingsId) async {
 }
 
 Future<Division> getDivision(String id) async {
-  var response = await get(_divisionUrl + id);
+  var response = await get(Uri.parse(_divisionUrl + id));
   return Division.fromJson(json.decode(response.body));
 }
 
 
 Future<League> getLeague() async {
-  var response = await get(_leagueUrl);
+  var response = await get(Uri.parse(_leagueUrl));
   return League.fromJson(json.decode(response.body));
 }
 
 Future<SimulationData> getSimulationData() async {
-  var response = await get(_simulationDatUrl);
+  var response = await get(Uri.parse(_simulationDatUrl));
   //print('Response body: ${response.body}');
   return SimulationData.fromJson(json.decode(response.body));
 }
 
 Future<Subleague> getSubleague(String id) async {
-  var response = await get(_subleagueUrl + id);
+  var response = await get(Uri.parse(_subleagueUrl + id));
   return Subleague.fromJson(json.decode(response.body));
 }
 
 Future<List<Team>> getTeams() async {
-  var response = await get(_allTeamsUrl);
+  var response = await get(Uri.parse(_allTeamsUrl));
   List<dynamic> parsed = json.decode(response.body);
   List<Team> teams = parsed.map((json) => Team.fromJson(json)).toList();
   return teams;
 }
 
 Future<List<Game>> getGames(int season, int day) async {
-  var response = await get(_gamesByDateUrl + "?day=$day&season=$season");
+  var response = await get(Uri.parse(_gamesByDateUrl + "?day=$day&season=$season"));
   List<dynamic> parsed = json.decode(response.body);
   List<Game> games = parsed.map((json) => Game.fromJson(json)).toList();
   return games;
@@ -93,15 +93,15 @@ Future<List<Game>> getAllGames(int season) async {
 }
 
 Future<Tiebreakers> getTiebreakers(String id) async {
-  var response = await get(_tiebreakersUrl + id);
+  var response = await get(Uri.parse(_tiebreakersUrl + id));
   var decjson = json.decode(response.body)[0];
   return Tiebreakers.fromJson(decjson);
 }
 
 Future<Playoffs> getPlayoffs(int season) async {
   print('GetPlayoffs Request URL: ${_playoffsUrl + season.toString()}');
-  var response = await get(_playoffsUrl 
-    + season.toString() );
+  var response = await get(Uri.parse(_playoffsUrl 
+    + season.toString() ));
   //print('Response body: ***${response.body}***');
   if(response.body == null || response.body == "" 
     || response.body.contains("error"))
@@ -111,14 +111,14 @@ Future<Playoffs> getPlayoffs(int season) async {
 }
 
 Future<PlayoffRound> getPlayoffRound(String roundID) async {
-  var response = await get(_playoffRoundUrl + roundID );
+  var response = await get(Uri.parse(_playoffRoundUrl + roundID ));
   //print('Response body: ${response.body}');
   return PlayoffRound.fromJson(json.decode(response.body));
 }
 
 Future<List<PlayoffMatchup>> getPlayoffMatchups(List<String> matchIDs) async {
-  var response = await get(_playoffMatchupsUrl 
-    + matchIDs.join(','));
+  var response = await get(Uri.parse(_playoffMatchupsUrl 
+    + matchIDs.join(',')));
   //print('Response body: ${response.body}');
   List<dynamic> parsed = json.decode(response.body);
   List<PlayoffMatchup> matchups = parsed.map((json) => 
