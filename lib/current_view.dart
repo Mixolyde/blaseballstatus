@@ -5,21 +5,22 @@ enum View {about, gamesbehind, winningmagic, partytimemagic, chances, postseason
 
 class CurrentView {
   // 0 or 1
-  int activeLeague;
-  View activeView;
-  bool groupByDiv;
+  int activeLeague = 0;
+  View activeView  = View.gamesbehind;
+  bool groupByDiv = false;
   
-  CurrentView({this.activeLeague, this.activeView, this.groupByDiv});
+  CurrentView({this.activeLeague = 0, this.activeView = View.gamesbehind,
+    this.groupByDiv = false});
   
   CurrentView.fromHash(String hash){
     print("Restoring view from hash: $hash");
     //#activeLeague=0&activeView=0&groupByDiv=false
     RegExp exp = RegExp(r"#activeLeague=([0|1])&activeView=(\w+)&groupByDiv=(\w+)");
-    Match match = exp.firstMatch(hash);
+    Match? match = exp.firstMatch(hash);
     if(match != null){
       //print(match.groups([1, 2, 3]));
-      activeLeague = int.parse(match.group(1));
-      activeView = View.values[int.parse(match.group(2))];
+      activeLeague = int.parse(match.group(1) ?? "0");
+      activeView = View.values[int.parse(match.group(2) ?? "1")];
       groupByDiv = match.group(3) == "true" ? true : false;
     } else {
       print("$hash did not match regex");

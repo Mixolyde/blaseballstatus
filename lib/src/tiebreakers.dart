@@ -29,7 +29,7 @@ class Tiebreakers {
   final String id;
   final List<String> order;
   
-  Tiebreakers({this.id, this.order});
+  Tiebreakers({required this.id, required this.order});
   
   factory Tiebreakers.fromJson(Map<String, dynamic> json){
     return Tiebreakers(

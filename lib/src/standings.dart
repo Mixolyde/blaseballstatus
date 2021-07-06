@@ -99,7 +99,8 @@ class Standings {
   final Map<String, double> runs;
   final Map<String, int> gamesPlayed;
   
-  Standings({this.id, this.losses, this.wins, this.runs, this.gamesPlayed});
+  Standings({required this.id, required this.losses, required this.wins,
+    required this.runs, required this.gamesPlayed});
   
   factory Standings.fromJson(Map<String, dynamic> json){
     var lossesMap = json['losses'] as Map<String, dynamic>;

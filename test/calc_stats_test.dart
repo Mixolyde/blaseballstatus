@@ -539,7 +539,7 @@ void main() {
 }
 
 List<TeamStandings> getEarlySeasonStandings(){
-  List<TeamStandings> teamStandings = new List<TeamStandings>();
+  List<TeamStandings> teamStandings = [];
   for(int i = 0; i < standingsData.length; i++){
     teamStandings.add(new TeamStandings(
       i.toString(),
@@ -560,7 +560,7 @@ List<TeamStandings> getEarlySeasonStandings(){
 }
 
 List<TeamStandings> getEarlySeasonResortNeededStandings(){
-  List<TeamStandings> teamStandings = new List<TeamStandings>();
+  List<TeamStandings> teamStandings = [];
   String div;
   for(int i = 0; i < standingsData.length; i++){
     if(i < 5) {
@@ -587,7 +587,7 @@ List<TeamStandings> getEarlySeasonResortNeededStandings(){
 }
 
 List<TeamStandings> getLateSeasonStandings(){
-  List<TeamStandings> teamStandings = new List<TeamStandings>();
+  List<TeamStandings> teamStandings = [];
   for(int i = 0; i < standingsData.length; i++){
     teamStandings.add(new TeamStandings(
       i.toString(),
@@ -607,7 +607,7 @@ List<TeamStandings> getLateSeasonStandings(){
 }
 
 List<TeamStandings> getLateSeasonResortNeededStandings(){
-  List<TeamStandings> teamStandings = new List<TeamStandings>();
+  List<TeamStandings> teamStandings = [];
   String div;
   for(int i = 0; i < standingsData.length; i++){
     if(i < 5) {
@@ -633,7 +633,7 @@ List<TeamStandings> getLateSeasonResortNeededStandings(){
 }
 
 List<TeamStandings> getNewSeasonStandings(){
-  List<TeamStandings> teamStandings = new List<TeamStandings>();
+  List<TeamStandings> teamStandings = [];
   for(int i = 0; i < standingsData.length; i++){
     teamStandings.add(new TeamStandings(
       i.toString(),
@@ -655,7 +655,7 @@ List<TeamStandings> getNewSeasonStandings(){
 }
 
 List<TeamStandings> getEndOfSeasonStandings(){
-  List<TeamStandings> teamStandings = new List<TeamStandings>();
+  Ljqst<TeamStandings> teamStandings = [];
   for(int i = 0; i < standingsData.length; i++){
     teamStandings.add(new TeamStandings(
       i.toString(),
@@ -676,7 +676,7 @@ List<TeamStandings> getEndOfSeasonStandings(){
 }
 
 List<TeamStandings> getEndOfSeasonResortNeededStandings(){
-  List<TeamStandings> teamStandings = new List<TeamStandings>();
+  List<TeamStandings> teamStandings = [];
   String div;
   for(int i = 0; i < standingsData.length; i++){
     if(i < 5) {

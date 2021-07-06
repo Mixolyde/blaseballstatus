@@ -7,8 +7,8 @@ class Team {
   final String shorthand;
   final String emoji;
   
-  Team({this.id, this.fullName, this.nickname, this.shorthand,
-    this.emoji});
+  Team({this.id = "", this.fullName = "", this.nickname = "", 
+    this.shorthand = "", this.emoji = ""});
   
   factory Team.fromJson(Map<String, dynamic> json){
     return Team(

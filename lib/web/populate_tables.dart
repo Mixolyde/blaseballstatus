@@ -3,7 +3,11 @@ import 'dart:html';
 import 'package:blaseballstatus/site_objects.dart';
 
 void populateGamesBehindTable(List<TeamStandings> subStandings, bool groupByDiv){
-  TableElement table = querySelector("#standingsTable");
+  TableElement? table = querySelector("#standingsTable") as TableElement?;
+  if(table == null){
+    print("ERROR: #standingsTable is null");
+    return;
+  }
   List<TeamStandings> standings = subStandings.toList();
   if(groupByDiv == true){
     String firstDiv = subStandings[0].division;
@@ -38,11 +42,11 @@ void populatePlayoffBracket(List<PlayoffBracketEntry> entries){
   
   // Set Leagues
   ["brk-mu_1_2", "brk-mu_2_1", "brk-mu_2_2", "brk-mu_3_1"].forEach((s) =>
-    querySelector("#$s .brk-date").text = "${entries[0].subleague} League"
+    querySelector("#$s .brk-date")?.text = "${entries[0].subleague} League"
   );
   
   ["brk-mu_1_7", "brk-mu_2_3", "brk-mu_2_4", "brk-mu_3_2"].forEach((s) =>
-    querySelector("#$s .brk-date").text = "${entries[2].subleague} League"
+    querySelector("#$s .brk-date")?.text = "${entries[2].subleague} League"
   );
   
   // Set Entries
@@ -54,29 +58,41 @@ void populatePlayoffBracket(List<PlayoffBracketEntry> entries){
     "brk-mu_4_1"
   ];
   
-  SpanElement span;
+  SpanElement? span;
   
   for(int index = 0; index < matchupIDs.length; index++){
     //print("Matchup $index");
     var top = entries[index * 2];
     var bottom = entries[index * 2 + 1];
     
-    span = querySelector("#${matchupIDs[index]} .brk-tteam .brk-tseed");
-    span.text = getEntryText(top);
-    assignBracketClass(span, top);
+    span = querySelector("#${matchupIDs[index]} .brk-tteam .brk-tseed") as SpanElement?;
+    if (span == null){
+      print("ERROR: span #${matchupIDs[index]} .brk-tteam .brk-tseed is null");
+    } else {
+      span.text = getEntryText(top);
+      assignBracketClass(span, top);
+    }
     
-    span = querySelector("#${matchupIDs[index]} .brk-bteam .brk-tseed");
-    span.text = getEntryText(bottom); 
-    assignBracketClass(span, bottom);
+    span = querySelector("#${matchupIDs[index]} .brk-bteam .brk-tseed") as SpanElement?;
+    if (span == null){
+      print("ERROR: span #${matchupIDs[index]} .brk-bteam .brk-tseed is null");
+    } else {
+      span.text = getEntryText(bottom);
+      assignBracketClass(span, bottom);
+    }
     
   }
   
   var winner = entries[18];
-  span = querySelector("#brk-final-box .brk-tseed");
-  if (winner.teamNickname == "TBD"){
-    span.text = "TBD";
+  span = querySelector("#brk-final-box .brk-tseed") as SpanElement?;
+  if (span == null){
+    print("ERROR: span #brk-final-box .brk-tseed is null");
   } else {
-    span.text = "(${winner.seed}) ${winner.teamNickname}";
+    if (winner.teamNickname == "TBD"){
+      span.text = "TBD";
+    } else {
+      span.text = "(${winner.seed}) ${winner.teamNickname}";
+    }
   }
   
 }
@@ -100,7 +116,11 @@ void assignBracketClass(SpanElement span, PlayoffBracketEntry entry){
 }
 
 void populateChancesTable(List<TeamStandings> subStandings, bool groupByDiv){
-  TableElement table = querySelector("#standingsTable");
+  TableElement? table = querySelector("#standingsTable") as TableElement?;
+  if(table == null){
+    print("ERROR: #standingsTable is null");
+    return;
+  }
   List<TeamStandings> standings = subStandings.toList();
   if(groupByDiv == true){
     String firstDiv = subStandings[0].division;
@@ -140,8 +160,12 @@ void populateChancesTable(List<TeamStandings> subStandings, bool groupByDiv){
 }
 
 void populatePostseasonTable(List<List<TeamStandings>> allStandings, bool groupByDiv){
-  TableElement table = querySelector("#standingsTable");
-  List<TeamStandings> standings = new List<TeamStandings>();
+  TableElement? table = querySelector("#standingsTable") as TableElement?;
+  if(table == null){
+    print("ERROR: #standingsTable is null");
+    return;
+  }
+  List<TeamStandings> standings = [];
   standings.addAll(allStandings[0]);
   standings.addAll(allStandings[1]);
 
@@ -183,7 +207,11 @@ void populatePostseasonTable(List<List<TeamStandings>> allStandings, bool groupB
 }
 
 void populateWinningTable(List<TeamStandings> subStandings, bool groupByDiv){
-  TableElement table = querySelector("#standingsTable");
+  TableElement? table = querySelector("#standingsTable") as TableElement?;
+  if(table == null){
+    print("ERROR: #standingsTable is null");
+    return;
+  }
   List<TeamStandings> standings = subStandings.toList();
   if(groupByDiv == true){
     String firstDiv = subStandings[0].division;
@@ -220,7 +248,11 @@ void populateWinningTable(List<TeamStandings> subStandings, bool groupByDiv){
 }
 
 void populatePartyTimeTable(List<TeamStandings> subStandings, bool groupByDiv){
-  TableElement table = querySelector("#standingsTable");
+  TableElement? table = querySelector("#standingsTable") as TableElement?;
+  if(table == null){
+    print("ERROR: #standingsTable is null");
+    return;
+  }
   List<TeamStandings> standings = subStandings.toList();
   if(groupByDiv == true){
     String firstDiv = subStandings[0].division;
@@ -256,11 +288,15 @@ void populatePartyTimeTable(List<TeamStandings> subStandings, bool groupByDiv){
 }
 
 void populateAboutPageData(List<List<TeamStandings>> subStandings){
-  OListElement tbList = querySelector('#tiebreakerlist');
+  OListElement? tbList = querySelector('#tiebreakerlist') as OListElement?;
+  if(tbList == null){
+    print("ERROR: OList #tiebreakerlist is null");
+    return;
+  }
   if(tbList.children != null){
     tbList.children.clear();
   }
-  List<TeamStandings> allStandings = new List<TeamStandings>();
+  List<TeamStandings> allStandings = [];
     allStandings.addAll(subStandings[0]);
     allStandings.addAll(subStandings[1]);      
   for(int favor = 0; favor < allStandings.length; favor++){

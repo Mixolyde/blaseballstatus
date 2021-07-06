@@ -68,12 +68,12 @@ class Game {
   final int season;
   final int day;
   
-  Game({this.id, this.awayTeam, this.awayTeamNickname,
-    this.awayScore,
-    this.homeTeam, this.homeTeamNickname, 
-    this.homeScore,
-    this.gameComplete,
-    this.season, this.day});
+  Game({this.id = "", this.awayTeam = "", this.awayTeamNickname = "",
+    this.awayScore = 0,
+    this.homeTeam = "", this.homeTeamNickname = "", 
+    this.homeScore = 0,
+    this.gameComplete = false,
+    this.season = 0, this.day = 0});
     
   factory Game.fromJson(Map<String, dynamic> json){
     return Game(

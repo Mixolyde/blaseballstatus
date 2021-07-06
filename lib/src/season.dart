@@ -20,8 +20,9 @@ class Season {
   final String stats;
   final String terminology;
   
-  Season({this.id, this.league, this.rules, this.schedule, this.seasonNumber, 
-  this.standings, this.stats, this.terminology});
+  Season({required this.id, required this.league, required this.rules, 
+    required this.schedule, required this.seasonNumber, required this.standings, 
+    required this.stats, required this.terminology});
 
   factory Season.fromJson(Map<String, dynamic> json){
     return Season(

@@ -13,10 +13,10 @@ class SiteData {
     [sub1name.split(' ')[1],
     sub2name.split(' ')[1]];
   
-  SiteData.fromMap({this.lastUpdate, 
-    this.season, this.day,
-    this.sub1id, this.sub1name,
-    this.sub2id, this.sub2name});
+  SiteData.fromMap({this.lastUpdate = "", 
+    this.season = 0, this.day = 0,
+    this.sub1id = "", this.sub1name = "",
+    this.sub2id = "", this.sub2name = ""});
   
   SiteData(this.lastUpdate, 
     this.season, this.day,

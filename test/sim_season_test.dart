@@ -45,7 +45,7 @@ void main() {
   });
   group('single simulation', () {
     test('Short season', () {
-      List<Game> games = new List<Game>();
+      List<Game> games = [];
       for (int i = 0; i < 10; i++){
         games.add(createRandomGame(i, false,
           "Team 1", "Team 2", 0.25));
@@ -64,7 +64,7 @@ void main() {
       });
     });   
     test('Save and load', () {
-      List<Game> games = new List<Game>();
+      List<Game> games = [];
       for (int i = 0; i < 10; i++){
         games.add(createRandomGame(i, false,
           "Team 1", "Team 2", 0.25));
@@ -305,9 +305,9 @@ void main() {
 }
 
 List<List<TeamStandings>> createStandings(int numTeams, int gamesPlayed){
-  List<List<TeamStandings>> standings = new List<List<TeamStandings>>();
+  List<List<TeamStandings>> standings = [];
   for(int league = 0; league < 2; league++){
-    standings.add( new List<TeamStandings>() );
+    standings.add( [] );
   }
   
   for(int team = 1; team <= numTeams; team++){
@@ -360,7 +360,7 @@ List<Game> createSeasonOfGames(int numDays, int completedDays,
   if(numTeams % 4 != 0){
     throw new ArgumentError("NumTeams must be divisible by four");
   }
-  List<Game> games = new List<Game>();
+  List<Game> games = [];
   if(initialChances == null || initialChances.length != numTeams){
     initialChances = List<num>.filled(numTeams, 0.5);
     print(initialChances);

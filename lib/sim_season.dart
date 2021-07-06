@@ -311,9 +311,9 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
   sims.keys.forEach((key) => poCounts[key] = [0, 0, 0, 0, 0]);
   // counts for ILB champ, ILB series, League series, Round 1, WC Round
   sims.keys.forEach((key) => postCounts[key] = [0, 0, 0, 0, 0]);
-  List<List<TeamSim>> simsByLeague = new List<List<TeamSim>>();
+  List<List<TeamSim>> simsByLeague = [];
   standings.forEach((standingList) {
-    List<TeamSim> simList = new List<TeamSim>();
+    List<TeamSim> simList = [];
     standingList.forEach((standing) {
       simList.add(sims[standing.id]);
     });
@@ -425,17 +425,15 @@ void simulatePostSeason(List<List<TeamSim>> simsByLeague){
   int teamCount = simsByLeague.fold(0, (sum, sub) => sum + sub.length);
   
   //simulate complete playoff run
-  List<TeamSim> leagueChampSims = new List<TeamSim>();
+  List<TeamSim> leagueChampSims = [];
   
   simsByLeague.forEach((simLeague) {
     sortTeamSims(simLeague);
     
-    List<TeamSim> round1Sims = new List<TeamSim>(4);
-    round1Sims[0] = simLeague[0];
-    round1Sims[1] = simLeague[1];
-    round1Sims[2] = simLeague[2];
-    
-    List<TeamSim> round2Sims = new List<TeamSim>(2);
+    List<TeamSim> round1Sims = [];
+    round1Sims.add(simLeague[0]);
+    round1Sims.add(simLeague[1]);
+    round1Sims.add(simLeague[2]);
     
     // wild card round
     // pick a random team not in playoffs and simulate
@@ -447,7 +445,7 @@ void simulatePostSeason(List<List<TeamSim>> simsByLeague){
     //print("WildCard pick $wildCardIndex $wildCard");
     //simulate 3 win series with wild card pic
     TeamSim wildSeriesWinner = simulateSeries(simLeague[3], wildCard, 2, teamCount);
-    round1Sims[3] = wildSeriesWinner;
+    round1Sims.add(wildSeriesWinner);
     //print("WildCard pick $wildCardIndex $wildCard WildSeriesWinner $wildSeriesWinner");
     round1Sims.forEach((sim) => sim.r1Series = true);
     
@@ -456,9 +454,7 @@ void simulatePostSeason(List<List<TeamSim>> simsByLeague){
     TeamSim r1SeriesWinnerB = simulateSeries(round1Sims[1], round1Sims[2], 3, teamCount);
     
     // subleague round
-    List<TeamSim> slRoundSims = new List<TeamSim>(2);
-    slRoundSims[0] = r1SeriesWinnerA;
-    slRoundSims[1] = r1SeriesWinnerB;
+    List<TeamSim> slRoundSims = [r1SeriesWinnerA, r1SeriesWinnerB];
     slRoundSims.forEach((sim) => sim.slSeries = true);
     
     TeamSim slWinner = simulateSeries(slRoundSims[0], slRoundSims[1], 3, teamCount);

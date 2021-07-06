@@ -28,7 +28,7 @@ Future<List<PlayoffBracketEntry>> getPlayoffBracketEntries() async {
   //print('PlayoffBracketEntries Url: $_entriesUrl');
   //print('Response body: ${response.body}');
   
-  List<PlayoffBracketEntry> entries = new List<PlayoffBracketEntry>();
+  List<PlayoffBracketEntry> entries = [];
   json.decode(response.body).forEach((j){ 
     PlayoffBracketEntry entry = PlayoffBracketEntry.fromJson(j);
     entries.add(entry);
@@ -54,7 +54,7 @@ Future<List<List<TeamStandings>>> getSubStandings(SiteData sitedata) async {
 }
 
 List<TeamStandings> decodeStandings(String body){
-  List<TeamStandings> subStandings = new List<TeamStandings>();
+  List<TeamStandings> subStandings = [];
   json.decode(body).forEach((j){ 
     TeamStandings standings = TeamStandings.fromJson(j);
     subStandings.add(standings);

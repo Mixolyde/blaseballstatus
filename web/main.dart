@@ -22,7 +22,7 @@ String winningNotesHTML;
 SiteData sitedata;
 
 CurrentView currentView = new CurrentView();
-List<PlayoffBracketEntry> entries = new List<PlayoffBracketEntry>();
+List<PlayoffBracketEntry> entries = [];
 
 void main() {
   getContentPages().then((v) {

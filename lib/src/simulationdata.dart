@@ -32,8 +32,9 @@ class SimulationData {
   final String eraTitle;
   final String subEraTitle;
 
-  SimulationData({this.id, this.day, this.league, this.playOffRound,
-    this.season, this.seasonId, this.eraTitle, this.subEraTitle});
+  SimulationData({required this.id, required this.day, required this.league, 
+    required this.playOffRound, required this.season, required this.seasonId, 
+    required this.eraTitle, required this.subEraTitle});
   
   factory SimulationData.fromJson(Map<String, dynamic> json){
     return SimulationData(

@@ -14,7 +14,7 @@ Future<List<Game>> getAllGames(int season) async {
     + season.toString() );
   //print('Response body: ${response.body}');
   
-  List<Game> games = new List<Game>();
+  List<Game> games = [];
   List<dynamic> objects = json.decode(response.body)['data'];
   objects.forEach((o){
     games.add(new Game.fromJson(o['data']));

@@ -16,12 +16,12 @@ class League {
   final String subleagueId2;
   final String tiebreakersId;
   
-  Subleague subleague1;
-  Subleague subleague2;
-  Tiebreakers tiebreakers;
+  Subleague? subleague1;
+  Subleague? subleague2;
+  Tiebreakers? tiebreakers;
 
-  League({this.id, this.name, this.subleagueId1, this.subleagueId2,
-    this.tiebreakersId});
+  League({this.id = "", this.name = "", this.subleagueId1 = "", this.subleagueId2 = "",
+    this.tiebreakersId = ""});
     
   factory League.fromJson(Map<String, dynamic> json){
     return League(
@@ -51,10 +51,10 @@ class Subleague {
   final String divisionId1;
   final String divisionId2;
   
-  Division division1;
-  Division division2;
+  Division? division1;
+  Division? division2;
 
-  Subleague({this.id, this.name, this.divisionId1, this.divisionId2});
+  Subleague({this.id = "", this.name = "", this.divisionId1 = "", this.divisionId2 = ""});
     
   factory Subleague.fromJson(Map<String, dynamic> json){
     return Subleague(
@@ -86,7 +86,7 @@ class Division{
   final String name;
   final List<String> teams;  
   
-  Division({this.id, this.name, this.teams});
+  Division({required this.id, required this.name, required this.teams});
     
   factory Division.fromJson(Map<String, dynamic> json){
     return Division(

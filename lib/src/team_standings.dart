@@ -23,11 +23,11 @@ class TeamStandings {
     this.emoji, this.subleague, this.division,
     this.wins, this.losses, this.gamesPlayed, this.favor);
     
-  TeamStandings.fromMap({this.id, this.fullName,
-    this.nickname, this.emoji, this.subleague, this.division,
-    this.wins, this.losses,
-    this.gamesPlayed, this.favor,
-    this.gbDiv, this.gbWc,
+  TeamStandings.fromMap({this.id = "", this.fullName = "",
+    this.nickname = "", this.emoji = "", this.subleague = "", this.division = "",
+    this.wins = 0, this.losses = 0,
+    this.gamesPlayed = 0, this.favor = 0,
+    this.gbDiv = '-', this.gbWc = '-',
     po, winning, partytime, post}){
     for(int i = 0; i < 5; i++){
       this.po[i] = po[i].toString();

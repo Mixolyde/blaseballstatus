@@ -6,8 +6,8 @@ class CompletePostseason {
   final Map<String, PlayoffRound> playoffRounds;
   final Map<String, PlayoffMatchup> playoffMatchups;
   
-  CompletePostseason({this.id, this.playoffs, this.playoffRounds,
-    this.playoffMatchups});
+  CompletePostseason({required this.id, required this.playoffs, 
+    required this.playoffRounds, required this.playoffMatchups});
   
   @override
   String toString() => "Complete PostSeason ${playoffRounds.keys.length} Rounds " +
@@ -56,8 +56,9 @@ class Playoffs {
   final int tomorrowRound;
   final String winner;
   
-  Playoffs({this.id, this.name, this.numberOfRounds, this.playoffDay,
-    this.rounds, this.season, this.tomorrowRound, this.winner});
+  Playoffs({required this.id, required this.name, required this.numberOfRounds, 
+    required this.playoffDay, required this.rounds, required this.season,
+    required this.tomorrowRound, required this.winner});
   
   factory Playoffs.fromJson(Map<String, dynamic> json){
     return Playoffs(
@@ -66,7 +67,7 @@ class Playoffs {
       numberOfRounds: json['numberOfRounds'] as int,
       playoffDay: json['playoffDay'] as int,
       rounds: (json['rounds'] as List<dynamic>)
-        .map((t) => t.toString()).toList(),
+        .map((t) => t.toString()).toList() as List<String>,
       season: json['season'] as int,
       tomorrowRound: json['tomorrowRound'] as int, 
       winner: json['winner'] as String,      
@@ -232,9 +233,9 @@ class PlayoffMatchup {
   final String homeTeam;
   final int homeWins;
   
-  PlayoffMatchup({this.id, this.name, this.awaySeed, this.awayTeam,
-    this.awayWins, this.homeSeed, this.homeTeam,
-    this.homeWins});
+  PlayoffMatchup({required this.id, required this.name, required this.awaySeed,
+    required this.awayTeam, required this.awayWins, required this.homeSeed, 
+    required this.homeTeam, required this.homeWins});
   
   factory PlayoffMatchup.fromJson(Map<String, dynamic> json){
     return PlayoffMatchup(
@@ -361,9 +362,9 @@ class PlayoffRound {
   final int roundNumber;
   final bool special;
   
-  PlayoffRound({this.id, this.matchupIDs, this.gameIDs, this.winnerIDs,
-    this.winnerSeeds, this.gameIndex, this.name,
-    this.roundNumber, this.special});
+  PlayoffRound({required this.id, required this.matchupIDs, required this.gameIDs, 
+    required this.winnerIDs, required this.winnerSeeds, required this.gameIndex, 
+    required this.name, required this.roundNumber, required this.special});
   
   factory PlayoffRound.fromJson(Map<String, dynamic> json){
     return PlayoffRound(

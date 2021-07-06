@@ -3,17 +3,17 @@ import 'package:intl/intl.dart';
 import 'database_api.dart';
 import 'site_objects.dart';
 
-League _league;
-Subleague _sub1;
-Subleague _sub2;
+League? _league;
+Subleague? _sub1;
+Subleague? _sub2;
 
-List<List<TeamStandings>> subStandings;
+List<List<TeamStandings>> subStandings = [];
 
-List<Team> _allTeams;
-SimulationData _simData;
-Season _season;
-Standings _standings;
-Tiebreakers _tiebreakers;
+List<Team> _allTeams = [];
+SimulationData? _simData;
+Season? _season;
+Standings? _standings;
+Tiebreakers? _tiebreakers;
 List<String> _dayOfWeek = ["", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 List<String> _monthOfYear = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
   "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -78,7 +78,7 @@ Future<List<TeamStandings>> calculateSubLeague(Subleague sub, List<Game> games) 
     div2.teams.contains(t.id)).toList();
 
   
-  List<TeamStandings> teamStandings = new List<TeamStandings>();
+  List<TeamStandings> teamStandings = [];
   teams.forEach((team){
     String divName;
     if(div1.teams.contains(team.id)){

@@ -82,7 +82,7 @@ Future<List<Game>> getGames(int season, int day) async {
 }
 
 Future<List<Game>> getAllGames(int season) async {
-  List<Game> games = new List<Game>();
+  List<Game> games = [];
   for(int day = 0; day < 130; day++){
     //print("Getting day games: Season $season Day $day");
     List<Game> dayGames = await getGames(season, day);
@@ -98,7 +98,7 @@ Future<Tiebreakers> getTiebreakers(String id) async {
   return Tiebreakers.fromJson(decjson);
 }
 
-Future<Playoffs> getPlayoffs(int season) async {
+Future<Playoffs?> getPlayoffs(int season) async {
   print('GetPlayoffs Request URL: ${_playoffsUrl + season.toString()}');
   var response = await get(Uri.parse(_playoffsUrl 
     + season.toString() ));
@@ -127,8 +127,8 @@ Future<List<PlayoffMatchup>> getPlayoffMatchups(List<String> matchIDs) async {
   return matchups;
 }
 
-Future<CompletePostseason> getCompletePostseason(int season) async {
-  Playoffs playoffs = await getPlayoffs(season);
+Future<CompletePostseason?> getCompletePostseason(int season) async {
+  Playoffs? playoffs = await getPlayoffs(season);
   if(playoffs == null){
     return null;
   }
