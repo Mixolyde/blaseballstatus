@@ -655,7 +655,7 @@ List<TeamStandings> getNewSeasonStandings(){
 }
 
 List<TeamStandings> getEndOfSeasonStandings(){
-  Ljqst<TeamStandings> teamStandings = [];
+  List<TeamStandings> teamStandings = [];
   for(int i = 0; i < standingsData.length; i++){
     teamStandings.add(new TeamStandings(
       i.toString(),

@@ -143,7 +143,8 @@ void main() {
       Map<String, TeamSim> sims = mapTeamSims(standings, games);
       simulateSeason(games, sims);
       for (int i = 0; i < winVariances.length; i++){
-        TeamSim sim = sims["Team ${i + 1}"];
+        TeamSim? sim = sims["Team ${i + 1}"];
+        if(sim == null) fail("Sim was null");
         expect(sim.wins, sim.notLosses + winVariances[i]);
         expect(sim.notLosses + sim.losses, numGames);
         print(sim);
@@ -251,7 +252,7 @@ void main() {
       SimulationData simData = await getSimulationData();
       SiteData sitedata = await calcSiteData(simData);
       List<List<TeamStandings>> subStandings = await calcStats(simData);
-      CompletePostseason postseason = await getCompletePostseason(simData.season);    
+      CompletePostseason? postseason = await getCompletePostseason(simData.season);    
       
       List<PlayoffBracketEntry> entries = await calculatePlayoffBracketEntries(
         postseason, subStandings);
@@ -274,7 +275,7 @@ void main() {
       
       SiteData sitedata = await calcSiteData(oldSimData);
       List<List<TeamStandings>> subStandings = await calcStats(oldSimData);
-      CompletePostseason postseason = await getCompletePostseason(oldSimData.season);    
+      CompletePostseason? postseason = await getCompletePostseason(oldSimData.season);    
       
       List<PlayoffBracketEntry> entries = await calculatePlayoffBracketEntries(
         postseason, subStandings);
@@ -356,7 +357,7 @@ Game createRandomGame(int day, bool completed,
 }
 
 List<Game> createSeasonOfGames(int numDays, int completedDays,
-  int numTeams, List<List<TeamStandings>> standings, [List<num> initialChances]){
+  int numTeams, List<List<TeamStandings>> standings, [List<num>? initialChances]){
   if(numTeams % 4 != 0){
     throw new ArgumentError("NumTeams must be divisible by four");
   }

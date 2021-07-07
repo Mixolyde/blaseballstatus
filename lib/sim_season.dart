@@ -5,9 +5,9 @@ import 'calc_stats.dart';
 import 'database_api.dart';
 import 'site_objects.dart';
 
-SimulationData simData;
-Season season;
-List<Game> games;
+late SimulationData simData;
+late Season season;
+List<Game> games = [];
 Random rand = new Random(0);
 
 Future<void> calculateChances(List<List<TeamStandings>> subStandings, int numSims, 
@@ -40,7 +40,7 @@ Future<void> calculateChances(List<List<TeamStandings>> subStandings, int numSim
 
 // 12, 13, 14, 15, 16, 17, 18 - TBD
 Future<List<PlayoffBracketEntry>> calculatePlayoffBracketEntries(
-  CompletePostseason postSeason, List<List<TeamStandings>> subStandings) async {
+  CompletePostseason? postSeason, List<List<TeamStandings>> subStandings) async {
     
   String league1 = subStandings[0][0].subleague;
   String league2 = subStandings[1][0].subleague;
@@ -269,7 +269,7 @@ Future<List<PlayoffBracketEntry>> calculatePlayoffBracketEntries(
 }
 
 PlayoffMatchup locateMatchup(CompletePostseason postSeason, PlayoffRound round,
-  List<TeamStandings> subStandings, {int seed} ){
+  List<TeamStandings> subStandings, {int? seed} ){
   print("Searching for matchup with seed: $seed");
   if(seed != null){
     return postSeason.playoffMatchups.values.firstWhere(

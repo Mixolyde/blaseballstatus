@@ -3,17 +3,17 @@ import 'package:intl/intl.dart';
 import 'database_api.dart';
 import 'site_objects.dart';
 
-League? _league;
-Subleague? _sub1;
-Subleague? _sub2;
+late League _league;
+late Subleague _sub1;
+late Subleague _sub2;
 
 List<List<TeamStandings>> subStandings = [];
 
 List<Team> _allTeams = [];
-SimulationData? _simData;
-Season? _season;
-Standings? _standings;
-Tiebreakers? _tiebreakers;
+late SimulationData _simData;
+late Season _season;
+late Standings _standings;
+late Tiebreakers _tiebreakers;
 List<String> _dayOfWeek = ["", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 List<String> _monthOfYear = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
   "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -90,7 +90,7 @@ Future<List<TeamStandings>> calculateSubLeague(Subleague sub, List<Game> games) 
     int gamesPlayed = 99;
     if (day < 99){
       //regular season
-      gamesPlayed = _standings.gamesPlayed[team.id];
+      gamesPlayed = _standings.gamesPlayed[team.id] ?? gamesPlayed;
     }
     
     TeamStandings standing = 
@@ -98,8 +98,8 @@ Future<List<TeamStandings>> calculateSubLeague(Subleague sub, List<Game> games) 
       team.fullName, team.nickname, team.emoji,
       sub.name.split(' ')[1],
       divName,
-      _standings.wins[team.id], 
-      _standings.losses[team.id],
+      _standings.wins[team.id] ?? 0, 
+      _standings.losses[team.id] ?? 0,
       gamesPlayed,
       _tiebreakers.order.indexOf(team.id));
     teamStandings.add(standing);
@@ -164,7 +164,7 @@ void calculateGamesBehind(List<TeamStandings> teamStandings) {
     if(teamStandings[i] != secondDivLeader){
       int teamDiff = teamStandings[i].wins - 
         (teamStandings[i].gamesPlayed - teamStandings[i].wins);
-      List divLeader = divLeaders[teamStandings[i].division];
+      List<int> divLeader = divLeaders[teamStandings[i].division] ?? [];
       num gbDiv = ( divLeader[0] - teamDiff ) / 2;
       if (divLeader[1] < teamStandings[i].favor){
         gbDiv += 1;
@@ -172,7 +172,7 @@ void calculateGamesBehind(List<TeamStandings> teamStandings) {
       teamStandings[i].gbDiv = formatGamesBehind(gbDiv);
       
       if(i > 3) {
-        List wcLeader = wcLeaders[teamStandings[i].division];
+        List<int> wcLeader = wcLeaders[teamStandings[i].division] ?? [];
         num gbWc = ( wcLeader[0] - teamDiff ) / 2;
         if (wcLeader[1] < teamStandings[i].favor){
           gbWc += 1;

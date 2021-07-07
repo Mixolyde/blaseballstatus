@@ -97,8 +97,8 @@ void apiTests() {
     int teamCount = 20;
     int divisionCount = 5;
     test('playoffs', () async {
-      Playoffs current = await getPlayoffs(seasonNumber);
-      expect(current, isNotNull);
+      Playoffs? current = await getPlayoffs(seasonNumber);
+      if(current == null) fail("current is null");
       expect(current.season, seasonNumber);
       expect(current.id, isNotNull);
       expect(current.numberOfRounds, 4);
@@ -149,8 +149,8 @@ void apiTests() {
       expect(first.homeWins, 0);
     });
     test('complete postseason', () async {
-      CompletePostseason current = await getCompletePostseason(seasonNumber);
-      expect(current, isNotNull);
+      CompletePostseason? current = await getCompletePostseason(seasonNumber);
+      if(current == null) fail("current is null");
       expect(current.playoffs.season, seasonNumber);
       expect(current.id, isNotNull);
       expect(current.id, current.playoffs.id);
@@ -162,7 +162,7 @@ void apiTests() {
     test('current postseason', () async {
       SimulationData data = await getSimulationData();
       expect(data.season, greaterThan(seasonNumber));      
-      CompletePostseason current = await getCompletePostseason(data.season);
+      CompletePostseason? current = await getCompletePostseason(data.season);
       print(current);
     });    
   });

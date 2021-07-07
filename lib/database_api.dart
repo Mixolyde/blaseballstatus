@@ -136,11 +136,12 @@ Future<CompletePostseason?> getCompletePostseason(int season) async {
   Map<String, PlayoffMatchup> playoffMatchups = new Map<String, PlayoffMatchup>();
   
   await Future.forEach(playoffs.rounds, (id) async {
-    playoffRounds[id] = await getPlayoffRound(id);
-    print("Fetched round ${playoffRounds[id]} with ${playoffRounds[id].matchupIDs.length} matchupIDs");
-    if (playoffRounds[id].matchupIDs.length > 0){
+    PlayoffRound round = await getPlayoffRound(id as String);
+    playoffRounds[id as String] = round;
+    print("Fetched round ${playoffRounds[id]} with ${playoffRounds[id]?.matchupIDs.length} matchupIDs");
+    if (round.matchupIDs.length > 0){
       List<PlayoffMatchup> matchups = await 
-        getPlayoffMatchups(playoffRounds[id].matchupIDs);
+        getPlayoffMatchups(round.matchupIDs);
       if(matchups != null){
         matchups.forEach((matchup){
           playoffMatchups[matchup.id] = matchup;
