@@ -225,24 +225,24 @@ class Playoffs {
 
 class PlayoffMatchup {
   final String id;
-  final String name;
-  final int awaySeed;
-  final String awayTeam;
+  final String? name;
+  final int? awaySeed;
+  final String? awayTeam;
   final int awayWins;
   final int homeSeed;
   final String homeTeam;
   final int homeWins;
   
-  PlayoffMatchup({required this.id, required this.name, required this.awaySeed,
-    required this.awayTeam, required this.awayWins, required this.homeSeed, 
+  PlayoffMatchup({required this.id, this.name, this.awaySeed,
+    this.awayTeam, required this.awayWins, required this.homeSeed, 
     required this.homeTeam, required this.homeWins});
   
   factory PlayoffMatchup.fromJson(Map<String, dynamic> json){
     return PlayoffMatchup(
       id: json['id'] as String,
-      name: json['name'] as String,
-      awaySeed: json['awaySeed'] as int,
-      awayTeam: json['awayTeam'] as String,   
+      name: json['name'] as String?,
+      awaySeed: json['awaySeed'] as int?,
+      awayTeam: json['awayTeam'] as String?,   
       awayWins: json['awayWins'] as int,
       homeSeed: json['homeSeed'] as int,
       homeTeam: json['homeTeam'] as String,   

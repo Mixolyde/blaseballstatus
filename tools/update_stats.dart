@@ -33,8 +33,9 @@ Future<void> main(List<String> args) async {
   
 
   //numSims = 17;
-  CompletePostseason postSeason = await getCompletePostseason(simData.season);
-  List<PlayoffBracketEntry> entries = await calculatePlayoffBracketEntries(postSeason, subStandings);
+  CompletePostseason? postSeason = await getCompletePostseason(simData.season);
+  List<PlayoffBracketEntry> entries = 
+      await calculatePlayoffBracketEntries(postSeason, subStandings);
   var chances = await calculateChances(subStandings, numSims, entries);
 
   

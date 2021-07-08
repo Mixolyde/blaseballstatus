@@ -119,7 +119,7 @@ Future<PlayoffRound> getPlayoffRound(String roundID) async {
 Future<List<PlayoffMatchup>> getPlayoffMatchups(List<String> matchIDs) async {
   var response = await get(Uri.parse(_playoffMatchupsUrl 
     + matchIDs.join(',')));
-  //print('Response body: ${response.body}');
+  print('Response body: ${response.body}');
   List<dynamic> parsed = json.decode(response.body);
   List<PlayoffMatchup> matchups = parsed.map((json) => 
     PlayoffMatchup.fromJson(json)).toList();

@@ -26,14 +26,14 @@ class SimulationData {
   final String id;
   int day;
   final String league;
-  int playOffRound;
+  int? playOffRound;
   int season;
   String seasonId;
   final String eraTitle;
   final String subEraTitle;
 
   SimulationData({required this.id, required this.day, required this.league, 
-    required this.playOffRound, required this.season, required this.seasonId, 
+    this.playOffRound, required this.season, required this.seasonId, 
     required this.eraTitle, required this.subEraTitle});
   
   factory SimulationData.fromJson(Map<String, dynamic> json){
@@ -41,7 +41,7 @@ class SimulationData {
       id: json['id'] as String,
       day: json['day'] as int,
       league: json['league'] as String,
-      playOffRound: json['playOffRound'] as int,
+      playOffRound: json['playOffRound'] as int?,
       season: json['season'] as int,
       seasonId: json['seasonId'] as String,
       eraTitle: json['eraTitle'] as String,

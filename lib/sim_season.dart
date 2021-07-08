@@ -215,7 +215,8 @@ Future<List<PlayoffBracketEntry>> calculatePlayoffBracketEntries(
     (r) => r.roundNumber == 3);
   //print ("Round3: $round3");
   if(round3.matchupIDs.length > 0){
-    PlayoffMatchup matchup = postSeason.playoffMatchups[round3.matchupIDs[0]];
+    PlayoffMatchup matchup = 
+        postSeason.playoffMatchups[round3.matchupIDs[0]]!;
     
     print ("ILB Finals Matchup: $matchup");
     TeamStandings league1Standing = subStandings[0].firstWhere((standing) => 
@@ -236,12 +237,12 @@ Future<List<PlayoffBracketEntry>> calculatePlayoffBracketEntries(
       entries[17].wins = matchup.awayWins;
       //convert to 1-index for display
       entries[16].seed = matchup.homeSeed + 1;
-      entries[17].seed = matchup.awaySeed + 1;
+      entries[17].seed = (matchup.awaySeed ?? 0) + 1;
     } else {
       entries[16].wins = matchup.awayWins;
       entries[17].wins = matchup.homeWins;
       //convert to 1-index for display
-      entries[16].seed = matchup.awaySeed + 1;
+      entries[16].seed = (matchup.awaySeed ?? 0) + 1;
       entries[17].seed = matchup.homeSeed + 1;
     }
     
@@ -290,14 +291,14 @@ void populatePlayoffMatchupEntries(PlayoffBracketEntry homeEntry,
     PlayoffBracketEntry awayEntry, TeamStandings homeStanding, 
     TeamStandings awayStanding, PlayoffMatchup matchup){
   homeEntry.teamID = matchup.homeTeam;
-  awayEntry.teamID = matchup.awayTeam;
+  awayEntry.teamID = matchup.awayTeam ?? "Away Team";
   homeEntry.teamNickname = homeStanding.nickname;
   awayEntry.teamNickname = awayStanding.nickname;
   homeEntry.wins = matchup.homeWins;
   awayEntry.wins = matchup.awayWins;
   //convert to 1-index for display
   homeEntry.seed = matchup.homeSeed + 1;
-  awayEntry.seed = matchup.awaySeed + 1;
+  awayEntry.seed = (matchup.awaySeed ?? 0) + 1;
 }
 
 void runSimulations(List<Game> games, List<List<TeamStandings>> standings, 
@@ -315,7 +316,7 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
   standings.forEach((standingList) {
     List<TeamSim> simList = [];
     standingList.forEach((standing) {
-      simList.add(sims[standing.id]);
+      simList.add(sims[standing.id]!);
     });
     simsByLeague.add(simList);
   });
@@ -339,26 +340,26 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
           case 1:
           case 2:
           case 3:
-            poCounts[sim.id][i]++;
+            poCounts[sim.id]![i]++;
             break;
           default:
-            poCounts[sim.id][4]++;
+            poCounts[sim.id]![4]++;
             break;
         }
         if(sim.ilbChamp){
-          postCounts[sim.id][0]++;
+          postCounts[sim.id]![0]++;
         }
         if(sim.ilbSeries){
-          postCounts[sim.id][1]++;
+          postCounts[sim.id]![1]++;
         }
         if(sim.slSeries){
-          postCounts[sim.id][2]++;
+          postCounts[sim.id]![2]++;
         }  
         if(sim.r1Series){
-          postCounts[sim.id][3]++;
+          postCounts[sim.id]![3]++;
         }   
         if(sim.wcSeries){
-          postCounts[sim.id][4]++;
+          postCounts[sim.id]![4]++;
         }        
       }
     });
@@ -382,7 +383,7 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
           standing.po[i] = standing.winning[i];
           break;
         default:
-          standing.po[i] = formatPercent(poCounts[standing.id][i] / numSims);
+          standing.po[i] = formatPercent(poCounts[standing.id]![i] / numSims);
           break;
       }
       
@@ -393,7 +394,7 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
       } else if ( i == 4 && top4){
         standing.post[i] = "^";
       } else {
-        standing.post[i] = formatPercent(postCounts[standing.id][i] / numSims);
+        standing.post[i] = formatPercent(postCounts[standing.id]![i] / numSims);
       }
     }
     print("$standing Po ${standing.po} Post ${standing.post}");
@@ -404,8 +405,8 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
 void simulateSeason(List<Game> games, Map<String, TeamSim> sims){
   //simulate unplayed games
   games.where((g) => !g.gameComplete).forEach((g) {
-    TeamSim awaySim = sims[g.awayTeam];
-    TeamSim homeSim = sims[g.homeTeam];
+    TeamSim awaySim = sims[g.awayTeam]!;
+    TeamSim homeSim = sims[g.homeTeam]!;
     //print("Simulate outcome of $g");
     TeamSim winner = simulateGame(awaySim, homeSim, sims.length);
     
@@ -576,9 +577,9 @@ class TeamSim {
   int favor;
   String division;
   
-  int notLosses_save;
-  int wins_save;
-  int losses_save;
+  int notLosses_save = 0;
+  int wins_save = 0;
+  int losses_save = 0;
   
   bool wcSeries = false;
   bool r1Series = false;
