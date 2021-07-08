@@ -3,11 +3,7 @@ import 'dart:html';
 import 'package:blaseballstatus/site_objects.dart';
 
 void populateGamesBehindTable(List<TeamStandings> subStandings, bool groupByDiv){
-  TableElement? table = querySelector("#standingsTable") as TableElement?;
-  if(table == null){
-    print("ERROR: #standingsTable is null");
-    return;
-  }
+  TableElement table = querySelector("#standingsTable")! as TableElement;
   List<TeamStandings> standings = subStandings.toList();
   if(groupByDiv == true){
     String firstDiv = subStandings[0].division;
@@ -190,7 +186,8 @@ void populatePostseasonTable(List<List<TeamStandings>> allStandings, bool groupB
     for(int i = 0; i < 5; i++){
       var cell = trow.insertCell(6 + i)
         ..text = row.post[i];
-      if(row.winning[4] == "PT" || row.winning[3] == "DNCD" ){
+      if(row.winning[4] == "PT" || 
+          (row.winning[2] == "DNCD" && row.winning[3] == "DNCD") ){
         cell.classes.add("redcell");
       } else {
         cell.classes.add("greencell");
