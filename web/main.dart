@@ -11,15 +11,15 @@ import 'package:blaseballstatus/web/populate_tables.dart';
 
 import 'package:cron/cron.dart';
 
-String aboutHTML;
-String bracketHTML;
-String chancesNotesHTML;
-String gamesbehindHTML;
-String magicHTML;
-String partytimeNotesHTML;
-String postseasonHTML;
-String winningNotesHTML;
-SiteData sitedata;
+late String aboutHTML;
+late String bracketHTML;
+late String chancesNotesHTML;
+late String gamesbehindHTML;
+late String magicHTML;
+late String partytimeNotesHTML;
+late String postseasonHTML;
+late String winningNotesHTML;
+late SiteData sitedata;
 
 CurrentView currentView = new CurrentView();
 List<PlayoffBracketEntry> entries = [];
@@ -50,7 +50,7 @@ void main() {
     var cron = new Cron();
     //Every five minutes from 20-50 after Mon - Sat
     cron.schedule(new Schedule.parse('1,21,26,31,36,41,46,51 * * * 1-6'), () async {
-      if(!document.hidden && 
+      if(!(document.hidden ?? true) && 
         currentView.activeView != View.about){
         refreshData();
       }
@@ -67,9 +67,9 @@ Future<void> getContentPages() async {
 
   entries = await s3.getPlayoffBracketEntries();
   
-  querySelector('#lastUpdate').text = sitedata.lastUpdate;
-  querySelector('#pickLeague1').text = sitedata.subnicknames[0];
-  querySelector('#pickLeague2').text = sitedata.subnicknames[1];
+  querySelector('#lastUpdate')!.text = sitedata.lastUpdate;
+  querySelector('#pickLeague1')!.text = sitedata.subnicknames[0];
+  querySelector('#pickLeague2')!.text = sitedata.subnicknames[1];
 
   gamesbehindHTML = await HttpRequest.getString('gamesbehind.html');
   setMainContent(gamesbehindHTML);
@@ -93,7 +93,7 @@ Future<void> refreshData() async{
   
   entries = await s3.getPlayoffBracketEntries();
   
-  TableElement standingsTable = querySelector('#standingsTable');
+  TableElement? standingsTable = querySelector('#standingsTable') as TableElement?;
   if(standingsTable != null){
     while (standingsTable.rows.length > 2){
       standingsTable.deleteRow(2);
@@ -121,16 +121,16 @@ Future<void> refreshData() async{
     break;    
   }
   
-  querySelector('#lastUpdate').text = sitedata.lastUpdate;
+  querySelector('#lastUpdate')!.text = sitedata.lastUpdate;
 
 }
 
 void setSeasonDay(int season, int day){
   if(day < 100){
-    querySelector('.wkinfo').text = 
+    querySelector('.wkinfo')!.text = 
       "Season $season: Day $day";
   } else {
-    querySelector('.wkinfo').text = 
+    querySelector('.wkinfo')!.text = 
       "Season $season: Day $day (Postseason)";    
   }
 }
@@ -138,18 +138,18 @@ void setSeasonDay(int season, int day){
 void addListeners(){
   window.onPopState.listen(handlePopState);
   
-  querySelector('#pickLeague1').onClick.listen(selectLeague1);
-  querySelector('#pickLeague2').onClick.listen(selectLeague2);
+  querySelector('#pickLeague1')!.onClick.listen(selectLeague1);
+  querySelector('#pickLeague2')!.onClick.listen(selectLeague2);
   
-  querySelector('#viewGamesBehind').onClick.listen(selectViewGB);
-  querySelector('#viewChances').onClick.listen(selectViewC);  
-  querySelector('#viewWinningNumbers').onClick.listen(selectViewW);
-  querySelector('#viewPartyTimeNumbers').onClick.listen(selectViewPT);
-  querySelector('#viewAbout').onClick.listen(selectViewAbout);
-  querySelector('#viewPostseasonChances').onClick.listen(selectViewPost);
-  //querySelector('#viewPlayoffBracket').onClick.listen(selectViewBracket);
+  querySelector('#viewGamesBehind')!.onClick.listen(selectViewGB);
+  querySelector('#viewChances')!.onClick.listen(selectViewC);  
+  querySelector('#viewWinningNumbers')!.onClick.listen(selectViewW);
+  querySelector('#viewPartyTimeNumbers')!.onClick.listen(selectViewPT);
+  querySelector('#viewAbout')!.onClick.listen(selectViewAbout);
+  querySelector('#viewPostseasonChances')!.onClick.listen(selectViewPost);
+  //querySelector('#viewPlayoffBracket')!.onClick.listen(selectViewBracket);
   
-  querySelector('#doGroup').onClick.listen(clickGroupByDivision);
+  querySelector('#doGroup')!.onClick.listen(clickGroupByDivision);
 }
 
 void handlePopState(PopStateEvent event){
@@ -183,14 +183,14 @@ void clickLeague(int league){
 
 void selectLeagueButton() {
   if(currentView.activeLeague == 0){
-    querySelector('#pickLeague1').classes
+    querySelector('#pickLeague1')!.classes
       .add('nav-button-active');
-    querySelector('#pickLeague2').classes
+    querySelector('#pickLeague2')!.classes
       .remove('nav-button-active');
   } else {
-    querySelector('#pickLeague1').classes
+    querySelector('#pickLeague1')!.classes
       .remove('nav-button-active');
-    querySelector('#pickLeague2').classes
+    querySelector('#pickLeague2')!.classes
       .add('nav-button-active');
   }
 }
@@ -220,121 +220,121 @@ void clickView(View view){
 void selectViewButton(){
   switch(currentView.activeView){
     case View.about:
-      querySelector('#viewAbout').classes
+      querySelector('#viewAbout')!.classes
         .add('nav-button-active');
-      querySelector('#viewChances').classes
+      querySelector('#viewChances')!.classes
         .remove('nav-button-active');        
-      querySelector('#viewGamesBehind').classes
+      querySelector('#viewGamesBehind')!.classes
         .remove('nav-button-active');
-      querySelector('#viewWinningNumbers').classes
+      querySelector('#viewWinningNumbers')!.classes
         .remove('nav-button-active');
-      querySelector('#viewPartyTimeNumbers').classes
+      querySelector('#viewPartyTimeNumbers')!.classes
         .remove('nav-button-active');
-      querySelector('#viewPostseasonChances').classes
+      querySelector('#viewPostseasonChances')!.classes
         .remove('nav-button-active');        
-      //querySelector('#viewPlayoffBracket').classes
+      //querySelector('#viewPlayoffBracket')!.classes
       //  .remove('nav-button-active');
 
       break;    
     case View.chances:
-      querySelector('#viewAbout').classes
+      querySelector('#viewAbout')!.classes
         .remove('nav-button-active');
-      querySelector('#viewChances').classes
+      querySelector('#viewChances')!.classes
         .add('nav-button-active');        
-      querySelector('#viewGamesBehind').classes
+      querySelector('#viewGamesBehind')!.classes
         .remove('nav-button-active');
-      querySelector('#viewWinningNumbers').classes
+      querySelector('#viewWinningNumbers')!.classes
         .remove('nav-button-active');
-      querySelector('#viewPartyTimeNumbers').classes
+      querySelector('#viewPartyTimeNumbers')!.classes
         .remove('nav-button-active');
-      querySelector('#viewPostseasonChances').classes
+      querySelector('#viewPostseasonChances')!.classes
         .remove('nav-button-active');        
-      //querySelector('#viewPlayoffBracket').classes
+      //querySelector('#viewPlayoffBracket')!.classes
       //  .remove('nav-button-active');
 
       break;       
     case View.gamesbehind:
-      querySelector('#viewAbout').classes
+      querySelector('#viewAbout')!.classes
         .remove('nav-button-active');
-      querySelector('#viewChances').classes
+      querySelector('#viewChances')!.classes
         .remove('nav-button-active'); 
-      querySelector('#viewGamesBehind').classes
+      querySelector('#viewGamesBehind')!.classes
         .add('nav-button-active');
-      querySelector('#viewWinningNumbers').classes
+      querySelector('#viewWinningNumbers')!.classes
         .remove('nav-button-active');
-      querySelector('#viewPartyTimeNumbers').classes
+      querySelector('#viewPartyTimeNumbers')!.classes
         .remove('nav-button-active');
-      querySelector('#viewPostseasonChances').classes
+      querySelector('#viewPostseasonChances')!.classes
         .remove('nav-button-active');        
-      //querySelector('#viewPlayoffBracket').classes
+      //querySelector('#viewPlayoffBracket')!.classes
       //  .remove('nav-button-active');
 
       break;
     case View.winningmagic:
-      querySelector('#viewAbout').classes
+      querySelector('#viewAbout')!.classes
         .remove('nav-button-active');
-      querySelector('#viewChances').classes
+      querySelector('#viewChances')!.classes
         .remove('nav-button-active');
-      querySelector('#viewGamesBehind').classes
+      querySelector('#viewGamesBehind')!.classes
         .remove('nav-button-active');
-      querySelector('#viewWinningNumbers').classes
+      querySelector('#viewWinningNumbers')!.classes
         .add('nav-button-active');
-      querySelector('#viewPartyTimeNumbers').classes
+      querySelector('#viewPartyTimeNumbers')!.classes
         .remove('nav-button-active');      
-      querySelector('#viewPostseasonChances').classes
+      querySelector('#viewPostseasonChances')!.classes
         .remove('nav-button-active');        
-      //querySelector('#viewPlayoffBracket').classes
+      //querySelector('#viewPlayoffBracket')!.classes
       //  .remove('nav-button-active');
       
       break;
     case View.partytimemagic:
-      querySelector('#viewAbout').classes
+      querySelector('#viewAbout')!.classes
         .remove('nav-button-active');
-      querySelector('#viewChances').classes
+      querySelector('#viewChances')!.classes
         .remove('nav-button-active');
-      querySelector('#viewGamesBehind').classes
+      querySelector('#viewGamesBehind')!.classes
         .remove('nav-button-active');
-      querySelector('#viewWinningNumbers').classes
+      querySelector('#viewWinningNumbers')!.classes
         .remove('nav-button-active');
-      querySelector('#viewPartyTimeNumbers').classes
+      querySelector('#viewPartyTimeNumbers')!.classes
         .add('nav-button-active');
-      querySelector('#viewPostseasonChances').classes
+      querySelector('#viewPostseasonChances')!.classes
         .remove('nav-button-active');        
-      //querySelector('#viewPlayoffBracket').classes
+      //querySelector('#viewPlayoffBracket')!.classes
       //  .remove('nav-button-active');
 
       break;
     case View.postseason:
-      querySelector('#viewAbout').classes
+      querySelector('#viewAbout')!.classes
         .remove('nav-button-active');
-      querySelector('#viewChances').classes
+      querySelector('#viewChances')!.classes
         .remove('nav-button-active');        
-      querySelector('#viewGamesBehind').classes
+      querySelector('#viewGamesBehind')!.classes
         .remove('nav-button-active');
-      querySelector('#viewWinningNumbers').classes
+      querySelector('#viewWinningNumbers')!.classes
         .remove('nav-button-active');
-      querySelector('#viewPartyTimeNumbers').classes
+      querySelector('#viewPartyTimeNumbers')!.classes
         .remove('nav-button-active');
-      querySelector('#viewPostseasonChances').classes
+      querySelector('#viewPostseasonChances')!.classes
         .add('nav-button-active');
-      //querySelector('#viewPlayoffBracket').classes
+      //querySelector('#viewPlayoffBracket')!.classes
       //  .remove('nav-button-active');
       
       break;
     case View.bracket:
-      querySelector('#viewAbout').classes
+      querySelector('#viewAbout')!.classes
         .remove('nav-button-active');
-      querySelector('#viewChances').classes
+      querySelector('#viewChances')!.classes
         .remove('nav-button-active');        
-      querySelector('#viewGamesBehind').classes
+      querySelector('#viewGamesBehind')!.classes
         .remove('nav-button-active');
-      querySelector('#viewWinningNumbers').classes
+      querySelector('#viewWinningNumbers')!.classes
         .remove('nav-button-active');
-      querySelector('#viewPartyTimeNumbers').classes
+      querySelector('#viewPartyTimeNumbers')!.classes
         .remove('nav-button-active');
-      querySelector('#viewPostseasonChances').classes
+      querySelector('#viewPostseasonChances')!.classes
         .remove('nav-button-active');
-      //querySelector('#viewPlayoffBracket').classes
+      //querySelector('#viewPlayoffBracket')!.classes
       //  .add('nav-button-active');
       
       break;
@@ -357,7 +357,7 @@ void clickGroupByDivision(MouseEvent event) {
 }
 
 void selectGroupByDivision(){
-  var groupButton = querySelector('#doGroup');
+  var groupButton = querySelector('#doGroup')!;
   if(currentView.groupByDiv){
     groupButton.classes.add('nav-button-active');
   } else {
@@ -373,34 +373,34 @@ void redisplayData(){
     break;
   case View.gamesbehind:
     setMainContent(gamesbehindHTML);
-    querySelector('#leagueTitle').text = 
+    querySelector('#leagueTitle')!.text = 
       sitedata.subnicknames[currentView.activeLeague]; 
     populateGamesBehindTable(subStandings[currentView.activeLeague], currentView.groupByDiv);
     break;
   case View.chances:
     setMainContent(magicHTML);
-    querySelector('#leagueTitle').text = 
+    querySelector('#leagueTitle')!.text = 
       "${sitedata.subnicknames[currentView.activeLeague]} League Playoff Chances";
     populateChancesTable(subStandings[currentView.activeLeague], currentView.groupByDiv);
     setNotes(chancesNotesHTML);
     break;    
   case View.winningmagic:
     setMainContent(magicHTML);
-    querySelector('#leagueTitle').text =
+    querySelector('#leagueTitle')!.text =
       "${sitedata.subnicknames[currentView.activeLeague]} League Winning Magic Numbers";
     populateWinningTable(subStandings[currentView.activeLeague], currentView.groupByDiv);
     setNotes(winningNotesHTML);
     break;
   case View.partytimemagic:
     setMainContent(magicHTML);
-    querySelector('#leagueTitle').text =
+    querySelector('#leagueTitle')!.text =
       "${sitedata.subnicknames[currentView.activeLeague]} League Party Time Magic Numbers";
     populatePartyTimeTable(subStandings[currentView.activeLeague], currentView.groupByDiv);
     setNotes(partytimeNotesHTML);
     break;
   case View.postseason:
     setMainContent(postseasonHTML);
-    querySelector('#leagueTitle').text =
+    querySelector('#leagueTitle')!.text =
       "Internet League Blaseball Post Season Chances";
     populatePostseasonTable(subStandings, currentView.groupByDiv);
     break;  
@@ -425,13 +425,13 @@ void replaceViewState(){
 }
   
 void setMainContent(String html){
-  querySelector('#mncntnt').children.clear();
-  querySelector('#mncntnt').innerHtml = html;
+  querySelector('#mncntnt')!.children.clear();
+  querySelector('#mncntnt')!.innerHtml = html;
 }
 
 void setNotes(String html){
-  querySelector('#notes').children.clear();
-  querySelector('#notes').innerHtml = html;  
+  querySelector('#notes')!.children.clear();
+  querySelector('#notes')!.innerHtml = html;  
 }
 
 void saveCurrentView(){
@@ -445,7 +445,7 @@ CurrentView loadCurrentView(){
   //print("Loading Local storage ${window.localStorage['current_view']}");
   if (window.localStorage.containsKey('current_view')){
     return CurrentView.fromJson(json.decode(
-      window.localStorage['current_view']));
+      window.localStorage['current_view']!));
   } else {
     CurrentView view = new CurrentView();
     view.activeLeague = 0;
