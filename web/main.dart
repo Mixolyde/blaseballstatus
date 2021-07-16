@@ -147,7 +147,7 @@ void addListeners(){
   querySelector('#viewPartyTimeNumbers')!.onClick.listen(selectViewPT);
   querySelector('#viewAbout')!.onClick.listen(selectViewAbout);
   querySelector('#viewPostseasonChances')!.onClick.listen(selectViewPost);
-  //querySelector('#viewPlayoffBracket')!.onClick.listen(selectViewBracket);
+  querySelector('#viewPlayoffBracket')!.onClick.listen(selectViewBracket);
   
   querySelector('#doGroup')!.onClick.listen(clickGroupByDivision);
 }
@@ -232,8 +232,8 @@ void selectViewButton(){
         .remove('nav-button-active');
       querySelector('#viewPostseasonChances')!.classes
         .remove('nav-button-active');        
-      //querySelector('#viewPlayoffBracket')!.classes
-      //  .remove('nav-button-active');
+      querySelector('#viewPlayoffBracket')!.classes
+        .remove('nav-button-active');
 
       break;    
     case View.chances:
@@ -249,8 +249,8 @@ void selectViewButton(){
         .remove('nav-button-active');
       querySelector('#viewPostseasonChances')!.classes
         .remove('nav-button-active');        
-      //querySelector('#viewPlayoffBracket')!.classes
-      //  .remove('nav-button-active');
+      querySelector('#viewPlayoffBracket')!.classes
+        .remove('nav-button-active');
 
       break;       
     case View.gamesbehind:
@@ -266,8 +266,8 @@ void selectViewButton(){
         .remove('nav-button-active');
       querySelector('#viewPostseasonChances')!.classes
         .remove('nav-button-active');        
-      //querySelector('#viewPlayoffBracket')!.classes
-      //  .remove('nav-button-active');
+      querySelector('#viewPlayoffBracket')!.classes
+        .remove('nav-button-active');
 
       break;
     case View.winningmagic:
@@ -283,8 +283,8 @@ void selectViewButton(){
         .remove('nav-button-active');      
       querySelector('#viewPostseasonChances')!.classes
         .remove('nav-button-active');        
-      //querySelector('#viewPlayoffBracket')!.classes
-      //  .remove('nav-button-active');
+      querySelector('#viewPlayoffBracket')!.classes
+        .remove('nav-button-active');
       
       break;
     case View.partytimemagic:
@@ -300,8 +300,8 @@ void selectViewButton(){
         .add('nav-button-active');
       querySelector('#viewPostseasonChances')!.classes
         .remove('nav-button-active');        
-      //querySelector('#viewPlayoffBracket')!.classes
-      //  .remove('nav-button-active');
+      querySelector('#viewPlayoffBracket')!.classes
+        .remove('nav-button-active');
 
       break;
     case View.postseason:
@@ -317,8 +317,8 @@ void selectViewButton(){
         .remove('nav-button-active');
       querySelector('#viewPostseasonChances')!.classes
         .add('nav-button-active');
-      //querySelector('#viewPlayoffBracket')!.classes
-      //  .remove('nav-button-active');
+      querySelector('#viewPlayoffBracket')!.classes
+        .remove('nav-button-active');
       
       break;
     case View.bracket:
@@ -334,8 +334,8 @@ void selectViewButton(){
         .remove('nav-button-active');
       querySelector('#viewPostseasonChances')!.classes
         .remove('nav-button-active');
-      //querySelector('#viewPlayoffBracket')!.classes
-      //  .add('nav-button-active');
+      querySelector('#viewPlayoffBracket')!.classes
+        .add('nav-button-active');
       
       break;
   }  
