@@ -12,7 +12,7 @@ void apiTests() {
   group('regular season', () {
     int seasonNumber = 5;
     int teamCount = 20;
-    int divisionCount = 5;
+    int divisionCount = 1;
     test('Current Simulation Data', () async {
       SimulationData data = await getSimulationData();
       expect(data.season, greaterThan(seasonNumber));
@@ -95,7 +95,7 @@ void apiTests() {
   group('postseason', () {
     int seasonNumber = 10;
     int teamCount = 20;
-    int divisionCount = 5;
+    int divisionCount = 1;
     test('playoffs', () async {
       Playoffs? current = await getPlayoffs(seasonNumber);
       if(current == null) fail("current is null");
