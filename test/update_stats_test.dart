@@ -27,7 +27,7 @@ void main() {
       body = await new File(filenameJSON).readAsString();
 
       List<TeamStandings> standings = decodeStandings(body);
-      expect(standings.length, greaterThanOrEqualTo(10));
+      expect(standings.length, greaterThanOrEqualTo(2));
       expect(standings[0].winning.length, 5);
       expect(standings[0].partytime.length, 5);
       expect(standings[0].id.length, greaterThan(0));

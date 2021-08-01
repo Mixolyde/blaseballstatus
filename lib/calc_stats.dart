@@ -82,9 +82,17 @@ Future<List<TeamStandings>> calculateSubLeague(Subleague sub, List<Game> games) 
   teams.forEach((team){
     String divName;
     if(div1.teams.contains(team.id)){
-      divName = div1.name.split(' ')[1];
+      if(div1.name.contains(' ')){
+        divName = div1.name.split(' ')[1];
+      } else {
+        divName = div1.name;
+      }
     } else {
-      divName = div2.name.split(' ')[1];
+      if(div2.name.contains(' ')){
+        divName = div2.name.split(' ')[1];
+      } else {
+        divName = div2.name;
+      }
     }
     
     int gamesPlayed = 99;
