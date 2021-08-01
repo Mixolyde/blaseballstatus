@@ -86,8 +86,10 @@ void populatePlayoffBracket(List<PlayoffBracketEntry> entries){
   } else {
     if (winner.teamNickname == "TBD"){
       span.text = "TBD";
+      span.classes.add("brk-ttbd");
     } else {
       span.text = "(${winner.seed}) ${winner.teamNickname}";
+      span.classes.remove("brk-ttbd");
     }
   }
   

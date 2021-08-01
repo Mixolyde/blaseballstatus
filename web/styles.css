@@ -146,12 +146,6 @@ p {
   --mu_top_3_2:calc(var(--mu_top_3_1) + var(--mu_vsep_rnd3));
 
   --mu_top_4_1:calc(var(--mu_top_3_1) + .5 * var(--mu_vsep_rnd3));
-
-
-
-
-
-
   }
 
   .brk-desciption-cont{
@@ -809,6 +803,7 @@ th {
 
 .tt {
   position: relative;
+  font-family: "Times New Roman", serif;
 }
 
 .tt .ttc {
