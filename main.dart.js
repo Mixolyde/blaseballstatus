@@ -7765,8 +7765,8 @@ cI:function(){var s,r,q,p=this
 if(p.b!=null||p.c.length===0)return
 s=Date.now()
 r=C.b.bN(p.c,new T.iT())
-q=r?60:1
-p.b=P.p_(new P.b8(1000*(q*1000-C.c.aJ(s,(r?60:1)*1000))),p.geo())},
+q=r?1:60
+p.b=P.p_(new P.b8(1000*(q*1000-C.c.aJ(s,(r?1:60)*1000))),p.geo())},
 ep:function(){var s,r,q,p
 this.b=null
 s=new P.b7(Date.now(),!1)
@@ -7777,7 +7777,7 @@ $1:function(a){var s,r=t.dW.a(a).a.a
 if(r!=null){s=r.length
 if(s!==0)r=s!==1||!C.b.F(r,0)
 else r=!1}else r=!1
-return!r},
+return r},
 $S:46}
 T.c4.prototype={
 ff:function(a){var s=null,r=this.a,q=r.a
