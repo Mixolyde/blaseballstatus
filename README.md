@@ -49,13 +49,14 @@ Published at https://playoffstatus.sibr.dev/
 * v0.0.7
 - [x] Linkable view states with history
 - [x] Add donation button
+- [x] Move web site to a blaseball-specific domain
 - [ ] Live Postseason chance updates
 - [ ] Live Postseason schedule updates
 * v0.0.8
 - [ ] Team Schedules
 - [ ] Get a twitter account and button
 - [ ] Unit test coverage report
-- [x] Move project to a blaseball-specific account on github
+- [ ] Move project to a blaseball-specific account on github
 
 ## Contributing
 
