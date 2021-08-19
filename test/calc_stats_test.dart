@@ -1,9 +1,59 @@
 import 'package:test/test.dart';
 
 import '../lib/calc_stats.dart';
+import '../lib/database_api.dart';
 import '../lib/site_objects.dart';
 
 void main() {
+  apiUrl = "https://blaseball.com/database/";
+  group('get site data', () {
+    test('fake attributes', () async {
+      SimulationData simData = await getSimulationData();
+      SimulationData oldSimData = new SimulationData(
+        id: simData.id,
+        day: 113,
+        league: "d8545021-e9fc-48a3-af74-48685950a183",
+        playOffRound: 3,
+        season: 14,
+        seasonId: "645cdd84-175f-42f1-a9f3-d9014d97ae3b",
+        eraTitle: simData.eraTitle,
+        subEraTitle: simData.subEraTitle,
+        attributes: ["TEST_ATTR1", "TEST_ATTR2", "TEST_ATTR3"],
+      );
+      
+      SiteData result = await calcSiteData(oldSimData);
+      expect(result.season, 14);
+      expect(result.day, 113);
+      expect(result.sub1id, '943dd53f-fd89-45c3-9a56-78ac1088f57d');
+      expect(result.sub1name, "The Levil League");
+      expect(result.sub2id, '5945c7db-c097-4eb7-967f-11c5bbef5c25');
+      expect(result.sub2name, "The Glood League");
+      expect(result.hasPartyTime, false);
+      expect(result.hasWildCard, false);
+      expect(result.isBookOpen, false);
+      
+    });
+    test('fake attributes', () async {
+      SimulationData simData = await getSimulationData();
+      SimulationData oldSimData = new SimulationData(
+        id: simData.id,
+        day: 113,
+        league: "d8545021-e9fc-48a3-af74-48685950a183",
+        playOffRound: 3,
+        season: 14,
+        seasonId: "645cdd84-175f-42f1-a9f3-d9014d97ae3b",
+        eraTitle: simData.eraTitle,
+        subEraTitle: simData.subEraTitle,
+        attributes: ["PARTY_TIME", "WILD_CARD", "OPENED_BOOK"],
+      );
+      
+      SiteData result = await calcSiteData(oldSimData);
+      expect(result.hasPartyTime, true);
+      expect(result.hasWildCard, true);
+      expect(result.isBookOpen, true);
+      
+    });    
+  });
   group('Sort div leader tests', () {
     test('No resort needed', () {
       var standings = getLateSeasonStandings();
