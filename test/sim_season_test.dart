@@ -271,6 +271,7 @@ void main() {
         seasonId: "645cdd84-175f-42f1-a9f3-d9014d97ae3b",
         eraTitle: simData.eraTitle,
         subEraTitle: simData.subEraTitle,
+        attributes: ["TEST_ATTR1", "TEST_ATTR2", "TEST_ATTR3"],
       );
       
       SiteData sitedata = await calcSiteData(oldSimData);

@@ -31,10 +31,12 @@ class SimulationData {
   String seasonId;
   final String eraTitle;
   final String subEraTitle;
+  final List<String> attributes;
 
   SimulationData({required this.id, required this.day, required this.league, 
     this.playOffRound, required this.season, required this.seasonId, 
-    required this.eraTitle, required this.subEraTitle});
+    required this.eraTitle, required this.subEraTitle,
+    required this.attributes});
   
   factory SimulationData.fromJson(Map<String, dynamic> json){
     return SimulationData(
@@ -46,10 +48,17 @@ class SimulationData {
       seasonId: json['seasonId'] as String,
       eraTitle: json['eraTitle'] as String,
       subEraTitle: json['subEraTitle'] as String,
+      attributes: (json['attr'] as List<dynamic>)
+        .map((t) => t.toString()).toList() as List<String>,
     );
   }
   
   @override
-  String toString() => "Season $season, Day $day, League $league, PlayoffRound $playOffRound";
+  String toString() => "Season $season, Day $day, League $league, PlayoffRound $playOffRound, Attributes $attributes";
 
+  bool get hasPartyTime => attributes.contains("PARTY_TIME");
+  
+  bool get hasWildCard => attributes.contains("WILD_CARD");
+  
+  bool get isBookOpen => attributes.contains("OPENED_BOOK");
 }

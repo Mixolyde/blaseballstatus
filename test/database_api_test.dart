@@ -15,8 +15,13 @@ void apiTests() {
     int divisionCount = 1;
     test('Current Simulation Data', () async {
       SimulationData data = await getSimulationData();
+      print(data);
       expect(data.season, greaterThan(seasonNumber));
       expect(data.id, "thisidisstaticyo");
+      expect(data.attributes.length, greaterThan(1));
+      expect(data.hasPartyTime, false);
+      expect(data.hasWildCard, false);
+      expect(data.isBookOpen, true);
     });
     test('Current Season', () async {
       SimulationData data = await getSimulationData();
