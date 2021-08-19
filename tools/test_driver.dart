@@ -45,8 +45,15 @@ Future<void> main() async {
   
   //print("CompletePostseason: $postseason");
   
-  Playoffs playoffs = await getPlayoffs(19);
-  
-  print(playoffs);
+  Process.run('/usr/bin/aws', [
+      's3', 'cp', 
+      'test/data/partial_season_entries.json',
+      's3://blaseball-status/data/entries.json',
+      '--acl=public-read', 
+      '--content-type=application/json; charset=utf-8'
+  ]).then((ProcessResult results) {
+    print(results.stdout);
+    print(results.stderr);
+  });
   
 }
