@@ -3,7 +3,7 @@
 An attempt to replicate [Playoff Status](http://playoffstatus.com)
  behavior, but for [Blaseball](https://blaseball.com).
  
-Published at https://mixolyde.net/blaseballstatus/
+Published at https://playoffstatus.sibr.dev/
 
 ## TODO
 * Figure out what's up with tied records getting weird sim results
@@ -49,6 +49,7 @@ Published at https://mixolyde.net/blaseballstatus/
 * v0.0.7
 - [x] Linkable view states with history
 - [x] Add donation button
+- [x] Move web site to a blaseball-specific domain
 - [ ] Live Postseason chance updates
 - [ ] Live Postseason schedule updates
 * v0.0.8

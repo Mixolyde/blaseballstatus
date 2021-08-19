@@ -8,6 +8,8 @@ class SiteData {
   final String sub1name;
   final String sub2id;
   final String sub2name;
+  final List<String> attributes;
+
   
   List<String> get subnicknames => 
     [sub1name.split(' ')[1],
@@ -16,12 +18,14 @@ class SiteData {
   SiteData.fromMap({this.lastUpdate = "", 
     this.season = 0, this.day = 0,
     this.sub1id = "", this.sub1name = "",
-    this.sub2id = "", this.sub2name = ""});
+    this.sub2id = "", this.sub2name = "",
+    this.attributes = const []});
   
   SiteData(this.lastUpdate, 
     this.season, this.day,
     this.sub1id, this.sub1name,
-    this.sub2id, this.sub2name);
+    this.sub2id, this.sub2name, 
+    this.attributes);
   
   factory SiteData.fromJson(Map<String, dynamic> json){
     return SiteData.fromMap(
@@ -32,19 +36,29 @@ class SiteData {
       sub1name: json['sub1name'] as String,
       sub2id: json['sub2id'] as String,
       sub2name: json['sub2name'] as String,
+      attributes: json['attributes'] == null ? [] :
+        (json['attributes'] as List<dynamic>)
+        .map((t) => t.toString()).toList() as List<String>,      
     );
   }
   
   Map toJson() => {
       'lastUpdate': lastUpdate,
-      'season':   season,
-      'day':      day,
-      'sub1id':   sub1id,
-      'sub1name': sub1name,
-      'sub2id':   sub2id,
-      'sub2name': sub2name,
+      'season':     season,
+      'day':        day,
+      'sub1id':     sub1id,
+      'sub1name':   sub1name,
+      'sub2id':     sub2id,
+      'sub2name':   sub2name,
+      'attributes': attributes,
   };
   
   @override
   String toString() => "$lastUpdate Season:$season Day:$day $sub1name $sub2name";
+  
+  bool get hasPartyTime => attributes.contains("PARTY_TIME");
+  
+  bool get hasWildCard => attributes.contains("WILD_CARD");
+  
+  bool get isBookOpen => attributes.contains("OPENED_BOOK");
 }

@@ -30,7 +30,8 @@ Future<SiteData> calcSiteData(SimulationData simData) async {
   SiteData sitedata = new SiteData(lastUpdate, 
     simData.season, simData.day,
     _sub1.id, _sub1.name, 
-    _sub2.id, _sub2.name);
+    _sub2.id, _sub2.name,
+    simData.attributes);
   print(sitedata);
 
   return sitedata;
