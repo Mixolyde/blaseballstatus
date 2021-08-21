@@ -28,12 +28,10 @@ void main() {
       expect(result.sub1name, "The Levil League");
       expect(result.sub2id, '5945c7db-c097-4eb7-967f-11c5bbef5c25');
       expect(result.sub2name, "The Glood League");
-      expect(result.hasPartyTime, false);
-      expect(result.hasWildCard, false);
-      expect(result.isBookOpen, false);
+      expect(result.simWildCards, false);
       
     });
-    test('fake attributes', () async {
+    test('real attributes', () async {
       SimulationData simData = await getSimulationData();
       SimulationData oldSimData = new SimulationData(
         id: simData.id,
@@ -44,13 +42,11 @@ void main() {
         seasonId: "645cdd84-175f-42f1-a9f3-d9014d97ae3b",
         eraTitle: simData.eraTitle,
         subEraTitle: simData.subEraTitle,
-        attributes: ["PARTY_TIME", "WILD_CARD", "OPENED_BOOK"],
+        attributes: ["SIM_PARTY_TIME", "WILD_CARDS", "OPENED_BOOK"],
       );
       
       SiteData result = await calcSiteData(oldSimData);
-      expect(result.hasPartyTime, true);
-      expect(result.hasWildCard, true);
-      expect(result.isBookOpen, true);
+      expect(result.simWildCards, true);
       
     });    
   });

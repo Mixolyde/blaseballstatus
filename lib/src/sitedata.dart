@@ -56,9 +56,6 @@ class SiteData {
   @override
   String toString() => "$lastUpdate Season:$season Day:$day $sub1name $sub2name";
   
-  bool get hasPartyTime => attributes.contains("PARTY_TIME");
-  
-  bool get hasWildCard => attributes.contains("WILD_CARD");
-  
-  bool get isBookOpen => attributes.contains("OPENED_BOOK");
+  bool get simWildCards => attributes.contains("WILD_CARDS");
+
 }
