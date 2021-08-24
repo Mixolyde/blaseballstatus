@@ -7,7 +7,7 @@ import 'package:blaseballstatus/current_view.dart';
 import 'package:blaseballstatus/database_api.dart';
 import 'package:blaseballstatus/s3_api.dart' as s3;
 import 'package:blaseballstatus/site_objects.dart';
-import 'package:blaseballstatus/web/populate_tables.dart';
+import 'package:blaseballstatus/html/populate_tables.dart';
 
 import 'package:cron/cron.dart';
 
