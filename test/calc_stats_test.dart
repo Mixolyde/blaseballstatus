@@ -28,7 +28,7 @@ void main() {
       expect(result.sub1name, "The Levil League");
       expect(result.sub2id, '5945c7db-c097-4eb7-967f-11c5bbef5c25');
       expect(result.sub2name, "The Glood League");
-      expect(result.simWildCards, false);
+      expect(result.leagueWildCards, false);
       
     });
     test('real attributes', () async {
@@ -46,7 +46,7 @@ void main() {
       );
       
       SiteData result = await calcSiteData(oldSimData);
-      expect(result.simWildCards, true);
+      expect(result.leagueWildCards, true);
       
     });    
   });
