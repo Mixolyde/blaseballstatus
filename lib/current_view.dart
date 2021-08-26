@@ -1,15 +1,15 @@
 import 'dart:convert';
 import 'package:intl/intl.dart';
 
-enum View {about, gamesbehind, winningmagic, partytimemagic, chances, postseason, bracket}
+enum View {about, winsbehind, winningmagic, partytimemagic, chances, postseason, bracket}
 
 class CurrentView {
   // 0 or 1
   int activeLeague = 0;
-  View activeView  = View.gamesbehind;
+  View activeView  = View.winsbehind;
   bool groupByDiv = false;
   
-  CurrentView({this.activeLeague = 0, this.activeView = View.gamesbehind,
+  CurrentView({this.activeLeague = 0, this.activeView = View.winsbehind,
     this.groupByDiv = false});
   
   CurrentView.fromHash(String hash){

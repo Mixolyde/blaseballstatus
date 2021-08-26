@@ -14,7 +14,7 @@ import 'package:cron/cron.dart';
 late String aboutHTML;
 late String bracketHTML;
 late String chancesNotesHTML;
-late String gamesbehindHTML;
+late String winsbehindHTML;
 late String magicHTML;
 late String partytimeNotesHTML;
 late String postseasonHTML;
@@ -71,14 +71,21 @@ Future<void> getContentPages() async {
   querySelector('#pickLeague1')!.text = sitedata.subnicknames[0];
   querySelector('#pickLeague2')!.text = sitedata.subnicknames[1];
 
-  gamesbehindHTML = await HttpRequest.getString('gamesbehind.html');
-  setMainContent(gamesbehindHTML);
+  if(sitedata.leagueWildCards){
+    winsbehindHTML = await HttpRequest.getString('winsbehind_wc.html');
+    setMainContent(winsbehindHTML);
+    magicHTML = await HttpRequest.getString('magic_wc.html');
+    postseasonHTML = await HttpRequest.getString('postseason_wc.html');
+  } else {
+    winsbehindHTML = await HttpRequest.getString('winsbehind.html');
+    setMainContent(winsbehindHTML);
+    magicHTML = await HttpRequest.getString('magic.html');
+    postseasonHTML = await HttpRequest.getString('postseason.html');
+  }
   aboutHTML = await HttpRequest.getString('about.html');
   bracketHTML = await HttpRequest.getString('bracket.html');
-  magicHTML = await HttpRequest.getString('magic.html');
   chancesNotesHTML = await HttpRequest.getString('chancesNotes.html');
   partytimeNotesHTML = await HttpRequest.getString('partytimeNotes.html');
-  postseasonHTML = await HttpRequest.getString('postseason.html');
   winningNotesHTML = await HttpRequest.getString('winningNotes.html');
 }
 
@@ -101,8 +108,8 @@ Future<void> refreshData() async{
   }
   
   switch(currentView.activeView){
-  case View.gamesbehind:
-    populateGamesBehindTable(subStandings[currentView.activeLeague], currentView.groupByDiv);
+  case View.winsbehind:
+    populateWinsBehindTable(subStandings[currentView.activeLeague], currentView.groupByDiv);
     break;
   case View.winningmagic:
     populateWinningTable(subStandings[currentView.activeLeague], currentView.groupByDiv);
@@ -114,7 +121,7 @@ Future<void> refreshData() async{
     populateChancesTable(subStandings[currentView.activeLeague], currentView.groupByDiv);
     break;    
   case View.postseason:
-    populatePostseasonTable(subStandings, currentView.groupByDiv);
+    populatePostseasonTable(subStandings, currentView.groupByDiv, sitedata);
     break; 
   case View.bracket:
     populatePlayoffBracket(entries);
@@ -141,7 +148,7 @@ void addListeners(){
   querySelector('#pickLeague1')!.onClick.listen(selectLeague1);
   querySelector('#pickLeague2')!.onClick.listen(selectLeague2);
   
-  querySelector('#viewGamesBehind')!.onClick.listen(selectViewGB);
+  querySelector('#viewWinsBehind')!.onClick.listen(selectViewGB);
   querySelector('#viewChances')!.onClick.listen(selectViewC);  
   querySelector('#viewWinningNumbers')!.onClick.listen(selectViewW);
   querySelector('#viewPartyTimeNumbers')!.onClick.listen(selectViewPT);
@@ -198,7 +205,7 @@ void selectLeagueButton() {
 
 void selectViewAbout(MouseEvent event) => clickView(View.about);
 void selectViewC(MouseEvent event) => clickView(View.chances);
-void selectViewGB(MouseEvent event) => clickView(View.gamesbehind);
+void selectViewGB(MouseEvent event) => clickView(View.winsbehind);
 void selectViewPT(MouseEvent event) => clickView(View.partytimemagic);
 void selectViewPost(MouseEvent event) => clickView(View.postseason);
 void selectViewW(MouseEvent event) => clickView(View.winningmagic);
@@ -224,7 +231,7 @@ void selectViewButton(){
         .add('nav-button-active');
       querySelector('#viewChances')!.classes
         .remove('nav-button-active');        
-      querySelector('#viewGamesBehind')!.classes
+      querySelector('#viewWinsBehind')!.classes
         .remove('nav-button-active');
       querySelector('#viewWinningNumbers')!.classes
         .remove('nav-button-active');
@@ -241,7 +248,7 @@ void selectViewButton(){
         .remove('nav-button-active');
       querySelector('#viewChances')!.classes
         .add('nav-button-active');        
-      querySelector('#viewGamesBehind')!.classes
+      querySelector('#viewWinsBehind')!.classes
         .remove('nav-button-active');
       querySelector('#viewWinningNumbers')!.classes
         .remove('nav-button-active');
@@ -253,12 +260,12 @@ void selectViewButton(){
       //  .remove('nav-button-active');
 
       break;       
-    case View.gamesbehind:
+    case View.winsbehind:
       querySelector('#viewAbout')!.classes
         .remove('nav-button-active');
       querySelector('#viewChances')!.classes
         .remove('nav-button-active'); 
-      querySelector('#viewGamesBehind')!.classes
+      querySelector('#viewWinsBehind')!.classes
         .add('nav-button-active');
       querySelector('#viewWinningNumbers')!.classes
         .remove('nav-button-active');
@@ -275,7 +282,7 @@ void selectViewButton(){
         .remove('nav-button-active');
       querySelector('#viewChances')!.classes
         .remove('nav-button-active');
-      querySelector('#viewGamesBehind')!.classes
+      querySelector('#viewWinsBehind')!.classes
         .remove('nav-button-active');
       querySelector('#viewWinningNumbers')!.classes
         .add('nav-button-active');
@@ -292,7 +299,7 @@ void selectViewButton(){
         .remove('nav-button-active');
       querySelector('#viewChances')!.classes
         .remove('nav-button-active');
-      querySelector('#viewGamesBehind')!.classes
+      querySelector('#viewWinsBehind')!.classes
         .remove('nav-button-active');
       querySelector('#viewWinningNumbers')!.classes
         .remove('nav-button-active');
@@ -309,7 +316,7 @@ void selectViewButton(){
         .remove('nav-button-active');
       querySelector('#viewChances')!.classes
         .remove('nav-button-active');        
-      querySelector('#viewGamesBehind')!.classes
+      querySelector('#viewWinsBehind')!.classes
         .remove('nav-button-active');
       querySelector('#viewWinningNumbers')!.classes
         .remove('nav-button-active');
@@ -326,7 +333,7 @@ void selectViewButton(){
         .remove('nav-button-active');
       querySelector('#viewChances')!.classes
         .remove('nav-button-active');        
-      querySelector('#viewGamesBehind')!.classes
+      querySelector('#viewWinsBehind')!.classes
         .remove('nav-button-active');
       querySelector('#viewWinningNumbers')!.classes
         .remove('nav-button-active');
@@ -371,11 +378,11 @@ void redisplayData(){
     setMainContent(aboutHTML); 
     populateAboutPageData(subStandings);
     break;
-  case View.gamesbehind:
-    setMainContent(gamesbehindHTML);
+  case View.winsbehind:
+    setMainContent(winsbehindHTML);
     querySelector('#leagueTitle')!.text = 
       sitedata.subnicknames[currentView.activeLeague]; 
-    populateGamesBehindTable(subStandings[currentView.activeLeague], currentView.groupByDiv);
+    populateWinsBehindTable(subStandings[currentView.activeLeague], currentView.groupByDiv);
     break;
   case View.chances:
     setMainContent(magicHTML);
@@ -402,7 +409,7 @@ void redisplayData(){
     setMainContent(postseasonHTML);
     querySelector('#leagueTitle')!.text =
       "Internet League Blaseball Post Season Chances";
-    populatePostseasonTable(subStandings, currentView.groupByDiv);
+    populatePostseasonTable(subStandings, currentView.groupByDiv, sitedata);
     break;  
   case View.bracket:
     setMainContent(bracketHTML);
@@ -449,7 +456,7 @@ CurrentView loadCurrentView(){
   } else {
     CurrentView view = new CurrentView();
     view.activeLeague = 0;
-    view.activeView = View.gamesbehind;
+    view.activeView = View.winsbehind;
     view.groupByDiv = false;
     return view;
   }
