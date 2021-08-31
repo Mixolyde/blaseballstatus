@@ -10,8 +10,8 @@ String apiUrl = "https://api.sibr.dev/chronicler/v1/";
 final String _gamesUrl = apiUrl + "games?season=";
 
 Future<List<Game>> getAllGames(int season) async {
-  var response = await get(_gamesUrl 
-    + season.toString() );
+  var response = await get(Uri.parse(_gamesUrl 
+    + season.toString() ));
   //print('Response body: ${response.body}');
   
   List<Game> games = [];

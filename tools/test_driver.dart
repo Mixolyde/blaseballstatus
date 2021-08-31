@@ -33,6 +33,7 @@ Future<void> main() async {
     seasonId: "645cdd84-175f-42f1-a9f3-d9014d97ae3b",
     eraTitle: simData.eraTitle,
     subEraTitle: simData.subEraTitle,
+    attributes: ["TEST1"]
   );
 
   //site data
@@ -45,8 +46,8 @@ Future<void> main() async {
   
   //print("CompletePostseason: $postseason");
   
-  Playoffs playoffs = await getPlayoffs(19);
+  Playoffs? playoffs = await getPlayoffs(19);
   
-  print(playoffs);
+  //print(playoffs);
   
 }
