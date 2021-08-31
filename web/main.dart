@@ -454,7 +454,7 @@ CurrentView loadCurrentView(){
     return CurrentView.fromJson(json.decode(
       window.localStorage['current_view']!));
   } else {
-    CurrentView view = new CurrentView();
+    CurrentView view = CurrentView();
     view.activeLeague = 0;
     view.activeView = View.winsbehind;
     view.groupByDiv = false;

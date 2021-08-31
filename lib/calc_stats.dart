@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:intl/intl.dart';
+import 'package:meta/meta.dart';
 import 'database_api.dart';
 import 'site_objects.dart';
 
@@ -196,11 +197,12 @@ void calculateGamesBehind(List<TeamStandings> teamStandings) {
 }
 
 void calculateMagicNumbers(List<TeamStandings> teamStandings){
-  _calculateWinningMagicNumbers(teamStandings);
+  calculateWinningMagicNumbers(teamStandings);
   _calculatePartyTimeMagicNumbers(teamStandings);
 }
 
-void _calculateWinningMagicNumbers(List<TeamStandings> teamStandings) {
+@visibleForTesting
+void calculateWinningMagicNumbers(List<TeamStandings> teamStandings) {
   String firstDiv = teamStandings[0].division;
   String secondDiv = teamStandings.firstWhere((team) =>
     team.division != firstDiv).division;
@@ -210,7 +212,7 @@ void _calculateWinningMagicNumbers(List<TeamStandings> teamStandings) {
     int maxWins = (99 - teamStandings[i].gamesPlayed) +
       teamStandings[i].wins;
 
-    //print("${teamStandings[i]} maxWins: $maxWins");
+    print("${teamStandings[i]} maxWins: $maxWins");
     for (int j = 0; j < i && j < 4; j++){
       teamStandings[i].winning[j] = "DNCD";
       if( maxWins < teamStandings[j].wins ||

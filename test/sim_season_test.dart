@@ -8,8 +8,9 @@ import '../lib/site_objects.dart';
 
 Random rand = new Random(0);
 
-void main() {
-  apiUrl = "https://blaseball.com/database/";
+void main() async {
+  await setNoWildCardSimData();
+  
   group('single game', () {
     test('Teams with no games', () {
       //id, this.notLosses, this.wins, this.losses, this.favor, this.division
@@ -397,4 +398,39 @@ List<Game> createSeasonOfGames(int numDays, int completedDays,
   }
   
   return games;
+}
+
+
+Future<void> setNoWildCardSimData() async {
+  apiUrl = "https://blaseball.com/database/";
+  SimulationData currentSimData = await getSimulationData();
+  SimulationData simData = new SimulationData(
+    id: currentSimData.id,
+    day: 113,
+    league: "d8545021-e9fc-48a3-af74-48685950a183",
+    playOffRound: 3,
+    season: 14,
+    seasonId: "645cdd84-175f-42f1-a9f3-d9014d97ae3b",
+    eraTitle: currentSimData.eraTitle,
+    subEraTitle: currentSimData.subEraTitle,
+    attributes: ["TEST_ATTR1", "TEST_ATTR2", "TEST_ATTR3"],
+  );
+  setLateData(simData);
+}
+
+Future<void> setWildCardSimData() async {
+  apiUrl = "https://blaseball.com/database/";
+  SimulationData currentSimData = await getSimulationData();
+  SimulationData simData = new SimulationData(
+    id: currentSimData.id,
+    day: 113,
+    league: "d8545021-e9fc-48a3-af74-48685950a183",
+    playOffRound: 3,
+    season: 14,
+    seasonId: "645cdd84-175f-42f1-a9f3-d9014d97ae3b",
+    eraTitle: currentSimData.eraTitle,
+    subEraTitle: currentSimData.subEraTitle,
+    attributes: ["TEST_ATTR1", "TEST_ATTR2", "TEST_ATTR3","WILD_CARDS"],
+  );
+  setLateData(simData);
 }

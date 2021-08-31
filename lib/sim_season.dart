@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:intl/intl.dart';
+import 'package:meta/meta.dart';
 import 'calc_stats.dart';
 import 'database_api.dart';
 import 'site_objects.dart';
@@ -9,6 +10,12 @@ late SimulationData simData;
 late Season season;
 List<Game> games = [];
 Random rand = new Random(0);
+
+@visibleForTesting
+Future<void> setLateData(SimulationData testSimData) async {
+  simData = testSimData;
+  season = await getSeason(simData.season);
+}
 
 Future<void> calculateChances(List<List<TeamStandings>> subStandings, int numSims, 
   List<PlayoffBracketEntry> entries) async {
@@ -371,6 +378,7 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
   print("Completed $numSims simulations");
   print("poCounts $poCounts");
   print("postCounts $postCounts");
+  print("League Wild Cards: ${simData.leagueWildCards}");
   standings.forEach((standingList) => standingList.forEach((standing) {
     bool top3 = standing.winning.take(3).any((win) => win == "^");
     bool top4 = top3 || standing.winning[3] == "^";
@@ -391,13 +399,21 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
       //TODO handle ^ and X in i=3 and 4
       if(i == 3 && top3) {
         standing.post[i] = "^";
-      } else if ( i == 4 && top4){
+      } else if ( i == 4 && top4 && simData.leagueWildCards){
         standing.post[i] = "^";
       } else {
-        standing.post[i] = formatPercent(postCounts[standing.id]![i] / numSims);
+        if(simData.leagueWildCards){
+          standing.post[i] = formatPercent(postCounts[standing.id]![i] / numSims);
+        } else {
+          if (standing.winning[4] == "PT" && i < 4){
+            standing.post[i] = "X";
+          } else if (i < 4){
+            standing.post[i] = formatPercent(postCounts[standing.id]![i] / numSims);
+          }
+        }
       }
     }
-    print("$standing Po ${standing.po} Post ${standing.post}");
+    print("$standing Po ${standing.po} Post ${standing.post} Winning ${standing.winning}");
   }));
   
 }
@@ -436,18 +452,25 @@ void simulatePostSeason(List<List<TeamSim>> simsByLeague){
     round1Sims.add(simLeague[1]);
     round1Sims.add(simLeague[2]);
     
-    // wild card round
-    // pick a random team not in playoffs and simulate
-    int nonPlayoffCount = simLeague.length - 4;
-    int wildCardIndex = rand.nextInt(nonPlayoffCount) + 4;
-    TeamSim wildCard = simLeague[wildCardIndex];
-    simLeague.take(4).forEach((sim) => sim.wcSeries = true);
-    wildCard.wcSeries = true;
-    //print("WildCard pick $wildCardIndex $wildCard");
-    //simulate 3 win series with wild card pic
-    TeamSim wildSeriesWinner = simulateSeries(simLeague[3], wildCard, 2, teamCount);
-    round1Sims.add(wildSeriesWinner);
-    //print("WildCard pick $wildCardIndex $wildCard WildSeriesWinner $wildSeriesWinner");
+    if (simData.leagueWildCards){
+    
+      // wild card round
+      // pick a random team not in playoffs and simulate
+      int nonPlayoffCount = simLeague.length - 4;
+      int wildCardIndex = rand.nextInt(nonPlayoffCount) + 4;
+      TeamSim wildCard = simLeague[wildCardIndex];
+      simLeague.take(4).forEach((sim) => sim.wcSeries = true);
+      wildCard.wcSeries = true;
+      //print("WildCard pick $wildCardIndex $wildCard");
+      //simulate 3 win series with wild card pic
+      TeamSim wildSeriesWinner = simulateSeries(simLeague[3], wildCard, 2, teamCount);
+      round1Sims.add(wildSeriesWinner);
+      //print("WildCard pick $wildCardIndex $wildCard WildSeriesWinner $wildSeriesWinner");
+      
+    } else {
+      round1Sims.add(simLeague[3]);
+    }
+    
     round1Sims.forEach((sim) => sim.r1Series = true);
     
     // round 1

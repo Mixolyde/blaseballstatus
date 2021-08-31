@@ -56,4 +56,5 @@ class SimulationData {
   @override
   String toString() => "Season $season, Day $day, League $league, PlayoffRound $playOffRound, Attributes $attributes";
 
+  bool get leagueWildCards => attributes.contains("WILD_CARDS");
 }
