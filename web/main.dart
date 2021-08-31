@@ -126,6 +126,8 @@ Future<void> refreshData() async{
   case View.bracket:
     populatePlayoffBracket(entries);
     break;    
+  default:
+    break;
   }
   
   querySelector('#lastUpdate')!.text = sitedata.lastUpdate;
