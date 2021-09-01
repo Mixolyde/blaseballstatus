@@ -374,7 +374,9 @@ void insertSeparatorRow(TableElement table, int row, int columns){
 }
 
 int getOrderValue(String percent){
-  if(percent == "<1%"){
+  if(percent == "X"){
+    return -10;
+  } else if(percent == "<1%"){
     return 0;
   } else if(percent == ">99%"){
     return 100;

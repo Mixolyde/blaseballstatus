@@ -399,6 +399,8 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
       //TODO handle ^ and X in i=3 and 4
       if(i == 3 && top3) {
         standing.post[i] = "^";
+      } else if ( i == 3 && top4 && !simData.leagueWildCards){
+        standing.post[i] = "^";
       } else if ( i == 4 && top4 && simData.leagueWildCards){
         standing.post[i] = "^";
       } else {
