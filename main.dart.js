@@ -3308,7 +3308,8 @@ r.colSpan=c
 s=r.classList
 s.contains("sepRow").toString
 s.add("sepRow")},
-n2:function(a){if(a==="<1%")return 0
+n2:function(a){if(a==="X")return-10
+else if(a==="<1%")return 0
 else if(a===">99%")return 100
 else if(a==="^")return 101
 else return P.cO(H.cQ(a,"%",""),null)},
