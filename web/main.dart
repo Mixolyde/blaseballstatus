@@ -4,7 +4,6 @@ import 'dart:html';
 
 import 'package:blaseballstatus/calc_stats.dart';
 import 'package:blaseballstatus/current_view.dart';
-import 'package:blaseballstatus/database_api.dart';
 import 'package:blaseballstatus/s3_api.dart' as s3;
 import 'package:blaseballstatus/site_objects.dart';
 import 'package:blaseballstatus/html/populate_tables.dart';
@@ -21,21 +20,21 @@ late String postseasonHTML;
 late String winningNotesHTML;
 late SiteData sitedata;
 
-CurrentView currentView = new CurrentView();
+CurrentView currentView = CurrentView();
 List<PlayoffBracketEntry> entries = [];
 
 void main() {
   getContentPages().then((v) {
-    print("Retrieved content pages and data");
+    print('Retrieved content pages and data');
     
     if(window.location.hash.length > 2){
       currentView = CurrentView.fromHash(window.location.hash);
-      print("Loaded view from hash: $currentView");
+      print('Loaded view from hash: $currentView');
       replaceViewState();
     } else {
       // else, load from disk if it exists
       currentView = loadCurrentView();
-      print("Loaded view from storage: $currentView");
+      print('Loaded view from storage: $currentView');
       replaceViewState();
     }
 
@@ -47,12 +46,12 @@ void main() {
     addListeners();
     
     //setup auto refresh
-    var cron = new Cron();
+    var cron = Cron();
     //Every five minutes from 20-50 after Mon - Sat
-    cron.schedule(new Schedule.parse('1,21,26,31,36,41,46,51 * * * 1-6'), () async {
+    cron.schedule(Schedule.parse('1,21,26,31,36,41,46,51 * * * 1-6'), () async {
       if(!(document.hidden ?? true) && 
         currentView.activeView != View.about){
-        refreshData();
+        await refreshData();
       }
     });
   });
@@ -61,7 +60,7 @@ void main() {
 Future<void> getContentPages() async {
   sitedata = await s3.getSiteData();
   
-  print("Initial sitedata: $sitedata");
+  print('Initial sitedata: $sitedata');
   setSeasonDay(sitedata.season + 1, sitedata.day + 1);
   subStandings = await s3.getSubStandings(sitedata);
 
@@ -93,14 +92,14 @@ Future<void> refreshData() async{
   //get all data for displaying
   print('Refreshing data');
   sitedata = await s3.getSiteData();
-  print("Updated sitedata: $sitedata");
+  print('Updated sitedata: $sitedata');
   
   setSeasonDay(sitedata.season + 1, sitedata.day + 1);
   subStandings = await s3.getSubStandings(sitedata);
   
   entries = await s3.getPlayoffBracketEntries();
   
-  TableElement? standingsTable = querySelector('#standingsTable') as TableElement?;
+  var standingsTable = querySelector('#standingsTable') as TableElement?;
   if(standingsTable != null){
     while (standingsTable.rows.length > 2){
       standingsTable.deleteRow(2);
@@ -137,10 +136,10 @@ Future<void> refreshData() async{
 void setSeasonDay(int season, int day){
   if(day < 100){
     querySelector('.wkinfo')!.text = 
-      "Season $season: Day $day";
+      'Season $season: Day $day';
   } else {
     querySelector('.wkinfo')!.text = 
-      "Season $season: Day $day (Postseason)";    
+      'Season $season: Day $day (Postseason)';    
   }
 }
 
@@ -164,8 +163,8 @@ void addListeners(){
 void handlePopState(PopStateEvent event){
   //print("PopStateEvent: ${event.toString()} ${event.type.toString()} ${event.timeStamp.toString()} ");
   if(event.state != null){
-    print("State: ${event.state}");
-    Map<String, dynamic> jsonState = Map.from(event.state);
+    print('State: ${event.state}');
+    var jsonState = Map.from(event.state).map((k, v) => MapEntry<String, dynamic>(k.toString(), v));
     currentView = CurrentView.fromJson(jsonState);
     selectLeagueButton();
     selectGroupByDivision();
@@ -389,28 +388,28 @@ void redisplayData(){
   case View.chances:
     setMainContent(magicHTML);
     querySelector('#leagueTitle')!.text = 
-      "${sitedata.subnicknames[currentView.activeLeague]} League Playoff Chances";
+      '${sitedata.subnicknames[currentView.activeLeague]} League Playoff Chances';
     populateChancesTable(subStandings[currentView.activeLeague], currentView.groupByDiv);
     setNotes(chancesNotesHTML);
     break;    
   case View.winningmagic:
     setMainContent(magicHTML);
     querySelector('#leagueTitle')!.text =
-      "${sitedata.subnicknames[currentView.activeLeague]} League Winning Magic Numbers";
+      '${sitedata.subnicknames[currentView.activeLeague]} League Winning Magic Numbers';
     populateWinningTable(subStandings[currentView.activeLeague], currentView.groupByDiv);
     setNotes(winningNotesHTML);
     break;
   case View.partytimemagic:
     setMainContent(magicHTML);
     querySelector('#leagueTitle')!.text =
-      "${sitedata.subnicknames[currentView.activeLeague]} League Party Time Magic Numbers";
+      '${sitedata.subnicknames[currentView.activeLeague]} League Party Time Magic Numbers';
     populatePartyTimeTable(subStandings[currentView.activeLeague], currentView.groupByDiv);
     setNotes(partytimeNotesHTML);
     break;
   case View.postseason:
     setMainContent(postseasonHTML);
     querySelector('#leagueTitle')!.text =
-      "Internet League Blaseball Post Season Chances";
+      'Internet League Blaseball Post Season Chances';
     populatePostseasonTable(subStandings, currentView.groupByDiv, sitedata);
     break;  
   case View.bracket:
@@ -423,13 +422,13 @@ void redisplayData(){
 
 void pushViewState(){
   //update URL with popstate
-  window.history.pushState(currentView.toJson(), "", 
+  window.history.pushState(currentView.toJson(), '', 
     currentView.toHash());
 }
 
 void replaceViewState(){
   //update URL with popstate
-  window.history.replaceState(currentView.toJson(), "", 
+  window.history.replaceState(currentView.toJson(), '', 
     currentView.toHash());
 }
   
@@ -456,7 +455,7 @@ CurrentView loadCurrentView(){
     return CurrentView.fromJson(json.decode(
       window.localStorage['current_view']!));
   } else {
-    CurrentView view = CurrentView();
+    var view = CurrentView();
     view.activeLeague = 0;
     view.activeView = View.winsbehind;
     view.groupByDiv = false;

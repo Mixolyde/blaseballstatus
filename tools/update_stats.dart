@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:args/args.dart';
-import 'package:intl/intl.dart';
 import '../lib/calc_stats.dart';
 import '../lib/database_api.dart';
 import '../lib/sim_season.dart';
@@ -13,9 +12,9 @@ Future<void> main(List<String> args) async {
   var parser = ArgParser();
   parser.addOption(simCount, abbr: 'c',  defaultsTo: '103');
   var results = parser.parse(args);
-  int numSims = int.parse(results[simCount]);
+  var numSims = int.parse(results[simCount]);
   
-  apiUrl = "https://blaseball.com/database/";
+  apiUrl = 'https://blaseball.com/database/';
   
   //overall blaseball status data
   SimulationData simData = await getSimulationData();
@@ -36,37 +35,38 @@ Future<void> main(List<String> args) async {
   CompletePostseason? postSeason = await getCompletePostseason(simData.season);
   List<PlayoffBracketEntry> entries = 
       await calculatePlayoffBracketEntries(postSeason, subStandings);
-  var chances = await calculateChances(subStandings, numSims, entries);
+      
+  await calculateChances(subStandings, numSims, entries);
 
   
-  Directory temp = Directory.systemTemp;
+  var temp = Directory.systemTemp;
   print(temp);
   
-  Directory dataDir = new Directory(temp.path + '/data/');
+  var dataDir = Directory(temp.path + '/data/');
   await dataDir.create(recursive: true);
   
-  String filenameJSON = temp.path + '/data/sitedata.json';
-  var sinkJSON = new File(filenameJSON).openWrite();
+  var filenameJSON = temp.path + '/data/sitedata.json';
+  var sinkJSON = File(filenameJSON).openWrite();
   sinkJSON.write(json.encode(sitedata));
-  sinkJSON.close();
+  await sinkJSON.close();
   
   filenameJSON = temp.path + '/data/entries.json';
-  sinkJSON = new File(filenameJSON).openWrite();
+  sinkJSON = File(filenameJSON).openWrite();
   sinkJSON.write(json.encode(entries));
-  sinkJSON.close();  
+  await sinkJSON.close();  
   
   filenameJSON = temp.path + '/data/${sitedata.sub1id}.json';
-  sinkJSON = new File(filenameJSON).openWrite();
+  sinkJSON = File(filenameJSON).openWrite();
   sinkJSON.write(json.encode(subStandings[0]));
-  sinkJSON.close();
+  await sinkJSON.close();
   
   filenameJSON = temp.path + '/data/${sitedata.sub2id}.json';
-  sinkJSON = new File(filenameJSON).openWrite();
+  sinkJSON = File(filenameJSON).openWrite();
   sinkJSON.write(json.encode(subStandings[1]));
-  sinkJSON.close();
+  await sinkJSON.close();
 
-  File aws = new File("/usr/bin/aws");
-  bool exists = await aws.exists();
+  var aws = File('/usr/bin/aws');
+  var exists = await aws.exists();
   if(exists){
     uploadFiles();
   }
