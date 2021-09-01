@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
 import 'database_api.dart';
@@ -11,15 +10,16 @@ late Subleague _sub2;
 List<List<TeamStandings>> subStandings = [];
 
 List<Team> _allTeams = [];
-late SimulationData _simData;
 late Season _season;
 late Standings _standings;
 late Tiebreakers _tiebreakers;
-List<String> _dayOfWeek = ["", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-List<String> _monthOfYear = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
-  "Aug", "Sep", "Oct", "Nov", "Dec"];
+List<String> _dayOfWeek = ['', 'Mon', 'Tue', 'Wed',
+  'Thu', 'Fri', 'Sat', 'Sun'];
+List<String> _monthOfYear = ['', 'Jan', 'Feb', 'Mar',
+  'Apr', 'May', 'Jun', 'Jul',
+  'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-NumberFormat f = new NumberFormat("#", "en_US");
+NumberFormat f = new NumberFormat('#', 'en_US');
   
 Future<SiteData> calcSiteData(SimulationData simData) async {
   _league = await getLeague();
