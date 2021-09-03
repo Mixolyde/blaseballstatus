@@ -19,16 +19,16 @@ List<String> _monthOfYear = ['', 'Jan', 'Feb', 'Mar',
   'Apr', 'May', 'Jun', 'Jul',
   'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-NumberFormat f = new NumberFormat('#', 'en_US');
+NumberFormat f = NumberFormat('#', 'en_US');
   
 Future<SiteData> calcSiteData(SimulationData simData) async {
   _league = await getLeague();
   _sub1 = await getSubleague(_league.subleagueId1);
   _sub2 = await getSubleague(_league.subleagueId2);
   
-  String lastUpdate = getUpdateTime();
+  var lastUpdate = getUpdateTime();
   
-  SiteData sitedata = new SiteData(lastUpdate, 
+  var sitedata = SiteData(lastUpdate, 
     simData.season, simData.day,
     _sub1.id, _sub1.name, 
     _sub2.id, _sub2.name,
@@ -39,11 +39,11 @@ Future<SiteData> calcSiteData(SimulationData simData) async {
 }  
 
 String getUpdateTime(){
-  var now = new DateTime.now();
+  var now = DateTime.now();
   f.minimumIntegerDigits = 2;
-  return "${_dayOfWeek[now.weekday]} " + 
-    "${_monthOfYear[now.month]} " +
-    "${now.day} ${f.format(now.hour)}${f.format(now.minute)}";
+  return '${_dayOfWeek[now.weekday]} ' + 
+    '${_monthOfYear[now.month]} ' +
+    '${now.day} ${f.format(now.hour)}${f.format(now.minute)}';
 }
 
 Future<List<List<TeamStandings>>> calcStats(SimulationData simData) async {
