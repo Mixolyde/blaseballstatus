@@ -41,8 +41,8 @@ Future<SiteData> calcSiteData(SimulationData simData) async {
 String getUpdateTime(){
   var now = DateTime.now();
   f.minimumIntegerDigits = 2;
-  return '${_dayOfWeek[now.weekday]} ' + 
-    '${_monthOfYear[now.month]} ' +
+  return '${_dayOfWeek[now.weekday]} '  
+    '${_monthOfYear[now.month]} ' 
     '${now.day} ${f.format(now.hour)}${f.format(now.minute)}';
 }
 
@@ -80,7 +80,7 @@ Future<List<TeamStandings>> calculateSubLeague(Subleague sub, List<Game> games) 
     div2.teams.contains(t.id)).toList();
 
   
-  List<TeamStandings> teamStandings = [];
+  var teamStandings = <TeamStandings>[];
   teams.forEach((team){
     var divName;
     if(div1.teams.contains(team.id)){
@@ -128,21 +128,21 @@ Future<List<TeamStandings>> calculateSubLeague(Subleague sub, List<Game> games) 
 
 void calculateGamesBehind(List<TeamStandings> teamStandings) {
   //compute games back from Division leaders and Wild Card spot
-  Map<String, List<int>> divLeaders = new Map<String, List<int>>();
-  String firstDiv = teamStandings[0].division;
+  var divLeaders = <String, List<int>>{};
+  var firstDiv = teamStandings[0].division;
   divLeaders[firstDiv] = [
     teamStandings[0].wins - 
       (teamStandings[0].gamesPlayed - teamStandings[0].wins),
     teamStandings[0].favor];
     
-  TeamStandings secondDivLeader = teamStandings.firstWhere((team) =>
+  var secondDivLeader = teamStandings.firstWhere((team) =>
     team.division != firstDiv);
   divLeaders[secondDivLeader.division] = [
     secondDivLeader.wins - 
       (secondDivLeader.gamesPlayed - secondDivLeader.wins),
     secondDivLeader.favor];
 
-  Map<String, List<int>> wcLeaders = new Map<String, List<int>>();
+  var wcLeaders = <String, List<int>>{};
   //calculate the wild card leader for each division
   //if the top three teams are all the same division, then each
   //division will have a different WC team to beat
@@ -170,11 +170,11 @@ void calculateGamesBehind(List<TeamStandings> teamStandings) {
       teamStandings[3].favor];
   }
   
-  for (int i = 1; i < teamStandings.length; i++){
+  for (var i = 1; i < teamStandings.length; i++){
     if(teamStandings[i] != secondDivLeader){
-      int teamDiff = teamStandings[i].wins - 
+      var teamDiff = teamStandings[i].wins - 
         (teamStandings[i].gamesPlayed - teamStandings[i].wins);
-      List<int> divLeader = divLeaders[teamStandings[i].division] ?? [];
+      var divLeader = divLeaders[teamStandings[i].division] ?? <int>[];
       num gbDiv = ( divLeader[0] - teamDiff ) / 2;
       if (divLeader[1] < teamStandings[i].favor){
         gbDiv += 1;
@@ -182,7 +182,7 @@ void calculateGamesBehind(List<TeamStandings> teamStandings) {
       teamStandings[i].gbDiv = formatGamesBehind(gbDiv);
       
       if(i > 3) {
-        List<int> wcLeader = wcLeaders[teamStandings[i].division] ?? [];
+        var wcLeader = wcLeaders[teamStandings[i].division] ?? <int>[];
         num gbWc = ( wcLeader[0] - teamDiff ) / 2;
         if (wcLeader[1] < teamStandings[i].favor){
           gbWc += 1;
@@ -190,7 +190,7 @@ void calculateGamesBehind(List<TeamStandings> teamStandings) {
         teamStandings[i].gbWc = formatGamesBehind(gbWc);
       }
       
-      //print("GbDiv ${teamStandings[i].gbDiv} GbWc ${teamStandings[i].gbWc}");
+      //print('GbDiv ${teamStandings[i].gbDiv} GbWc ${teamStandings[i].gbWc}');
 
     }
   }  
@@ -203,71 +203,71 @@ void calculateMagicNumbers(List<TeamStandings> teamStandings){
 
 @visibleForTesting
 void calculateWinningMagicNumbers(List<TeamStandings> teamStandings) {
-  String firstDiv = teamStandings[0].division;
-  String secondDiv = teamStandings.firstWhere((team) =>
+  var firstDiv = teamStandings[0].division;
+  var secondDiv = teamStandings.firstWhere((team) =>
     team.division != firstDiv).division;
-  bool top3Same = teamStandings.take(3).every((team) =>
+  var top3Same = teamStandings.take(3).every((team) =>
     team.division == firstDiv);
-  for (int i = 0; i < teamStandings.length; i++){
-    int maxWins = (99 - teamStandings[i].gamesPlayed) +
+  for (var i = 0; i < teamStandings.length; i++){
+    var maxWins = (99 - teamStandings[i].gamesPlayed) +
       teamStandings[i].wins;
 
-    print("${teamStandings[i]} maxWins: $maxWins");
-    for (int j = 0; j < i && j < 4; j++){
-      teamStandings[i].winning[j] = "DNCD";
+    print('${teamStandings[i]} maxWins: $maxWins');
+    for (var j = 0; j < i && j < 4; j++){
+      teamStandings[i].winning[j] = 'DNCD';
       if( maxWins < teamStandings[j].wins ||
         (maxWins == teamStandings[j].wins &&
         teamStandings[i].favor > teamStandings[j].favor)){
-        teamStandings[i].winning[j] = "X";
+        teamStandings[i].winning[j] = 'X';
       } else if (top3Same && j == 3 && 
-        teamStandings[i].winning[2] == "X" &&
+        teamStandings[i].winning[2] == 'X' &&
         teamStandings[i].division == firstDiv){
         //if top3 are the same, and you can't make 3rd
         // and you aren't in secondDiv, you can't make 4th either
-        teamStandings[i].winning[j] = "X";
+        teamStandings[i].winning[j] = 'X';
       }
     }
     
-    for (int b = i + 1; b < 5; b++){
+    for (var b = i + 1; b < 5; b++){
       if (!top3Same || b < 3){
         setWinningMagicNumber(teamStandings[i], 
           teamStandings[b], b - 1);
       } else if (b == 3){
         //top3 are the same so the 3rd target is 
         //the 4th team in the top3 division
-        TeamStandings target = teamStandings.where((team) =>
+        var target = teamStandings.where((team) =>
           team.division == firstDiv).take(4).last;
         setWinningMagicNumber(teamStandings[i], 
           target, b - 1);
       } else if (teamStandings[i].division == firstDiv) {
         //top3 are the same, so the 4th spot is taken by
         //other div leader and is not winnable
-        if(teamStandings[i].winning.any((s) => s == "^")){
-          teamStandings[i].winning[3] = "X";
+        if(teamStandings[i].winning.any((s) => s == '^')){
+          teamStandings[i].winning[3] = 'X';
         } else {
-          teamStandings[i].winning[3] = "DNCD";
+          teamStandings[i].winning[3] = 'DNCD';
         }
       } else {
         //top3 are the same, so the 4th spot of the 4th team
         //targets the 2nd team in its div
-        TeamStandings target = teamStandings.where((team) =>
+        var target = teamStandings.where((team) =>
           team.division == secondDiv).take(2).last;
         setWinningMagicNumber(teamStandings[i], 
           target, b - 1);  
       }
     }
         
-    if(teamStandings[i].winning.any((s) => s == "^")){
-      teamStandings[i].winning[4] = "X";
+    if(teamStandings[i].winning.any((s) => s == '^')){
+      teamStandings[i].winning[4] = 'X';
     } else {
-      teamStandings[i].winning[4] = "0";
+      teamStandings[i].winning[4] = '0';
     }
     
-    if(teamStandings[i].winning[0] == "X" &&
-      teamStandings[i].winning[1] == "X" &&
-      teamStandings[i].winning[2] == "X" &&
-      teamStandings[i].winning[3] == "X"){
-      teamStandings[i].winning[4] = "PT";
+    if(teamStandings[i].winning[0] == 'X' &&
+      teamStandings[i].winning[1] == 'X' &&
+      teamStandings[i].winning[2] == 'X' &&
+      teamStandings[i].winning[3] == 'X'){
+      teamStandings[i].winning[4] = 'PT';
     }
     
   }
@@ -276,7 +276,7 @@ void calculateWinningMagicNumbers(List<TeamStandings> teamStandings) {
 void setWinningMagicNumber(TeamStandings standing, TeamStandings target,
   int winningIndex){
   //Wb + GRb - Wa + 1
-  int magic = target.wins +
+  var magic = target.wins +
     (99 - target.gamesPlayed) -
     standing.wins;
   if (standing.favor > target.favor) {
@@ -286,29 +286,29 @@ void setWinningMagicNumber(TeamStandings standing, TeamStandings target,
   //print("WinMN for ${teamStandings[i]} vs. ${teamStandings[b]}: $magic");
   if (magic > 0){
     //set magic number
-    standing.winning[winningIndex] = "$magic";
+    standing.winning[winningIndex] = '$magic';
   } else if (winningIndex > 0 && 
-    standing.winning.any((s) => s == "^")) {
+    standing.winning.any((s) => s == '^')) {
     //previous spot guaranteed, so this one can't
-    standing.winning[winningIndex] = "X";
+    standing.winning[winningIndex] = 'X';
   } else {
     //this spot or better guaranteed
-    standing.winning[winningIndex] = "^";
+    standing.winning[winningIndex] = '^';
   }
     
 }
 
 void _calculatePartyTimeMagicNumbers(List<TeamStandings> teamStandings) {
-  String firstDiv = teamStandings[0].division;
-  String secondDiv = teamStandings.firstWhere((team) =>
+  var firstDiv = teamStandings[0].division;
+  var secondDiv = teamStandings.firstWhere((team) =>
     team.division != firstDiv).division;
-  bool top3Same = teamStandings.take(3).every((team) =>
+  var top3Same = teamStandings.take(3).every((team) =>
     team.division == firstDiv);
     
-  for (int i = 0; i < teamStandings.length; i++){
+  for (var i = 0; i < teamStandings.length; i++){
     var stand = teamStandings[i];
-    int maxWins = (99 - stand.gamesPlayed) + stand.wins;
-    for(int k = 0; k < 5; k++){
+    var maxWins = (99 - stand.gamesPlayed) + stand.wins;
+    for(var k = 0; k < 5; k++){
       switch(stand.winning[k]){
         case '^':
         case 'X':
@@ -317,9 +317,9 @@ void _calculatePartyTimeMagicNumbers(List<TeamStandings> teamStandings) {
           break;
         default:
           if(i <= k) {
-            stand.partytime[k] = "MW";
+            stand.partytime[k] = 'MW';
           } else if (k == 4) {
-            stand.partytime[k] = "MW";
+            stand.partytime[k] = 'MW';
           } else if (top3Same && k == 3 && 
             stand.division == firstDiv) {
             //party time losses for 4th are the same as 3rd
@@ -329,12 +329,12 @@ void _calculatePartyTimeMagicNumbers(List<TeamStandings> teamStandings) {
           } else {
             //maxWinsi - Wk
             //print("Find Elim: $stand Berth: $k");
-            int magic = maxWins - teamStandings[k].wins;
+            var magic = maxWins - teamStandings[k].wins;
             //if we don't have favor, elim is one lower
             if(stand.favor < teamStandings[k].favor) {
               magic += 1;
             }
-            stand.partytime[k] = "$magic";
+            stand.partytime[k] = '$magic';
           }
           
           break;
@@ -354,16 +354,16 @@ void sortTeamsNotGrouped(List<TeamStandings> teams) {
   });
   //if the first four teams are the same division, move
   //the other div leader into 4th
-  String firstDiv = teams.first.division;
+  var firstDiv = teams.first.division;
   if(teams.take(4).every((team) =>
     team.division == firstDiv) ||
     teams.take(4).every((team) =>
     team.division != firstDiv)){
-    print("Top four teams are the same division");
+    print('Top four teams are the same division');
     //find top of other division
-    TeamStandings otherLeader = teams.firstWhere((team) =>
+    var otherLeader = teams.firstWhere((team) =>
       team.division != firstDiv);
-    print("Moving $otherLeader");
+    print('Moving $otherLeader');
     teams.remove(otherLeader);
     teams.insert(3, otherLeader);
   }  
@@ -373,8 +373,8 @@ String formatGamesBehind(num gb){
   if(gb == gb.toInt()){
     return gb.toInt().toString();
   } else if (gb < 1 ) {
-    return "½";
+    return '½';
   } else {
-    return "${gb.toInt()}½";
+    return '${gb.toInt()}½';
   }
 }

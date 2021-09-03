@@ -11,10 +11,10 @@ import '../lib/site_objects.dart';
   functionality
 **/
 Future<void> main() async {  
-  apiUrl = "https://blaseball.com/database/";
+  var apiUrl = 'https://blaseball.com/database/';
   
   //overall blaseball status data
-  SimulationData simData = await getSimulationData();
+  var simData = await getSimulationData();
   /*
     thisidisstaticyo
     113
@@ -24,20 +24,20 @@ Future<void> main() async {
     645cdd84-175f-42f1-a9f3-d9014d97ae3b
   */
   
-  SimulationData oldSimData = new SimulationData(
+  var oldSimData = new SimulationData(
     id: simData.id,
     day: 113,
-    league: "d8545021-e9fc-48a3-af74-48685950a183",
+    league: 'd8545021-e9fc-48a3-af74-48685950a183',
     playOffRound: 3,
     season: 14,
-    seasonId: "645cdd84-175f-42f1-a9f3-d9014d97ae3b",
+    seasonId: '645cdd84-175f-42f1-a9f3-d9014d97ae3b',
     eraTitle: simData.eraTitle,
     subEraTitle: simData.subEraTitle,
-    attributes: ["TEST1"]
+    attributes: ['TEST1']
   );
 
   //site data
-  SiteData sitedata = await calcSiteData(oldSimData);
+  var sitedata = await calcSiteData(oldSimData);
   print(sitedata);
   
   //get subleague standings and calculate stats
@@ -46,7 +46,7 @@ Future<void> main() async {
   
   //print("CompletePostseason: $postseason");
   
-  Playoffs? playoffs = await getPlayoffs(19);
+  var playoffs = await getPlayoffs(19);
   
   //print(playoffs);
   
