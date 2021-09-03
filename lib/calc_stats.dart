@@ -61,9 +61,9 @@ Future<List<List<TeamStandings>>> calcStats(SimulationData simData) async {
   _allTeams = await getTeams();
   _tiebreakers = await getTiebreakers(_league.tiebreakersId);
 
-  List<TeamStandings> sub1Standings = 
+  var sub1Standings = 
     await calculateSubLeague(_sub1, games);
-  List<TeamStandings> sub2Standings = 
+  var sub2Standings = 
     await calculateSubLeague(_sub2, games);
   
   return [sub1Standings, sub2Standings];
@@ -71,18 +71,18 @@ Future<List<List<TeamStandings>>> calcStats(SimulationData simData) async {
 }
 
 Future<List<TeamStandings>> calculateSubLeague(Subleague sub, List<Game> games) async{
-  int day = games[0].day;
-  print("Day ${day + 1} $sub");
-  Division div1 = await getDivision(sub.divisionId1);
-  Division div2 = await getDivision(sub.divisionId2);
-  List<Team> teams = _allTeams.where((t) => 
+  var day = games[0].day;
+  print('Day ${day + 1} $sub');
+  var div1 = await getDivision(sub.divisionId1);
+  var div2 = await getDivision(sub.divisionId2);
+  var teams = _allTeams.where((t) => 
     div1.teams.contains(t.id) ||
     div2.teams.contains(t.id)).toList();
 
   
-  List<TeamStandings> teamStandings = [];
+  var teamStandings = [];
   teams.forEach((team){
-    String divName;
+    var divName;
     if(div1.teams.contains(team.id)){
       if(div1.name.contains(' ')){
         divName = div1.name.split(' ')[1];
@@ -97,14 +97,14 @@ Future<List<TeamStandings>> calculateSubLeague(Subleague sub, List<Game> games) 
       }
     }
     
-    int gamesPlayed = 99;
+    var gamesPlayed = 99;
     if (day < 99){
       //regular season
       gamesPlayed = _standings.gamesPlayed[team.id] ?? gamesPlayed;
     }
     
-    TeamStandings standing = 
-      new TeamStandings(team.id, 
+    var standing = 
+      TeamStandings(team.id, 
       team.fullName, team.nickname, team.emoji,
       sub.name.split(' ')[1],
       divName,
