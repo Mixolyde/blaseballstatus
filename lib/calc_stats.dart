@@ -80,7 +80,7 @@ Future<List<TeamStandings>> calculateSubLeague(Subleague sub, List<Game> games) 
     div2.teams.contains(t.id)).toList();
 
   
-  var teamStandings = [];
+  List<TeamStandings> teamStandings = [];
   teams.forEach((team){
     var divName;
     if(div1.teams.contains(team.id)){
