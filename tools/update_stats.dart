@@ -4,7 +4,6 @@ import 'package:args/args.dart';
 import '../lib/calc_stats.dart';
 import '../lib/database_api.dart';
 import '../lib/sim_season.dart';
-import '../lib/site_objects.dart';
 
 const simCount = 'sim-count';
 
@@ -17,14 +16,14 @@ Future<void> main(List<String> args) async {
   apiUrl = 'https://blaseball.com/database/';
   
   //overall blaseball status data
-  SimulationData simData = await getSimulationData();
+  var simData = await getSimulationData();
 
   //site data
-  SiteData sitedata = await calcSiteData(simData);
+  var sitedata = await calcSiteData(simData);
   print(sitedata);
   
   //get subleague standings and calculate stats
-  List<List<TeamStandings>> subStandings = await calcStats(simData);
+  var subStandings = await calcStats(simData);
   
   //print out data
   print(subStandings[0]);
@@ -32,8 +31,8 @@ Future<void> main(List<String> args) async {
   
 
   //numSims = 17;
-  CompletePostseason? postSeason = await getCompletePostseason(simData.season);
-  List<PlayoffBracketEntry> entries = 
+  var postSeason = await getCompletePostseason(simData.season);
+  var entries = 
       await calculatePlayoffBracketEntries(postSeason, subStandings);
       
   await calculateChances(subStandings, numSims, entries);

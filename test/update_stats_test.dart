@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:intl/intl.dart';
 import 'package:test/test.dart';
 
 import '../tools/update_stats.dart' as update;
