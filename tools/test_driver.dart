@@ -1,17 +1,16 @@
-import 'dart:convert';
-import 'dart:io';
-import 'package:intl/intl.dart';
+// import 'dart:convert';
+// import 'dart:io';
+// import 'package:intl/intl.dart';
 import '../lib/calc_stats.dart';
 import '../lib/database_api.dart';
-import '../lib/sim_season.dart';
-import '../lib/site_objects.dart';
+// import '../lib/sim_season.dart';
+// import '../lib/site_objects.dart';
 
-/**
-  Test script used for manually executing methods and testing
-  functionality
-**/
+
+/// Test script used for manually executing methods and testing functionality.
 Future<void> main() async {  
   var apiUrl = 'https://blaseball.com/database/';
+  print(apiUrl);
   
   //overall blaseball status data
   var simData = await getSimulationData();
@@ -24,7 +23,7 @@ Future<void> main() async {
     645cdd84-175f-42f1-a9f3-d9014d97ae3b
   */
   
-  var oldSimData = new SimulationData(
+  var oldSimData = SimulationData(
     id: simData.id,
     day: 113,
     league: 'd8545021-e9fc-48a3-af74-48685950a183',
@@ -48,6 +47,6 @@ Future<void> main() async {
   
   var playoffs = await getPlayoffs(19);
   
-  //print(playoffs);
+  print(playoffs);
   
 }

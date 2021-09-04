@@ -9,23 +9,21 @@ import '../lib/site_objects.dart';
 void main() {
   group('update tests', () {
     test('update and load objects', () async {
-      await update.main(["-c", "100"]);
+      await update.main(['-c', '100']);
       
-      Directory temp = Directory.systemTemp;
-      File aws = new File(temp.path + '/data/sitedata.json');
-      
-      bool exists = await aws.exists();
-      String filenameJSON = temp.path + '/data/sitedata.json';
-      String body = await new File(filenameJSON).readAsString();     
+      var temp = Directory.systemTemp;
 
-      SiteData sitedata = SiteData.fromJson(json.decode(body));
+      var filenameJSON = temp.path + '/data/sitedata.json';
+      var body = await File(filenameJSON).readAsString();     
+
+      var sitedata = SiteData.fromJson(json.decode(body));
       expect(sitedata.season, greaterThan(1));
       expect(sitedata.day, greaterThan(-1));
       
       filenameJSON = temp.path + '/data/${sitedata.sub1id}.json';
-      body = await new File(filenameJSON).readAsString();
+      body = await File(filenameJSON).readAsString();
 
-      List<TeamStandings> standings = decodeStandings(body);
+      var standings = decodeStandings(body);
       expect(standings.length, greaterThanOrEqualTo(2));
       expect(standings[0].winning.length, 5);
       expect(standings[0].partytime.length, 5);
@@ -34,7 +32,7 @@ void main() {
       expect(standings[0].gbWc.length, greaterThan(0));
       
       filenameJSON = temp.path + '/data/${sitedata.sub2id}.json';
-      body = await new File(filenameJSON).readAsString();
+      body = await File(filenameJSON).readAsString();
 
       standings = decodeStandings(body);
       expect(standings.length, greaterThanOrEqualTo(10));

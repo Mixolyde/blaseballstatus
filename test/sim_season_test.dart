@@ -6,7 +6,7 @@ import '../lib/database_api.dart';
 import '../lib/sim_season.dart';
 import '../lib/site_objects.dart';
 
-Random rand = new Random(0);
+Random rand = Random(0);
 
 void main() async {
   await setNoWildCardSimData();
@@ -14,8 +14,8 @@ void main() async {
   group('single game', () {
     test('Teams with no games', () {
       //id, this.notLosses, this.wins, this.losses, this.favor, this.division
-      TeamSim awaySim = new TeamSim("Team 1", 0, 0, 0, 1, "Div 1");
-      TeamSim homeSim = new TeamSim("Team 2", 0, 0, 0, 2, "Div 1");
+      TeamSim awaySim = TeamSim('Team 1', 0, 0, 0, 1, 'Div 1');
+      TeamSim homeSim = TeamSim('Team 2', 0, 0, 0, 2, 'Div 1');
       awaySim.save();
       homeSim.save();
       
@@ -24,8 +24,8 @@ void main() async {
       
     });  
     test('Unbalanced away team', () {
-      TeamSim awaySim = new TeamSim("Team 1", 1000, 1000, 0, 1, "Div 1");
-      TeamSim homeSim = new TeamSim("Team 2", 0, 0, 1000, 2, "Div 1");
+      TeamSim awaySim = TeamSim('Team 1', 1000, 1000, 0, 1, 'Div 1');
+      TeamSim homeSim = TeamSim('Team 2', 0, 0, 1000, 2, 'Div 1');
       awaySim.save();
       homeSim.save();
       
@@ -34,8 +34,8 @@ void main() async {
       
     }); 
     test('Unbalanced home team', () {
-      TeamSim awaySim = new TeamSim("Team 1", 0, 0, 1000, 1, "Div 1");
-      TeamSim homeSim = new TeamSim("Team 2", 1000, 1000, 0, 2, "Div 1");
+      TeamSim awaySim = TeamSim('Team 1', 0, 0, 1000, 1, 'Div 1');
+      TeamSim homeSim = TeamSim('Team 2', 1000, 1000, 0, 2, 'Div 1');
       awaySim.save();
       homeSim.save();
       
@@ -49,9 +49,9 @@ void main() async {
       List<Game> games = [];
       for (int i = 0; i < 10; i++){
         games.add(createRandomGame(i, false,
-          "Team 1", "Team 2", 0.25));
+          'Team 1', 'Team 2', 0.25));
         games.add(createRandomGame(i, false,
-          "Team 3", "Team 4", 0.75));
+          'Team 3', 'Team 4', 0.75));
       }
       List<List<TeamStandings>> standings = createStandings(4, 0);
       print(standings);
@@ -68,13 +68,13 @@ void main() async {
       List<Game> games = [];
       for (int i = 0; i < 10; i++){
         games.add(createRandomGame(i, false,
-          "Team 1", "Team 2", 0.25));
+          'Team 1', 'Team 2', 0.25));
         games.add(createRandomGame(i, false,
-          "Team 3", "Team 4", 0.75));
+          'Team 3', 'Team 4', 0.75));
       }
-      Map<String, TeamSim> sims = new Map<String, TeamSim>();
+      Map<String, TeamSim> sims = Map<String, TeamSim>();
       for(int i = 1; i < 5; i++){
-        sims["Team $i"] = new TeamSim("Team $i", 0, 0, 0, i, "Div 0");
+        sims['Team $i'] = TeamSim('Team $i', 0, 0, 0, i, 'Div 0');
       };
       sims.values.forEach((sim) => sim.save());
       
@@ -137,15 +137,15 @@ void main() async {
       List<int> winVariances = [2, 0, -1, 3, 1, 0, -2, 0, 1, -1];
       //apply variances to standings
       for (int i = 0; i < winVariances.length; i++){
-        standings[(i + 1) % 2].firstWhere((stand) => stand.id == "Team ${i + 1}").
+        standings[(i + 1) % 2].firstWhere((stand) => stand.id == 'Team ${i + 1}').
             wins += winVariances[i];
       }
       print(standings);
       Map<String, TeamSim> sims = mapTeamSims(standings, games);
       simulateSeason(games, sims);
       for (int i = 0; i < winVariances.length; i++){
-        TeamSim? sim = sims["Team ${i + 1}"];
-        if(sim == null) fail("Sim was null");
+        TeamSim? sim = sims['Team ${i + 1}'];
+        if(sim == null) fail('Sim was null');
         expect(sim.wins, sim.notLosses + winVariances[i]);
         expect(sim.notLosses + sim.losses, numGames);
         print(sim);
@@ -209,7 +209,7 @@ void main() async {
       calculateMagicNumbers(standings[0]);
       calculateMagicNumbers(standings[1]);
       standings.forEach((standingList) => standingList.forEach((standing) {
-        print("Magic Numbers Standing ${standing.id} winning: ${standing.winning}");
+        print('Magic Numbers Standing ${standing.id} winning: ${standing.winning}');
       }));        
       runSimulations(games, standings, numSims);
       standings.forEach((league) => league.forEach((stand) {
@@ -222,7 +222,7 @@ void main() async {
               expect(stand.po[i], stand.winning[i]);
               break;
             default:
-              expect(stand.po[i].endsWith("%"), true);
+              expect(stand.po[i].endsWith('%'), true);
               break;
           }
         }
@@ -240,14 +240,14 @@ void main() async {
         null, standings);
       
       expect(entries.length, 19);
-      expect(entries[0].teamNickname, "Seed");
-      expect(entries[18].teamNickname, "TBD");
+      expect(entries[0].teamNickname, 'Seed');
+      expect(entries[18].teamNickname, 'TBD');
       
       expect(entries[0].subleague, standings[0][0].subleague);
       expect(entries[2].subleague, standings[1][0].subleague);
       expect(entries[16].subleague, standings[0][0].subleague);
       expect(entries[17].subleague, standings[1][0].subleague);
-      expect(entries[18].subleague, "TBD");
+      expect(entries[18].subleague, 'TBD');
     });
     test('live post season', () async {
       SimulationData simData = await getSimulationData();
@@ -263,16 +263,16 @@ void main() async {
     });        
     test('full post season', () async {
       SimulationData simData = await getSimulationData();
-      SimulationData oldSimData = new SimulationData(
+      SimulationData oldSimData = SimulationData(
         id: simData.id,
         day: 113,
-        league: "d8545021-e9fc-48a3-af74-48685950a183",
+        league: 'd8545021-e9fc-48a3-af74-48685950a183',
         playOffRound: 3,
         season: 14,
-        seasonId: "645cdd84-175f-42f1-a9f3-d9014d97ae3b",
+        seasonId: '645cdd84-175f-42f1-a9f3-d9014d97ae3b',
         eraTitle: simData.eraTitle,
         subEraTitle: simData.subEraTitle,
-        attributes: ["TEST_ATTR1", "TEST_ATTR2", "TEST_ATTR3"],
+        attributes: ['TEST_ATTR1', 'TEST_ATTR2', 'TEST_ATTR3'],
       );
       
       SiteData sitedata = await calcSiteData(oldSimData);
@@ -284,24 +284,24 @@ void main() async {
         
       expect(entries.length, 19);
       entries.forEach((entry) {
-        print("Testing entry: $entry");
-        expect(entry.teamNickname, isNot("Seed"));
-        expect(entry.teamNickname, isNot("TBD"));
+        print('Testing entry: $entry');
+        expect(entry.teamNickname, isNot('Seed'));
+        expect(entry.teamNickname, isNot('TBD'));
         expect(entry.seed, greaterThan(0));
       });    
 
-      expect(entries[16].teamNickname, "Wild Wings");
+      expect(entries[16].teamNickname, 'Wild Wings');
       expect(entries[16].wins, 1);
       expect(entries[16].seed, 5);
 
-      expect(entries[17].teamNickname, "Moist Talkers");
+      expect(entries[17].teamNickname, 'Moist Talkers');
       expect(entries[17].wins, 3);
       expect(entries[17].seed, 2);
 
-      expect(entries[18].teamNickname, "Moist Talkers");
+      expect(entries[18].teamNickname, 'Moist Talkers');
       expect(entries[18].wins, 3);
       expect(entries[18].seed, 2);
-      expect(entries[18].subleague, "Mild");
+      expect(entries[18].subleague, 'Mild');
     */
     });
   });
@@ -315,11 +315,11 @@ List<List<TeamStandings>> createStandings(int numTeams, int gamesPlayed){
   }
   
   for(int team = 1; team <= numTeams; team++){
-    TeamStandings stand = new TeamStandings(
-      "Team $team", "The Full Team ${team}s", 
-      "The Team ${team}s", "Emoji ${team}",
-      "League ${team % 2}",
-      "Div ${team % 4}",
+    TeamStandings stand = TeamStandings(
+      'Team $team', 'The Full Team ${team}s', 
+      'The Team ${team}s', 'Emoji ${team}',
+      'League ${team % 2}',
+      'Div ${team % 4}',
       0, 0, gamesPlayed, team);
     standings[team % 2].add(stand);
   }
@@ -331,7 +331,7 @@ Game createRandomGame(int day, bool completed,
   int homeScore = 0;
   int awayScore = 0;
   if(completed){
-    //print("Creating completed game with awayChance $awayChance");
+    //print('Creating completed game with awayChance $awayChance');
     int low = rand.nextInt(10);
     int high = low + 1 + rand.nextInt(10);
     if(rand.nextDouble() < awayChance){
@@ -342,15 +342,15 @@ Game createRandomGame(int day, bool completed,
       awayScore = low;
     }
   }
-  Game game = new Game(
+  Game game = Game(
     id: rand.nextInt(1000).toString(),
     day: day,    
     gameComplete: completed,    
     awayTeam: away,
-    awayTeamNickname: "$away Nickname",
+    awayTeamNickname: '$away Nickname',
     awayScore: awayScore,
     homeTeam: home,
-    homeTeamNickname: "$home Nickname",
+    homeTeamNickname: '$home Nickname',
     homeScore: homeScore,
     season: 0,
    
@@ -362,7 +362,7 @@ Game createRandomGame(int day, bool completed,
 List<Game> createSeasonOfGames(int numDays, int completedDays,
   int numTeams, List<List<TeamStandings>> standings, [List<num>? initialChances]){
   if(numTeams % 4 != 0){
-    throw new ArgumentError("NumTeams must be divisible by four");
+    throw ArgumentError('NumTeams must be divisible by four');
   }
   List<Game> games = [];
   if(initialChances == null || initialChances.length != numTeams){
@@ -373,23 +373,23 @@ List<Game> createSeasonOfGames(int numDays, int completedDays,
   for(int day = 0; day < numDays; day++){
     for(int matchup = 0; matchup < numTeams / 2; matchup++){
       //randomly assign matchups
-      //print("Creating matchup $matchup day $day");
+      //print('Creating matchup $matchup day $day');
       //create game between matchups
       int team1 = matchup * 2 + 1;
       int team2 = matchup * 2 + 2;
       Game played = createRandomGame(day, day < completedDays, 
-        "Team $team1", "Team $team2", initialChances[matchup*2]);
+        'Team $team1', 'Team $team2', initialChances[matchup*2]);
       if(played.gameComplete){
         //update standings
         if(played.awayScore > played.homeScore){
-          standings[team1 % 2].firstWhere((stand) => stand.id == "Team $team1").
+          standings[team1 % 2].firstWhere((stand) => stand.id == 'Team $team1').
             losses++;
-          standings[team2 % 2].firstWhere((stand) => stand.id == "Team $team2").
+          standings[team2 % 2].firstWhere((stand) => stand.id == 'Team $team2').
             wins++;
         } else {
-          standings[team1 % 2].firstWhere((stand) => stand.id == "Team $team1").
+          standings[team1 % 2].firstWhere((stand) => stand.id == 'Team $team1').
             wins++;
-          standings[team2 % 2].firstWhere((stand) => stand.id == "Team $team2").
+          standings[team2 % 2].firstWhere((stand) => stand.id == 'Team $team2').
             losses++;
         }
       }
@@ -402,35 +402,35 @@ List<Game> createSeasonOfGames(int numDays, int completedDays,
 
 
 Future<void> setNoWildCardSimData() async {
-  apiUrl = "https://blaseball.com/database/";
+  apiUrl = 'https://blaseball.com/database/';
   SimulationData currentSimData = await getSimulationData();
-  SimulationData simData = new SimulationData(
+  SimulationData simData = SimulationData(
     id: currentSimData.id,
     day: 113,
-    league: "d8545021-e9fc-48a3-af74-48685950a183",
+    league: 'd8545021-e9fc-48a3-af74-48685950a183',
     playOffRound: 3,
     season: 14,
-    seasonId: "645cdd84-175f-42f1-a9f3-d9014d97ae3b",
+    seasonId: '645cdd84-175f-42f1-a9f3-d9014d97ae3b',
     eraTitle: currentSimData.eraTitle,
     subEraTitle: currentSimData.subEraTitle,
-    attributes: ["TEST_ATTR1", "TEST_ATTR2", "TEST_ATTR3"],
+    attributes: ['TEST_ATTR1', 'TEST_ATTR2', 'TEST_ATTR3'],
   );
   setLateData(simData);
 }
 
 Future<void> setWildCardSimData() async {
-  apiUrl = "https://blaseball.com/database/";
+  apiUrl = 'https://blaseball.com/database/';
   SimulationData currentSimData = await getSimulationData();
-  SimulationData simData = new SimulationData(
+  SimulationData simData = SimulationData(
     id: currentSimData.id,
     day: 113,
-    league: "d8545021-e9fc-48a3-af74-48685950a183",
+    league: 'd8545021-e9fc-48a3-af74-48685950a183',
     playOffRound: 3,
     season: 14,
-    seasonId: "645cdd84-175f-42f1-a9f3-d9014d97ae3b",
+    seasonId: '645cdd84-175f-42f1-a9f3-d9014d97ae3b',
     eraTitle: currentSimData.eraTitle,
     subEraTitle: currentSimData.subEraTitle,
-    attributes: ["TEST_ATTR1", "TEST_ATTR2", "TEST_ATTR3","WILD_CARDS"],
+    attributes: ['TEST_ATTR1', 'TEST_ATTR2', 'TEST_ATTR3','WILD_CARDS'],
   );
   setLateData(simData);
 }
