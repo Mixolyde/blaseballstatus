@@ -14,39 +14,39 @@ void main() async {
   group('single game', () {
     test('Teams with no games', () {
       //id, this.notLosses, this.wins, this.losses, this.favor, this.division
-      TeamSim awaySim = TeamSim('Team 1', 0, 0, 0, 1, 'Div 1');
-      TeamSim homeSim = TeamSim('Team 2', 0, 0, 0, 2, 'Div 1');
+      var awaySim = TeamSim('Team 1', 0, 0, 0, 1, 'Div 1');
+      var homeSim = TeamSim('Team 2', 0, 0, 0, 2, 'Div 1');
       awaySim.save();
       homeSim.save();
       
-      TeamSim result = simulateGame(awaySim, homeSim, 2);
+      var result = simulateGame(awaySim, homeSim, 2);
       expect(result, isNotNull);
       
     });  
     test('Unbalanced away team', () {
-      TeamSim awaySim = TeamSim('Team 1', 1000, 1000, 0, 1, 'Div 1');
-      TeamSim homeSim = TeamSim('Team 2', 0, 0, 1000, 2, 'Div 1');
+      var awaySim = TeamSim('Team 1', 1000, 1000, 0, 1, 'Div 1');
+      var homeSim = TeamSim('Team 2', 0, 0, 1000, 2, 'Div 1');
       awaySim.save();
       homeSim.save();
       
-      TeamSim result = simulateGame(awaySim, homeSim, 2);
+      var result = simulateGame(awaySim, homeSim, 2);
       expect(result, isNotNull);
       
     }); 
     test('Unbalanced home team', () {
-      TeamSim awaySim = TeamSim('Team 1', 0, 0, 1000, 1, 'Div 1');
-      TeamSim homeSim = TeamSim('Team 2', 1000, 1000, 0, 2, 'Div 1');
+      var awaySim = TeamSim('Team 1', 0, 0, 1000, 1, 'Div 1');
+      var homeSim = TeamSim('Team 2', 1000, 1000, 0, 2, 'Div 1');
       awaySim.save();
       homeSim.save();
       
-      TeamSim result = simulateGame(awaySim, homeSim, 2);
+      var result = simulateGame(awaySim, homeSim, 2);
       expect(result, isNotNull);
       
     });     
   });
   group('single simulation', () {
     test('Short season', () {
-      List<Game> games = [];
+      var games = <Game>[];
       for (int i = 0; i < 10; i++){
         games.add(createRandomGame(i, false,
           'Team 1', 'Team 2', 0.25));

@@ -283,7 +283,7 @@ void setWinningMagicNumber(TeamStandings standing, TeamStandings target,
     //team b wins ties
     magic += 1;
   }
-  //print("WinMN for ${teamStandings[i]} vs. ${teamStandings[b]}: $magic");
+  //print('WinMN for ${teamStandings[i]} vs. ${teamStandings[b]}: $magic');
   if (magic > 0){
     //set magic number
     standing.winning[winningIndex] = '$magic';
@@ -325,10 +325,10 @@ void _calculatePartyTimeMagicNumbers(List<TeamStandings> teamStandings) {
             //party time losses for 4th are the same as 3rd
             
             stand.partytime[k] = stand.partytime[k - 1];
-            //print("Adjust for top 3 same ${stand.partytime[k]} ${stand.partytime[k - 1]}");
+            //print('Adjust for top 3 same ${stand.partytime[k]} ${stand.partytime[k - 1]}');
           } else {
             //maxWinsi - Wk
-            //print("Find Elim: $stand Berth: $k");
+            //print('Find Elim: $stand Berth: $k');
             var magic = maxWins - teamStandings[k].wins;
             //if we don't have favor, elim is one lower
             if(stand.favor < teamStandings[k].favor) {

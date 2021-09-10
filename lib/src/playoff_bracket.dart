@@ -10,7 +10,7 @@ class PlayoffBracketEntry{
   int wins;
 
   PlayoffBracketEntry({this.position = 0, this.seed = 1, 
-    this.teamID = "", this.teamNickname = "", this.subleague = "", this.wins = 0});
+    this.teamID = '', this.teamNickname = '', this.subleague = '', this.wins = 0});
     
   factory PlayoffBracketEntry.fromJson(Map<String, dynamic> json){
     return PlayoffBracketEntry(
@@ -33,6 +33,6 @@ class PlayoffBracketEntry{
   };
     
   @override
-  String toString() => "Index:$position Seed:$seed Team:$teamNickname League:$subleague Wins:$wins";
+  String toString() => 'Index:$position Seed:$seed Team:$teamNickname League:$subleague Wins:$wins';
   
 }

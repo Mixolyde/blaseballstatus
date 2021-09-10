@@ -23,8 +23,8 @@ class TeamStandings {
     this.emoji, this.subleague, this.division,
     this.wins, this.losses, this.gamesPlayed, this.favor);
     
-  TeamStandings.fromMap({this.id = "", this.fullName = "",
-    this.nickname = "", this.emoji = "", this.subleague = "", this.division = "",
+  TeamStandings.fromMap({this.id = '', this.fullName = '',
+    this.nickname = '', this.emoji = '', this.subleague = '', this.division = '',
     this.wins = 0, this.losses = 0,
     this.gamesPlayed = 0, this.favor = 0,
     this.gbDiv = '-', this.gbWc = '-',
@@ -78,6 +78,6 @@ class TeamStandings {
   };
   
   @override
-  String toString() => "Standings: $nickname - $subleague $division ($wins - $losses) Favor: #$favor";
+  String toString() => 'Standings: $nickname - $subleague $division ($wins - $losses) Favor: #$favor';
   
 }

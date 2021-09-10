@@ -21,9 +21,9 @@ Future<void> calculateChances(List<List<TeamStandings>> subStandings, int numSim
   List<PlayoffBracketEntry> entries) async {
   simData = await getSimulationData();
   season = await getSeason(simData.season);
-  print("Getting game data");
+  print('Getting game data');
   games = await getAllGames(simData.season);
-  print("Getting postseason data");
+  print('Getting postseason data');
     
   //print(games[0]);
 
@@ -52,16 +52,16 @@ Future<List<PlayoffBracketEntry>> calculatePlayoffBracketEntries(
   String league1 = subStandings[0][0].subleague;
   String league2 = subStandings[1][0].subleague;
   
-  print("Leagues: $league1 $league2");
+  print('Leagues: $league1 $league2');
   
   //default entries for no post season data
   List<PlayoffBracketEntry> entries = List.generate(19, (i) =>
     new PlayoffBracketEntry(      
       position: i,
       seed: 0,
-      teamID: "",
-      teamNickname: "TBD",
-      subleague: "TBD",
+      teamID: '',
+      teamNickname: 'TBD',
+      subleague: 'TBD',
       wins: 0));
   
   // 1-indexed for display
@@ -76,16 +76,16 @@ Future<List<PlayoffBracketEntry>> calculatePlayoffBracketEntries(
   entries[9].seed = 3;    
   entries[10].seed = 1;
   
-  entries[0].teamNickname = "Seed";
-  entries[1].teamNickname = "Seed";
-  entries[2].teamNickname = "Seed";
-  entries[3].teamNickname = "Seed";  
-  entries[4].teamNickname = "Seed";
-  entries[6].teamNickname = "Seed";
-  entries[7].teamNickname = "Seed";  
-  entries[8].teamNickname = "Seed";
-  entries[9].teamNickname = "Seed";    
-  entries[10].teamNickname = "Seed";
+  entries[0].teamNickname = 'Seed';
+  entries[1].teamNickname = 'Seed';
+  entries[2].teamNickname = 'Seed';
+  entries[3].teamNickname = 'Seed';  
+  entries[4].teamNickname = 'Seed';
+  entries[6].teamNickname = 'Seed';
+  entries[7].teamNickname = 'Seed';  
+  entries[8].teamNickname = 'Seed';
+  entries[9].teamNickname = 'Seed';    
+  entries[10].teamNickname = 'Seed';
   
   entries[0].subleague = league1;
   entries[1].subleague = league1;
@@ -117,11 +117,11 @@ Future<List<PlayoffBracketEntry>> calculatePlayoffBracketEntries(
   // Wild Card Round (2 wins needed)
   PlayoffRound round0 = postSeason.playoffRounds.values.firstWhere(
     (r) => r.roundNumber == 0);
-  print ("Round0: $round0");
+  print ('Round0: $round0');
   
   //matchup seeds are 0-indexed, lower seed is always home
   PlayoffMatchup league1Matchup = locateMatchup(postSeason, round0, subStandings[0]);
-  print ("league1Matchup: $league1Matchup");
+  print ('league1Matchup: $league1Matchup');
   TeamStandings homeStanding = subStandings[0].firstWhere((standing) => 
     standing.id == league1Matchup.homeTeam);
   TeamStandings awayStanding = subStandings[0].firstWhere((standing) => 
@@ -130,7 +130,7 @@ Future<List<PlayoffBracketEntry>> calculatePlayoffBracketEntries(
     homeStanding, awayStanding, league1Matchup);
 
   PlayoffMatchup league2Matchup = locateMatchup(postSeason, round0, subStandings[1]);    
-  print ("league2Matchup: $league2Matchup");
+  print ('league2Matchup: $league2Matchup');
   homeStanding = subStandings[1].firstWhere((standing) => 
     standing.id == league2Matchup.homeTeam);
   awayStanding = subStandings[1].firstWhere((standing) => 
@@ -141,12 +141,12 @@ Future<List<PlayoffBracketEntry>> calculatePlayoffBracketEntries(
   // Round 2 (3 wins needed)
   PlayoffRound round1 = postSeason.playoffRounds.values.firstWhere(
     (r) => r.roundNumber == 1);
-  print ("Round1: $round1");
+  print ('Round1: $round1');
   if(round1.matchupIDs.length > 0){
     PlayoffMatchup matchup = locateMatchup(postSeason, 
       round1, subStandings[0], seed: 0 );
     
-    print ("league1 Matchup High Seed: $matchup");
+    print ('league1 Matchup High Seed: $matchup');
     homeStanding = subStandings[0].firstWhere((standing) => 
       standing.id == matchup.homeTeam);
     awayStanding = subStandings[0].firstWhere((standing) => 
@@ -157,7 +157,7 @@ Future<List<PlayoffBracketEntry>> calculatePlayoffBracketEntries(
     matchup = locateMatchup(postSeason, 
       round1, subStandings[0], seed: 1 );
     
-    print ("league1 Matchup Low Seed: $matchup");
+    print ('league1 Matchup Low Seed: $matchup');
     homeStanding = subStandings[0].firstWhere((standing) => 
       standing.id == matchup.homeTeam);
     awayStanding = subStandings[0].firstWhere((standing) => 
@@ -168,7 +168,7 @@ Future<List<PlayoffBracketEntry>> calculatePlayoffBracketEntries(
     matchup = locateMatchup(postSeason, 
       round1, subStandings[1], seed: 1 );
     
-    print ("league2 Matchup Low Seed: $matchup");
+    print ('league2 Matchup Low Seed: $matchup');
     homeStanding = subStandings[1].firstWhere((standing) => 
       standing.id == matchup.homeTeam);
     awayStanding = subStandings[1].firstWhere((standing) => 
@@ -179,7 +179,7 @@ Future<List<PlayoffBracketEntry>> calculatePlayoffBracketEntries(
       matchup = locateMatchup(postSeason, 
       round1, subStandings[1], seed: 0 );
     
-    print ("league2 Matchup High Seed: $matchup");
+    print ('league2 Matchup High Seed: $matchup');
     homeStanding = subStandings[1].firstWhere((standing) => 
       standing.id == matchup.homeTeam);
     awayStanding = subStandings[1].firstWhere((standing) => 
@@ -191,13 +191,13 @@ Future<List<PlayoffBracketEntry>> calculatePlayoffBracketEntries(
   // Subleague series (3 wins needed)
   PlayoffRound round2 = postSeason.playoffRounds.values.firstWhere(
     (r) => r.roundNumber == 2);
-  //print ("Round2: $round2");
+  //print ('Round2: $round2');
 
   if(round2.matchupIDs.length > 0){
     PlayoffMatchup matchup = locateMatchup(postSeason, 
       round2, subStandings[0]);
     
-    print ("league1 Finals Matchup: $matchup");
+    print ('league1 Finals Matchup: $matchup');
     homeStanding = subStandings[0].firstWhere((standing) => 
       standing.id == matchup.homeTeam);
     awayStanding = subStandings[0].firstWhere((standing) => 
@@ -208,7 +208,7 @@ Future<List<PlayoffBracketEntry>> calculatePlayoffBracketEntries(
     matchup = locateMatchup(postSeason, 
       round2, subStandings[1]);
     
-    print ("league2 Finals Matchup: $matchup");
+    print ('league2 Finals Matchup: $matchup');
     homeStanding = subStandings[1].firstWhere((standing) => 
       standing.id == matchup.homeTeam);
     awayStanding = subStandings[1].firstWhere((standing) => 
@@ -220,12 +220,12 @@ Future<List<PlayoffBracketEntry>> calculatePlayoffBracketEntries(
   // ILB Series (3 wins needed)
   PlayoffRound round3 = postSeason.playoffRounds.values.firstWhere(
     (r) => r.roundNumber == 3);
-  //print ("Round3: $round3");
+  //print ('Round3: $round3');
   if(round3.matchupIDs.length > 0){
     PlayoffMatchup matchup = 
         postSeason.playoffMatchups[round3.matchupIDs[0]]!;
     
-    print ("ILB Finals Matchup: $matchup");
+    print ('ILB Finals Matchup: $matchup');
     TeamStandings league1Standing = subStandings[0].firstWhere((standing) => 
       standing.id == matchup.homeTeam ||
       standing.id == matchup.awayTeam);
@@ -254,14 +254,14 @@ Future<List<PlayoffBracketEntry>> calculatePlayoffBracketEntries(
     }
     
     if(entries[16].wins >= 3){
-      print("$league1 team won the ILB");
+      print('$league1 team won the ILB');
       entries[18].teamID = entries[16].teamID;
       entries[18].teamNickname = entries[16].teamNickname;
       entries[18].wins = entries[16].wins;
       entries[18].seed = entries[16].seed;
       entries[18].subleague = entries[16].subleague;
     } else if(entries[17].wins >= 3) {
-      print("$league2 team won the ILB");
+      print('$league2 team won the ILB');
       entries[18].teamID = entries[17].teamID;
       entries[18].teamNickname = entries[17].teamNickname;
       entries[18].wins = entries[17].wins;
@@ -278,7 +278,7 @@ Future<List<PlayoffBracketEntry>> calculatePlayoffBracketEntries(
 
 PlayoffMatchup locateMatchup(CompletePostseason postSeason, PlayoffRound round,
   List<TeamStandings> subStandings, {int? seed} ){
-  print("Searching for matchup with seed: $seed");
+  print('Searching for matchup with seed: $seed');
   if(seed != null){
     return postSeason.playoffMatchups.values.firstWhere(
       (matchup) => round.matchupIDs.contains(matchup.id) &&
@@ -298,7 +298,7 @@ void populatePlayoffMatchupEntries(PlayoffBracketEntry homeEntry,
     PlayoffBracketEntry awayEntry, TeamStandings homeStanding, 
     TeamStandings awayStanding, PlayoffMatchup matchup){
   homeEntry.teamID = matchup.homeTeam;
-  awayEntry.teamID = matchup.awayTeam ?? "Away Team";
+  awayEntry.teamID = matchup.awayTeam ?? 'Away Team';
   homeEntry.teamNickname = homeStanding.nickname;
   awayEntry.teamNickname = awayStanding.nickname;
   homeEntry.wins = matchup.homeWins;
@@ -332,14 +332,14 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
     simulateSeason(games, sims);
     simulatePostSeason(simsByLeague);
     if (count % 1000 == 0){
-      print("Completed simulation count $count");
+      print('Completed simulation count $count');
     }
     
     //sort and count positions
     simsByLeague.forEach((simLeague) {
       sortTeamSims(simLeague);
       TeamSim sim;
-      //print("Sorted simleague: $simLeague");
+      //print('Sorted simleague: $simLeague');
       for (int i = 0; i < simLeague.length; i++){
         sim = simLeague[i];
         switch(i){
@@ -375,13 +375,13 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
   }  
   
   //update standings with counts / numSims and formatted
-  print("Completed $numSims simulations");
-  print("poCounts $poCounts");
-  print("postCounts $postCounts");
-  print("League Wild Cards: ${simData.leagueWildCards}");
+  print('Completed $numSims simulations');
+  print('poCounts $poCounts');
+  print('postCounts $postCounts');
+  print('League Wild Cards: ${simData.leagueWildCards}');
   standings.forEach((standingList) => standingList.forEach((standing) {
-    bool top3 = standing.winning.take(3).any((win) => win == "^");
-    bool top4 = top3 || standing.winning[3] == "^";
+    bool top3 = standing.winning.take(3).any((win) => win == '^');
+    bool top4 = top3 || standing.winning[3] == '^';
     
     for(int i = 0; i < 5; i++){
       switch(standing.winning[i]){
@@ -398,24 +398,24 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
       //postseason percents
       //TODO handle ^ and X in i=3 and 4
       if(i == 3 && top3) {
-        standing.post[i] = "^";
+        standing.post[i] = '^';
       } else if ( i == 3 && top4 && !simData.leagueWildCards){
-        standing.post[i] = "^";
+        standing.post[i] = '^';
       } else if ( i == 4 && top4 && simData.leagueWildCards){
-        standing.post[i] = "^";
+        standing.post[i] = '^';
       } else {
         if(simData.leagueWildCards){
           standing.post[i] = formatPercent(postCounts[standing.id]![i] / numSims);
         } else {
-          if (standing.winning[4] == "PT" && i < 4){
-            standing.post[i] = "X";
+          if (standing.winning[4] == 'PT' && i < 4){
+            standing.post[i] = 'X';
           } else if (i < 4){
             standing.post[i] = formatPercent(postCounts[standing.id]![i] / numSims);
           }
         }
       }
     }
-    print("$standing Po ${standing.po} Post ${standing.post} Winning ${standing.winning}");
+    print('$standing Po ${standing.po} Post ${standing.post} Winning ${standing.winning}');
   }));
   
 }
@@ -425,7 +425,7 @@ void simulateSeason(List<Game> games, Map<String, TeamSim> sims){
   games.where((g) => !g.gameComplete).forEach((g) {
     TeamSim awaySim = sims[g.awayTeam]!;
     TeamSim homeSim = sims[g.homeTeam]!;
-    //print("Simulate outcome of $g");
+    //print('Simulate outcome of $g');
     TeamSim winner = simulateGame(awaySim, homeSim, sims.length);
     
     if(winner == awaySim){
@@ -463,11 +463,11 @@ void simulatePostSeason(List<List<TeamSim>> simsByLeague){
       TeamSim wildCard = simLeague[wildCardIndex];
       simLeague.take(4).forEach((sim) => sim.wcSeries = true);
       wildCard.wcSeries = true;
-      //print("WildCard pick $wildCardIndex $wildCard");
+      //print('WildCard pick $wildCardIndex $wildCard');
       //simulate 3 win series with wild card pic
       TeamSim wildSeriesWinner = simulateSeries(simLeague[3], wildCard, 2, teamCount);
       round1Sims.add(wildSeriesWinner);
-      //print("WildCard pick $wildCardIndex $wildCard WildSeriesWinner $wildSeriesWinner");
+      //print('WildCard pick $wildCardIndex $wildCard WildSeriesWinner $wildSeriesWinner');
       
     } else {
       round1Sims.add(simLeague[3]);
@@ -489,7 +489,7 @@ void simulatePostSeason(List<List<TeamSim>> simsByLeague){
   // ilb round
   leagueChampSims.forEach((sim) => sim.ilbSeries = true);
   TeamSim ilbWinner = simulateSeries(leagueChampSims[0], leagueChampSims[1], 3, teamCount);
-  //print("ILBWinner: $ilbWinner");
+  //print('ILBWinner: $ilbWinner');
   ilbWinner.ilbChamp = true;
   
 }
@@ -499,8 +499,8 @@ TeamSim simulateGame(TeamSim awaySim, TeamSim homeSim, int teamCount){
   num awayChance = .5;
   if(awaySim.notLosses_save != homeSim.notLosses_save ||
     awaySim.losses_save != homeSim.losses_save){
-    //print("Uneven match: ${awaySim.actualWins_save}-${awaySim.losses_save} vs. " +
-    //  "${homeSim.actualWins_save}-${homeSim.losses_save}");
+    //print('Uneven match: ${awaySim.actualWins_save}-${awaySim.losses_save} vs. ' +
+    //  '${homeSim.actualWins_save}-${homeSim.losses_save}');
     //Pa = (WPa * (1 - WPh)) / 
     // ((WPa * (1 - WPh) + WPh * ( 1 - WPa)))
     num WPa = awaySim.notLosses_save / (awaySim.losses_save + awaySim.notLosses_save);
@@ -512,7 +512,7 @@ TeamSim simulateGame(TeamSim awaySim, TeamSim homeSim, int teamCount){
     awayChance = awayChance - ((awayChance - .5) / (teamCount - 1));
   }
   
-  //print("Calculated away win chance: $awayChance");    
+  //print('Calculated away win chance: $awayChance');    
   if(rand.nextDouble() < awayChance){
     return awaySim;
   } else {
@@ -573,11 +573,11 @@ void sortTeamSims(List<TeamSim> teams) {
     team.division == firstDiv) ||
     teams.take(4).every((team) =>
     team.division != firstDiv)){
-    //print("Top four teams are the same division");
+    //print('Top four teams are the same division');
     //find top of other division
     TeamSim otherLeader = teams.firstWhere((team) =>
       team.division != firstDiv);
-    //print("Moving $otherLeader");
+    //print('Moving $otherLeader');
     teams.remove(otherLeader);
     teams.insert(3, otherLeader);
   }  
@@ -586,11 +586,11 @@ void sortTeamSims(List<TeamSim> teams) {
 String formatPercent(num perc){
   perc *= 100;
   if(perc < 1){
-    return "<1%";
+    return '<1%';
   } else if (perc > 99){
-    return ">99%";
+    return '>99%';
   } else {
-    return "${perc.floor().toString()}%";
+    return '${perc.floor().toString()}%';
   }
 }
 
@@ -632,7 +632,7 @@ class TeamSim {
     ilbChamp = false;
   }
   
-  String toString() => "$id Wins $wins Record: ($notLosses - $losses) " +
-    "Saved: $notLosses_save $wins_save $losses_save";
+  String toString() => '$id Wins $wins Record: ($notLosses - $losses) ' +
+    'Saved: $notLosses_save $wins_save $losses_save';
   
 }

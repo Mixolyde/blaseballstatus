@@ -15,10 +15,10 @@ class SiteData {
     [sub1name.split(' ')[1],
     sub2name.split(' ')[1]];
   
-  SiteData.fromMap({this.lastUpdate = "", 
+  SiteData.fromMap({this.lastUpdate = '', 
     this.season = 0, this.day = 0,
-    this.sub1id = "", this.sub1name = "",
-    this.sub2id = "", this.sub2name = "",
+    this.sub1id = '', this.sub1name = '',
+    this.sub2id = '', this.sub2name = '',
     this.attributes = const []});
   
   SiteData(this.lastUpdate, 
@@ -54,8 +54,8 @@ class SiteData {
   };
   
   @override
-  String toString() => "$lastUpdate Season:$season Day:$day $sub1name $sub2name";
+  String toString() => '$lastUpdate Season:$season Day:$day $sub1name $sub2name';
   
-  bool get leagueWildCards => attributes.contains("WILD_CARDS");
+  bool get leagueWildCards => attributes.contains('WILD_CARDS');
 
 }

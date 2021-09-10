@@ -118,12 +118,12 @@ void main() async {
       
       List<int> numCantReach = List.filled(4, 0);
       standings.forEach((league) => league.forEach((stand) {
-        print("$stand Po ${stand.po} Post ${stand.post} Winning: ${stand.winning}");
+        print('$stand Po ${stand.po} Post ${stand.post} Winning: ${stand.winning}');
         for(int i = 0; i < 5; i++){
           expect(stand.po[i], isNot('-'));
           if (i < 4){
             expect(stand.post[i], isNot('-'));
-            if(stand.post[i] == "X"){
+            if(stand.post[i] == 'X'){
               numCantReach[i]++;
             }            
           } else {
@@ -225,7 +225,7 @@ void main() async {
           expect(stand.po[i], isNot('-'));
           if (i < 4){
             expect(stand.post[i], isNot('-'));
-            if(stand.post[i] == "X"){
+            if(stand.post[i] == 'X'){
               numCantReach[i]++;
             }            
           } else {
