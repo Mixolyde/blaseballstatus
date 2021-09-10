@@ -12,3 +12,5 @@ include: package:pedantic/analysis_options.yaml
 analyzer:
 #   exclude:
 #     - path/to/excluded/files/**
+  errors:
+    avoid_relative_lib_imports: ignore

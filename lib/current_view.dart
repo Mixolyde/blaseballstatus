@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'package:intl/intl.dart';
-
 enum View {about, winsbehind, winningmagic, partytimemagic, chances, postseason, bracket}
 
 class CurrentView {
@@ -15,8 +12,8 @@ class CurrentView {
   CurrentView.fromHash(String hash){
     print('Restoring view from hash: $hash');
     //#activeLeague=0&activeView=0&groupByDiv=false
-    RegExp exp = RegExp(r'#activeLeague=([0|1])&activeView=(\w+)&groupByDiv=(\w+)');
-    Match? match = exp.firstMatch(hash);
+    var exp = RegExp(r'#activeLeague=([0|1])&activeView=(\w+)&groupByDiv=(\w+)');
+    var match = exp.firstMatch(hash);
     if(match != null){
       //print(match.groups([1, 2, 3]));
       activeLeague = int.parse(match.group(1) ?? '0');
@@ -46,9 +43,8 @@ class CurrentView {
     'groupByDiv': groupByDiv,
   };
   
-  String toHash() => '#activeLeague=${activeLeague}' +
-    '&activeView=${activeView.index}' +
-    '&groupByDiv=${groupByDiv}';
+  String toHash() => '#activeLeague=$activeLeague&activeView=${activeView.index}&groupByDiv=$groupByDiv';
   
+  @override
   String toString() => 'League: $activeLeague View: $activeView GroupByDiv: $groupByDiv';
 }

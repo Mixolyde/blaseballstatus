@@ -14,10 +14,10 @@ Future<List<Game>> getAllGames(int season) async {
     + season.toString() ));
   //print('Response body: ${response.body}');
   
-  List<Game> games = [];
+  var games = <Game>[];
   List<dynamic> objects = json.decode(response.body)['data'];
   objects.forEach((o){
-    games.add(new Game.fromJson(o['data']));
+    games.add(Game.fromJson(o['data']));
   });
 
   return games;

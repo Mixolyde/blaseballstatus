@@ -2,7 +2,6 @@ library database_api;
 
 import 'dart:convert';
 import 'package:http/http.dart';
-import 'site_objects.dart';
 
 part 'src/game.dart';
 part 'src/league.dart';
@@ -70,22 +69,22 @@ Future<Subleague> getSubleague(String id) async {
 Future<List<Team>> getTeams() async {
   var response = await get(Uri.parse(_allTeamsUrl));
   List<dynamic> parsed = json.decode(response.body);
-  List<Team> teams = parsed.map((json) => Team.fromJson(json)).toList();
+  var teams = parsed.map((json) => Team.fromJson(json)).toList();
   return teams;
 }
 
 Future<List<Game>> getGames(int season, int day) async {
   var response = await get(Uri.parse(_gamesByDateUrl + '?day=$day&season=$season'));
   List<dynamic> parsed = json.decode(response.body);
-  List<Game> games = parsed.map((json) => Game.fromJson(json)).toList();
+  var games = parsed.map((json) => Game.fromJson(json)).toList();
   return games;
 }
 
 Future<List<Game>> getAllGames(int season) async {
-  List<Game> games = [];
-  for(int day = 0; day < 130; day++){
+  var games = <Game>[];
+  for(var day = 0; day < 130; day++){
     //print('Getting day games: Season $season Day $day');
-    List<Game> dayGames = await getGames(season, day);
+    var dayGames = await getGames(season, day);
     games.addAll(dayGames);
   }
 
@@ -103,11 +102,12 @@ Future<Playoffs?> getPlayoffs(int season) async {
   var response = await get(Uri.parse(_playoffsUrl 
     + season.toString() ));
   //print('Response body: ***${response.body}***');
-  if(response.body == null || response.body == '' 
-    || response.body.contains('error'))
+  if(response.body == '' 
+    || response.body.contains('error')) {
     return null;
-  else
+  } else {
     return Playoffs.fromJson(json.decode(response.body));
+  }
 }
 
 Future<PlayoffRound> getPlayoffRound(String roundID) async {
@@ -121,19 +121,19 @@ Future<List<PlayoffMatchup>> getPlayoffMatchups(List<String> matchIDs) async {
     + matchIDs.join(',')));
   print('Response body: ${response.body}');
   List<dynamic> parsed = json.decode(response.body);
-  List<PlayoffMatchup> matchups = parsed.map((json) => 
+  var matchups = parsed.map((json) => 
     PlayoffMatchup.fromJson(json)).toList();
   
   return matchups;
 }
 
 Future<CompletePostseason?> getCompletePostseason(int season) async {
-  Playoffs? playoffs = await getPlayoffs(season);
+  var playoffs = await getPlayoffs(season);
   if(playoffs == null){
     return null;
   }
-  Map<String, PlayoffRound> playoffRounds = new Map<String, PlayoffRound>();
-  Map<String, PlayoffMatchup> playoffMatchups = new Map<String, PlayoffMatchup>();
+  var playoffRounds = Map<String, PlayoffRound>();
+  var playoffMatchups = Map<String, PlayoffMatchup>();
   
   await Future.forEach(playoffs.rounds, (id) async {
     PlayoffRound round = await getPlayoffRound(id as String);

@@ -300,8 +300,6 @@ void setWinningMagicNumber(TeamStandings standing, TeamStandings target,
 
 void _calculatePartyTimeMagicNumbers(List<TeamStandings> teamStandings) {
   var firstDiv = teamStandings[0].division;
-  var secondDiv = teamStandings.firstWhere((team) =>
-    team.division != firstDiv).division;
   var top3Same = teamStandings.take(3).every((team) =>
     team.division == firstDiv);
     
