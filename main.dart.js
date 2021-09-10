@@ -7555,7 +7555,7 @@ j:function(a){return this.b}}
 Q.cf.prototype={
 at:function(){var s=t.z
 return P.eN(["activeLeague",this.a,"activeView",this.b.a,"groupByDiv",this.c],s,s)},
-df:function(){return"#activeLeague="+this.a+("&activeView="+this.b.a)+("&groupByDiv="+this.c)},
+df:function(){return"#activeLeague="+this.a+"&activeView="+this.b.a+"&groupByDiv="+this.c},
 j:function(a){return"League: "+this.a+" View: "+this.b.j(0)+" GroupByDiv: "+this.c}}
 F.kn.prototype={
 $1:function(a){return t.A.a(a).e===this.a},
