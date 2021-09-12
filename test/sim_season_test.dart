@@ -415,7 +415,7 @@ Future<void> setNoWildCardSimData() async {
     subEraTitle: currentSimData.subEraTitle,
     attributes: ['TEST_ATTR1', 'TEST_ATTR2', 'TEST_ATTR3'],
   );
-  setLateData(simData);
+  await setLateData(simData);
 }
 
 Future<void> setWildCardSimData() async {
@@ -432,5 +432,5 @@ Future<void> setWildCardSimData() async {
     subEraTitle: currentSimData.subEraTitle,
     attributes: ['TEST_ATTR1', 'TEST_ATTR2', 'TEST_ATTR3','WILD_CARDS'],
   );
-  setLateData(simData);
+  await setLateData(simData);
 }

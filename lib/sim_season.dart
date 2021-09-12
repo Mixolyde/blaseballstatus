@@ -1,15 +1,12 @@
-import 'dart:convert';
 import 'dart:math';
-import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
-import 'calc_stats.dart';
 import 'database_api.dart';
 import 'site_objects.dart';
 
 late SimulationData simData;
 late Season season;
 List<Game> games = [];
-Random rand = new Random(0);
+Random rand = Random(0);
 
 @visibleForTesting
 Future<void> setLateData(SimulationData testSimData) async {
@@ -49,14 +46,14 @@ Future<void> calculateChances(List<List<TeamStandings>> subStandings, int numSim
 Future<List<PlayoffBracketEntry>> calculatePlayoffBracketEntries(
   CompletePostseason? postSeason, List<List<TeamStandings>> subStandings) async {
     
-  String league1 = subStandings[0][0].subleague;
-  String league2 = subStandings[1][0].subleague;
+  var league1 = subStandings[0][0].subleague;
+  var league2 = subStandings[1][0].subleague;
   
   print('Leagues: $league1 $league2');
   
   //default entries for no post season data
-  List<PlayoffBracketEntry> entries = List.generate(19, (i) =>
-    new PlayoffBracketEntry(      
+  var entries = List.generate(19, (i) =>
+    PlayoffBracketEntry(      
       position: i,
       seed: 0,
       teamID: '',
@@ -115,21 +112,21 @@ Future<List<PlayoffBracketEntry>> calculatePlayoffBracketEntries(
   print(postSeason.playoffRounds.values);
   
   // Wild Card Round (2 wins needed)
-  PlayoffRound round0 = postSeason.playoffRounds.values.firstWhere(
+  var round0 = postSeason.playoffRounds.values.firstWhere(
     (r) => r.roundNumber == 0);
   print ('Round0: $round0');
   
   //matchup seeds are 0-indexed, lower seed is always home
-  PlayoffMatchup league1Matchup = locateMatchup(postSeason, round0, subStandings[0]);
+  var league1Matchup = locateMatchup(postSeason, round0, subStandings[0]);
   print ('league1Matchup: $league1Matchup');
-  TeamStandings homeStanding = subStandings[0].firstWhere((standing) => 
+  var homeStanding = subStandings[0].firstWhere((standing) => 
     standing.id == league1Matchup.homeTeam);
-  TeamStandings awayStanding = subStandings[0].firstWhere((standing) => 
+  var awayStanding = subStandings[0].firstWhere((standing) => 
     standing.id == league1Matchup.awayTeam);
   populatePlayoffMatchupEntries(entries[0], entries[1], 
     homeStanding, awayStanding, league1Matchup);
 
-  PlayoffMatchup league2Matchup = locateMatchup(postSeason, round0, subStandings[1]);    
+  var league2Matchup = locateMatchup(postSeason, round0, subStandings[1]);    
   print ('league2Matchup: $league2Matchup');
   homeStanding = subStandings[1].firstWhere((standing) => 
     standing.id == league2Matchup.homeTeam);
@@ -139,10 +136,10 @@ Future<List<PlayoffBracketEntry>> calculatePlayoffBracketEntries(
     homeStanding, awayStanding, league2Matchup);
   
   // Round 2 (3 wins needed)
-  PlayoffRound round1 = postSeason.playoffRounds.values.firstWhere(
+  var round1 = postSeason.playoffRounds.values.firstWhere(
     (r) => r.roundNumber == 1);
   print ('Round1: $round1');
-  if(round1.matchupIDs.length > 0){
+  if(round1.matchupIDs.isNotEmpty){
     PlayoffMatchup matchup = locateMatchup(postSeason, 
       round1, subStandings[0], seed: 0 );
     
@@ -189,12 +186,12 @@ Future<List<PlayoffBracketEntry>> calculatePlayoffBracketEntries(
   }
   
   // Subleague series (3 wins needed)
-  PlayoffRound round2 = postSeason.playoffRounds.values.firstWhere(
+  var round2 = postSeason.playoffRounds.values.firstWhere(
     (r) => r.roundNumber == 2);
   //print ('Round2: $round2');
 
-  if(round2.matchupIDs.length > 0){
-    PlayoffMatchup matchup = locateMatchup(postSeason, 
+  if(round2.matchupIDs.isNotEmpty){
+    var matchup = locateMatchup(postSeason, 
       round2, subStandings[0]);
     
     print ('league1 Finals Matchup: $matchup');
@@ -218,18 +215,17 @@ Future<List<PlayoffBracketEntry>> calculatePlayoffBracketEntries(
   }
   
   // ILB Series (3 wins needed)
-  PlayoffRound round3 = postSeason.playoffRounds.values.firstWhere(
+  var round3 = postSeason.playoffRounds.values.firstWhere(
     (r) => r.roundNumber == 3);
   //print ('Round3: $round3');
-  if(round3.matchupIDs.length > 0){
-    PlayoffMatchup matchup = 
-        postSeason.playoffMatchups[round3.matchupIDs[0]]!;
+  if(round3.matchupIDs.isNotEmpty){
+    var matchup = postSeason.playoffMatchups[round3.matchupIDs[0]]!;
     
     print ('ILB Finals Matchup: $matchup');
-    TeamStandings league1Standing = subStandings[0].firstWhere((standing) => 
+    var league1Standing = subStandings[0].firstWhere((standing) => 
       standing.id == matchup.homeTeam ||
       standing.id == matchup.awayTeam);
-    TeamStandings league2Standing = subStandings[1].firstWhere((standing) => 
+    var league2Standing = subStandings[1].firstWhere((standing) => 
       standing.id == matchup.awayTeam ||
       standing.id == matchup.homeTeam);
 
@@ -310,16 +306,16 @@ void populatePlayoffMatchupEntries(PlayoffBracketEntry homeEntry,
 
 void runSimulations(List<Game> games, List<List<TeamStandings>> standings, 
   int numSims){
-  Map<String, TeamSim> sims = mapTeamSims(standings, games);
+  var sims = mapTeamSims(standings, games);
   
   //simulate season X times and gather results
-  Map<String, List<num>> poCounts = new Map<String, List<num>>();
-  Map<String, List<num>> postCounts = new Map<String, List<num>>();
+  var poCounts = <String, List<num>>{};
+  var postCounts = <String, List<num>>{};
   // counts for each league playoff berth and no playoffs
   sims.keys.forEach((key) => poCounts[key] = [0, 0, 0, 0, 0]);
   // counts for ILB champ, ILB series, League series, Round 1, WC Round
   sims.keys.forEach((key) => postCounts[key] = [0, 0, 0, 0, 0]);
-  List<List<TeamSim>> simsByLeague = [];
+  var simsByLeague = <List<TeamSim>>[];
   standings.forEach((standingList) {
     List<TeamSim> simList = [];
     standingList.forEach((standing) {
@@ -380,10 +376,10 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
   print('postCounts $postCounts');
   print('League Wild Cards: ${simData.leagueWildCards}');
   standings.forEach((standingList) => standingList.forEach((standing) {
-    bool top3 = standing.winning.take(3).any((win) => win == '^');
-    bool top4 = top3 || standing.winning[3] == '^';
+    var top3 = standing.winning.take(3).any((win) => win == '^');
+    var top4 = top3 || standing.winning[3] == '^';
     
-    for(int i = 0; i < 5; i++){
+    for(var i = 0; i < 5; i++){
       switch(standing.winning[i]){
         case '^':
         case 'X':
@@ -423,10 +419,10 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
 void simulateSeason(List<Game> games, Map<String, TeamSim> sims){
   //simulate unplayed games
   games.where((g) => !g.gameComplete).forEach((g) {
-    TeamSim awaySim = sims[g.awayTeam]!;
-    TeamSim homeSim = sims[g.homeTeam]!;
+    var awaySim = sims[g.awayTeam]!;
+    var homeSim = sims[g.homeTeam]!;
     //print('Simulate outcome of $g');
-    TeamSim winner = simulateGame(awaySim, homeSim, sims.length);
+    var winner = simulateGame(awaySim, homeSim, sims.length);
     
     if(winner == awaySim){
       awaySim.notLosses++;
@@ -444,12 +440,12 @@ void simulatePostSeason(List<List<TeamSim>> simsByLeague){
   int teamCount = simsByLeague.fold(0, (sum, sub) => sum + sub.length);
   
   //simulate complete playoff run
-  List<TeamSim> leagueChampSims = [];
+  var leagueChampSims = <TeamSim>[];
   
   simsByLeague.forEach((simLeague) {
     sortTeamSims(simLeague);
     
-    List<TeamSim> round1Sims = [];
+    var round1Sims = <TeamSim>[];
     round1Sims.add(simLeague[0]);
     round1Sims.add(simLeague[1]);
     round1Sims.add(simLeague[2]);
@@ -458,8 +454,8 @@ void simulatePostSeason(List<List<TeamSim>> simsByLeague){
     
       // wild card round
       // pick a random team not in playoffs and simulate
-      int nonPlayoffCount = simLeague.length - 4;
-      int wildCardIndex = rand.nextInt(nonPlayoffCount) + 4;
+      var nonPlayoffCount = simLeague.length - 4;
+      var wildCardIndex = rand.nextInt(nonPlayoffCount) + 4;
       TeamSim wildCard = simLeague[wildCardIndex];
       simLeague.take(4).forEach((sim) => sim.wcSeries = true);
       wildCard.wcSeries = true;

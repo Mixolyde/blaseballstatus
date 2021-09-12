@@ -132,24 +132,21 @@ Future<CompletePostseason?> getCompletePostseason(int season) async {
   if(playoffs == null){
     return null;
   }
-  var playoffRounds = Map<String, PlayoffRound>();
-  var playoffMatchups = Map<String, PlayoffMatchup>();
+  var playoffRounds = <String, PlayoffRound>{};
+  var playoffMatchups = <String, PlayoffMatchup>{};
   
-  await Future.forEach(playoffs.rounds, (id) async {
-    PlayoffRound round = await getPlayoffRound(id as String);
-    playoffRounds[id as String] = round;
+  await Future.forEach(playoffs.rounds, (String id) async {
+    var round = await getPlayoffRound(id);
+    playoffRounds[id] = round;
     print('Fetched round ${playoffRounds[id]} with ${playoffRounds[id]?.matchupIDs.length} matchupIDs');
-    if (round.matchupIDs.length > 0){
-      List<PlayoffMatchup> matchups = await 
-        getPlayoffMatchups(round.matchupIDs);
-      if(matchups != null){
-        matchups.forEach((matchup){
-          playoffMatchups[matchup.id] = matchup;
-        });
-      }
+    if (round.matchupIDs.isNotEmpty){
+      var matchups = await getPlayoffMatchups(round.matchupIDs);
+      matchups.forEach((matchup){
+        playoffMatchups[matchup.id] = matchup;
+      });
     }
   });
   
-  return new CompletePostseason(id: playoffs.id, playoffs: playoffs, 
+  return CompletePostseason(id: playoffs.id, playoffs: playoffs, 
     playoffRounds: playoffRounds, playoffMatchups: playoffMatchups);
 }
