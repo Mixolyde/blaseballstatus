@@ -10,7 +10,7 @@ class CompletePostseason {
     required this.playoffRounds, required this.playoffMatchups});
   
   @override
-  String toString() => 'Complete PostSeason ${playoffRounds.keys.length} Rounds ' +
+  String toString() => 'Complete PostSeason ${playoffRounds.keys.length} Rounds '
     '${playoffMatchups.keys.length} Matchups';
 }
 

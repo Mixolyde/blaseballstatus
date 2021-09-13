@@ -140,7 +140,7 @@ Future<List<PlayoffBracketEntry>> calculatePlayoffBracketEntries(
     (r) => r.roundNumber == 1);
   print ('Round1: $round1');
   if(round1.matchupIDs.isNotEmpty){
-    PlayoffMatchup matchup = locateMatchup(postSeason, 
+    var matchup = locateMatchup(postSeason, 
       round1, subStandings[0], seed: 0 );
     
     print ('league1 Matchup High Seed: $matchup');
@@ -317,14 +317,14 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
   sims.keys.forEach((key) => postCounts[key] = [0, 0, 0, 0, 0]);
   var simsByLeague = <List<TeamSim>>[];
   standings.forEach((standingList) {
-    List<TeamSim> simList = [];
+    var simList = <TeamSim>[];
     standingList.forEach((standing) {
       simList.add(sims[standing.id]!);
     });
     simsByLeague.add(simList);
   });
   
-  for (int count = 0; count < numSims; count++){
+  for (var count = 0; count < numSims; count++){
     simulateSeason(games, sims);
     simulatePostSeason(simsByLeague);
     if (count % 1000 == 0){
@@ -336,7 +336,7 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
       sortTeamSims(simLeague);
       TeamSim sim;
       //print('Sorted simleague: $simLeague');
-      for (int i = 0; i < simLeague.length; i++){
+      for (var i = 0; i < simLeague.length; i++){
         sim = simLeague[i];
         switch(i){
           case 0:
@@ -456,12 +456,12 @@ void simulatePostSeason(List<List<TeamSim>> simsByLeague){
       // pick a random team not in playoffs and simulate
       var nonPlayoffCount = simLeague.length - 4;
       var wildCardIndex = rand.nextInt(nonPlayoffCount) + 4;
-      TeamSim wildCard = simLeague[wildCardIndex];
+      var wildCard = simLeague[wildCardIndex];
       simLeague.take(4).forEach((sim) => sim.wcSeries = true);
       wildCard.wcSeries = true;
       //print('WildCard pick $wildCardIndex $wildCard');
       //simulate 3 win series with wild card pic
-      TeamSim wildSeriesWinner = simulateSeries(simLeague[3], wildCard, 2, teamCount);
+      var wildSeriesWinner = simulateSeries(simLeague[3], wildCard, 2, teamCount);
       round1Sims.add(wildSeriesWinner);
       //print('WildCard pick $wildCardIndex $wildCard WildSeriesWinner $wildSeriesWinner');
       
@@ -472,19 +472,19 @@ void simulatePostSeason(List<List<TeamSim>> simsByLeague){
     round1Sims.forEach((sim) => sim.r1Series = true);
     
     // round 1
-    TeamSim r1SeriesWinnerA = simulateSeries(round1Sims[0], round1Sims[3], 3, teamCount);
-    TeamSim r1SeriesWinnerB = simulateSeries(round1Sims[1], round1Sims[2], 3, teamCount);
+    var r1SeriesWinnerA = simulateSeries(round1Sims[0], round1Sims[3], 3, teamCount);
+    var r1SeriesWinnerB = simulateSeries(round1Sims[1], round1Sims[2], 3, teamCount);
     
     // subleague round
-    List<TeamSim> slRoundSims = [r1SeriesWinnerA, r1SeriesWinnerB];
+    var slRoundSims = [r1SeriesWinnerA, r1SeriesWinnerB];
     slRoundSims.forEach((sim) => sim.slSeries = true);
     
-    TeamSim slWinner = simulateSeries(slRoundSims[0], slRoundSims[1], 3, teamCount);
+    var slWinner = simulateSeries(slRoundSims[0], slRoundSims[1], 3, teamCount);
     leagueChampSims.add(slWinner);
   });
   // ilb round
   leagueChampSims.forEach((sim) => sim.ilbSeries = true);
-  TeamSim ilbWinner = simulateSeries(leagueChampSims[0], leagueChampSims[1], 3, teamCount);
+  var ilbWinner = simulateSeries(leagueChampSims[0], leagueChampSims[1], 3, teamCount);
   //print('ILBWinner: $ilbWinner');
   ilbWinner.ilbChamp = true;
   
@@ -518,8 +518,8 @@ TeamSim simulateGame(TeamSim awaySim, TeamSim homeSim, int teamCount){
 }
 
 TeamSim simulateSeries(TeamSim awaySim, TeamSim homeSim, int winsNeeded, int teamCount){
-  int awayWins = 0;
-  int homeWins = 0;
+  var awayWins = 0;
+  var homeWins = 0;
   TeamSim winner;
   while(awayWins < winsNeeded && homeWins < winsNeeded){
     winner = simulateGame(awaySim, homeSim, teamCount);
@@ -538,13 +538,13 @@ TeamSim simulateSeries(TeamSim awaySim, TeamSim homeSim, int winsNeeded, int tea
 }
 
 Map<String, TeamSim> mapTeamSims(List<List<TeamStandings>> standings, List<Game> games){
-  Map<String, TeamSim> sims = new Map<String, TeamSim>();
+  var sims = <String, TeamSim>{};
   standings.forEach((standingsList) {
     standingsList.forEach((standing) {
-      int actualWins = games.where((g) =>
+      var actualWins = games.where((g) =>
         (g.awayTeam == standing.id && g.awayScore > g.homeScore) ||
         (g.homeTeam == standing.id && g.homeScore > g.awayScore)).length;
-      TeamSim sim = new TeamSim(standing.id, actualWins,
+      var sim = TeamSim(standing.id, actualWins,
         standing.wins, standing.losses, standing.favor, standing.division);
       sim.save();
       sims[sim.id] = sim;
@@ -564,14 +564,14 @@ void sortTeamSims(List<TeamSim> teams) {
   });
   //if the first four teams are the same division, move
   //the other div leader into 4th
-  String firstDiv = teams.first.division;
+  var firstDiv = teams.first.division;
   if(teams.take(4).every((team) =>
     team.division == firstDiv) ||
     teams.take(4).every((team) =>
     team.division != firstDiv)){
     //print('Top four teams are the same division');
     //find top of other division
-    TeamSim otherLeader = teams.firstWhere((team) =>
+    var otherLeader = teams.firstWhere((team) =>
       team.division != firstDiv);
     //print('Moving $otherLeader');
     teams.remove(otherLeader);
@@ -628,7 +628,8 @@ class TeamSim {
     ilbChamp = false;
   }
   
-  String toString() => '$id Wins $wins Record: ($notLosses - $losses) ' +
+  @override
+  String toString() => '$id Wins $wins Record: ($notLosses - $losses) '
     'Saved: $notLosses_save $wins_save $losses_save';
   
 }

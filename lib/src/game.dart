@@ -92,7 +92,7 @@ class Game {
   }
 
   @override
-  String toString() => 'Day $day $awayTeamNickname @ $homeTeamNickname ' +
+  String toString() => 'Day $day $awayTeamNickname @ $homeTeamNickname '
     'Completed: $gameComplete Score $awayScore-$homeScore';
   
 }
