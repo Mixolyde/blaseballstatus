@@ -29,7 +29,7 @@ class TeamStandings {
     this.gamesPlayed = 0, this.favor = 0,
     this.gbDiv = '-', this.gbWc = '-',
     po, winning, partytime, post}){
-    for(int i = 0; i < 5; i++){
+    for(var i = 0; i < 5; i++){
       this.po[i] = po[i].toString();
       this.winning[i] = winning[i].toString();
       this.partytime[i] = partytime[i].toString();

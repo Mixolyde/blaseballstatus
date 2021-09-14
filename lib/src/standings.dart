@@ -104,17 +104,17 @@ class Standings {
   
   factory Standings.fromJson(Map<String, dynamic> json){
     var lossesMap = json['losses'] as Map<String, dynamic>;
-    Map<String, int> losses = lossesMap.map(
-      (k, v) { return new MapEntry(k.toString(), int.parse(v.toString())); });
+    var losses = lossesMap.map(
+      (k, v) { return MapEntry(k.toString(), int.parse(v.toString())); });
     var winsMap = json['wins'] as Map<String, dynamic>;  
-    Map<String, int> wins = winsMap.map(
-      (k, v) { return new MapEntry(k.toString(), int.parse(v.toString())); });
+    var wins = winsMap.map(
+      (k, v) { return MapEntry(k.toString(), int.parse(v.toString())); });
     var runsMap = json['runs'] as Map<String, dynamic>;  
-    Map<String, double> runs = runsMap.map(
-      (k, v) { return new MapEntry(k.toString(), double.parse(v.toString())); });
+    var runs = runsMap.map(
+      (k, v) { return MapEntry(k.toString(), double.parse(v.toString())); });
     var gamesPlayedMap = json['gamesPlayed'] as Map<String, dynamic>;  
-    Map<String, int> gamesPlayed = gamesPlayedMap.map(
-      (k, v) { return new MapEntry(k.toString(), int.parse(v.toString())); });
+    var gamesPlayed = gamesPlayedMap.map(
+      (k, v) { return MapEntry(k.toString(), int.parse(v.toString())); });
     return Standings(
       id: json['id'] as String,
       losses: losses,
