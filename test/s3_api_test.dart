@@ -1,9 +1,6 @@
 import 'package:test/test.dart';
 
-import '../lib/database_api.dart';
-import '../lib/calc_stats.dart';
 import '../lib/s3_api.dart';
-import '../lib/site_objects.dart';
 
 void main() {
   apiTests();
@@ -11,14 +8,14 @@ void main() {
 
 void apiTests() {
   group('api tests', () {
-    int seasonNumber = 9;
+    var seasonNumber = 9;
     test('Current Site Data', () async {
-      SiteData data = await getSiteData();
+      var data = await getSiteData();
       expect(data.season, greaterThan(seasonNumber));
     });
     test('Current Standings', () async {
-      SiteData data = await getSiteData();
-      List<List<TeamStandings>> subStandings = await getSubStandings(data);
+      var data = await getSiteData();
+      var subStandings = await getSubStandings(data);
       expect(subStandings[0], isNotNull);
       expect(subStandings[0].length, greaterThanOrEqualTo(2));
       expect(subStandings[0][0].id, isNotNull);
@@ -36,7 +33,7 @@ void apiTests() {
       expect(subStandings[1][0].partytime[0], isNot('-'));        
     });
     test('Current playoff entries', () async {
-      List<PlayoffBracketEntry> entries = await getPlayoffBracketEntries();
+      var entries = await getPlayoffBracketEntries();
       expect(entries.length, 19);
     });
   });
