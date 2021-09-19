@@ -8,8 +8,8 @@ void main() {
   apiUrl = 'https://blaseball.com/database/';
   group('get site data', () {
     test('fake attributes', () async {
-      SimulationData simData = await getSimulationData();
-      SimulationData oldSimData = new SimulationData(
+      var simData = await getSimulationData();
+      var oldSimData = SimulationData(
         id: simData.id,
         day: 113,
         league: 'd8545021-e9fc-48a3-af74-48685950a183',
@@ -21,7 +21,7 @@ void main() {
         attributes: ['TEST_ATTR1', 'TEST_ATTR2', 'TEST_ATTR3'],
       );
       
-      SiteData result = await calcSiteData(oldSimData);
+      var result = await calcSiteData(oldSimData);
       expect(result.season, 14);
       expect(result.day, 113);
       expect(result.sub1id, '943dd53f-fd89-45c3-9a56-78ac1088f57d');
@@ -32,8 +32,8 @@ void main() {
       
     });
     test('real attributes', () async {
-      SimulationData simData = await getSimulationData();
-      SimulationData oldSimData = new SimulationData(
+      var simData = await getSimulationData();
+      var oldSimData = SimulationData(
         id: simData.id,
         day: 113,
         league: 'd8545021-e9fc-48a3-af74-48685950a183',
@@ -45,7 +45,7 @@ void main() {
         attributes: ['SIM_PARTY_TIME', 'WILD_CARDS', 'OPENED_BOOK'],
       );
       
-      SiteData result = await calcSiteData(oldSimData);
+      var result = await calcSiteData(oldSimData);
       expect(result.leagueWildCards, true);
       
     });    
@@ -53,7 +53,7 @@ void main() {
   group('Sort div leader tests', () {
     test('No resort needed', () {
       var standings = getLateSeasonStandings();
-      List<TeamStandings> top6 = standings.take(6).toList();
+      var top6 = standings.take(6).toList();
       sortTeamsNotGrouped(standings);
       expect(standings[0], top6[0]);
       expect(standings[1], top6[1]);
@@ -64,7 +64,7 @@ void main() {
     });  
     test('Resort needed', () {
       var standings = getLateSeasonResortNeededStandings();
-      List<TeamStandings> top6 = standings.take(6).toList();
+      var top6 = standings.take(6).toList();
       sortTeamsNotGrouped(standings);
       expect(standings[0], top6[0]);
       expect(standings[1], top6[1]);
@@ -109,7 +109,7 @@ void main() {
       sortTeamsNotGrouped(standings);
       calculateGamesBehind(standings);
       
-      int i = 0;
+      var i = 0;
       print('${standings[i]} ${standings[i].gbDiv} ${standings[i].gbWc}');
       expect(standings[i].gbDiv, '-');
       expect(standings[i].gbWc, '-');
@@ -152,7 +152,7 @@ void main() {
       calculateMagicNumbers(standings);
       
       
-      for(int i = 0; i < 2; i++){
+      for(var i = 0; i < 2; i++){
         print('${standings[i]} ${standings[i].winning}');
         expect(standings[i].winning[4], 'X');
       }
@@ -196,7 +196,7 @@ void main() {
       expect(standings[5].winning[2], 'X');
       expect(standings[5].winning[3], 'DNCD');  
       
-      for (int i = 6; i < standings.length; i++){
+      for (var i = 6; i < standings.length; i++){
         print('${standings[i]} ${standings[i].winning}');
         expect(standings[i].winning[0], 'X');
         expect(standings[i].winning[1], 'X');
@@ -210,7 +210,7 @@ void main() {
       calculateMagicNumbers(standings);
       
       
-      for(int i = 0; i < 10; i++){
+      for(var i = 0; i < 10; i++){
         //print('${standings[i]} ${standings[i].winning}');
         expect(standings[i].winning[4], '0');
       }
@@ -240,7 +240,7 @@ void main() {
       expect(standings[3].winning[2], 'DNCD');
       expect(standings[3].winning[3], '62');   
       
-      for (int i = 4; i < standings.length; i++){
+      for (var i = 4; i < standings.length; i++){
         print('${standings[i]} ${standings[i].winning}');
         expect(standings[i].winning[0], 'DNCD');
         expect(standings[i].winning[1], 'DNCD');
@@ -254,12 +254,12 @@ void main() {
       calculateMagicNumbers(standings);
       
       
-      for(int i = 0; i < 10; i++){
+      for(var i = 0; i < 10; i++){
         //print('${standings[i]} ${standings[i].winning}');
         expect(standings[i].winning[4], '0');
       }
       
-      for(int i = 0; i < 7; i++){
+      for(var i = 0; i < 7; i++){
         //printing top table to view data
         print('${standings[i]} ${standings[i].winning}');
       }
@@ -291,7 +291,7 @@ void main() {
       expect(standings[3].winning[2], 'DNCD');
       expect(standings[3].winning[3], '62');   
       
-      for (int i = 4; i < standings.length; i++){
+      for (var i = 4; i < standings.length; i++){
         print('${standings[i]} ${standings[i].winning}');
         expect(standings[i].winning[0], 'DNCD');
         expect(standings[i].winning[1], 'DNCD');
@@ -303,12 +303,12 @@ void main() {
       var standings = getNewSeasonStandings();
       calculateMagicNumbers(standings);
       
-      for(int i = 0; i < 4; i++){
+      for(var i = 0; i < 4; i++){
         print('${standings[i]} ${standings[i].winning}');
         expect(standings[i].winning[4], '0');
       }
       
-      for (int i = 4; i < standings.length; i++){
+      for (var i = 4; i < standings.length; i++){
         print('${standings[i]} ${standings[i].winning}');
         expect(standings[i].winning[0], 'DNCD');
         expect(standings[i].winning[1], 'DNCD');
@@ -320,9 +320,9 @@ void main() {
     test('End of season', () {
       var standings = getEndOfSeasonStandings();
       calculateMagicNumbers(standings);
-      for(int i = 0; i < standings.length; i++){
+      for(var i = 0; i < standings.length; i++){
         print('${standings[i]} ${standings[i].winning}');
-        for (int j = 0; j < 5; j++){
+        for (var j = 0; j < 5; j++){
           if (i >= 4 && j == 4){
             expect(standings[i].winning[j], 'PT');
           } else if (i == j && j < 4){
@@ -337,9 +337,9 @@ void main() {
       var standings = getEndOfSeasonResortNeededStandings();
       sortTeamsNotGrouped(standings);
       calculateMagicNumbers(standings);
-      for(int i = 0; i < standings.length; i++){
+      for(var i = 0; i < standings.length; i++){
         print('${standings[i]} ${standings[i].winning}');
-        for (int j = 0; j < 5; j++){
+        for (var j = 0; j < 5; j++){
           if (i >= 4 && j == 4){
             expect(standings[i].winning[j], 'PT');
           } else if (i == j && j < 4){
@@ -398,7 +398,7 @@ void main() {
       expect(standings[5].partytime[3], '6');  
       expect(standings[5].partytime[4], 'MW'); 
       
-      for (int i = 6; i < standings.length; i++){
+      for (var i = 6; i < standings.length; i++){
         print('${standings[i]} ${standings[i].partytime}');
         expect(standings[i].partytime[0], 'X');
         expect(standings[i].partytime[1], 'X');
@@ -412,7 +412,7 @@ void main() {
       calculateMagicNumbers(standings);
       
       
-      for(int i = 0; i < 10; i++){
+      for(var i = 0; i < 10; i++){
         expect(standings[i].partytime[4], 'MW');
       }
         
@@ -453,7 +453,7 @@ void main() {
       expect(standings[5].partytime[2], '57');
       expect(standings[5].partytime[3], '60'); 
 
-      for (int i = 6; i < standings.length; i++){
+      for (var i = 6; i < standings.length; i++){
         print('${standings[i]} ${standings[i].partytime}');
         //expect(standings[i].partytime[0], 'DNCD');
         //expect(standings[i].partytime[1], 'DNCD');
@@ -467,7 +467,7 @@ void main() {
       calculateMagicNumbers(standings);
       
       
-      for(int i = 0; i < 10; i++){
+      for(var i = 0; i < 10; i++){
         expect(standings[i].partytime[4], 'MW');
       }
         
@@ -508,7 +508,7 @@ void main() {
       expect(standings[5].partytime[2], '60');
       expect(standings[5].partytime[3], '60'); 
 
-      for (int i = 6; i < standings.length; i++){
+      for (var i = 6; i < standings.length; i++){
         print('${standings[i]} ${standings[i].partytime}');
         //expect(standings[i].partytime[0], 'DNCD');
         //expect(standings[i].partytime[1], 'DNCD');
@@ -520,7 +520,7 @@ void main() {
       var standings = getNewSeasonStandings();
       calculateMagicNumbers(standings);
       
-      for(int i = 0; i < standings.length; i++){
+      for(var i = 0; i < standings.length; i++){
         print('${standings[i]} ${standings[i].partytime}');
         expect(standings[i].partytime[4], 'MW');
       }
@@ -537,7 +537,7 @@ void main() {
       expect(standings[1].partytime[2], 'MW');
       expect(standings[1].partytime[3], 'MW');
       
-      for (int i = 4; i < standings.length; i++){
+      for (var i = 4; i < standings.length; i++){
         print('${standings[i]} ${standings[i].partytime}');
         expect(standings[i].partytime[0], '99');
         expect(standings[i].partytime[1], '99');
@@ -549,9 +549,9 @@ void main() {
       var standings = getEndOfSeasonStandings();
       calculateMagicNumbers(standings);
       
-      for(int i = 0; i < standings.length; i++){
+      for(var i = 0; i < standings.length; i++){
         print('${standings[i]} ${standings[i].partytime}');
-        for (int j = 0; j < 5; j++){
+        for (var j = 0; j < 5; j++){
           if (i >= 4 && j == 4){
             expect(standings[i].partytime[j], 'PT');
           } else if (i == j && j < 4){
@@ -567,9 +567,9 @@ void main() {
       sortTeamsNotGrouped(standings);
       calculateMagicNumbers(standings);
       
-      for(int i = 0; i < standings.length; i++){
+      for(var i = 0; i < standings.length; i++){
         print('${standings[i]} ${standings[i].partytime}');
-        for (int j = 0; j < 5; j++){
+        for (var j = 0; j < 5; j++){
           if (i >= 4 && j == 4){
             expect(standings[i].partytime[j], 'PT');
           } else if (i == j && j < 4){
@@ -585,9 +585,9 @@ void main() {
 }
 
 List<TeamStandings> getEarlySeasonStandings(){
-  List<TeamStandings> teamStandings = [];
-  for(int i = 0; i < standingsData.length; i++){
-    teamStandings.add(new TeamStandings(
+  var teamStandings = <TeamStandings>[];
+  for(var i = 0; i < standingsData.length; i++){
+    teamStandings.add(TeamStandings(
       i.toString(),
       standingsData[i][0],
       standingsData[i][0],
@@ -606,15 +606,15 @@ List<TeamStandings> getEarlySeasonStandings(){
 }
 
 List<TeamStandings> getEarlySeasonResortNeededStandings(){
-  List<TeamStandings> teamStandings = [];
-  String div;
-  for(int i = 0; i < standingsData.length; i++){
+  var teamStandings = <TeamStandings>[];
+  var div;
+  for(var i = 0; i < standingsData.length; i++){
     if(i < 5) {
       div = 'High';
     } else {
       div = 'Low';
     }
-    teamStandings.add(new TeamStandings(
+    teamStandings.add(TeamStandings(
       i.toString(),
       standingsData[i][0],
       standingsData[i][0],
@@ -633,9 +633,9 @@ List<TeamStandings> getEarlySeasonResortNeededStandings(){
 }
 
 List<TeamStandings> getLateSeasonStandings(){
-  List<TeamStandings> teamStandings = [];
-  for(int i = 0; i < standingsData.length; i++){
-    teamStandings.add(new TeamStandings(
+  var teamStandings = <TeamStandings>[];
+  for(var i = 0; i < standingsData.length; i++){
+    teamStandings.add(TeamStandings(
       i.toString(),
       standingsData[i][0],
       standingsData[i][0],
@@ -653,15 +653,15 @@ List<TeamStandings> getLateSeasonStandings(){
 }
 
 List<TeamStandings> getLateSeasonResortNeededStandings(){
-  List<TeamStandings> teamStandings = [];
-  String div;
-  for(int i = 0; i < standingsData.length; i++){
+  var teamStandings = <TeamStandings>[];
+  var div;
+  for(var i = 0; i < standingsData.length; i++){
     if(i < 5) {
       div = 'High';
     } else {
       div = 'Low';
     }
-    teamStandings.add(new TeamStandings(
+    teamStandings.add(TeamStandings(
       i.toString(),
       standingsData[i][0],
       standingsData[i][0],
@@ -679,9 +679,9 @@ List<TeamStandings> getLateSeasonResortNeededStandings(){
 }
 
 List<TeamStandings> getNewSeasonStandings(){
-  List<TeamStandings> teamStandings = [];
-  for(int i = 0; i < standingsData.length; i++){
-    teamStandings.add(new TeamStandings(
+  var teamStandings = <TeamStandings>[];
+  for(var i = 0; i < standingsData.length; i++){
+    teamStandings.add(TeamStandings(
       i.toString(),
       standingsData[i][0],
       standingsData[i][0],
@@ -701,9 +701,9 @@ List<TeamStandings> getNewSeasonStandings(){
 }
 
 List<TeamStandings> getEndOfSeasonStandings(){
-  List<TeamStandings> teamStandings = [];
-  for(int i = 0; i < standingsData.length; i++){
-    teamStandings.add(new TeamStandings(
+  var teamStandings = <TeamStandings>[];
+  for(var i = 0; i < standingsData.length; i++){
+    teamStandings.add(TeamStandings(
       i.toString(),
       standingsData[i][0],
       standingsData[i][0],
@@ -722,15 +722,15 @@ List<TeamStandings> getEndOfSeasonStandings(){
 }
 
 List<TeamStandings> getEndOfSeasonResortNeededStandings(){
-  List<TeamStandings> teamStandings = [];
-  String div;
-  for(int i = 0; i < standingsData.length; i++){
+  var teamStandings = <TeamStandings>[];
+  var div;
+  for(var i = 0; i < standingsData.length; i++){
     if(i < 5) {
       div = 'High';
     } else {
       div = 'Low';
     }
-    teamStandings.add(new TeamStandings(
+    teamStandings.add(TeamStandings(
       i.toString(),
       standingsData[i][0],
       standingsData[i][0],
