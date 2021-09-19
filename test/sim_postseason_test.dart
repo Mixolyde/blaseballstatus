@@ -8,7 +8,7 @@ import '../lib/site_objects.dart';
 
 import 'sim_season_test.dart';
 
-Random rand = new Random(0);
+Random rand = Random(0);
 
 
 void main() async {
@@ -17,12 +17,12 @@ void main() async {
   group('single simulation Wild Card', () {
     test('new season', () async { 
       await setWildCardSimData();
-      int numTeams = 20;
-      int numGames = 99;
-      int numCompleted = 0;
-      int numSims = 1;
-      List<List<TeamStandings>> standings = createStandings(numTeams, numCompleted);
-      List<Game> games = createSeasonOfGames(numGames, numCompleted, 
+      var numTeams = 20;
+      var numGames = 99;
+      var numCompleted = 0;
+      var numSims = 1;
+      var standings = createStandings(numTeams, numCompleted);
+      var games = createSeasonOfGames(numGames, numCompleted, 
         numTeams, standings,
         [0.475, 0.475, 0.475, 0.475, 
          0.475, 0.5, 0.5, 0.5, 
@@ -31,7 +31,7 @@ void main() async {
         0.525, 0.525, 0.525, 0.525]); 
       runSimulations(games, standings, numSims);
       standings.forEach((league) => league.forEach((stand) {
-        for(int i = 0; i < 5; i++){
+        for(var i = 0; i < 5; i++){
           expect(stand.po[i], isNot('-'));
           expect(stand.post[i], isNot('-'));
         }
@@ -40,12 +40,12 @@ void main() async {
     });  
     test('completed season', () async { 
       await setWildCardSimData(); 
-      int numTeams = 20;
-      int numGames = 99;
-      int numCompleted = 99;
-      int numSims = 1;
-      List<List<TeamStandings>> standings = createStandings(numTeams, numCompleted);
-      List<Game> games = createSeasonOfGames(numGames, numCompleted, 
+      var numTeams = 20;
+      var numGames = 99;
+      var numCompleted = 99;
+      var numSims = 1;
+      var standings = createStandings(numTeams, numCompleted);
+      var games = createSeasonOfGames(numGames, numCompleted, 
         numTeams, standings,
         [0.475, 0.475, 0.475, 0.475, 
          0.475, 0.5, 0.5, 0.5, 
@@ -54,7 +54,7 @@ void main() async {
         0.525, 0.525, 0.525, 0.525]); 
       runSimulations(games, standings, numSims);
       standings.forEach((league) => league.forEach((stand) {
-        for(int i = 0; i < 5; i++){
+        for(var i = 0; i < 5; i++){
           expect(stand.po[i], isNot('-'));
           expect(stand.post[i], isNot('-'));
         }
@@ -65,12 +65,12 @@ void main() async {
   group('single simulation no Wild Card', () {
     test('new season', () async { 
       await setNoWildCardSimData();
-      int numTeams = 20;
-      int numGames = 99;
-      int numCompleted = 0;
-      int numSims = 1;
-      List<List<TeamStandings>> standings = createStandings(numTeams, numCompleted);
-      List<Game> games = createSeasonOfGames(numGames, numCompleted, 
+      var numTeams = 20;
+      var numGames = 99;
+      var numCompleted = 0;
+      var numSims = 1;
+      var standings = createStandings(numTeams, numCompleted);
+      var games = createSeasonOfGames(numGames, numCompleted, 
         numTeams, standings,
         [0.475, 0.475, 0.475, 0.475, 
          0.475, 0.5, 0.5, 0.5, 
@@ -85,7 +85,7 @@ void main() async {
       
       runSimulations(games, standings, numSims);
       standings.forEach((league) => league.forEach((stand) {
-        for(int i = 0; i < 5; i++){
+        for(var i = 0; i < 5; i++){
           expect(stand.po[i], isNot('-'));
           if (i < 4)
             expect(stand.post[i], isNot('-'));
@@ -96,12 +96,12 @@ void main() async {
     });  
     test('completed season', () async { 
       await setNoWildCardSimData(); 
-      int numTeams = 20;
-      int numGames = 99;
-      int numCompleted = 99;
-      int numSims = 1;
-      List<List<TeamStandings>> standings = createStandings(numTeams, numCompleted);
-      List<Game> games = createSeasonOfGames(numGames, numCompleted, 
+      var numTeams = 20;
+      var numGames = 99;
+      var numCompleted = 99;
+      var numSims = 1;
+      var standings = createStandings(numTeams, numCompleted);
+      var games = createSeasonOfGames(numGames, numCompleted, 
         numTeams, standings,
         [0.475, 0.475, 0.475, 0.475, 
          0.475, 0.5, 0.5, 0.5, 
@@ -116,10 +116,10 @@ void main() async {
       
       runSimulations(games, standings, numSims);
       
-      List<int> numCantReach = List.filled(4, 0);
+      var numCantReach = List.filled(4, 0);
       standings.forEach((league) => league.forEach((stand) {
         print('$stand Po ${stand.po} Post ${stand.post} Winning: ${stand.winning}');
-        for(int i = 0; i < 5; i++){
+        for(var i = 0; i < 5; i++){
           expect(stand.po[i], isNot('-'));
           if (i < 4){
             expect(stand.post[i], isNot('-'));
@@ -141,12 +141,12 @@ void main() async {
   group('multiple simulations', () {
     test('completed season wild card', () async { 
       await setWildCardSimData();
-      int numTeams = 20;
-      int numGames = 99;
-      int numCompleted = 99;
-      int numSims = 19;
-      List<List<TeamStandings>> standings = createStandings(numTeams, numCompleted);
-      List<Game> games = createSeasonOfGames(numGames, numCompleted, 
+      var numTeams = 20;
+      var numGames = 99;
+      var numCompleted = 99;
+      var numSims = 19;
+      var standings = createStandings(numTeams, numCompleted);
+      var games = createSeasonOfGames(numGames, numCompleted, 
         numTeams, standings,
         [0.475, 0.475, 0.475, 0.475, 
          0.475, 0.5, 0.5, 0.5, 
@@ -157,7 +157,7 @@ void main() async {
       runSimulations(games, standings, numSims);
            
       standings.forEach((league) => league.forEach((stand) {
-        for(int i = 0; i < 5; i++){
+        for(var i = 0; i < 5; i++){
           expect(stand.po[i], isNot('-'));
           expect(stand.post[i], isNot('-'));
         }
@@ -166,12 +166,12 @@ void main() async {
     
     test('new season no wild card', () async { 
       await setNoWildCardSimData();
-      int numTeams = 20;
-      int numGames = 99;
-      int numCompleted = 0;
-      int numSims = 19;
-      List<List<TeamStandings>> standings = createStandings(numTeams, numCompleted);
-      List<Game> games = createSeasonOfGames(numGames, numCompleted, 
+      var numTeams = 20;
+      var numGames = 99;
+      var numCompleted = 0;
+      var numSims = 19;
+      var standings = createStandings(numTeams, numCompleted);
+      var games = createSeasonOfGames(numGames, numCompleted, 
         numTeams, standings,
         [0.475, 0.475, 0.475, 0.475, 
          0.475, 0.5, 0.5, 0.5, 
@@ -187,7 +187,7 @@ void main() async {
       runSimulations(games, standings, numSims);
       
       standings.forEach((league) => league.forEach((stand) {
-        for(int i = 0; i < 5; i++){
+        for(var i = 0; i < 5; i++){
           expect(stand.po[i], isNot('-'));
           if (i < 4){
             expect(stand.post[i], isNot('-'));           
@@ -199,12 +199,12 @@ void main() async {
     });    
     test('completed season no wild card', () async { 
       await setNoWildCardSimData();
-      int numTeams = 20;
-      int numGames = 99;
-      int numCompleted = 99;
-      int numSims = 19;
-      List<List<TeamStandings>> standings = createStandings(numTeams, numCompleted);
-      List<Game> games = createSeasonOfGames(numGames, numCompleted, 
+      var numTeams = 20;
+      var numGames = 99;
+      var numCompleted = 99;
+      var numSims = 19;
+      var standings = createStandings(numTeams, numCompleted);
+      var games = createSeasonOfGames(numGames, numCompleted, 
         numTeams, standings,
         [0.475, 0.475, 0.475, 0.475, 
          0.475, 0.5, 0.5, 0.5, 
@@ -219,9 +219,9 @@ void main() async {
       
       runSimulations(games, standings, numSims);
       
-      List<int> numCantReach = List.filled(4, 0); 
+      var numCantReach = List.filled(4, 0); 
       standings.forEach((league) => league.forEach((stand) {
-        for(int i = 0; i < 5; i++){
+        for(var i = 0; i < 5; i++){
           expect(stand.po[i], isNot('-'));
           if (i < 4){
             expect(stand.post[i], isNot('-'));
