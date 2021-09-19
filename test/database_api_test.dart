@@ -95,8 +95,8 @@ void apiTests() {
   });
   group('postseason', () {
     var seasonNumber = 10;
-    var teamCount = 20;
-    var divisionCount = 1;
+    //var teamCount = 20;
+    //var divisionCount = 1;
     test('playoffs', () async {
       var current = await getPlayoffs(seasonNumber);
       if(current == null) fail('current is null');
