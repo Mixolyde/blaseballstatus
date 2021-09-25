@@ -2,9 +2,7 @@ import 'dart:math';
 import 'package:test/test.dart';
 
 import '../lib/calc_stats.dart';
-import '../lib/database_api.dart';
 import '../lib/sim_season.dart';
-import '../lib/site_objects.dart';
 
 import 'sim_season_test.dart';
 
@@ -87,10 +85,11 @@ void main() async {
       standings.forEach((league) => league.forEach((stand) {
         for(var i = 0; i < 5; i++){
           expect(stand.po[i], isNot('-'));
-          if (i < 4)
+          if (i < 4) {
             expect(stand.post[i], isNot('-'));
-          else 
+          } else {
             expect(stand.post[i], '-');
+          }
         }
       })); 
     });  

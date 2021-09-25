@@ -72,8 +72,8 @@ void main() async {
         games.add(createRandomGame(i, false,
           'Team 3', 'Team 4', 0.75));
       }
-      var sims = Map<String, TeamSim>();
-      for(int i = 1; i < 5; i++){
+      var sims = <String, TeamSim>{};
+      for(var i = 1; i < 5; i++){
         sims['Team $i'] = TeamSim('Team $i', 0, 0, 0, i, 'Div 0');
       };
       sims.values.forEach((sim) => sim.save());
@@ -144,7 +144,7 @@ void main() async {
       var sims = mapTeamSims(standings, games);
       simulateSeason(games, sims);
       for (var i = 0; i < winVariances.length; i++){
-        TeamSim? sim = sims['Team ${i + 1}'];
+        var sim = sims['Team ${i + 1}'];
         if(sim == null) fail('Sim was null');
         expect(sim.wins, sim.notLosses + winVariances[i]);
         expect(sim.notLosses + sim.losses, numGames);
@@ -277,7 +277,7 @@ void main() async {
       
       var sitedata = await calcSiteData(oldSimData);
       var subStandings = await calcStats(oldSimData);
-      CompletePostseason? postseason = await getCompletePostseason(oldSimData.season);    
+      var postseason = await getCompletePostseason(oldSimData.season);    
 /*      
       List<PlayoffBracketEntry> entries = await calculatePlayoffBracketEntries(
         postseason, subStandings);
