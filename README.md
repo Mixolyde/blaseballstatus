@@ -52,8 +52,8 @@ Published at https://playoffstatus.sibr.dev/
 - [x] Add donation button
 - [x] Move web site to a blaseball-specific domain
 - [x] Handle Wild Card decree on-the-fly
-- [ ] Live Postseason bracket updates
 * v0.0.8
+- [ ] Live Postseason bracket updates
 - [ ] Live Postseason chance updates
 - [ ] Team Schedules
 - [ ] Get a twitter account and button
