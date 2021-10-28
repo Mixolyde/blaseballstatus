@@ -23,7 +23,7 @@ final String _playoffsUrl = apiUrl + 'playoffs?number=';
 final String _playoffMatchupsUrl = apiUrl + 'playoffMatchups?ids=';
 final String _playoffRoundUrl = apiUrl + 'playoffRound?id=';
 final String _seasonUrl = apiUrl + 'season?number=';
-final String _simulationDatUrl = apiUrl + 'simulationData';
+final String _simulationDataUrl = apiUrl + 'simulationData';
 final String _standingsUrl = apiUrl + 'standings?id=';
 final String _subleagueUrl = apiUrl + 'subleague?id=';
 final String _tiebreakersUrl = apiUrl + 'tiebreakers?id=';
@@ -56,8 +56,9 @@ Future<League> getLeague() async {
 }
 
 Future<SimulationData> getSimulationData() async {
-  var response = await get(Uri.parse(_simulationDatUrl));
-  //print('Response body: ${response.body}');
+  print("url: $_simulationDataUrl");
+  var response = await get(Uri.parse(_simulationDataUrl));
+  print('Response body: ${response.body}');
   return SimulationData.fromJson(json.decode(response.body));
 }
 

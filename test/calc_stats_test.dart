@@ -5,7 +5,7 @@ import '../lib/database_api.dart';
 import '../lib/site_objects.dart';
 
 void main() {
-  apiUrl = 'https://blaseball.com/database/';
+  apiUrl = 'https://api.blaseball.com/database/';
   group('get site data', () {
     test('fake attributes', () async {
       var simData = await getSimulationData();

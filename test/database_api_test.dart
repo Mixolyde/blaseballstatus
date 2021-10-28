@@ -7,7 +7,7 @@ void main() {
 }
 
 void apiTests() {
-  apiUrl = 'https://blaseball.com/database/';
+  apiUrl = 'https://api.blaseball.com/database/';
   group('regular season', () {
     var seasonNumber = 5;
     var teamCount = 20;
@@ -15,7 +15,7 @@ void apiTests() {
     test('Current Simulation Data', () async {
       var data = await getSimulationData();
       print(data);
-      expect(data.season, greaterThan(seasonNumber));
+      expect(data.season, greaterThan(0));
       expect(data.id, 'thisidisstaticyo');
       expect(data.attributes.length, greaterThan(1));
     });
@@ -23,7 +23,7 @@ void apiTests() {
       var data = await getSimulationData();
       var current = await getSeason(data.season);
       expect(current, isNotNull);
-      expect(current.seasonNumber, greaterThan(seasonNumber));
+      expect(current.seasonNumber, greaterThan(0));
       expect(current.id, data.seasonId);
     });
     test('Current Standings', () async {
@@ -162,7 +162,7 @@ void apiTests() {
     });   
     test('current postseason', () async {
       var data = await getSimulationData();
-      expect(data.season, greaterThan(seasonNumber));      
+      expect(data.season, greaterThan(0));      
       var current = await getCompletePostseason(data.season);
       print(current);
     });    

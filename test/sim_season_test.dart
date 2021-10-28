@@ -402,7 +402,7 @@ List<Game> createSeasonOfGames(int numDays, int completedDays,
 
 
 Future<void> setNoWildCardSimData() async {
-  apiUrl = 'https://blaseball.com/database/';
+  apiUrl = 'https://api.blaseball.com/database/';
   var currentSimData = await getSimulationData();
   var simData = SimulationData(
     id: currentSimData.id,
@@ -419,7 +419,7 @@ Future<void> setNoWildCardSimData() async {
 }
 
 Future<void> setWildCardSimData() async {
-  apiUrl = 'https://blaseball.com/database/';
+  apiUrl = 'https://api.blaseball.com/database/';
   var currentSimData = await getSimulationData();
   var simData = SimulationData(
     id: currentSimData.id,
