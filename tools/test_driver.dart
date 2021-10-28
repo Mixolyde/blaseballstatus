@@ -9,7 +9,8 @@ import '../lib/database_api.dart';
 
 /// Test script used for manually executing methods and testing functionality.
 Future<void> main() async {  
-  var apiUrl = 'https://blaseball.com/database/';
+  dbUrl = 'https://api.blaseball.com/database/';
+  gamesByDateUrl = 'https://api.blaseball.com/api/games/schedule';
   print(apiUrl);
   
   //overall blaseball status data

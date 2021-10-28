@@ -13,7 +13,8 @@ Future<void> main(List<String> args) async {
   var results = parser.parse(args);
   var numSims = int.parse(results[simCount]);
   
-  apiUrl = 'https://api.blaseball.com/database/';
+  dbUrl = 'https://api.blaseball.com/database/';
+  gamesByDateUrl = 'https://api.blaseball.com/api/games/schedule';
   
   //overall blaseball status data
   var simData = await getSimulationData();

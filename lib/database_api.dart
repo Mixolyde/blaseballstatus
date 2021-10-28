@@ -12,21 +12,21 @@ part 'src/standings.dart';
 part 'src/team.dart';
 part 'src/tiebreakers.dart';
 
-String apiUrl = 'https://cors-proxy.blaseball-reference.com/database/';
+String dbUrl = 'https://cors-proxy.blaseball-reference.com/database/';
+String gamesByDateUrl = dbUrl + 'games';
 
 final String _ilbId = 'd8545021-e9fc-48a3-af74-48685950a183';
-final String _allTeamsUrl = apiUrl + 'allTeams';
-final String _divisionUrl = apiUrl + 'division?id=';
-final String _gamesByDateUrl = apiUrl + 'games';
-final String _leagueUrl = apiUrl + 'league?id=' + _ilbId;
-final String _playoffsUrl = apiUrl + 'playoffs?number=';
-final String _playoffMatchupsUrl = apiUrl + 'playoffMatchups?ids=';
-final String _playoffRoundUrl = apiUrl + 'playoffRound?id=';
-final String _seasonUrl = apiUrl + 'season?number=';
-final String _simulationDataUrl = apiUrl + 'simulationData';
-final String _standingsUrl = apiUrl + 'standings?id=';
-final String _subleagueUrl = apiUrl + 'subleague?id=';
-final String _tiebreakersUrl = apiUrl + 'tiebreakers?id=';
+final String _allTeamsUrl = dbUrl + 'allTeams';
+final String _divisionUrl = dbUrl + 'division?id=';
+final String _leagueUrl = dbUrl + 'league?id=' + _ilbId;
+final String _playoffsUrl = dbUrl + 'playoffs?number=';
+final String _playoffMatchupsUrl = dbUrl + 'playoffMatchups?ids=';
+final String _playoffRoundUrl = dbUrl + 'playoffRound?id=';
+final String _seasonUrl = dbUrl + 'season?number=';
+final String _simulationDataUrl = dbUrl + 'simulationData';
+final String _standingsUrl = dbUrl + 'standings?id=';
+final String _subleagueUrl = dbUrl + 'subleague?id=';
+final String _tiebreakersUrl = dbUrl + 'tiebreakers?id=';
 
 Future<Season> getSeason(int season) async {
   var response = await get(Uri.parse(_seasonUrl 
@@ -56,9 +56,9 @@ Future<League> getLeague() async {
 }
 
 Future<SimulationData> getSimulationData() async {
-  print("url: $_simulationDataUrl");
+  //print("url: $_simulationDataUrl");
   var response = await get(Uri.parse(_simulationDataUrl));
-  print('Response body: ${response.body}');
+  //print('Response body: ${response.body}');
   return SimulationData.fromJson(json.decode(response.body));
 }
 
@@ -75,7 +75,9 @@ Future<List<Team>> getTeams() async {
 }
 
 Future<List<Game>> getGames(int season, int day) async {
-  var response = await get(Uri.parse(_gamesByDateUrl + '?day=$day&season=$season'));
+  print("URL: ${gamesByDateUrl + '?day=$day&season=$season'}");
+  var response = await get(Uri.parse(gamesByDateUrl + '?day=$day&season=$season'));
+  print('Response body: ${response.body}');
   List<dynamic> parsed = json.decode(response.body);
   var games = parsed.map((json) => Game.fromJson(json)).toList();
   return games;
