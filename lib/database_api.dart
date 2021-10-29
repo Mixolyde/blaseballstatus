@@ -75,9 +75,7 @@ Future<List<Team>> getTeams() async {
 }
 
 Future<List<Game>> getGames(int season, int day) async {
-  print("URL: ${gamesByDateUrl + '?day=$day&season=$season'}");
   var response = await get(Uri.parse(gamesByDateUrl + '?day=$day&season=$season'));
-  print('Response body: ${response.body}');
   List<dynamic> parsed = json.decode(response.body);
   var games = parsed.map((json) => Game.fromJson(json)).toList();
   return games;
