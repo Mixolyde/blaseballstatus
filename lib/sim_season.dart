@@ -51,6 +51,15 @@ Future<List<PlayoffBracketEntry>> calculatePlayoffBracketEntries(
   
   print('Leagues: $league1 $league2');
   
+  print('$league1 Teams:');
+  subStandings[0].forEach((stand){
+    print('${stand}');
+  });
+  print('$league2 Teams:');
+  subStandings[1].forEach((stand){
+    print('${stand}');
+  });
+  
   //default entries for no post season data
   var entries = List.generate(19, (i) =>
     PlayoffBracketEntry(      

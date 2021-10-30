@@ -4,6 +4,7 @@ import 'package:args/args.dart';
 import '../lib/calc_stats.dart';
 import '../lib/database_api.dart';
 import '../lib/sim_season.dart';
+import '../lib/site_objects.dart';
 
 const simCount = 'sim-count';
 
@@ -30,8 +31,9 @@ Future<void> main(List<String> args) async {
 
   //numSims = 17;
   var postSeason = await getCompletePostseason(simData.season);
-  var entries = 
-      await calculatePlayoffBracketEntries(postSeason, subStandings);
+  // TODO fix playoff brackets for no wild cards
+  var entries = <PlayoffBracketEntry>[];
+  //    await calculatePlayoffBracketEntries(postSeason, subStandings);
       
   await calculateChances(subStandings, numSims, entries);
 
