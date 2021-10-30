@@ -12,7 +12,8 @@ part 'src/standings.dart';
 part 'src/team.dart';
 part 'src/tiebreakers.dart';
 
-String dbUrl = 'https://cors-proxy.blaseball-reference.com/database/';
+//String dbUrl = 'https://cors-proxy.blaseball-reference.com/database/';
+String dbUrl = 'https://api.blaseball.com/database/';
 String gamesByDateUrl = dbUrl + 'games';
 
 final String _ilbId = 'd8545021-e9fc-48a3-af74-48685950a183';
@@ -84,7 +85,7 @@ Future<List<Game>> getGames(int season, int day) async {
 
 Future<List<Game>> getAllGames(int season) async {
   var games = <Game>[];
-  for(var day = 0; day < 130; day++){
+  for(var day = 0; day < 100; day++){
     //print('Getting day games: Season $season Day $day');
     var dayGames = await getGames(season, day);
     games.addAll(dayGames);

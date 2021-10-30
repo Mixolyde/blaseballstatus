@@ -7,9 +7,6 @@ void main() {
 }
 
 void apiTests() {
-  dbUrl = 'https://api.blaseball.com/database/';
-  //gamesByDateUrl = 'https://api.blaseball.com/api/games/schedule';
-  
   group('regular season', () {
     var seasonNumber = 5;
     var teamCount = 20;

@@ -4,6 +4,7 @@ import 'dart:html';
 
 import 'package:blaseballstatus/calc_stats.dart';
 import 'package:blaseballstatus/current_view.dart';
+import 'package:blaseballstatus/database_api.dart';
 import 'package:blaseballstatus/s3_api.dart' as s3;
 import 'package:blaseballstatus/site_objects.dart';
 import 'package:blaseballstatus/html/populate_tables.dart';
@@ -24,6 +25,7 @@ CurrentView currentView = CurrentView();
 List<PlayoffBracketEntry> entries = [];
 
 void main() {
+  dbUrl = 'https://cors-proxy.blaseball-reference.com/database/';
   getContentPages().then((v) {
     print('Retrieved content pages and data');
     
