@@ -9,9 +9,6 @@ import '../lib/site_objects.dart';
 Random rand = Random(0);
 
 void main() async {
-  dbUrl = 'https://api.blaseball.com/database/';
-  gamesByDateUrl = 'https://api.blaseball.com/api/games/schedule';
-  
   await setNoWildCardSimData();
   
   group('single game', () {
@@ -405,6 +402,7 @@ List<Game> createSeasonOfGames(int numDays, int completedDays,
 
 
 Future<void> setNoWildCardSimData() async {
+  dbUrl = 'https://api.blaseball.com/database/';
   var currentSimData = await getSimulationData();
   var simData = SimulationData(
     id: currentSimData.id,
@@ -421,6 +419,7 @@ Future<void> setNoWildCardSimData() async {
 }
 
 Future<void> setWildCardSimData() async {
+  dbUrl = 'https://api.blaseball.com/database/';
   var currentSimData = await getSimulationData();
   var simData = SimulationData(
     id: currentSimData.id,

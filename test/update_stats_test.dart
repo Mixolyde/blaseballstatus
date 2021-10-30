@@ -6,7 +6,7 @@ import '../tools/update_stats.dart' as update;
 import '../lib/s3_api.dart';
 import '../lib/site_objects.dart';
 
-void main() {
+void main() { 
   group('update tests', () {
     test('update and load objects', () async {
       await update.main(['-c', '100']);

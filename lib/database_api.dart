@@ -56,7 +56,7 @@ Future<League> getLeague() async {
 }
 
 Future<SimulationData> getSimulationData() async {
-  //print("url: $_simulationDataUrl");
+  print("url: $_simulationDataUrl");
   var response = await get(Uri.parse(_simulationDataUrl));
   //print('Response body: ${response.body}');
   return SimulationData.fromJson(json.decode(response.body));
@@ -75,6 +75,7 @@ Future<List<Team>> getTeams() async {
 }
 
 Future<List<Game>> getGames(int season, int day) async {
+  print("GetGames URL: ${gamesByDateUrl + '?day=$day&season=$season'}");
   var response = await get(Uri.parse(gamesByDateUrl + '?day=$day&season=$season'));
   List<dynamic> parsed = json.decode(response.body);
   var games = parsed.map((json) => Game.fromJson(json)).toList();
