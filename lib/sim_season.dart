@@ -426,11 +426,18 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
 }
 
 void simulateSeason(List<Game> games, Map<String, TeamSim> sims){
+  print('SimulateSeason with TeamSim keys:');
+  sims.keys.forEach((key) { 
+    print ('$key'); 
+  });
+  print(sims);
+  print(games[0]);
   //simulate unplayed games
   games.where((g) => !g.gameComplete).forEach((g) {
+    print("Sim game between ${g.awayTeam} and ${g.homeTeam}");
+    print('Simulate outcome of $g');
     var awaySim = sims[g.awayTeam]!;
     var homeSim = sims[g.homeTeam]!;
-    //print('Simulate outcome of $g');
     var winner = simulateGame(awaySim, homeSim, sims.length);
     
     if(winner == awaySim){
