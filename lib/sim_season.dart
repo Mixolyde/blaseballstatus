@@ -430,8 +430,8 @@ void simulateSeason(List<Game> games, Map<String, TeamSim> sims){
   sims.keys.forEach((key) { 
     print ('$key'); 
   });
-  print(sims);
-  print(games[0]);
+  //print(sims);
+  //print(games[0]);
   //simulate unplayed games
   games.where((g) => !g.gameComplete).forEach((g) {
     //print("Sim game between ${g.awayTeam} and ${g.homeTeam}");
