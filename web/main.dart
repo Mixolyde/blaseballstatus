@@ -25,7 +25,7 @@ CurrentView currentView = CurrentView();
 List<PlayoffBracketEntry> entries = [];
 
 void main() {
-  dbUrl = 'https://cors-proxy.blaseball-reference.com/database/';
+  apiUrl = 'https://cors-proxy.blaseball-reference.com/';
   getContentPages().then((v) {
     print('Retrieved content pages and data');
     

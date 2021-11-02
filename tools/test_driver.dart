@@ -13,6 +13,7 @@ Future<void> main() async {
   
   //overall blaseball status data
   var simData = await getSimulationData();
+  print(simData);
   /*
     thisidisstaticyo
     113
@@ -44,8 +45,17 @@ Future<void> main() async {
   
   //print("CompletePostseason: $postseason");
   
-  var playoffs = await getPlayoffs(19);
+  //var playoffs = await getPlayoffs(19);
   
-  print(playoffs);
+  //print(playoffs);
   
+  var games = await getGames(0, 0, sim:simData.id);
+  print(games);
+  print('Count: ${games.length}');
+  
+  //var allGames = await getAllGames(0, sim:simData.id);
+  //print('All Count: ${allGames.length}');
+  
+  //var standings = await getEventStreamData('standings');
+  //print(standings);
 }

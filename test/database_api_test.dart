@@ -14,16 +14,16 @@ void apiTests() {
     test('Current Simulation Data', () async {
       var data = await getSimulationData();
       print(data);
-      expect(data.season, greaterThan(0));
-      expect(data.id, isIn(['thisidisstaticyo', 'gamma4']));
+      expect(data.season, greaterThanOrEqualTo(0));
+      expect(data.id, isIn(['thisidisstaticyo', 'gamma4', 'gamma8']));
       expect(data.attributes.length, greaterThan(1));
     });
     test('Current Season', () async {
       var data = await getSimulationData();
       var current = await getSeason(data.season);
       expect(current, isNotNull);
-      expect(current.seasonNumber, greaterThan(0));
-      //TODO fix for gamma4 instead of thisidisstaticyo
+      expect(current.seasonNumber, greaterThanOrEqualTo(0));
+      //TODO fix for gamma8 instead of thisidisstaticyo
       //expect(current.id, data.seasonId);
     });
     test('Current Standings', () async {
@@ -162,7 +162,7 @@ void apiTests() {
     });   
     test('current postseason', () async {
       var data = await getSimulationData();
-      expect(data.season, greaterThan(0));      
+      expect(data.season, greaterThanOrEqualTo(0));      
       var current = await getCompletePostseason(data.season);
       print(current);
     });    

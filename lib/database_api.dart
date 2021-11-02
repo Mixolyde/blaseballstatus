@@ -12,22 +12,26 @@ part 'src/standings.dart';
 part 'src/team.dart';
 part 'src/tiebreakers.dart';
 
-//String dbUrl = 'https://cors-proxy.blaseball-reference.com/database/';
-String dbUrl = 'https://api.blaseball.com/database/';
-String gamesByDateUrl = dbUrl + 'games';
+//String _dbUrl = 'https://cors-proxy.blaseball-reference.com/database/';
+String apiUrl = 'https://api.blaseball.com/';
+
+final String _dbUrl = apiUrl + 'database/';
+
 
 final String _ilbId = 'd8545021-e9fc-48a3-af74-48685950a183';
-final String _allTeamsUrl = dbUrl + 'allTeams';
-final String _divisionUrl = dbUrl + 'division?id=';
-final String _leagueUrl = dbUrl + 'league?id=' + _ilbId;
-final String _playoffsUrl = dbUrl + 'playoffs?number=';
-final String _playoffMatchupsUrl = dbUrl + 'playoffMatchups?ids=';
-final String _playoffRoundUrl = dbUrl + 'playoffRound?id=';
-final String _seasonUrl = dbUrl + 'season?number=';
-final String _simulationDataUrl = dbUrl + 'simulationData';
-final String _standingsUrl = dbUrl + 'standings?id=';
-final String _subleagueUrl = dbUrl + 'subleague?id=';
-final String _tiebreakersUrl = dbUrl + 'tiebreakers?id=';
+final String _allTeamsUrl = _dbUrl + 'allTeams';
+final String _divisionUrl = _dbUrl + 'division?id=';
+final String _leagueUrl = _dbUrl + 'league?id=' + _ilbId;
+final String _playoffsUrl = _dbUrl + 'playoffs?number=';
+final String _playoffMatchupsUrl = _dbUrl + 'playoffMatchups?ids=';
+final String _playoffRoundUrl = _dbUrl + 'playoffRound?id=';
+final String _scheduleUrl = apiUrl + 'api/games/schedule/';
+final String _seasonUrl = _dbUrl + 'season?number=';
+final String _simulationDataUrl = _dbUrl + 'simulationData';
+final String _standingsUrl = _dbUrl + 'standings?id=';
+final String _subleagueUrl = _dbUrl + 'subleague?id=';
+final String _tiebreakersUrl = _dbUrl + 'tiebreakers?id=';
+final String _streamDataUrl = apiUrl + 'events/streamData';
 
 Future<Season> getSeason(int season) async {
   var response = await get(Uri.parse(_seasonUrl 
@@ -57,7 +61,7 @@ Future<League> getLeague() async {
 }
 
 Future<SimulationData> getSimulationData() async {
-  print("url: $_simulationDataUrl");
+  //print("url: $_simulationDataUrl");
   var response = await get(Uri.parse(_simulationDataUrl));
   //print('Response body: ${response.body}');
   return SimulationData.fromJson(json.decode(response.body));
@@ -75,19 +79,32 @@ Future<List<Team>> getTeams() async {
   return teams;
 }
 
-Future<List<Game>> getGames(int season, int day) async {
-  print("GetGames URL: ${gamesByDateUrl + '?day=$day&season=$season'}");
-  var response = await get(Uri.parse(gamesByDateUrl + '?day=$day&season=$season'));
-  List<dynamic> parsed = json.decode(response.body);
-  var games = parsed.map((json) => Game.fromJson(json)).toList();
+Future<List<Game>> getGames(int season, int day, {String sim = 'gamma8'}) async {
+  var getGamesUrl = _scheduleUrl + '?startDay=$day&endDay=$day&season=$season&sim=$sim';
+  print("GetGames URL: $getGamesUrl");
+  var response = await get(Uri.parse(getGamesUrl));
+  //print(response.body);
+  Map<String, dynamic> parsed = json.decode(response.body);
+  Map<String, dynamic> dayMap = parsed['games']! as Map<String, dynamic>;
+  List<dynamic> gamesList= dayMap['$day']! as List<dynamic>;
+  //print(gamesList);
+  var games = gamesList.map((json) => Game.fromJson(json)).toList();
   return games;
 }
 
-Future<List<Game>> getAllGames(int season) async {
+Future<List<Game>> getAllGames(int season, {String sim = 'gamma8'}) async {
   var games = <Game>[];
-  for(var day = 0; day < 100; day++){
-    //print('Getting day games: Season $season Day $day');
-    var dayGames = await getGames(season, day);
+  var getAllGamesUrl = _scheduleUrl + '?startDay=0&endDay=98&season=$season&sim=$sim';
+  print("GetAllGames URL: $getAllGamesUrl");
+  var response = await get(Uri.parse(getAllGamesUrl));
+  //print(response.body);
+  Map<String, dynamic> parsed = json.decode(response.body);
+
+  for(var day = 0; day < 99; day++){
+    Map<String, dynamic> dayMap = parsed['games']! as Map<String, dynamic>;
+    List<dynamic> gamesList= dayMap['$day']! as List<dynamic>;
+    //print(gamesList);
+    var dayGames = gamesList.map((json) => Game.fromJson(json)).toList();
     games.addAll(dayGames);
   }
 
@@ -122,7 +139,7 @@ Future<PlayoffRound> getPlayoffRound(String roundID) async {
 Future<List<PlayoffMatchup>> getPlayoffMatchups(List<String> matchIDs) async {
   var response = await get(Uri.parse(_playoffMatchupsUrl 
     + matchIDs.join(',')));
-  print('Response body: ${response.body}');
+  //print('Response body: ${response.body}');
   List<dynamic> parsed = json.decode(response.body);
   var matchups = parsed.map((json) => 
     PlayoffMatchup.fromJson(json)).toList();
@@ -152,4 +169,12 @@ Future<CompletePostseason?> getCompletePostseason(int season) async {
   
   return CompletePostseason(id: playoffs.id, playoffs: playoffs, 
     playoffRounds: playoffRounds, playoffMatchups: playoffMatchups);
+}
+
+Future<dynamic> getEventStreamData(String object) async {
+  var response = await get(Uri.parse(_streamDataUrl ));
+  Map<String, dynamic> responseMap = json.decode(response.body);
+  Map<String, dynamic> dataMap = responseMap['data']! as Map<String, dynamic>;
+  
+  return dataMap[object]!;
 }
