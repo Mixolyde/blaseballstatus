@@ -427,9 +427,7 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
 
 void simulateSeason(List<Game> games, Map<String, TeamSim> sims){
   print('SimulateSeason with TeamSim keys:');
-  sims.keys.forEach((key) { 
-    print ('$key'); 
-  });
+  print(sims.keys.join(' ');
   //print(sims);
   //print(games[0]);
   //simulate unplayed games
