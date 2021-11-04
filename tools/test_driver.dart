@@ -6,6 +6,8 @@ import '../lib/database_api.dart';
 // import '../lib/sim_season.dart';
 // import '../lib/site_objects.dart';
 
+import "../lib/eventsource/eventsource.dart";
+
 
 /// Test script used for manually executing methods and testing functionality.
 Future<void> main() async {  
@@ -56,6 +58,10 @@ Future<void> main() async {
   //var allGames = await getAllGames(0, sim:simData.id);
   //print('All Count: ${allGames.length}');
   
-  //var standings = await getEventStreamData('standings');
-  //print(standings);
+  //var streamResult = await getEventStreamData(['games', 'standings']);
+  //print(streamResult);
+  
+  Standings standings = await getStandings();
+  print(standings);
+  
 }

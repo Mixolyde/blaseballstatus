@@ -56,7 +56,7 @@ Future<List<List<TeamStandings>>> calcStats(SimulationData simData) async {
   } else {
     games = await getGames(simData.season, 98);
   }
-  _standings = await getStandings(_season.standings);
+  _standings = await getStandings();
 
   _allTeams = await getTeams();
   _tiebreakers = await getTiebreakers(_league.tiebreakersId);

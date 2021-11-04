@@ -2,6 +2,7 @@ library database_api;
 
 import 'dart:convert';
 import 'package:http/http.dart';
+import 'eventsource/eventsource.dart';
 
 part 'src/game.dart';
 part 'src/league.dart';
@@ -12,13 +13,11 @@ part 'src/standings.dart';
 part 'src/team.dart';
 part 'src/tiebreakers.dart';
 
-//String _dbUrl = 'https://cors-proxy.blaseball-reference.com/database/';
 String apiUrl = 'https://api.blaseball.com/';
 
 final String _dbUrl = apiUrl + 'database/';
 
-
-final String _ilbId = 'd8545021-e9fc-48a3-af74-48685950a183';
+final String _ilbId = '2bee46a7-29e4-43d5-9627-939a70d329c0';
 final String _allTeamsUrl = _dbUrl + 'allTeams';
 final String _divisionUrl = _dbUrl + 'division?id=';
 final String _leagueUrl = _dbUrl + 'league?id=' + _ilbId;
@@ -40,10 +39,8 @@ Future<Season> getSeason(int season) async {
   return Season.fromJson(json.decode(response.body));
 }
 
-Future<Standings> getStandings(String standingsId) async {
-  var response = await get(Uri.parse(_standingsUrl + standingsId));
-  //print('Response body: ${response.body}');
-  var parsed = json.decode(response.body);
+Future<Standings> getStandings() async {
+  var parsed = await getEventStreamData(['games', 'standings']);
   var standings = Standings.fromJson(parsed);
   //print('Season: $season');
   return standings;
@@ -171,10 +168,21 @@ Future<CompletePostseason?> getCompletePostseason(int season) async {
     playoffRounds: playoffRounds, playoffMatchups: playoffMatchups);
 }
 
-Future<dynamic> getEventStreamData(String object) async {
-  var response = await get(Uri.parse(_streamDataUrl ));
-  Map<String, dynamic> responseMap = json.decode(response.body);
-  Map<String, dynamic> dataMap = responseMap['data']! as Map<String, dynamic>;
+Future<dynamic> getEventStreamData(List<String> objects) async {
+  print("StreamDataUrl: ${_streamDataUrl}");
+  EventSource eventSource = await EventSource
+      .connect(_streamDataUrl);
   
-  return dataMap[object]!;
+  var event = await eventSource.first;
+  //print("data: ${event.data}");  
+  Map<String, dynamic> responseMap = json.decode(event.data!)['value']!;
+  print('ResponseMap Keys: ' + responseMap.keys.join(' '));
+  var resultMap = responseMap;
+  objects.forEach((object){
+    print("Checking resultMap for key: $object");
+    resultMap = resultMap[object]! as Map<String, dynamic>;
+    print(resultMap.keys.join(' '));
+  });
+
+  return resultMap;
 }
