@@ -20,26 +20,25 @@ void apiTests() {
     });
     test('Current Season', () async {
       var data = await getSimulationData();
-      var current = await getSeason(data.season);
+      var current = await getSeason();
       expect(current, isNotNull);
       expect(current.seasonNumber, greaterThanOrEqualTo(0));
-      //TODO fix for gamma8 instead of thisidisstaticyo
-      //expect(current.id, data.seasonId);
+      expect(current.id, data.seasonId);
     });
     test('Current Standings', () async {
-      var data = await getSimulationData();
-      var season = await getSeason(data.season);
-      var current = await getStandings(season.standings);
+      var current = await getStandings();
       expect(current, isNotNull);
       expect(current.wins.length, greaterThanOrEqualTo(teamCount));
       expect(current.losses.length, greaterThanOrEqualTo(teamCount));
     });
     test('Get League', () async {
+      var data = await getSimulationData();
       var current = await getLeague();
       expect(current, isNotNull);
       expect('Internet League Blaseball', current.name);
       expect(current.subleagueId1, isNotNull);
       expect(current.subleagueId2, isNotNull);
+      expect(data.league, current.id);
       print('League: $current');
     });
     test('Get Subleague', () async {

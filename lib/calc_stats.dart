@@ -47,8 +47,8 @@ String getUpdateTime(){
 }
 
 Future<List<List<TeamStandings>>> calcStats(SimulationData simData) async {
-  print('Beginning stat calculations for season: ${simData.season + 1}');
-  _season = await getSeason(simData.season);
+  print('Beginning stat calculations for current season: ${simData.season + 1}');
+  _season = await getSeason();
   
   List<Game> games;
   if (simData.day < 99){
@@ -106,7 +106,8 @@ Future<List<TeamStandings>> calculateSubLeague(Subleague sub, List<Game> games) 
     var standing = 
       TeamStandings(team.id, 
       team.fullName, team.nickname, team.emoji,
-      sub.name.split(' ')[1],
+      //sub.name.split(' ')[1],
+      sub.name,
       divName,
       _standings.wins[team.id] ?? 0, 
       _standings.losses[team.id] ?? 0,

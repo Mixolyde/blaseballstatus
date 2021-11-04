@@ -10,10 +10,10 @@ void main() {
       var simData = await getSimulationData();
       var oldSimData = SimulationData(
         id: simData.id,
-        day: 113,
+        day: 3,
         league: 'd8545021-e9fc-48a3-af74-48685950a183',
         playOffRound: 3,
-        season: 14,
+        season: 0,
         seasonId: '645cdd84-175f-42f1-a9f3-d9014d97ae3b',
         eraTitle: simData.eraTitle,
         subEraTitle: simData.subEraTitle,
@@ -21,12 +21,12 @@ void main() {
       );
       
       var result = await calcSiteData(oldSimData);
-      expect(result.season, 14);
-      expect(result.day, 113);
-      expect(result.sub1id, '943dd53f-fd89-45c3-9a56-78ac1088f57d');
-      expect(result.sub1name, 'The Levil League');
-      expect(result.sub2id, '5945c7db-c097-4eb7-967f-11c5bbef5c25');
-      expect(result.sub2name, 'The Glood League');
+      expect(result.season, 0);
+      expect(result.day, 3);
+      expect(result.sub1id, '980a5f83-68da-4830-bc54-25d9a2c06939');
+      expect(result.sub1name, 'Liquid');
+      expect(result.sub2id, 'ff0a0b0f-a043-460e-9ddc-1fc4f8801b38');
+      expect(result.sub2name, 'Solid');
       expect(result.leagueWildCards, false);
       
     });

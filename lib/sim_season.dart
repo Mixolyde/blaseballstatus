@@ -11,13 +11,13 @@ Random rand = Random(0);
 @visibleForTesting
 Future<void> setLateData(SimulationData testSimData) async {
   simData = testSimData;
-  season = await getSeason(simData.season);
+  season = await getSeason();
 }
 
 Future<void> calculateChances(List<List<TeamStandings>> subStandings, int numSims, 
   List<PlayoffBracketEntry> entries) async {
   simData = await getSimulationData();
-  season = await getSeason(simData.season);
+  season = await getSeason();
   print('Getting game data');
   games = await getAllGames(simData.season);
   print('Getting postseason data');

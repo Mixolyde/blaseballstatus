@@ -53,8 +53,8 @@ Published at https://playoffstatus.sibr.dev/
 - [x] Move web site to a blaseball-specific domain
 - [x] Handle Wild Card decree on-the-fly
 * v0.0.8
-- [ ] Use new api endpoints
-- [ ] Handle new seasonid
+- [x] Use new api endpoints
+- [x] Handle new sim id
 - [ ] Switch to https://api.sibr.dev/corsmechanics/api.blaseball.com/ ...
 * v0.0.9
 - [ ] Live Postseason bracket updates

@@ -157,7 +157,7 @@ void main() async {
       var numTeams = 20;
       var numGames = 29;
       var numCompleted = 16;
-      var numSims = 101;
+      var numSims = 7;
       var standings = createStandings(numTeams, numCompleted);
       var games = createSeasonOfGames(numGames, numCompleted, 
         numTeams, standings,
@@ -177,7 +177,7 @@ void main() async {
       var numTeams = 20;
       var numGames = 99;
       var numCompleted = 0;
-      var numSims = 2007;
+      var numSims = 7;
       var standings = createStandings(numTeams, numCompleted);
       var games = createSeasonOfGames(numGames, numCompleted, 
         numTeams, standings,
@@ -197,7 +197,7 @@ void main() async {
       var numTeams = 20;
       var numGames = 99;
       var numCompleted = 92;
-      var numSims = 11;
+      var numSims = 7;
       var standings = createStandings(numTeams, numCompleted);
 
       var games = createSeasonOfGames(numGames, numCompleted, 

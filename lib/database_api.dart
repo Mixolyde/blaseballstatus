@@ -25,24 +25,21 @@ final String _playoffsUrl = _dbUrl + 'playoffs?number=';
 final String _playoffMatchupsUrl = _dbUrl + 'playoffMatchups?ids=';
 final String _playoffRoundUrl = _dbUrl + 'playoffRound?id=';
 final String _scheduleUrl = apiUrl + 'api/games/schedule/';
-final String _seasonUrl = _dbUrl + 'season?number=';
 final String _simulationDataUrl = _dbUrl + 'simulationData';
-final String _standingsUrl = _dbUrl + 'standings?id=';
 final String _subleagueUrl = _dbUrl + 'subleague?id=';
 final String _tiebreakersUrl = _dbUrl + 'tiebreakers?id=';
 final String _streamDataUrl = apiUrl + 'events/streamData';
 
-Future<Season> getSeason(int season) async {
-  var response = await get(Uri.parse(_seasonUrl 
-    + season.toString()) );
-  //print('Response body: ${response.body}');
-  return Season.fromJson(json.decode(response.body));
+Future<Season> getSeason() async {
+  var parsed = await getEventStreamData(['games', 'season']);
+  var season = Season.fromJson(parsed);
+  print(season);
+  return season;
 }
 
 Future<Standings> getStandings() async {
   var parsed = await getEventStreamData(['games', 'standings']);
   var standings = Standings.fromJson(parsed);
-  //print('Season: $season');
   return standings;
 }
 

@@ -9,7 +9,7 @@ import '../lib/site_objects.dart';
 void main() { 
   group('update tests', () {
     test('update and load objects', () async {
-      await update.main(['-c', '100']);
+      await update.main(['-c', '3']);
       
       var temp = Directory.systemTemp;
 
@@ -17,7 +17,7 @@ void main() {
       var body = await File(filenameJSON).readAsString();     
 
       var sitedata = SiteData.fromJson(json.decode(body));
-      expect(sitedata.season, greaterThan(1));
+      expect(sitedata.season, greaterThanOrEqualTo(0));
       expect(sitedata.day, greaterThan(-1));
       
       filenameJSON = temp.path + '/data/${sitedata.sub1id}.json';
