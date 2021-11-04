@@ -12,8 +12,9 @@ class SiteData {
 
   
   List<String> get subnicknames => 
-    [sub1name.split(' ')[1],
-    sub2name.split(' ')[1]];
+    //[sub1name.split(' ')[1],
+    //sub2name.split(' ')[1]];
+    [sub1name, sub2name];
   
   SiteData.fromMap({this.lastUpdate = '', 
     this.season = 0, this.day = 0,

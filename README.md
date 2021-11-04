@@ -54,9 +54,12 @@ Published at https://playoffstatus.sibr.dev/
 - [x] Handle Wild Card decree on-the-fly
 * v0.0.8
 - [x] Use new api endpoints
-- [x] Handle new sim id
+- [x] Handle new sim id 
 - [ ] Switch to https://api.sibr.dev/corsmechanics/api.blaseball.com/ ...
+- [ ] Fix analysis infos
+- [x] Add attribution for dart-eventsource
 * v0.0.9
+- [ ] Display data update time in local time zone
 - [ ] Live Postseason bracket updates
 - [ ] Live Postseason chance updates
 - [ ] Team Schedules
