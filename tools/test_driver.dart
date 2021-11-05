@@ -51,9 +51,9 @@ Future<void> main() async {
   
   //print(playoffs);
   
-  var games = await getGames(0, 0, sim:simData.id);
-  print(games);
-  print('Count: ${games.length}');
+  //var games = await getGames(0, 0, sim:simData.id);
+  //print(games);
+  //print('Count: ${games.length}');
   
   //var allGames = await getAllGames(0, sim:simData.id);
   //print('All Count: ${allGames.length}');
@@ -64,4 +64,6 @@ Future<void> main() async {
   Standings standings = await getStandings();
   print(standings);
   
+  var season = await getEventStreamData(['games', 'season']);
+  print (season);
 }
