@@ -10,7 +10,6 @@ late Subleague _sub2;
 List<List<TeamStandings>> subStandings = [];
 
 List<Team> _allTeams = [];
-late Season _season;
 late Standings _standings;
 late Tiebreakers _tiebreakers;
 List<String> _dayOfWeek = ['', 'Mon', 'Tue', 'Wed',
@@ -82,7 +81,7 @@ Future<List<TeamStandings>> calculateSubLeague(Subleague sub, List<Game> games) 
   
   var teamStandings = <TeamStandings>[];
   teams.forEach((team){
-    var divName;
+    var divName ="divName";
     if(div1.teams.contains(team.id)){
       if(div1.name.contains(' ')){
         divName = div1.name.split(' ')[1];

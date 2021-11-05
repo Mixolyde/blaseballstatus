@@ -164,7 +164,7 @@ Future<CompletePostseason?> getCompletePostseason(int season) async {
 }
 
 Future<dynamic> getEventStreamData(List<String> objects) async {
-  print("StreamDataUrl: ${_streamDataUrl}");
+  print("StreamDataUrl: $_streamDataUrl");
   EventSource eventSource = await EventSource
       .connect(_streamDataUrl);
   

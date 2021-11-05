@@ -21,6 +21,6 @@ class Team {
   }
   
   @override
-  String toString() => '$fullName';
+  String toString() => fullName;
   
 }
