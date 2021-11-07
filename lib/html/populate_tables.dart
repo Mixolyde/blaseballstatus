@@ -11,7 +11,7 @@ void populateWinsBehindTable(List<TeamStandings> subStandings, bool groupByDiv){
       t.division != firstDiv).toList());
   }
   
-  standings.forEach((row){
+  for (var row in standings){
     var trow = insertCommonCells(table, row);
     var cell = trow.insertCell(5);
     cell.text = row.gamesPlayed.toString();    
@@ -21,7 +21,7 @@ void populateWinsBehindTable(List<TeamStandings> subStandings, bool groupByDiv){
     cell.text = row.gbDiv;        
     cell = trow.insertCell(8);
     cell.text = row.gbWc;
-  });
+  }
   
   if(groupByDiv == true){
     insertSeparatorRow(table, 8, 9); 
@@ -36,13 +36,13 @@ void populatePlayoffBracket(List<PlayoffBracketEntry> entries){
   print('Bracket 0: ${entries[0]}');
   
   // Set Leagues
-  ['brk-mu_1_2', 'brk-mu_2_1', 'brk-mu_2_2', 'brk-mu_3_1'].forEach((s) =>
-    querySelector('#$s .brk-date')?.text = '${entries[0].subleague} League'
-  );
+  for (var s in ['brk-mu_1_2', 'brk-mu_2_1', 'brk-mu_2_2', 'brk-mu_3_1']) {
+    querySelector('#$s .brk-date')?.text = '${entries[0].subleague} League';
+  }
   
-  ['brk-mu_1_7', 'brk-mu_2_3', 'brk-mu_2_4', 'brk-mu_3_2'].forEach((s) =>
-    querySelector('#$s .brk-date')?.text = '${entries[2].subleague} League'
-  );
+  for (var s in ['brk-mu_1_7', 'brk-mu_2_3', 'brk-mu_2_4', 'brk-mu_3_2']) {
+    querySelector('#$s .brk-date')?.text = '${entries[2].subleague} League';
+  }
   
   // Set Entries
   var matchupIDs = [

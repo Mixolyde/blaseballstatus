@@ -47,7 +47,6 @@ String getUpdateTime(){
 
 Future<List<List<TeamStandings>>> calcStats(SimulationData simData) async {
   print('Beginning stat calculations for current season: ${simData.season + 1}');
-  _season = await getSeason();
   
   List<Game> games;
   if (simData.day < 99){
@@ -80,7 +79,7 @@ Future<List<TeamStandings>> calculateSubLeague(Subleague sub, List<Game> games) 
 
   
   var teamStandings = <TeamStandings>[];
-  teams.forEach((team){
+  for (var team in teams) {
     var divName ="divName";
     if(div1.teams.contains(team.id)){
       if(div1.name.contains(' ')){
@@ -113,7 +112,7 @@ Future<List<TeamStandings>> calculateSubLeague(Subleague sub, List<Game> games) 
       gamesPlayed,
       _tiebreakers.order.indexOf(team.id));
     teamStandings.add(standing);
-  });
+  }
 
   //sort first then calculate
   sortTeamsNotGrouped(teamStandings);

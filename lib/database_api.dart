@@ -153,9 +153,9 @@ Future<CompletePostseason?> getCompletePostseason(int season) async {
     print('Fetched round ${playoffRounds[id]} with ${playoffRounds[id]?.matchupIDs.length} matchupIDs');
     if (round.matchupIDs.isNotEmpty){
       var matchups = await getPlayoffMatchups(round.matchupIDs);
-      matchups.forEach((matchup){
+      for (var matchup in matchups) {
         playoffMatchups[matchup.id] = matchup;
-      });
+      }
     }
   });
   
@@ -173,11 +173,11 @@ Future<dynamic> getEventStreamData(List<String> objects) async {
   Map<String, dynamic> responseMap = json.decode(event.data!)['value']!;
   print('ResponseMap Keys: ' + responseMap.keys.join(' '));
   var resultMap = responseMap;
-  objects.forEach((object){
+  for (var object in objects ){
     print("Checking resultMap for key: $object");
     resultMap = resultMap[object]! as Map<String, dynamic>;
     print(resultMap.keys.join(' '));
-  });
+  }
 
   return resultMap;
 }

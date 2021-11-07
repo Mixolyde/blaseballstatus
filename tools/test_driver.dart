@@ -6,8 +6,6 @@ import '../lib/database_api.dart';
 // import '../lib/sim_season.dart';
 // import '../lib/site_objects.dart';
 
-import "../lib/eventsource/eventsource.dart";
-
 
 /// Test script used for manually executing methods and testing functionality.
 Future<void> main() async {  

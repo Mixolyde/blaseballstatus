@@ -75,7 +75,8 @@ void main() async {
       var sims = <String, TeamSim>{};
       for(var i = 1; i < 5; i++){
         sims['Team $i'] = TeamSim('Team $i', 0, 0, 0, i, 'Div 0');
-      };
+      }
+      
       sims.values.forEach((sim) => sim.save());
       
       simulateSeason(games, sims);

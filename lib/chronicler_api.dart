@@ -16,9 +16,9 @@ Future<List<Game>> getAllGames(int season) async {
   
   var games = <Game>[];
   List<dynamic> objects = json.decode(response.body)['data'];
-  objects.forEach((o){
+  for (var o in objects) {
     games.add(Game.fromJson(o['data']));
-  });
+  }
 
   return games;
 }
