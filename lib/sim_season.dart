@@ -52,13 +52,13 @@ Future<List<PlayoffBracketEntry>> calculatePlayoffBracketEntries(
   print('Leagues: $league1 $league2');
   
   print('$league1 Teams:');
-  subStandings[0].forEach((stand){
-    print('${stand}');
-  });
+  for(var stand in subStandings[0]) {
+    print(stand);
+  }
   print('$league2 Teams:');
-  subStandings[1].forEach((stand){
-    print('${stand}');
-  });
+  for(var stand in subStandings[1]) {
+    print(stand);
+  } 
   
   //default entries for no post season data
   var entries = List.generate(19, (i) =>
@@ -325,13 +325,13 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
   // counts for ILB champ, ILB series, League series, Round 1, WC Round
   sims.keys.forEach((key) => postCounts[key] = [0, 0, 0, 0, 0]);
   var simsByLeague = <List<TeamSim>>[];
-  standings.forEach((standingList) {
+  for (var standingList in standings) {
     var simList = <TeamSim>[];
-    standingList.forEach((standing) {
+    for (var standing in standingList) {
       simList.add(sims[standing.id]!);
-    });
+    }
     simsByLeague.add(simList);
-  });
+  }
   
   for (var count = 0; count < numSims; count++){
     simulateSeason(games, sims);
@@ -341,7 +341,7 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
     }
     
     //sort and count positions
-    simsByLeague.forEach((simLeague) {
+    for (var simLeague in simsByLeague) {
       sortTeamSims(simLeague);
       TeamSim sim;
       //print('Sorted simleague: $simLeague');
@@ -374,9 +374,9 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
           postCounts[sim.id]![4]++;
         }        
       }
-    });
+    }
     
-    sims.values.forEach((sim) => sim.load());
+    for (var sim in sims.values) { sim.load(); }
   }  
   
   //update standings with counts / numSims and formatted
@@ -456,7 +456,7 @@ void simulatePostSeason(List<List<TeamSim>> simsByLeague){
   //simulate complete playoff run
   var leagueChampSims = <TeamSim>[];
   
-  simsByLeague.forEach((simLeague) {
+  for (var simLeague in simsByLeague) {
     sortTeamSims(simLeague);
     
     var round1Sims = <TeamSim>[];
@@ -495,7 +495,7 @@ void simulatePostSeason(List<List<TeamSim>> simsByLeague){
     
     var slWinner = simulateSeries(slRoundSims[0], slRoundSims[1], 3, teamCount);
     leagueChampSims.add(slWinner);
-  });
+  }
   // ilb round
   leagueChampSims.forEach((sim) => sim.ilbSeries = true);
   var ilbWinner = simulateSeries(leagueChampSims[0], leagueChampSims[1], 3, teamCount);
@@ -507,14 +507,14 @@ void simulatePostSeason(List<List<TeamSim>> simsByLeague){
 TeamSim simulateGame(TeamSim awaySim, TeamSim homeSim, int teamCount){
   //default away chance
   num awayChance = .5;
-  if(awaySim.notLosses_save != homeSim.notLosses_save ||
-    awaySim.losses_save != homeSim.losses_save){
-    //print('Uneven match: ${awaySim.actualWins_save}-${awaySim.losses_save} vs. ' +
-    //  '${homeSim.actualWins_save}-${homeSim.losses_save}');
+  if(awaySim.notLossesSave != homeSim.notLossesSave ||
+    awaySim.lossesSave != homeSim.lossesSave){
+    //print('Uneven match: ${awaySim.actualwinsSave}-${awaySim.lossesSave} vs. ' +
+    //  '${homeSim.actualwinsSave}-${homeSim.lossesSave}');
     //Pa = (WPa * (1 - WPh)) / 
     // ((WPa * (1 - WPh) + WPh * ( 1 - WPa)))
-    num WPa = awaySim.notLosses_save / (awaySim.losses_save + awaySim.notLosses_save);
-    num WPh = homeSim.notLosses_save / (homeSim.losses_save + homeSim.notLosses_save);
+    num WPa = awaySim.notLossesSave / (awaySim.lossesSave + awaySim.notLossesSave);
+    num WPh = homeSim.notLossesSave / (homeSim.lossesSave + homeSim.notLossesSave);
     awayChance = (WPa * (1 - WPh)) / 
       ((WPa * (1 - WPh) + WPh * ( 1 - WPa)));
     //adjust chance for N-team league average without this team
@@ -553,8 +553,8 @@ TeamSim simulateSeries(TeamSim awaySim, TeamSim homeSim, int winsNeeded, int tea
 
 Map<String, TeamSim> mapTeamSims(List<List<TeamStandings>> standings, List<Game> games){
   var sims = <String, TeamSim>{};
-  standings.forEach((standingsList) {
-    standingsList.forEach((standing) {
+  for (var standingsList in standings) {
+    for (var standing in standingsList) {
       var actualWins = games.where((g) =>
         (g.awayTeam == standing.id && g.awayScore > g.homeScore) ||
         (g.homeTeam == standing.id && g.homeScore > g.awayScore)).length;
@@ -562,8 +562,8 @@ Map<String, TeamSim> mapTeamSims(List<List<TeamStandings>> standings, List<Game>
         standing.wins, standing.losses, standing.favor, standing.division);
       sim.save();
       sims[sim.id] = sim;
-    });
-  });
+    }
+  }
   return sims;
 }
 
@@ -612,9 +612,9 @@ class TeamSim {
   int favor;
   String division;
   
-  int notLosses_save = 0;
-  int wins_save = 0;
-  int losses_save = 0;
+  int notLossesSave = 0;
+  int winsSave = 0;
+  int lossesSave = 0;
   
   bool wcSeries = false;
   bool r1Series = false;
@@ -626,15 +626,15 @@ class TeamSim {
     this.favor, this.division);
   
   void save(){
-    notLosses_save = notLosses;
-    wins_save = wins;
-    losses_save = losses;
+    notLossesSave = notLosses;
+    winsSave = wins;
+    lossesSave = losses;
   }
   
   void load(){
-    notLosses = notLosses_save;
-    wins = wins_save;
-    losses = losses_save;
+    notLosses = notLossesSave;
+    wins = winsSave;
+    losses = lossesSave;
     wcSeries = false;
     r1Series = false;
     slSeries = false;
@@ -644,6 +644,6 @@ class TeamSim {
   
   @override
   String toString() => '$id Wins $wins Record: ($notLosses - $losses) '
-    'Saved: $notLosses_save $wins_save $losses_save';
+    'Saved: $notLossesSave $winsSave $lossesSave';
   
 }

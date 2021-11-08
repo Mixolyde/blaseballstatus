@@ -124,7 +124,7 @@ void populateChancesTable(List<TeamStandings> subStandings, bool groupByDiv){
       t.division != firstDiv).toList());
   }
   
-  standings.forEach((row){
+  for(var row in standings) {
     var trow = insertCommonCells(table, row);
     var cell = trow.insertCell(5);
     cell.text = (99 - row.gamesPlayed).toString();  
@@ -145,7 +145,7 @@ void populateChancesTable(List<TeamStandings> subStandings, bool groupByDiv){
           break;
       }
     }
-  });
+  }
   
   if(groupByDiv == true){
     insertSeparatorRow(table, 8, 11); 
@@ -181,7 +181,7 @@ void populatePostseasonTable(List<List<TeamStandings>> allStandings, bool groupB
     return 0;
   });
   
-  standings.forEach((row){
+  for(var row in standings) {
     var trow = insertCommonCells(table, row, showLeague: true);
     var psRounds = 4;
     if(sitedata.leagueWildCards){
@@ -198,7 +198,7 @@ void populatePostseasonTable(List<List<TeamStandings>> allStandings, bool groupB
       }
 
     }
-  });
+  }
   
   if(groupByDiv == true){
     insertSeparatorRow(table, 8, 11); 
@@ -221,7 +221,7 @@ void populateWinningTable(List<TeamStandings> subStandings, bool groupByDiv){
       t.division != firstDiv).toList());
   }
   
-  standings.forEach((row){
+  for(var row in standings) {
     var trow = insertCommonCells(table, row);
     var cell = trow.insertCell(5);
     cell.text = (99 - row.gamesPlayed).toString();      
@@ -239,7 +239,7 @@ void populateWinningTable(List<TeamStandings> subStandings, bool groupByDiv){
           break;
       }
     }
-  });
+  }
   
   if(groupByDiv == true){
     insertSeparatorRow(table, 8, 11); 
@@ -262,7 +262,7 @@ void populatePartyTimeTable(List<TeamStandings> subStandings, bool groupByDiv){
       t.division != firstDiv).toList());
   }
   
-  standings.forEach((row){
+  for(var row in standings) {
     var trow = insertCommonCells(table, row);   
     var cell = trow.insertCell(5);
     cell.text = (99 - row.gamesPlayed).toString();    
@@ -279,7 +279,7 @@ void populatePartyTimeTable(List<TeamStandings> subStandings, bool groupByDiv){
           break;
       }
     }
-  });
+  }
   
   if(groupByDiv == true){
     insertSeparatorRow(table, 8, 11); 
