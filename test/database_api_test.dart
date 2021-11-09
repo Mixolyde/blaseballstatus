@@ -8,7 +8,6 @@ void main() {
 
 void apiTests() {
   group('regular season', () {
-    var seasonNumber = 5;
     var teamCount = 20;
     var divisionCount = 1;
     test('Current Simulation Data', () async {

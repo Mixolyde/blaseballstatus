@@ -606,7 +606,7 @@ List<TeamStandings> getEarlySeasonStandings(){
 
 List<TeamStandings> getEarlySeasonResortNeededStandings(){
   var teamStandings = <TeamStandings>[];
-  var div;
+  String div;
   for(var i = 0; i < standingsData.length; i++){
     if(i < 5) {
       div = 'High';
@@ -653,7 +653,7 @@ List<TeamStandings> getLateSeasonStandings(){
 
 List<TeamStandings> getLateSeasonResortNeededStandings(){
   var teamStandings = <TeamStandings>[];
-  var div;
+  String div;
   for(var i = 0; i < standingsData.length; i++){
     if(i < 5) {
       div = 'High';
@@ -722,7 +722,7 @@ List<TeamStandings> getEndOfSeasonStandings(){
 
 List<TeamStandings> getEndOfSeasonResortNeededStandings(){
   var teamStandings = <TeamStandings>[];
-  var div;
+  String div;
   for(var i = 0; i < standingsData.length; i++){
     if(i < 5) {
       div = 'High';

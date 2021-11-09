@@ -58,11 +58,11 @@ void main() async {
       var sims = mapTeamSims(standings, games);
       print(sims);
       simulateSeason(games, sims);
-      sims.values.forEach((sim){
+      for (var sim in sims.values){
         expect(sim.notLosses == sim.wins, true);
         expect(sim.notLosses + sim.losses, 10);
         print(sim);
-      });
+      }
     });   
     test('Save and load', () {
       var games = <Game>[];
@@ -82,11 +82,11 @@ void main() async {
       simulateSeason(games, sims);
       
       sims.values.forEach((sim) => sim.load());
-      sims.values.forEach((sim) {
+      for (var sim in sims.values) {
         expect(sim.notLosses, 0);
         expect(sim.wins, 0);
         expect(sim.losses, 0);
-      });
+      }
 
     });   
     test('new long season', () {
@@ -99,11 +99,11 @@ void main() async {
       var sims = mapTeamSims(standings, games);
       print(sims);
       simulateSeason(games, sims);
-      sims.values.forEach((sim){
+      for (var sim in sims.values){
         expect(sim.notLosses == sim.wins, true);
         expect(sim.notLosses + sim.losses, numGames);
         print(sim);
-      });
+      }
     }); 
     test('partial long season', () {
       var numTeams = 12;

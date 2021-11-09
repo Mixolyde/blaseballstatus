@@ -511,12 +511,12 @@ TeamSim simulateGame(TeamSim awaySim, TeamSim homeSim, int teamCount){
     awaySim.lossesSave != homeSim.lossesSave){
     //print('Uneven match: ${awaySim.actualwinsSave}-${awaySim.lossesSave} vs. ' +
     //  '${homeSim.actualwinsSave}-${homeSim.lossesSave}');
-    //Pa = (WPa * (1 - WPh)) / 
-    // ((WPa * (1 - WPh) + WPh * ( 1 - WPa)))
-    num WPa = awaySim.notLossesSave / (awaySim.lossesSave + awaySim.notLossesSave);
-    num WPh = homeSim.notLossesSave / (homeSim.lossesSave + homeSim.notLossesSave);
-    awayChance = (WPa * (1 - WPh)) / 
-      ((WPa * (1 - WPh) + WPh * ( 1 - WPa)));
+    //Pa = (wPa * (1 - wPh)) / 
+    // ((wPa * (1 - wPh) + wPh * ( 1 - wPa)))
+    num wPa = awaySim.notLossesSave / (awaySim.lossesSave + awaySim.notLossesSave);
+    num wPh = homeSim.notLossesSave / (homeSim.lossesSave + homeSim.notLossesSave);
+    awayChance = (wPa * (1 - wPh)) / 
+      ((wPa * (1 - wPh) + wPh * ( 1 - wPa)));
     //adjust chance for N-team league average without this team
     //WP'(N) = WP - ((WP - .500) / (N - 1))
     awayChance = awayChance - ((awayChance - .5) / (teamCount - 1));
