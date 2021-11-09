@@ -39,10 +39,12 @@ Future<SiteData> calcSiteData(SimulationData simData) async {
 
 String getUpdateTime(){
   var now = DateTime.now();
-  f.minimumIntegerDigits = 2;
-  return '${_dayOfWeek[now.weekday]} '  
-    '${_monthOfYear[now.month]} ' 
-    '${now.day} ${f.format(now.hour)}${f.format(now.minute)}';
+  //.minimumIntegerDigits = 2;
+  print("IsoString: ${now.toIso8601String()}");
+  return now.toIso8601String();
+  //return '${_dayOfWeek[now.weekday]} '  
+  //  '${_monthOfYear[now.month]} ' 
+  //  '${now.day} ${f.format(now.hour)}${f.format(now.minute)}';
 }
 
 Future<List<List<TeamStandings>>> calcStats(SimulationData simData) async {

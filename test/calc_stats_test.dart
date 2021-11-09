@@ -6,6 +6,11 @@ import '../lib/site_objects.dart';
 
 void main() {
   group('get site data', () {
+    test('get update time', () {
+      var result = getUpdateTime();
+      expect(true, result.contains("T"));
+      expect(true, result.startsWith("202"));
+    });
     test('fake attributes', () async {
       var simData = await getSimulationData();
       var oldSimData = SimulationData(
