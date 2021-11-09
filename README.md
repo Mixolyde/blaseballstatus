@@ -59,13 +59,14 @@ Published at https://playoffstatus.sibr.dev/
 * v0.0.8
 - [x] Use new api endpoints
 - [x] Handle new sim id 
-- [ ] Switch to https://api.sibr.dev/corsmechanics/api.blaseball.com/ ...
-- [ ] Fix analysis infos
+- [x] Switch to https://api.sibr.dev/corsmechanics/api.blaseball.com/
+- [x] Fix analysis infos
 - [x] Add attribution for dart-eventsource
 * v0.0.9
 - [ ] Display data update time in local time zone
-- [ ] Live Postseason bracket updates
+- [ ] Disable buttons on certain views
 - [ ] Live Postseason chance updates
+* v0.1.0
 - [ ] Team Schedules
 - [ ] Get a twitter account and button
 - [ ] Unit test coverage report
