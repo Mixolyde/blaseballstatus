@@ -144,6 +144,32 @@ void setUpdateTime(SiteData sitedata){
     DateFormat("MMMM d, h:m a").format(local);
 }
 
+void setNavButtonStates(){
+ switch(currentView.activeView){
+  case View.about:
+    (querySelector('#pickLeague1')! as ButtonElement).disabled = true;
+    (querySelector('#pickLeague2')! as ButtonElement).disabled = true;
+    (querySelector('#doGroup')! as ButtonElement).disabled = true;  
+    break;    
+  case View.postseason:
+    (querySelector('#pickLeague1')! as ButtonElement).disabled = true;
+    (querySelector('#pickLeague2')! as ButtonElement).disabled = true;  
+    (querySelector('#doGroup')! as ButtonElement).disabled = false;
+    break; 
+  case View.bracket:
+    (querySelector('#pickLeague1')! as ButtonElement).disabled = true;
+    (querySelector('#pickLeague2')! as ButtonElement).disabled = true;
+    (querySelector('#doGroup')! as ButtonElement).disabled = true;  
+    break;    
+  default:
+    (querySelector('#pickLeague1')! as ButtonElement).disabled = false;
+    (querySelector('#pickLeague2')! as ButtonElement).disabled = false;
+    (querySelector('#doGroup')! as ButtonElement).disabled = false;
+    break;
+  }  
+  
+}
+
 void setSeasonDay(int season, int day){
   if(day < 100){
     querySelector('.wkinfo')!.text = 
@@ -358,6 +384,7 @@ void selectViewButton(){
       
       break;
   }  
+
 }
 
 void clickGroupByDivision(MouseEvent event) {
@@ -428,7 +455,8 @@ void redisplayData(){
     populatePlayoffBracket(entries);
     break;
   }
-
+  
+  setNavButtonStates();
 }
 
 void pushViewState(){
