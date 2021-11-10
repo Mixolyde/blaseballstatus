@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:html';
+import 'package:cron/cron.dart';
+import 'package:intl/intl.dart';
 
 import 'package:blaseballstatus/calc_stats.dart';
 import 'package:blaseballstatus/current_view.dart';
@@ -9,7 +11,6 @@ import 'package:blaseballstatus/s3_api.dart' as s3;
 import 'package:blaseballstatus/site_objects.dart';
 import 'package:blaseballstatus/html/populate_tables.dart';
 
-import 'package:cron/cron.dart';
 
 late String aboutHTML;
 late String bracketHTML;
@@ -68,7 +69,8 @@ Future<void> getContentPages() async {
 
   entries = await s3.getPlayoffBracketEntries();
   
-  querySelector('#lastUpdate')!.text = sitedata.lastUpdate;
+  setUpdateTime(sitedata);
+  
   querySelector('#pickLeague1')!.text = sitedata.subnicknames[0];
   querySelector('#pickLeague2')!.text = sitedata.subnicknames[1];
 
@@ -131,8 +133,15 @@ Future<void> refreshData() async{
     break;
   }
   
-  querySelector('#lastUpdate')!.text = sitedata.lastUpdate;
+  setUpdateTime(sitedata);
 
+}
+
+void setUpdateTime(SiteData sitedata){
+  var local = DateFormat("yyyy-MM-ddTHH:mm:ssZ")
+    .parseUTC(sitedata.lastUpdate).toLocal();
+  querySelector('#lastUpdate')!.text = 
+    DateFormat("MMMM d, h:m a").format(local);
 }
 
 void setSeasonDay(int season, int day){

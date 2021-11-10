@@ -63,7 +63,7 @@ Published at https://playoffstatus.sibr.dev/
 - [x] Fix analysis infos
 - [x] Add attribution for dart-eventsource
 * v0.0.9
-- [ ] Display data update time in local time zone
+- [x] Display data update time in local time zone
 - [ ] Disable buttons on certain views
 - [ ] Live Postseason chance updates
 * v0.1.0
