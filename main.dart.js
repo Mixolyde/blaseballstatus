@@ -542,7 +542,7 @@ return P.bx(null,r)}})
 return P.by($async$eD,r)},
 od(a){var s=A.mp("yyyy-MM-ddTHH:mm:ssZ").f3(a.a,!1,!0).hD(),r=document.querySelector("#lastUpdate")
 r.toString
-J.aS(r,A.mp("MMMM d, h:m a").bt(s))},
+J.aS(r,A.mp("MMMM d, h:mm a").bt(s))},
 oc(a,b){var s
 if(b<100){s=document.querySelector(".wkinfo")
 s.toString
