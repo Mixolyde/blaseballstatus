@@ -141,7 +141,7 @@ void setUpdateTime(SiteData sitedata){
   var local = DateFormat("yyyy-MM-ddTHH:mm:ssZ")
     .parseUTC(sitedata.lastUpdate).toLocal();
   querySelector('#lastUpdate')!.text = 
-    DateFormat("MMMM d, h:m a").format(local);
+    DateFormat("MMMM d, h:mm a").format(local);
 }
 
 void setNavButtonStates(){
