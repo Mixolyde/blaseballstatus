@@ -1,5 +1,5 @@
-// import 'dart:convert';
-// import 'dart:io';
+import 'dart:convert';
+import 'dart:io';
 // import 'package:intl/intl.dart';
 import '../lib/calc_stats.dart';
 import '../lib/database_api.dart';
@@ -59,9 +59,25 @@ Future<void> main() async {
   //var streamResult = await getEventStreamData(['games', 'standings']);
   //print(streamResult);
   
-  Standings standings = await getStandings();
-  print(standings);
+  //Standings standings = await getStandings();
+  //print(standings);
   
-  var season = await getEventStreamData(['games', 'season']);
-  print (season);
+  //var season = await getEventStreamData(['games', 'season']);
+  //print (season);
+  
+  //var games = await getEventStreamData(['games']);
+  //var playoffs = games['postseasons'];
+  //print(playoffs);
+  
+  String contents = File('./test/data/completed_postseason_nowildcard.json').readAsStringSync();
+  //print(contents);
+  
+  var jsonMap = json.decode(contents);
+  //print(jsonMap);
+  
+  var postseasonMap = jsonMap['postseasons'][0]!;
+  //print(postseasonMap);
+  var completePost = CompletePostseason.fromStreamData(postseasonMap);
+  print(completePost);
+  print(completePost.playoffs);
 }

@@ -160,9 +160,13 @@ void apiTests() {
     });   
     test('current postseason', () async {
       var data = await getSimulationData();
-      expect(data.season, greaterThanOrEqualTo(0));      
-      var current = await getCompletePostseason(data.season);
+      var current = await getCurrentPostseason();
       print(current);
+      if(data.inPostSeason){
+        expect(current, isNotNull);
+      } else {
+        expect(current, isNull);
+      }
     });    
   });
   

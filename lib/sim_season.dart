@@ -314,7 +314,7 @@ void populatePlayoffMatchupEntries(PlayoffBracketEntry homeEntry,
 }
 
 void runSimulations(List<Game> games, List<List<TeamStandings>> standings, 
-  int numSims){
+  int numSims) async {
   var sims = mapTeamSims(standings, games);
   
   //simulate season X times and gather results
@@ -334,8 +334,16 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
   }
   
   for (var count = 0; count < numSims; count++){
-    simulateSeason(games, sims);
-    simulatePostSeason(simsByLeague);
+    if(simData.inPostSeason) {
+      // build post season from current stream data
+      var currentPostSeason = (await getCurrentPostseason())!;
+      simulateStartedPostSeason(simsByLeague, currentPostSeason);
+      
+    } else {
+      simulateSeason(games, sims);
+      simulateUnstartedPostSeason(simsByLeague);
+    }
+    
     if (count % 1000 == 0){
       print('Completed simulation count $count');
     }
@@ -401,7 +409,7 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
       }
       
       //postseason percents
-      //TODO handle ^ and X in i=3 and 4
+      //TODO remove if already calculated by above
       if(i == 3 && top3) {
         standing.post[i] = '^';
       } else if ( i == 3 && top4 && !simData.leagueWildCards){
@@ -450,7 +458,7 @@ void simulateSeason(List<Game> games, Map<String, TeamSim> sims){
   });
 }
   
-void simulatePostSeason(List<List<TeamSim>> simsByLeague){
+void simulateUnstartedPostSeason(List<List<TeamSim>> simsByLeague){
   int teamCount = simsByLeague.fold(0, (sum, sub) => sum + sub.length);
   
   //simulate complete playoff run
@@ -501,6 +509,20 @@ void simulatePostSeason(List<List<TeamSim>> simsByLeague){
   var ilbWinner = simulateSeries(leagueChampSims[0], leagueChampSims[1], 3, teamCount);
   //print('ILBWinner: $ilbWinner');
   ilbWinner.ilbChamp = true;
+  
+}
+
+void simulateStartedPostSeason(List<List<TeamSim>> simsByLeague, 
+  CompletePostseason postSeason) {
+  // totalRounds
+  var totalRounds = simData.leagueWildCards ? 4 : 3;
+  // currentRound
+  // currentROundComplete
+  // test for all matchups in round complete (homewins or awaywins == wins needed)
+  // set completed round/matchup standings
+  // simulate unfinished rounds
+  int teamCount = simsByLeague.fold(0, (sum, sub) => sum + sub.length);
+  
   
 }
 

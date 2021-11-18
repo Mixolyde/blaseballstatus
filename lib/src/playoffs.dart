@@ -8,6 +8,29 @@ class CompletePostseason {
   
   CompletePostseason({required this.id, required this.playoffs, 
     required this.playoffRounds, required this.playoffMatchups});
+    
+  static CompletePostseason fromStreamData(Map<String, dynamic> json){
+    Playoffs playoffs = Playoffs(
+      id: json['playoffs']['id'] as String,
+      name: json['playoffs']['name'] as String,
+      numberOfRounds: json['playoffs']['numberOfRounds'] as int,
+      playoffDay: json['playoffs']['playoffDay'] as int,
+      rounds: (json['playoffs']['rounds'] as List<dynamic>)
+        .map((t) => t.toString()).toList() as List<String>,
+      season: json['playoffs']['season'] as int,
+      tomorrowRound: json['playoffs']['tomorrowRound'] as int, 
+      winner: json['playoffs']['winner'] as String,      
+    );
+    
+    var playoffRounds = <String, PlayoffRound>{};
+    // TODO build playoffRounds from allRounds
+    var playoffMatchups = <String, PlayoffMatchup>{};
+    // TODO build playoffMatchups from allMatchups
+    
+    
+    return CompletePostseason(id: playoffs.id, playoffs: playoffs, 
+    playoffRounds: playoffRounds, playoffMatchups: playoffMatchups);
+  }
   
   @override
   String toString() => 'Complete PostSeason ${playoffRounds.keys.length} Rounds '
@@ -75,7 +98,7 @@ class Playoffs {
   }
   
   @override
-  String toString() => '$id Name: $name Season: $season';
+  String toString() => '$id Name: $name Season: $season NumberOfRounds: $numberOfRounds';
 }
 
 /*

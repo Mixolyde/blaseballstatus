@@ -139,11 +139,29 @@ Future<List<PlayoffMatchup>> getPlayoffMatchups(List<String> matchIDs) async {
   return matchups;
 }
 
+Future<CompletePostseason?> getCurrentPostseason() async {
+  var games = await getEventStreamData(['games']);
+  var postseasons = games['postseasons'] as List<dynamic>;
+  print (postseasons);
+  if(postseasons.length == 0 || postseasons[0]!.keys.length == 0){
+    return null;
+  } else {
+    return CompletePostseason.fromStreamData(postseasons[0]!);
+  }
+  
+}
+
 Future<CompletePostseason?> getCompletePostseason(int season) async {
   var playoffs = await getPlayoffs(season);
   if(playoffs == null){
     return null;
   }
+  
+  return buildCompletePostseason(playoffs);
+}
+
+Future<CompletePostseason> buildCompletePostseason(Playoffs playoffs) async {
+
   var playoffRounds = <String, PlayoffRound>{};
   var playoffMatchups = <String, PlayoffMatchup>{};
   
@@ -162,6 +180,8 @@ Future<CompletePostseason?> getCompletePostseason(int season) async {
   return CompletePostseason(id: playoffs.id, playoffs: playoffs, 
     playoffRounds: playoffRounds, playoffMatchups: playoffMatchups);
 }
+
+
 
 Future<dynamic> getEventStreamData(List<String> objects) async {
   print("StreamDataUrl: $_streamDataUrl");
