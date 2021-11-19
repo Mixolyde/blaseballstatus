@@ -23,10 +23,14 @@ class CompletePostseason {
     );
     
     var playoffRounds = <String, PlayoffRound>{};
-    // TODO build playoffRounds from allRounds
-    var playoffMatchups = <String, PlayoffMatchup>{};
-    // TODO build playoffMatchups from allMatchups
+    for(var roundMap in json['allRounds']){
+      playoffRounds[roundMap['id']] = PlayoffRound.fromJson(roundMap);
+    }
     
+    var playoffMatchups = <String, PlayoffMatchup>{};
+    for(var matchupMap in json['allMatchups']){
+      playoffMatchups[matchupMap['id']] = PlayoffMatchup.fromJson(matchupMap);
+    }
     
     return CompletePostseason(id: playoffs.id, playoffs: playoffs, 
     playoffRounds: playoffRounds, playoffMatchups: playoffMatchups);

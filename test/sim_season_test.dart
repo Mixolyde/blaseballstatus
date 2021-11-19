@@ -8,8 +8,8 @@ import '../lib/site_objects.dart';
 
 Random rand = Random(0);
 
-void main() async {
-  await setNoWildCardSimData();
+Future<void> main() async {
+  await setSimDataOptions(false, 0);
   
   group('single game', () {
     test('Teams with no games', () {
@@ -228,7 +228,6 @@ void main() async {
           }
         }
       }));       
-      
     }); 
   });   
   /* TODO: fix playoff bracket entries for no WILD CARD
@@ -404,35 +403,19 @@ List<Game> createSeasonOfGames(int numDays, int completedDays,
   return games;
 }
 
-
-Future<void> setNoWildCardSimData() async {
+Future<void> setSimDataOptions(bool wildCard, int day) async {
   var currentSimData = await getSimulationData();
   var simData = SimulationData(
     id: currentSimData.id,
-    day: 113,
+    day: day,
     league: 'd8545021-e9fc-48a3-af74-48685950a183',
     playOffRound: 3,
     season: 14,
     seasonId: '645cdd84-175f-42f1-a9f3-d9014d97ae3b',
     eraTitle: currentSimData.eraTitle,
     subEraTitle: currentSimData.subEraTitle,
-    attributes: ['TEST_ATTR1', 'TEST_ATTR2', 'TEST_ATTR3'],
-  );
-  await setLateData(simData);
-}
-
-Future<void> setWildCardSimData() async {
-  var currentSimData = await getSimulationData();
-  var simData = SimulationData(
-    id: currentSimData.id,
-    day: 113,
-    league: 'd8545021-e9fc-48a3-af74-48685950a183',
-    playOffRound: 3,
-    season: 14,
-    seasonId: '645cdd84-175f-42f1-a9f3-d9014d97ae3b',
-    eraTitle: currentSimData.eraTitle,
-    subEraTitle: currentSimData.subEraTitle,
-    attributes: ['TEST_ATTR1', 'TEST_ATTR2', 'TEST_ATTR3','WILD_CARDS'],
+    attributes: wildCard ? ['TEST_ATTR1', 'TEST_ATTR2', 'TEST_ATTR3','WILD_CARDS']
+      : ['TEST_ATTR1', 'TEST_ATTR2', 'TEST_ATTR3'],
   );
   await setLateData(simData);
 }

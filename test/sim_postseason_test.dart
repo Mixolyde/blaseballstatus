@@ -9,16 +9,16 @@ import 'sim_season_test.dart';
 Random rand = Random(0);
 
 
-void main() async {
-  await setNoWildCardSimData();
+Future<void> main() async {
+  await setSimDataOptions(false, 0);
 
   group('single simulation Wild Card', () {
     test('new season', () async { 
-      await setWildCardSimData();
       var numTeams = 20;
       var numGames = 99;
       var numCompleted = 0;
       var numSims = 1;
+      await setSimDataOptions(true, numCompleted);
       var standings = createStandings(numTeams, numCompleted);
       var games = createSeasonOfGames(numGames, numCompleted, 
         numTeams, standings,
@@ -36,12 +36,12 @@ void main() async {
       })); 
       //total number of ilb champs should be numSims
     });  
-    test('completed season', () async { 
-      await setWildCardSimData(); 
+    test('completed season with wild cards', () async { 
       var numTeams = 20;
       var numGames = 99;
       var numCompleted = 99;
       var numSims = 1;
+      await setSimDataOptions(true, numCompleted);
       var standings = createStandings(numTeams, numCompleted);
       var games = createSeasonOfGames(numGames, numCompleted, 
         numTeams, standings,
@@ -62,11 +62,11 @@ void main() async {
   });
   group('single simulation no Wild Card', () {
     test('new season', () async { 
-      await setNoWildCardSimData();
       var numTeams = 20;
       var numGames = 99;
       var numCompleted = 0;
       var numSims = 1;
+      await setSimDataOptions(false, numCompleted);
       var standings = createStandings(numTeams, numCompleted);
       var games = createSeasonOfGames(numGames, numCompleted, 
         numTeams, standings,
@@ -93,12 +93,12 @@ void main() async {
         }
       })); 
     });  
-    test('completed season', () async { 
-      await setNoWildCardSimData(); 
+    test('completed season no wild card', () async { 
       var numTeams = 20;
       var numGames = 99;
       var numCompleted = 99;
       var numSims = 1;
+      await setSimDataOptions(false, numCompleted);
       var standings = createStandings(numTeams, numCompleted);
       var games = createSeasonOfGames(numGames, numCompleted, 
         numTeams, standings,
@@ -139,11 +139,11 @@ void main() async {
   });  
   group('multiple simulations', () {
     test('completed season wild card', () async { 
-      await setWildCardSimData();
       var numTeams = 20;
       var numGames = 99;
       var numCompleted = 99;
       var numSims = 19;
+      await setSimDataOptions(true, numCompleted);
       var standings = createStandings(numTeams, numCompleted);
       var games = createSeasonOfGames(numGames, numCompleted, 
         numTeams, standings,
@@ -164,11 +164,11 @@ void main() async {
     });
     
     test('new season no wild card', () async { 
-      await setNoWildCardSimData();
       var numTeams = 20;
       var numGames = 99;
       var numCompleted = 0;
       var numSims = 19;
+      await setSimDataOptions(false, numCompleted);
       var standings = createStandings(numTeams, numCompleted);
       var games = createSeasonOfGames(numGames, numCompleted, 
         numTeams, standings,
@@ -197,11 +197,11 @@ void main() async {
       })); 
     });    
     test('completed season no wild card', () async { 
-      await setNoWildCardSimData();
       var numTeams = 20;
       var numGames = 99;
       var numCompleted = 99;
       var numSims = 19;
+      await setSimDataOptions(false, numCompleted);
       var standings = createStandings(numTeams, numCompleted);
       var games = createSeasonOfGames(numGames, numCompleted, 
         numTeams, standings,

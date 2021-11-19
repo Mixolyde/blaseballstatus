@@ -147,7 +147,7 @@ void apiTests() {
       expect(first.homeTeam.length, 36);
       expect(first.homeWins, 0);
     });
-    test('complete postseason', () async {
+    test('complete historical postseason', () async {
       var current = await getCompletePostseason(seasonNumber);
       if(current == null) fail('current is null');
       expect(current.playoffs.season, seasonNumber);
@@ -164,6 +164,11 @@ void apiTests() {
       print(current);
       if(data.inPostSeason){
         expect(current, isNotNull);
+        expect(current!.id, isNotNull);
+        expect(current.id, current.playoffs.id);
+        expect(current.playoffs.numberOfRounds, greaterThan(0));
+        expect(current.playoffs.rounds.length, greaterThan(0));
+        expect(current.playoffs.rounds.length, current.playoffs.numberOfRounds);
       } else {
         expect(current, isNull);
       }

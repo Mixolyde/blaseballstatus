@@ -337,9 +337,11 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
     if(simData.inPostSeason) {
       // build post season from current stream data
       var currentPostSeason = (await getCurrentPostseason())!;
+      // TODO fill in completed round/matchup data in sims
       simulateStartedPostSeason(simsByLeague, currentPostSeason);
       
     } else {
+      //simulate the rest of the regular season and unstarted post season
       simulateSeason(games, sims);
       simulateUnstartedPostSeason(simsByLeague);
     }
