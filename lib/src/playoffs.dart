@@ -18,6 +18,7 @@ class CompletePostseason {
       rounds: (json['playoffs']['rounds'] as List<dynamic>)
         .map((t) => t.toString()).toList() as List<String>,
       season: json['playoffs']['season'] as int,
+      round: json['playoffs']['round'] as int, 
       tomorrowRound: json['playoffs']['tomorrowRound'] as int, 
       winner: json['playoffs']['winner'] as String,      
     );
@@ -80,12 +81,15 @@ class Playoffs {
   final int playoffDay;
   final List<String> rounds;
   final int season;
+  final int round;
   final int tomorrowRound;
-  final String winner;
+
+  final String? winner;
   
   Playoffs({required this.id, required this.name, required this.numberOfRounds, 
     required this.playoffDay, required this.rounds, required this.season,
-    required this.tomorrowRound, required this.winner});
+    required this.round,
+    required this.tomorrowRound, this.winner});
   
   factory Playoffs.fromJson(Map<String, dynamic> json){
     return Playoffs(
@@ -96,13 +100,16 @@ class Playoffs {
       rounds: (json['rounds'] as List<dynamic>)
         .map((t) => t.toString()).toList() as List<String>,
       season: json['season'] as int,
+      round: json['round'] as int, 
       tomorrowRound: json['tomorrowRound'] as int, 
-      winner: json['winner'] as String,      
+      winner: json['winner'] as String?,      
     );
   }
   
+  bool get currentRoundComplete => round != tomorrowRound || winner != null;
+  
   @override
-  String toString() => '$id Name: $name Season: $season NumberOfRounds: $numberOfRounds';
+  String toString() => '$id Name: $name Season: $season NumberOfRounds: $numberOfRounds Current Round: $round';
 }
 
 /*

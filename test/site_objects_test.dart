@@ -6,7 +6,7 @@ import '../lib/database_api.dart';
 import '../lib/site_objects.dart';
 
 void main() {
-  group('simulatdata', () {
+  group('simulation data', () {
     test('no league wild cards', () async {
       var currentSimData = await getSimulationData();
       var simData = SimulationData(
@@ -69,6 +69,48 @@ void main() {
     });    
   });
   group('playoff objects', () {
+    test('current round incomplete', () {
+      var playoffs = Playoffs(
+        id: 'id',
+        name: 'name',
+        numberOfRounds: 3,
+        playoffDay: 1,
+        rounds: ['round0', 'round1', 'round2'],
+        season: 1,
+        round: 0, 
+        tomorrowRound: 0, 
+        winner: null,      
+      );
+      expect(playoffs.currentRoundComplete, false);
+    });
+    test('current round complete', () {
+      var playoffs = Playoffs(
+        id: 'id',
+        name: 'name',
+        numberOfRounds: 3,
+        playoffDay: 1,
+        rounds: ['round0', 'round1', 'round2'],
+        season: 1,
+        round: 0, 
+        tomorrowRound: 1, 
+        winner: null,      
+      );
+      expect(playoffs.currentRoundComplete, true);
+    });
+    test('current round complete with winner', () {
+      var playoffs = Playoffs(
+        id: 'id',
+        name: 'name',
+        numberOfRounds: 3,
+        playoffDay: 1,
+        rounds: ['round0', 'round1', 'round2'],
+        season: 1,
+        round: 2, 
+        tomorrowRound: 2, 
+        winner: 'winner',      
+      );
+      expect(playoffs.currentRoundComplete, true);
+    });    
     test('completed postseason stream data', () async { 
       String contents = File('./test/data/completed_postseason_nowildcard.json').readAsStringSync();
   

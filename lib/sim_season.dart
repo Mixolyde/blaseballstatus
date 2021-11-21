@@ -337,6 +337,12 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
     if(simData.inPostSeason) {
       // build post season from current stream data
       var currentPostSeason = (await getCurrentPostseason())!;
+      // postSeason.playoffs.numberOfRounds
+      // currentRound
+      // currentRoundComplete
+      // test for all matchups in round complete (homewins or awaywins == wins needed)
+      // set completed round/matchup standings
+      // simulate unfinished rounds      
       // TODO fill in completed round/matchup data in sims
       simulateStartedPostSeason(simsByLeague, currentPostSeason);
       
@@ -516,13 +522,7 @@ void simulateUnstartedPostSeason(List<List<TeamSim>> simsByLeague){
 
 void simulateStartedPostSeason(List<List<TeamSim>> simsByLeague, 
   CompletePostseason postSeason) {
-  // totalRounds
-  var totalRounds = simData.leagueWildCards ? 4 : 3;
-  // currentRound
-  // currentROundComplete
-  // test for all matchups in round complete (homewins or awaywins == wins needed)
-  // set completed round/matchup standings
-  // simulate unfinished rounds
+
   int teamCount = simsByLeague.fold(0, (sum, sub) => sum + sub.length);
   
   
