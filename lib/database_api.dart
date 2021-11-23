@@ -33,7 +33,7 @@ final String _streamDataUrl = apiUrl + 'events/streamData';
 Future<Season> getSeason() async {
   var parsed = await getEventStreamData(['games', 'season']);
   var season = Season.fromJson(parsed);
-  print(season);
+  //print(season);
   return season;
 }
 
@@ -142,8 +142,9 @@ Future<List<PlayoffMatchup>> getPlayoffMatchups(List<String> matchIDs) async {
 Future<CompletePostseason?> getCurrentPostseason() async {
   var games = await getEventStreamData(['games']);
   var postseasons = games['postseasons'] as List<dynamic>;
-  print (postseasons);
+  //print (postseasons);
   if(postseasons.length == 0 || postseasons[0]!.keys.length == 0){
+    print("Returning null CurrentPostseason");
     return null;
   } else {
     return CompletePostseason.fromStreamData(postseasons[0]!);

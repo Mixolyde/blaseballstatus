@@ -1,17 +1,21 @@
 import 'dart:math';
 import 'package:meta/meta.dart';
 import 'database_api.dart';
+import 'sim_postseason.dart';
 import 'site_objects.dart';
 
 late SimulationData simData;
 late Season season;
+late CompletePostseason currentPostSeason;
 List<Game> games = [];
 Random rand = Random(0);
 
 @visibleForTesting
-Future<void> setLateData(SimulationData testSimData) async {
+Future<void> setLateData(SimulationData testSimData, 
+  CompletePostseason testPostSeason) async {
   simData = testSimData;
   season = await getSeason();
+  currentPostSeason = testPostSeason;
 }
 
 Future<void> calculateChances(List<List<TeamStandings>> subStandings, int numSims, 
@@ -21,7 +25,11 @@ Future<void> calculateChances(List<List<TeamStandings>> subStandings, int numSim
   print('Getting game data');
   games = await getAllGames(simData.season);
   print('Getting postseason data');
-    
+  if(simData.inPostSeason) {
+    print("Simulation is in PostSeason");
+    // build post season from current stream data
+    currentPostSeason = await getCurrentPostseason() as CompletePostseason;
+  }
   //print(games[0]);
 
   runSimulations(games, subStandings, numSims);
@@ -249,12 +257,12 @@ Future<List<PlayoffBracketEntry>> calculatePlayoffBracketEntries(
       entries[17].wins = matchup.awayWins;
       //convert to 1-index for display
       entries[16].seed = matchup.homeSeed + 1;
-      entries[17].seed = (matchup.awaySeed ?? 0) + 1;
+      entries[17].seed = matchup.awaySeed + 1;
     } else {
       entries[16].wins = matchup.awayWins;
       entries[17].wins = matchup.homeWins;
       //convert to 1-index for display
-      entries[16].seed = (matchup.awaySeed ?? 0) + 1;
+      entries[16].seed = matchup.awaySeed + 1;
       entries[17].seed = matchup.homeSeed + 1;
     }
     
@@ -281,28 +289,10 @@ Future<List<PlayoffBracketEntry>> calculatePlayoffBracketEntries(
   
 }
 
-PlayoffMatchup locateMatchup(CompletePostseason postSeason, PlayoffRound round,
-  List<TeamStandings> subStandings, {int? seed} ){
-  print('Searching for matchup with seed: $seed');
-  if(seed != null){
-    return postSeason.playoffMatchups.values.firstWhere(
-      (matchup) => round.matchupIDs.contains(matchup.id) &&
-      matchup.homeSeed == seed && 
-      subStandings.any((standing) => standing.id == matchup.awayTeam)
-    );
-  } else {
-    return postSeason.playoffMatchups.values.firstWhere(
-      (matchup) => round.matchupIDs.contains(matchup.id) &&
-      subStandings.any((standing) => standing.id == matchup.awayTeam)
-    );
-    
-  }
-}
-
 void populatePlayoffMatchupEntries(PlayoffBracketEntry homeEntry, 
     PlayoffBracketEntry awayEntry, TeamStandings homeStanding, 
     TeamStandings awayStanding, PlayoffMatchup matchup){
-  homeEntry.teamID = matchup.homeTeam;
+  homeEntry.teamID = matchup.homeTeam ?? 'Home Team';
   awayEntry.teamID = matchup.awayTeam ?? 'Away Team';
   homeEntry.teamNickname = homeStanding.nickname;
   awayEntry.teamNickname = awayStanding.nickname;
@@ -310,7 +300,7 @@ void populatePlayoffMatchupEntries(PlayoffBracketEntry homeEntry,
   awayEntry.wins = matchup.awayWins;
   //convert to 1-index for display
   homeEntry.seed = matchup.homeSeed + 1;
-  awayEntry.seed = (matchup.awaySeed ?? 0) + 1;
+  awayEntry.seed = matchup.awaySeed + 1;
 }
 
 void runSimulations(List<Game> games, List<List<TeamStandings>> standings, 
@@ -322,7 +312,7 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
   var postCounts = <String, List<num>>{};
   // counts for each league playoff berth and no playoffs
   sims.keys.forEach((key) => poCounts[key] = [0, 0, 0, 0, 0]);
-  // counts for ILB champ, ILB series, League series, Round 1, WC Round
+  // counts for ILB champ, ILB series, League series, Round 1/2, WC Round
   sims.keys.forEach((key) => postCounts[key] = [0, 0, 0, 0, 0]);
   var simsByLeague = <List<TeamSim>>[];
   for (var standingList in standings) {
@@ -335,15 +325,11 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
   
   for (var count = 0; count < numSims; count++){
     if(simData.inPostSeason) {
-      // build post season from current stream data
-      var currentPostSeason = (await getCurrentPostseason())!;
-      // postSeason.playoffs.numberOfRounds
-      // currentRound
-      // currentRoundComplete
-      // test for all matchups in round complete (homewins or awaywins == wins needed)
       // set completed round/matchup standings
-      // simulate unfinished rounds      
-      // TODO fill in completed round/matchup data in sims
+      print("Simulation is in PostSeason: $currentPostSeason");
+      setCompletedPostSeasonStandings(standings, currentPostSeason);
+
+      // simulate unfinished rounds
       simulateStartedPostSeason(simsByLeague, currentPostSeason);
       
     } else {
@@ -466,67 +452,9 @@ void simulateSeason(List<Game> games, Map<String, TeamSim> sims){
   });
 }
   
-void simulateUnstartedPostSeason(List<List<TeamSim>> simsByLeague){
-  int teamCount = simsByLeague.fold(0, (sum, sub) => sum + sub.length);
-  
-  //simulate complete playoff run
-  var leagueChampSims = <TeamSim>[];
-  
-  for (var simLeague in simsByLeague) {
-    sortTeamSims(simLeague);
-    
-    var round1Sims = <TeamSim>[];
-    round1Sims.add(simLeague[0]);
-    round1Sims.add(simLeague[1]);
-    round1Sims.add(simLeague[2]);
-    
-    if (simData.leagueWildCards){
-    
-      // wild card round
-      // pick a random team not in playoffs and simulate
-      var nonPlayoffCount = simLeague.length - 4;
-      var wildCardIndex = rand.nextInt(nonPlayoffCount) + 4;
-      var wildCard = simLeague[wildCardIndex];
-      simLeague.take(4).forEach((sim) => sim.wcSeries = true);
-      wildCard.wcSeries = true;
-      //print('WildCard pick $wildCardIndex $wildCard');
-      //simulate 3 win series with wild card pic
-      var wildSeriesWinner = simulateSeries(simLeague[3], wildCard, 2, teamCount);
-      round1Sims.add(wildSeriesWinner);
-      //print('WildCard pick $wildCardIndex $wildCard WildSeriesWinner $wildSeriesWinner');
-      
-    } else {
-      round1Sims.add(simLeague[3]);
-    }
-    
-    round1Sims.forEach((sim) => sim.r1Series = true);
-    
-    // round 1
-    var r1SeriesWinnerA = simulateSeries(round1Sims[0], round1Sims[3], 3, teamCount);
-    var r1SeriesWinnerB = simulateSeries(round1Sims[1], round1Sims[2], 3, teamCount);
-    
-    // subleague round
-    var slRoundSims = [r1SeriesWinnerA, r1SeriesWinnerB];
-    slRoundSims.forEach((sim) => sim.slSeries = true);
-    
-    var slWinner = simulateSeries(slRoundSims[0], slRoundSims[1], 3, teamCount);
-    leagueChampSims.add(slWinner);
-  }
-  // ilb round
-  leagueChampSims.forEach((sim) => sim.ilbSeries = true);
-  var ilbWinner = simulateSeries(leagueChampSims[0], leagueChampSims[1], 3, teamCount);
-  //print('ILBWinner: $ilbWinner');
-  ilbWinner.ilbChamp = true;
-  
-}
 
-void simulateStartedPostSeason(List<List<TeamSim>> simsByLeague, 
-  CompletePostseason postSeason) {
 
-  int teamCount = simsByLeague.fold(0, (sum, sub) => sum + sub.length);
-  
-  
-}
+
 
 TeamSim simulateGame(TeamSim awaySim, TeamSim homeSim, int teamCount){
   //default away chance

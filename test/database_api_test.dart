@@ -144,7 +144,8 @@ void apiTests() {
       expect(first.awayTeam, isNull);
       expect(first.awayWins, 0);
       expect(first.homeSeed, 1);
-      expect(first.homeTeam.length, 36);
+      expect(first.homeTeam, isNotNull);
+      expect(first.homeTeam!.length, 36);
       expect(first.homeWins, 0);
     });
     test('complete historical postseason', () async {

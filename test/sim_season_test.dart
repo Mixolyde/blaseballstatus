@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 import 'package:test/test.dart';
 
@@ -417,5 +419,11 @@ Future<void> setSimDataOptions(bool wildCard, int day) async {
     attributes: wildCard ? ['TEST_ATTR1', 'TEST_ATTR2', 'TEST_ATTR3','WILD_CARDS']
       : ['TEST_ATTR1', 'TEST_ATTR2', 'TEST_ATTR3'],
   );
-  await setLateData(simData);
+  
+  String contents = File('./test/data/completed_postseason_nowildcard.json').readAsStringSync();
+  var jsonMap = json.decode(contents);
+  var postseasonMap = jsonMap['postseasons'][0]!;
+  var completePost = CompletePostseason.fromStreamData(postseasonMap);   
+      
+  await setLateData(simData, completePost);
 }
