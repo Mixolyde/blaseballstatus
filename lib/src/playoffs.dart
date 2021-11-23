@@ -275,10 +275,10 @@ class PlayoffMatchup {
     return PlayoffMatchup(
       id: json['id'] as String,
       name: json['name'] as String?,
-      awaySeed: json['awaySeed'] as int,
+      awaySeed: json['awaySeed'] as int? ?? 0,
       awayTeam: json['awayTeam'] as String?,   
       awayWins: json['awayWins'] as int,
-      homeSeed: json['homeSeed'] as int,
+      homeSeed: json['homeSeed'] as int? ?? 0,
       homeTeam: json['homeTeam'] as String?,   
       homeWins: json['homeWins'] as int,
     );

@@ -80,4 +80,7 @@ Future<void> main() async {
   var completePost = CompletePostseason.fromStreamData(postseasonMap);
   print(completePost);
   print(completePost.playoffs);
+  
+  var completePostWildCard = await getCompletePostseason(22);
+  print("Round count: ${completePostWildCard!.playoffs.numberOfRounds}");
 }

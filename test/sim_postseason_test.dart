@@ -316,9 +316,78 @@ Future<void> main() async {
       expect(numXs[1], numTeams - 2);
       expect(numXs[2], numTeams - 4);
       expect(numXs[3], numTeams - 8);
+    });
+  });   
+  group('Old post season Wild Card', () {
+    test('completed postseason standings wild card', () async { 
+      var numTeams = 20;
+      var numGames = 99;
+      var numCompleted = 99;
+      var numSims = 1;
+      await setSimDataOptions(false, numCompleted);
       
+      var teamIDs = [
+        "f02aeae2-5e6a-4098-9842-02d2273f25c7", 
+        "57ec08cc-0411-4643-b304-0e80dbc15ac7", 
+        "b63be8c2-576a-4d6e-8daf-814f8bcea96f", 
+        "bb4a9de5-c924-4923-a0cb-9d1445f1ee5d", 
+        "c73b705c-40ad-4633-a6ed-d357ee2e2bcf", 
+        "eb67ae5e-c4bf-46ca-bbbc-425cd34182ff", 
+        "b72f3061-f573-40d7-832a-5ad475bd7909", 
+        "36569151-a2fb-43c1-9df7-2df512424c82", 
+        "105bc3ff-1320-4e37-8ef0-8d595cb95dd0", 
+        "bfd38797-8404-4b38-8b82-341da28b1f83",
+        "Team 11",
+        "Team 12",
+        "Team 13",
+        "Team 14",
+        "Team 15",
+        "Team 16",
+        "Team 17",
+        "Team 18",
+        "Team 19",
+        "Team 20"];
 
+      var standings = createPostseasonStandings(teamIDs);
+      
+      sortTeamsNotGrouped(standings[0]);
+      sortTeamsNotGrouped(standings[1]);
+      calculateWinningMagicNumbers(standings[0]);
+      calculateWinningMagicNumbers(standings[1]);
+      
+      var completePost = await getCompletePostseason(22) as CompletePostseason;
+      
+      setCompletedPostSeasonStandings(standings, completePost);
+      
+      var numCarrots = List.filled(5, 0);
+      var numXs = List.filled(5, 0);
+      standings.forEach((league) => league.forEach((stand) {
+        print('$stand Po ${stand.po} Post ${stand.post} Winning: ${stand.winning}');
+        for(var i = 0; i < 5; i++){
+          expect(stand.post[i], isNot('-'));
+          if(stand.post[i] == '^'){
+            numCarrots[i]++;
+          } else if(stand.post[i] == 'X') {
+            numXs[i]++;
+          }
 
+        }
+      })); 
+      //^  ^  ^  ^
+      //X  ^  ^  ^
+      //X  X  ^  ^
+      //X  X  ^  ^
+      //X  X  X  ^ (x4)
+      expect(numCarrots[0], 1);
+      expect(numCarrots[1], 2);
+      expect(numCarrots[2], 4);
+      expect(numCarrots[3], 8);
+      expect(numCarrots[4], 10);
+      expect(numXs[0], numTeams - 1);
+      expect(numXs[1], numTeams - 2);
+      expect(numXs[2], numTeams - 4);
+      expect(numXs[3], numTeams - 8);
+      expect(numXs[4], numTeams - 10);
     }, tags: ['current']);
   });    
 
