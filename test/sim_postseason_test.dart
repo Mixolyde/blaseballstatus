@@ -318,7 +318,7 @@ Future<void> main() async {
       expect(numXs[3], numTeams - 8);
     });
   });   
-  group('Old post season Wild Card', () {
+  group('Old post seasons', () {
     test('completed postseason standings wild card', () async { 
       var numTeams = 20;
       var numGames = 99;
@@ -389,6 +389,74 @@ Future<void> main() async {
       expect(numXs[3], numTeams - 8);
       expect(numXs[4], numTeams - 10);
     }, tags: ['current']);
+test('completed postseason standings wild card', () async { 
+      var numTeams = 20;
+      var numGames = 99;
+      var numCompleted = 99;
+      var numSims = 1;
+      await setSimDataOptions(false, numCompleted);
+      
+      var teamIDs = [
+        "a37f9158-7f82-46bc-908c-c9e2dda7c33b",
+        "747b8e4a-7e50-4638-a973-ea7950a3e739",
+        "b72f3061-f573-40d7-832a-5ad475bd7909",
+        "bfd38797-8404-4b38-8b82-341da28b1f83",
+        "eb67ae5e-c4bf-46ca-bbbc-425cd34182ff",
+        "23e4cbc1-e9cd-47fa-a35b-bfa06f726cb7",
+        "b024e975-1c4a-4575-8936-a3754a08806a",
+        "36569151-a2fb-43c1-9df7-2df512424c82",
+        "Team 9",
+        "Team 10",
+        "Team 11",
+        "Team 12",
+        "Team 13",
+        "Team 14",
+        "Team 15",
+        "Team 16",
+        "Team 17",
+        "Team 18",
+        "Team 19",
+        "Team 20"];
+
+      var standings = createPostseasonStandings(teamIDs);
+      
+      sortTeamsNotGrouped(standings[0]);
+      sortTeamsNotGrouped(standings[1]);
+      calculateWinningMagicNumbers(standings[0]);
+      calculateWinningMagicNumbers(standings[1]);
+      
+      var completePost = await getCompletePostseason(2) as CompletePostseason;
+      
+      setCompletedPostSeasonStandings(standings, completePost);
+      
+      var numCarrots = List.filled(5, 0);
+      var numXs = List.filled(5, 0);
+      standings.forEach((league) => league.forEach((stand) {
+        print('$stand Po ${stand.po} Post ${stand.post} Winning: ${stand.winning}');
+        for(var i = 0; i < 5; i++){
+          expect(stand.post[i], isNot('-'));
+          if(stand.post[i] == '^'){
+            numCarrots[i]++;
+          } else if(stand.post[i] == 'X') {
+            numXs[i]++;
+          }
+
+        }
+      })); 
+      //^  ^  ^  ^
+      //X  ^  ^  ^
+      //X  X  ^  ^
+      //X  X  ^  ^
+      //X  X  X  ^ (x4)
+      expect(numCarrots[0], 1);
+      expect(numCarrots[1], 2);
+      expect(numCarrots[2], 4);
+      expect(numCarrots[3], 8);
+      expect(numXs[0], numTeams - 1);
+      expect(numXs[1], numTeams - 2);
+      expect(numXs[2], numTeams - 4);
+      expect(numXs[3], numTeams - 8);
+    }, tags: ['current']);    
   });    
 
 }

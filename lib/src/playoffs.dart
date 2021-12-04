@@ -92,6 +92,10 @@ class Playoffs {
     required this.tomorrowRound, this.winner});
   
   factory Playoffs.fromJson(Map<String, dynamic> json){
+    if(json['winner'] != null){
+      //correction for old data
+      json['round'] = json['numberOfRounds'] - 1;
+    }
     return Playoffs(
       id: json['id'] as String,
       name: json['name'] as String,
