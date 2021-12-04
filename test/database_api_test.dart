@@ -140,7 +140,7 @@ void apiTests() {
       var first = current[0];
       print(first);
       expect(first.id, '618b7f75-da29-4860-bbc6-c82a80d55c5f');
-      expect(first.awaySeed, isNull);
+      expect(first.awaySeed, 0);
       expect(first.awayTeam, isNull);
       expect(first.awayWins, 0);
       expect(first.homeSeed, 1);
