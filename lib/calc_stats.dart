@@ -19,6 +19,8 @@ List<String> _monthOfYear = ['', 'Jan', 'Feb', 'Mar',
   'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 NumberFormat f = NumberFormat('#', 'en_US');
+
+int divSplit = 0;
   
 Future<SiteData> calcSiteData(SimulationData simData) async {
   _league = await getLeague();
@@ -48,9 +50,9 @@ Future<List<List<TeamStandings>>> calcStats(SimulationData simData) async {
   
   List<Game> games;
   if (simData.day < 99){
-    games = await getGames(simData.season, simData.day);
+    games = await getGames(simData.season, simData.day, sim:simData.id);
   } else {
-    games = await getGames(simData.season, 98);
+    games = await getGames(simData.season, 98, sim:simData.id);
   }
   _standings = await getStandings();
 
@@ -81,13 +83,14 @@ Future<List<TeamStandings>> calculateSubLeague(Subleague sub, List<Game> games) 
     var divName ="divName";
     if(div1.teams.contains(team.id)){
       if(div1.name.contains(' ')){
-        divName = div1.name.split(' ')[1];
+        //TODO figure out divSplit by league name
+        divName = div1.name.split(' ')[divSplit];
       } else {
         divName = div1.name;
       }
     } else {
       if(div2.name.contains(' ')){
-        divName = div2.name.split(' ')[1];
+        divName = div2.name.split(' ')[divSplit];
       } else {
         divName = div2.name;
       }
@@ -354,7 +357,7 @@ void sortTeamsNotGrouped(List<TeamStandings> teams) {
     team.division == firstDiv) ||
     teams.take(4).every((team) =>
     team.division != firstDiv)){
-    print('Top four teams are the same division');
+    print('Top four teams are the same division: $firstDiv');
     //find top of other division
     var otherLeader = teams.firstWhere((team) =>
       team.division != firstDiv);

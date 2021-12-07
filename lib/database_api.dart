@@ -17,7 +17,7 @@ String apiUrl = 'https://api.blaseball.com/';
 
 final String _dbUrl = apiUrl + 'database/';
 
-final String _ilbId = '2bee46a7-29e4-43d5-9627-939a70d329c0';
+final String _ilbId = '09431fe6-a974-480b-9a7a-d75d14eeb117';
 final String _allTeamsUrl = _dbUrl + 'allTeams';
 final String _divisionUrl = _dbUrl + 'division?id=';
 final String _leagueUrl = _dbUrl + 'league?id=' + _ilbId;

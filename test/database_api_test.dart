@@ -14,7 +14,7 @@ void apiTests() {
       var data = await getSimulationData();
       print(data);
       expect(data.season, greaterThanOrEqualTo(0));
-      expect(data.id, isIn(['thisidisstaticyo', 'gamma4', 'gamma8']));
+      expect(data.id, isIn(['thisidisstaticyo', 'gamma4', 'gamma8', 'gamma9']));
       expect(data.attributes.length, greaterThan(1));
     });
     test('Current Season', () async {

@@ -28,10 +28,10 @@ void main() {
       var result = await calcSiteData(oldSimData);
       expect(result.season, 0);
       expect(result.day, 3);
-      expect(result.sub1id, '980a5f83-68da-4830-bc54-25d9a2c06939');
-      expect(result.sub1name, 'Liquid');
-      expect(result.sub2id, 'ff0a0b0f-a043-460e-9ddc-1fc4f8801b38');
-      expect(result.sub2name, 'Solid');
+      //expect(result.sub1id, '980a5f83-68da-4830-bc54-25d9a2c06939');
+      //expect(result.sub1name, 'Liquid');
+      //expect(result.sub2id, 'ff0a0b0f-a043-460e-9ddc-1fc4f8801b38');
+      //expect(result.sub2name, 'Solid');
       expect(result.leagueWildCards, false);
       
     });
@@ -50,6 +50,8 @@ void main() {
       );
       
       var result = await calcSiteData(oldSimData);
+      expect(result.season, 14);
+      expect(result.day, 113);
       expect(result.leagueWildCards, true);
       
     });    
