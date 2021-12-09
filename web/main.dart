@@ -98,7 +98,7 @@ Future<void> refreshData() async{
   sitedata = await s3.getSiteData();
   print('Updated sitedata: $sitedata');
   
-  setSeasonDay(sitedata.season + 1, sitedata.day + 1);
+  setSeasonDay(sitedata);
   subStandings = await s3.getSubStandings(sitedata);
   
   entries = await s3.getPlayoffBracketEntries();
@@ -170,7 +170,7 @@ void setNavButtonStates(){
   
 }
 
-void setSeasonDay(SiteData sitedata)
+void setSeasonDay(SiteData sitedata){
   var season = sitedata.season + 1;
   var day = sitedata.season + 1;
   if(day <= sitedata.daysInSeason){
