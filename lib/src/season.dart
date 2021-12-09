@@ -39,4 +39,12 @@ class Season {
     
   @override
   String toString() => 'Season #$seasonNumber';
+
+  static int daysInRegularSeason(String simId) {
+    if(simId == 'gamma9'){
+      return 166;
+    } else {
+      return 99;
+    }
+  }
 }

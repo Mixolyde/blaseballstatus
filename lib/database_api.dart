@@ -87,17 +87,20 @@ Future<List<Game>> getGames(int season, int day, {String sim = 'gamma8'}) async 
 
 Future<List<Game>> getAllGames(int season, {String sim = 'gamma8'}) async {
   var games = <Game>[];
-  var getAllGamesUrl = _scheduleUrl + '?startDay=0&endDay=98&season=$season&sim=$sim';
+  var endDay = Season.daysInRegularSeason(sim) - 1;
+  var getAllGamesUrl = _scheduleUrl + '?startDay=0&endDay=$endDay&season=$season&sim=$sim';
   print("GetAllGames URL: $getAllGamesUrl");
   var response = await get(Uri.parse(getAllGamesUrl));
   //print(response.body);
   Map<String, dynamic> dayMap = json.decode(response.body);
 
-  for(var day = 0; day < 99; day++){
-    List<dynamic> gamesList= dayMap['$day']! as List<dynamic>;
-    //print(gamesList);
-    var dayGames = gamesList.map((json) => Game.fromJson(json)).toList();
-    games.addAll(dayGames);
+  for(var day = 0; day < Season.daysInRegularSeason(sim); day++){
+    if(dayMap['$day'] != null){
+      List<dynamic> gamesList= dayMap['$day']! as List<dynamic>;
+      //print(gamesList);
+      var dayGames = gamesList.map((json) => Game.fromJson(json)).toList();
+      games.addAll(dayGames);
+    }
   }
 
   return games;
