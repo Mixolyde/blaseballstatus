@@ -50,8 +50,8 @@ void main() {
     
     //setup auto refresh
     var cron = Cron();
-    //Every five minutes from 20-50 after Mon - Sat
-    cron.schedule(Schedule.parse('1,21,26,31,36,41,46,51 * * * 1-6'), () async {
+    //Every five minutes from 20-50
+    cron.schedule(Schedule.parse('1,21,26,31,36,41,46,51 * * * *'), () async {
       if(!(document.hidden ?? true) && 
         currentView.activeView != View.about){
         await refreshData();
