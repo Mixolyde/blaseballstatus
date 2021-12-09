@@ -172,7 +172,7 @@ void setNavButtonStates(){
 
 void setSeasonDay(SiteData sitedata){
   var season = sitedata.season + 1;
-  var day = sitedata.season + 1;
+  var day = sitedata.day + 1;
   if(day <= sitedata.daysInSeason){
     querySelector('.wkinfo')!.text = 
       'Season $season: Day $day';
