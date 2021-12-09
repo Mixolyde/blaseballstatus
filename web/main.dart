@@ -64,7 +64,7 @@ Future<void> getContentPages() async {
   sitedata = await s3.getSiteData();
   
   print('Initial sitedata: $sitedata');
-  setSeasonDay(sitedata.season + 1, sitedata.day + 1);
+  setSeasonDay(sitedata);
   subStandings = await s3.getSubStandings(sitedata);
 
   entries = await s3.getPlayoffBracketEntries();
@@ -170,8 +170,10 @@ void setNavButtonStates(){
   
 }
 
-void setSeasonDay(int season, int day){
-  if(day < 100){
+void setSeasonDay(SiteData sitedata)
+  var season = sitedata.season + 1;
+  var day = sitedata.season + 1;
+  if(day <= sitedata.daysInSeason){
     querySelector('.wkinfo')!.text = 
       'Season $season: Day $day';
   } else {

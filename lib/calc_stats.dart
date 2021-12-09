@@ -33,7 +33,8 @@ Future<SiteData> calcSiteData(SimulationData simData) async {
     simData.season, simData.day,
     _sub1.id, _sub1.name, 
     _sub2.id, _sub2.name,
-    simData.attributes);
+    simData.attributes,
+    Season.daysInRegularSeason(simData.id));
   print(sitedata);
 
   return sitedata;
@@ -49,10 +50,12 @@ Future<List<List<TeamStandings>>> calcStats(SimulationData simData) async {
   print('Beginning stat calculations for current season: ${simData.season + 1}');
   
   List<Game> games;
-  if (simData.day < 99){
+  if (!simData.inPostSeason){
     games = await getGames(simData.season, simData.day, sim:simData.id);
   } else {
-    games = await getGames(simData.season, 98, sim:simData.id);
+    //get last day of games
+    games = await getGames(simData.season, 
+        Season.daysInRegularSeason(simData.id), sim:simData.id);
   }
   _standings = await getStandings();
 
@@ -60,15 +63,16 @@ Future<List<List<TeamStandings>>> calcStats(SimulationData simData) async {
   _tiebreakers = await getTiebreakers(_league.tiebreakersId);
 
   var sub1Standings = 
-    await calculateSubLeague(_sub1, games);
+    await calculateSubLeague(_sub1, games, simData.inPostSeason);
   var sub2Standings = 
-    await calculateSubLeague(_sub2, games);
+    await calculateSubLeague(_sub2, games, simData.inPostSeason);
   
   return [sub1Standings, sub2Standings];
     
 }
 
-Future<List<TeamStandings>> calculateSubLeague(Subleague sub, List<Game> games) async{
+Future<List<TeamStandings>> calculateSubLeague(Subleague sub, 
+    List<Game> games, bool inPostSeason) async{
   var day = games[0].day;
   print('Day ${day + 1} $sub');
   var div1 = await getDivision(sub.divisionId1);
@@ -97,8 +101,7 @@ Future<List<TeamStandings>> calculateSubLeague(Subleague sub, List<Game> games) 
     }
     
     var gamesPlayed = 99;
-    if (day < 99){
-      //regular season
+    if (!inPostSeason){
       gamesPlayed = _standings.gamesPlayed[team.id] ?? gamesPlayed;
     }
     
