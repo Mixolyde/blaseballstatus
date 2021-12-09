@@ -543,12 +543,12 @@ return P.by($async$eD,r)},
 od(a){var s=A.mp("yyyy-MM-ddTHH:mm:ssZ").f3(a.a,!1,!0).hD(),r=document.querySelector("#lastUpdate")
 r.toString
 J.aS(r,A.mp("MMMM d, h:mm a").bt(s))},
-oc(a){var s,r=a.b+1
-if(r<=a.y){s=document.querySelector(".wkinfo")
+oc(a){var s,r=a.b+1,q=a.c+1
+if(q<=a.y){s=document.querySelector(".wkinfo")
 s.toString
-J.aS(s,"Season "+r+": Day "+r)}else{s=document.querySelector(".wkinfo")
+J.aS(s,"Season "+r+": Day "+q)}else{s=document.querySelector(".wkinfo")
 s.toString
-J.aS(s,"Season "+r+": Day "+r+" (Postseason)")}},
+J.aS(s,"Season "+r+": Day "+q+" (Postseason)")}},
 rU(a){var s,r
 t.jf.a(a)
 if(new P.cV([],[]).bs(a.state,!0)!=null){P.af("State: "+H.m(new P.cV([],[]).bs(a.state,!0)))
