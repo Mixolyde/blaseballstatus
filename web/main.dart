@@ -50,8 +50,8 @@ void main() {
     
     //setup auto refresh
     var cron = Cron();
-    //Every five minutes from 20-50 after Mon - Sat
-    cron.schedule(Schedule.parse('1,21,26,31,36,41,46,51 * * * 1-6'), () async {
+    //Every five minutes from 20-50
+    cron.schedule(Schedule.parse('1,21,26,31,36,41,46,51 * * * *'), () async {
       if(!(document.hidden ?? true) && 
         currentView.activeView != View.about){
         await refreshData();
@@ -64,7 +64,7 @@ Future<void> getContentPages() async {
   sitedata = await s3.getSiteData();
   
   print('Initial sitedata: $sitedata');
-  setSeasonDay(sitedata.season + 1, sitedata.day + 1);
+  setSeasonDay(sitedata);
   subStandings = await s3.getSubStandings(sitedata);
 
   entries = await s3.getPlayoffBracketEntries();
@@ -98,7 +98,7 @@ Future<void> refreshData() async{
   sitedata = await s3.getSiteData();
   print('Updated sitedata: $sitedata');
   
-  setSeasonDay(sitedata.season + 1, sitedata.day + 1);
+  setSeasonDay(sitedata);
   subStandings = await s3.getSubStandings(sitedata);
   
   entries = await s3.getPlayoffBracketEntries();
@@ -170,8 +170,10 @@ void setNavButtonStates(){
   
 }
 
-void setSeasonDay(int season, int day){
-  if(day < 100){
+void setSeasonDay(SiteData sitedata){
+  var season = sitedata.season + 1;
+  var day = sitedata.day + 1;
+  if(day <= sitedata.daysInSeason){
     querySelector('.wkinfo')!.text = 
       'Season $season: Day $day';
   } else {

@@ -14,7 +14,7 @@ class Season {
   final String id;
   final String league;
   final String rules;
-  final String schedule;
+  final String? schedule;
   final int seasonNumber;
   final String standings;
   final String stats;
@@ -29,7 +29,7 @@ class Season {
       id: json['id'] as String,
       league: json['league'] as String,
       rules: json['rules'] as String,
-      schedule: json['schedule'] as String,
+      schedule: json['schedule'] as String?,
       seasonNumber: json['seasonNumber'] as int,
       standings: json['standings'] as String,
       stats: json['stats'] as String,
@@ -39,4 +39,12 @@ class Season {
     
   @override
   String toString() => 'Season #$seasonNumber';
+
+  static int daysInRegularSeason(String simId) {
+    if(simId == 'gamma9'){
+      return 166;
+    } else {
+      return 99;
+    }
+  }
 }

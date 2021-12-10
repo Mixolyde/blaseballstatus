@@ -17,7 +17,7 @@ String apiUrl = 'https://api.blaseball.com/';
 
 final String _dbUrl = apiUrl + 'database/';
 
-final String _ilbId = '2bee46a7-29e4-43d5-9627-939a70d329c0';
+final String _ilbId = '09431fe6-a974-480b-9a7a-d75d14eeb117';
 final String _allTeamsUrl = _dbUrl + 'allTeams';
 final String _divisionUrl = _dbUrl + 'division?id=';
 final String _leagueUrl = _dbUrl + 'league?id=' + _ilbId;
@@ -87,17 +87,20 @@ Future<List<Game>> getGames(int season, int day, {String sim = 'gamma8'}) async 
 
 Future<List<Game>> getAllGames(int season, {String sim = 'gamma8'}) async {
   var games = <Game>[];
-  var getAllGamesUrl = _scheduleUrl + '?startDay=0&endDay=98&season=$season&sim=$sim';
+  var endDay = Season.daysInRegularSeason(sim) - 1;
+  var getAllGamesUrl = _scheduleUrl + '?startDay=0&endDay=$endDay&season=$season&sim=$sim';
   print("GetAllGames URL: $getAllGamesUrl");
   var response = await get(Uri.parse(getAllGamesUrl));
   //print(response.body);
   Map<String, dynamic> dayMap = json.decode(response.body);
 
-  for(var day = 0; day < 99; day++){
-    List<dynamic> gamesList= dayMap['$day']! as List<dynamic>;
-    //print(gamesList);
-    var dayGames = gamesList.map((json) => Game.fromJson(json)).toList();
-    games.addAll(dayGames);
+  for(var day = 0; day < Season.daysInRegularSeason(sim); day++){
+    if(dayMap['$day'] != null){
+      List<dynamic> gamesList= dayMap['$day']! as List<dynamic>;
+      //print(gamesList);
+      var dayGames = gamesList.map((json) => Game.fromJson(json)).toList();
+      games.addAll(dayGames);
+    }
   }
 
   return games;

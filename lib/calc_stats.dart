@@ -19,6 +19,8 @@ List<String> _monthOfYear = ['', 'Jan', 'Feb', 'Mar',
   'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 NumberFormat f = NumberFormat('#', 'en_US');
+
+int divSplit = 0;
   
 Future<SiteData> calcSiteData(SimulationData simData) async {
   _league = await getLeague();
@@ -31,7 +33,8 @@ Future<SiteData> calcSiteData(SimulationData simData) async {
     simData.season, simData.day,
     _sub1.id, _sub1.name, 
     _sub2.id, _sub2.name,
-    simData.attributes);
+    simData.attributes,
+    Season.daysInRegularSeason(simData.id));
   print(sitedata);
 
   return sitedata;
@@ -47,10 +50,12 @@ Future<List<List<TeamStandings>>> calcStats(SimulationData simData) async {
   print('Beginning stat calculations for current season: ${simData.season + 1}');
   
   List<Game> games;
-  if (simData.day < 99){
-    games = await getGames(simData.season, simData.day);
+  if (!simData.inPostSeason){
+    games = await getGames(simData.season, simData.day, sim:simData.id);
   } else {
-    games = await getGames(simData.season, 98);
+    //get last day of games
+    games = await getGames(simData.season, 
+        Season.daysInRegularSeason(simData.id), sim:simData.id);
   }
   _standings = await getStandings();
 
@@ -58,15 +63,16 @@ Future<List<List<TeamStandings>>> calcStats(SimulationData simData) async {
   _tiebreakers = await getTiebreakers(_league.tiebreakersId);
 
   var sub1Standings = 
-    await calculateSubLeague(_sub1, games);
+    await calculateSubLeague(_sub1, games, simData.inPostSeason);
   var sub2Standings = 
-    await calculateSubLeague(_sub2, games);
+    await calculateSubLeague(_sub2, games, simData.inPostSeason);
   
   return [sub1Standings, sub2Standings];
     
 }
 
-Future<List<TeamStandings>> calculateSubLeague(Subleague sub, List<Game> games) async{
+Future<List<TeamStandings>> calculateSubLeague(Subleague sub, 
+    List<Game> games, bool inPostSeason) async{
   var day = games[0].day;
   print('Day ${day + 1} $sub');
   var div1 = await getDivision(sub.divisionId1);
@@ -81,21 +87,21 @@ Future<List<TeamStandings>> calculateSubLeague(Subleague sub, List<Game> games) 
     var divName ="divName";
     if(div1.teams.contains(team.id)){
       if(div1.name.contains(' ')){
-        divName = div1.name.split(' ')[1];
+        //TODO figure out divSplit by league name
+        divName = div1.name.split(' ')[divSplit];
       } else {
         divName = div1.name;
       }
     } else {
       if(div2.name.contains(' ')){
-        divName = div2.name.split(' ')[1];
+        divName = div2.name.split(' ')[divSplit];
       } else {
         divName = div2.name;
       }
     }
     
     var gamesPlayed = 99;
-    if (day < 99){
-      //regular season
+    if (!inPostSeason){
       gamesPlayed = _standings.gamesPlayed[team.id] ?? gamesPlayed;
     }
     
@@ -354,7 +360,7 @@ void sortTeamsNotGrouped(List<TeamStandings> teams) {
     team.division == firstDiv) ||
     teams.take(4).every((team) =>
     team.division != firstDiv)){
-    print('Top four teams are the same division');
+    print('Top four teams are the same division: $firstDiv');
     //find top of other division
     var otherLeader = teams.firstWhere((team) =>
       team.division != firstDiv);

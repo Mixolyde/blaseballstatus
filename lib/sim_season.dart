@@ -18,12 +18,12 @@ Future<void> setLateData(SimulationData testSimData,
   currentPostSeason = testPostSeason;
 }
 
-Future<void> calculateChances(List<List<TeamStandings>> subStandings, int numSims, 
-  List<PlayoffBracketEntry> entries) async {
+Future<void> calculateChances(List<List<TeamStandings>> subStandings, 
+  int numSims, List<PlayoffBracketEntry> entries, String simId) async {
   simData = await getSimulationData();
   season = await getSeason();
   print('Getting game data');
-  games = await getAllGames(simData.season);
+  games = await getAllGames(simData.season, sim:simId);
   print('Getting postseason data');
   if(simData.inPostSeason) {
     print("Simulation is in PostSeason");
