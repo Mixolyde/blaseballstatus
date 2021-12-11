@@ -119,6 +119,28 @@ void setCompletedPostSeasonStandings(List<List<TeamStandings>> standings,
         }
       }
 
+    } else {
+      //simulate uncompleted rounds
+      if (!simData.leagueWildCards){
+        if(completedRoundCount == 0 ){
+        //find round 0 matchups and simulate to the end
+        } else if (completedRoundCount == 1) {
+          //find round 1 matchups and simulate
+        } else if (completedRoundCount == 2) {
+          //find round 2 matchups and simulate
+        }
+      } else {
+        if(completedRoundCount == 0 ){
+        //find round 0 matchups and simulate to the end
+        } else if (completedRoundCount == 1) {
+          //find round 1 matchups and simulate
+        } else if (completedRoundCount == 2) {
+          //find round 2 matchups and simulate
+        } else if (completedRoundCount == 3) {
+          //find round 2 matchups and simulate
+        }         
+      }
+      
     }
     
   }
@@ -186,5 +208,9 @@ void simulateUnstartedPostSeason(List<List<TeamSim>> simsByLeague){
   var ilbWinner = simulateSeries(leagueChampSims[0], leagueChampSims[1], 3, teamCount);
   //print('ILBWinner: $ilbWinner');
   ilbWinner.ilbChamp = true;
+  
+}
+
+String simulateMatchup(PlayoffMatchup matchup, List<List<TeamSim>> simsByLeague){
   
 }
