@@ -178,7 +178,11 @@ void populatePostseasonTable(List<List<TeamStandings>> allStandings, bool groupB
         return getOrderValue(b.post[i]).compareTo(getOrderValue(a.post[i]));
       }
     }
-    return 0;
+    if(a.wins != b.wins){
+      return b.wins.compareTo(a.wins);
+    } else {
+      return a.favor.compareTo(b.favor);
+    }
   });
   
   for(var row in standings) {
