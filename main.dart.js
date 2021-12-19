@@ -279,7 +279,7 @@ C.b.S(s,r.i(a,1))
 C.b.af(s,new F.l3(b))
 for(r=s.length,q=t.a,p=c.x,o=0;o<s.length;s.length===r||(0,H.as)(s),++o){n=s[o]
 m=F.hx(g,n,!0)
-l=C.b.E(p,"WILD_CARDS")?5:4
+l=C.b.E(p,"WILD_CARDS")||C.b.E(p,"MILD_CARDS")?5:4
 for(k=0;k<l;++k){j=q.a(C.d.W(m,6+k))
 i=n.dx
 if(k>=i.length)return H.d(i,k)
