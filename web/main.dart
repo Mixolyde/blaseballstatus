@@ -74,7 +74,7 @@ Future<void> getContentPages() async {
   querySelector('#pickLeague1')!.text = sitedata.subnicknames[0];
   querySelector('#pickLeague2')!.text = sitedata.subnicknames[1];
 
-  if(sitedata.leagueWildCards){
+  if(sitedata.leagueWildCards || sitedata.leagueMildCards){
     winsbehindHTML = await HttpRequest.getString('winsbehind_wc.html');
     setMainContent(winsbehindHTML);
     magicHTML = await HttpRequest.getString('magic_wc.html');
