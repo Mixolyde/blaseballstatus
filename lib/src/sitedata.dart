@@ -62,5 +62,7 @@ class SiteData {
   String toString() => '$lastUpdate Season:$season Day:$day $sub1name $sub2name';
   
   bool get leagueWildCards => attributes.contains('WILD_CARDS');
+  
+  bool get leagueMildCards => attributes.contains('MILD_CARDS');
 
 }

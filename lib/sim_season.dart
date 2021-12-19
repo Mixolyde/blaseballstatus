@@ -384,6 +384,7 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
   print('poCounts $poCounts');
   print('postCounts $postCounts');
   print('League Wild Cards: ${simData.leagueWildCards}');
+  print('League Mild Cards: ${simData.leagueMildCards}');
   standings.forEach((standingList) => standingList.forEach((standing) {
     var top3 = standing.winning.take(3).any((win) => win == '^');
     var top4 = top3 || standing.winning[3] == '^';
@@ -402,14 +403,17 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
       
       //postseason percents
       //TODO handle ^ and X in i=3 and 4
+      //TODO handle clinched 5th place in Mild Card
       if(i == 3 && top3) {
         standing.post[i] = '^';
-      } else if ( i == 3 && top4 && !simData.leagueWildCards){
+      } else if ( i == 3 && top4 
+        && !simData.leagueWildCards && !simData.leagueMildCards){
         standing.post[i] = '^';
-      } else if ( i == 4 && top4 && simData.leagueWildCards){
+      } else if ( i == 4 && top4 && 
+        (simData.leagueWildCards || simData.leagueMildCards)){
         standing.post[i] = '^';
       } else {
-        if(simData.leagueWildCards){
+        if(simData.leagueWildCards || simData.leagueMildCards){
           standing.post[i] = formatPercent(postCounts[standing.id]![i] / numSims);
         } else {
           if (standing.winning[4] == 'PT' && i < 4){
@@ -479,6 +483,15 @@ void simulatePostSeason(List<List<TeamSim>> simsByLeague){
       round1Sims.add(wildSeriesWinner);
       //print('WildCard pick $wildCardIndex $wildCard WildSeriesWinner $wildSeriesWinner');
       
+    } else if (simData.leagueMildCards){
+      // mild card round
+      // pick 5th place team and simulate      
+      var mildCard = simLeague[4];
+      simLeague.take(5).forEach((sim) => sim.wcSeries = true);
+      //print('Mild Card pick $mildCard');
+      //simulate 3 win series with mild card pic
+      var mildSeriesWinner = simulateSeries(simLeague[3], mildCard, 2, teamCount);
+      round1Sims.add(mildSeriesWinner);      
     } else {
       round1Sims.add(simLeague[3]);
     }

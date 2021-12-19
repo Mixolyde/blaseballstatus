@@ -34,6 +34,7 @@ void main() {
       //expect(result.sub2id, 'ff0a0b0f-a043-460e-9ddc-1fc4f8801b38');
       //expect(result.sub2name, 'Solid');
       expect(result.leagueWildCards, false);
+      expect(result.leagueMildCards, false);
       
     });
     test('real attributes', () async {
@@ -47,13 +48,14 @@ void main() {
         seasonId: '645cdd84-175f-42f1-a9f3-d9014d97ae3b',
         eraTitle: simData.eraTitle,
         subEraTitle: simData.subEraTitle,
-        attributes: ['SIM_PARTY_TIME', 'WILD_CARDS', 'OPENED_BOOK'],
+        attributes: ['SIM_PARTY_TIME', 'WILD_CARDS', 'MILD_CARDS', 'OPENED_BOOK'],
       );
       
       var result = await calcSiteData(oldSimData);
       expect(result.season, 14);
       expect(result.day, 113);
       expect(result.leagueWildCards, true);
+      expect(result.leagueMildCards, true);
       
     });    
   });

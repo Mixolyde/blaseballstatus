@@ -188,7 +188,7 @@ void populatePostseasonTable(List<List<TeamStandings>> allStandings, bool groupB
   for(var row in standings) {
     var trow = insertCommonCells(table, row, showLeague: true);
     var psRounds = 4;
-    if(sitedata.leagueWildCards){
+    if(sitedata.leagueWildCards || sitedata.leagueMildCards){
       psRounds = 5;
     }
     for(var i = 0; i < psRounds; i++){
