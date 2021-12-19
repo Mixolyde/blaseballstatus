@@ -57,5 +57,6 @@ class SimulationData {
   String toString() => 'Id: $id, Season $season, Day $day, League $league, PlayoffRound $playOffRound, Attributes $attributes';
 
   bool get leagueWildCards => attributes.contains('WILD_CARDS');
+  bool get leagueMildCards => attributes.contains('MILD_CARDS');
   bool get inPostSeason => day >= Season.daysInRegularSeason(id);
 }
