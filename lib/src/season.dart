@@ -43,7 +43,7 @@ class Season {
   static int daysInRegularSeason(String simId) {
     if(simId == 'gamma9'){
       return 166;
-    } else if (simdId == 'gamma10'){
+    } else if (simId == 'gamma10'){
       return 190;
 
     } else {
