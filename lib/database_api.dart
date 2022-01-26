@@ -26,6 +26,7 @@ final String _playoffMatchupsUrl = _dbUrl + 'playoffMatchups?ids=';
 final String _playoffRoundUrl = _dbUrl + 'playoffRound?id=';
 final String _scheduleUrl = apiUrl + 'api/games/schedule/';
 final String _simulationDataUrl = _dbUrl + 'simulationData';
+final String _standingsUrl = _apiUrl + 'api/standings';
 final String _subleagueUrl = _dbUrl + 'subleague?id=';
 final String _tiebreakersUrl = _dbUrl + 'tiebreakers?id=';
 final String _streamDataUrl = apiUrl + 'events/streamData';
@@ -38,7 +39,7 @@ Future<Season> getSeason() async {
 }
 
 Future<Standings> getStandings() async {
-  var parsed = await getEventStreamData(['games', 'standings']);
+  var parsed = await get(Uri.parse(_standingsUrl));
   var standings = Standings.fromJson(parsed);
   return standings;
 }
