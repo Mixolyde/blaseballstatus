@@ -1,7 +1,7 @@
 // import 'dart:convert';
 // import 'dart:io';
 // import 'package:intl/intl.dart';
-import '../lib/calc_stats.dart';
+//import '../lib/calc_stats.dart';
 import '../lib/database_api.dart';
 // import '../lib/sim_season.dart';
 // import '../lib/site_objects.dart';
@@ -36,8 +36,8 @@ Future<void> main() async {
   );
 
   //site data
-  var sitedata = await calcSiteData(oldSimData);
-  print(sitedata);
+  //var sitedata = await calcSiteData(oldSimData);
+  //print(sitedata);
   
   //get subleague standings and calculate stats
   //List<List<TeamStandings>> subStandings = await calcStats(oldSimData);
@@ -53,15 +53,21 @@ Future<void> main() async {
   //print(games);
   //print('Count: ${games.length}');
   
-  //var allGames = await getAllGames(0, sim:simData.id);
-  //print('All Count: ${allGames.length}');
+
   
   //var streamResult = await getEventStreamData(['games', 'standings']);
   //print(streamResult);
   
-  Standings standings = await getStandings();
-  print(standings);
+  //Standings standings = await getStandings();
+  //print(standings);
   
-  var season = await getEventStreamData(['games', 'season']);
-  print (season);
+  //var season = await getEventStreamData(['games', 'season']);
+  //print (season);
+  
+  //var allGames = await getAllGames(simData.season, sim:simData.id);
+  //print('All Count: ${allGames.length}');
+  
+  Standings standings = await getStandings();
+  print('Standings $standings');
+  
 }
