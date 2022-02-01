@@ -4,20 +4,17 @@ import 'database_api.dart';
 import 'site_objects.dart';
 
 late SimulationData simData;
-late Season season;
 List<Game> games = [];
 Random rand = Random(0);
 
 @visibleForTesting
 Future<void> setLateData(SimulationData testSimData) async {
   simData = testSimData;
-  season = await getSeason();
 }
 
 Future<void> calculateChances(List<List<TeamStandings>> subStandings, 
   int numSims, List<PlayoffBracketEntry> entries, String simId) async {
   simData = await getSimulationData();
-  season = await getSeason();
   print('Getting game data');
   games = await getAllGames(simData.season, sim:simId);
   print('Getting postseason data');

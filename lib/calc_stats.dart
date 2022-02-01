@@ -34,7 +34,7 @@ Future<SiteData> calcSiteData(SimulationData simData) async {
     _sub1.id, _sub1.name, 
     _sub2.id, _sub2.name,
     simData.attributes,
-    Season.daysInRegularSeason(simData.id));
+    SimulationData.daysInRegularSeason(simData.id));
   print(sitedata);
 
   return sitedata;
@@ -55,7 +55,7 @@ Future<List<List<TeamStandings>>> calcStats(SimulationData simData) async {
   } else {
     //get last day of games
     games = await getGames(simData.season, 
-        Season.daysInRegularSeason(simData.id), sim:simData.id);
+        SimulationData.daysInRegularSeason(simData.id), sim:simData.id);
   }
   _standings = await getStandings();
 
@@ -102,7 +102,8 @@ Future<List<TeamStandings>> calculateSubLeague(Subleague sub,
     
     var gamesPlayed = 99;
     if (!inPostSeason){
-      gamesPlayed = _standings.gamesPlayed[team.id] ?? gamesPlayed;
+      gamesPlayed = _standings.standings[team.id]!.wins + 
+        _standings.standings[team.id]!.losses;
     }
     
     var standing = 
@@ -111,8 +112,8 @@ Future<List<TeamStandings>> calculateSubLeague(Subleague sub,
       //sub.name.split(' ')[1],
       sub.name,
       divName,
-      _standings.wins[team.id] ?? 0, 
-      _standings.losses[team.id] ?? 0,
+      _standings.standings[team.id]!.wins, 
+      _standings.standings[team.id]!.losses,
       gamesPlayed,
       _tiebreakers.order.indexOf(team.id));
     teamStandings.add(standing);

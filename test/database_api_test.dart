@@ -19,18 +19,10 @@ void apiTests() {
       expect(data.attributes.length, greaterThan(1));
       expect(data.inPostSeason, isNotNull);
     });
-    test('Current Season', () async {
-      var data = await getSimulationData();
-      var current = await getSeason();
-      expect(current, isNotNull);
-      expect(current.seasonNumber, greaterThanOrEqualTo(0));
-      expect(current.id, data.seasonId);
-    });
     test('Current Standings', () async {
       var current = await getStandings();
       expect(current, isNotNull);
-      expect(current.wins.length, greaterThanOrEqualTo(teamCount));
-      expect(current.losses.length, greaterThanOrEqualTo(teamCount));
+      expect(current.standings.keys.length, greaterThanOrEqualTo(teamCount));
     });
     test('Get League', () async {
       var data = await getSimulationData();
