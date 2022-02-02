@@ -27,7 +27,7 @@ class Standings {
     json.values.forEach( (leagueMap) =>
       leagueMap.values.forEach( (subleagueList) =>
         subleagueList.forEach((stand){
-          print(stand);
+          //print(stand);
           result[stand['id'] as String] = Standing(
             id: stand['id'] as String,
             emoji: stand['emoji'] as String,
