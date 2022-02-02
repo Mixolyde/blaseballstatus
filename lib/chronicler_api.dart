@@ -21,7 +21,13 @@ Future<List<Game>> getGames(int season, {int? day,
   List<dynamic> gamesList = json.decode(response.body)['data'];
   List<Game> games = gamesList.expand((json) {
     try {
-      if(!includePostSeason && json['data']['isPostseason'] as bool){
+      bool isPrizeMatch = (json['data']['isPrizeMatch'] as bool?) ?? false;
+      bool isTitleMatch = (json['data']['isTitleMatch'] as bool?) ?? false;
+      if( 
+      (!includePostSeason && json['data']['isPostseason'] as bool) ||
+      isPrizeMatch ||
+      isTitleMatch
+      ){
         return <Game>[];
       } else {
         return [Game.fromJson(json['data'])];

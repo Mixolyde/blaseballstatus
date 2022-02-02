@@ -594,6 +594,7 @@ void main() {
 }
 
 List<TeamStandings> getEarlySeasonStandings(){
+  gamesInRegularSeason = 99;
   var teamStandings = <TeamStandings>[];
   for(var i = 0; i < standingsData.length; i++){
     teamStandings.add(TeamStandings(
@@ -615,6 +616,7 @@ List<TeamStandings> getEarlySeasonStandings(){
 }
 
 List<TeamStandings> getEarlySeasonResortNeededStandings(){
+  gamesInRegularSeason = 99;
   var teamStandings = <TeamStandings>[];
   String div;
   for(var i = 0; i < standingsData.length; i++){
@@ -642,6 +644,7 @@ List<TeamStandings> getEarlySeasonResortNeededStandings(){
 }
 
 List<TeamStandings> getLateSeasonStandings(){
+  gamesInRegularSeason = 99;
   var teamStandings = <TeamStandings>[];
   for(var i = 0; i < standingsData.length; i++){
     teamStandings.add(TeamStandings(
@@ -662,6 +665,7 @@ List<TeamStandings> getLateSeasonStandings(){
 }
 
 List<TeamStandings> getLateSeasonResortNeededStandings(){
+  gamesInRegularSeason = 99;
   var teamStandings = <TeamStandings>[];
   String div;
   for(var i = 0; i < standingsData.length; i++){
@@ -688,6 +692,7 @@ List<TeamStandings> getLateSeasonResortNeededStandings(){
 }
 
 List<TeamStandings> getNewSeasonStandings(){
+  gamesInRegularSeason = 99;
   var teamStandings = <TeamStandings>[];
   for(var i = 0; i < standingsData.length; i++){
     teamStandings.add(TeamStandings(
@@ -710,6 +715,7 @@ List<TeamStandings> getNewSeasonStandings(){
 }
 
 List<TeamStandings> getEndOfSeasonStandings(){
+  gamesInRegularSeason = 99;
   var teamStandings = <TeamStandings>[];
   for(var i = 0; i < standingsData.length; i++){
     teamStandings.add(TeamStandings(
@@ -731,6 +737,7 @@ List<TeamStandings> getEndOfSeasonStandings(){
 }
 
 List<TeamStandings> getEndOfSeasonResortNeededStandings(){
+  gamesInRegularSeason = 99;
   var teamStandings = <TeamStandings>[];
   String div;
   for(var i = 0; i < standingsData.length; i++){

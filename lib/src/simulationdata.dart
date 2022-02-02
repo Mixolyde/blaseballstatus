@@ -69,4 +69,12 @@ class SimulationData {
       return 99;
     }
   }
+  
+  static int gamesInRegularSeason(String simId) {
+    if (simId == 'gamma10'){
+      return 162;
+    } else {
+      return 99;
+    }
+  }  
 }

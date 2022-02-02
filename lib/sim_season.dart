@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:meta/meta.dart';
+import 'chronicler_api.dart';
 import 'database_api.dart';
 import 'site_objects.dart';
 
@@ -16,7 +17,7 @@ Future<void> calculateChances(List<List<TeamStandings>> subStandings,
   int numSims, List<PlayoffBracketEntry> entries, String simId) async {
   simData = await getSimulationData();
   print('Getting game data');
-  games = await getAllGames(simData.season, sim:simId);
+  games = await getGames(simData.season, sim:simId);
   print('Getting postseason data');
     
   //print(games[0]);

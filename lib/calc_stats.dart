@@ -1,5 +1,6 @@
 import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
+import 'chronicler_api.dart';
 import 'database_api.dart';
 import 'site_objects.dart';
 
@@ -21,11 +22,13 @@ List<String> _monthOfYear = ['', 'Jan', 'Feb', 'Mar',
 NumberFormat f = NumberFormat('#', 'en_US');
 
 int divSplit = 0;
+int gamesInRegularSeason = 99;
   
 Future<SiteData> calcSiteData(SimulationData simData) async {
   _league = await getLeague();
   _sub1 = await getSubleague(_league.subleagueId1);
   _sub2 = await getSubleague(_league.subleagueId2);
+  gamesInRegularSeason = SimulationData.gamesInRegularSeason(simData.id);
   
   var lastUpdate = getUpdateTime();
   
@@ -51,11 +54,11 @@ Future<List<List<TeamStandings>>> calcStats(SimulationData simData) async {
   
   List<Game> games;
   if (!simData.inPostSeason){
-    games = await getGames(simData.season, simData.day, sim:simData.id);
+    games = await getGames(simData.season, day:simData.day, sim:simData.id);
   } else {
     //get last day of games
     games = await getGames(simData.season, 
-        SimulationData.daysInRegularSeason(simData.id), sim:simData.id);
+        day:SimulationData.daysInRegularSeason(simData.id), sim:simData.id);
   }
   _standings = await getStandings();
 
@@ -100,7 +103,7 @@ Future<List<TeamStandings>> calculateSubLeague(Subleague sub,
       }
     }
     
-    var gamesPlayed = 99;
+    var gamesPlayed = gamesInRegularSeason;
     if (!inPostSeason){
       gamesPlayed = _standings.standings[team.id]!.wins + 
         _standings.standings[team.id]!.losses;
@@ -213,7 +216,7 @@ void calculateWinningMagicNumbers(List<TeamStandings> teamStandings) {
   var top3Same = teamStandings.take(3).every((team) =>
     team.division == firstDiv);
   for (var i = 0; i < teamStandings.length; i++){
-    var maxWins = (99 - teamStandings[i].gamesPlayed) +
+    var maxWins = (gamesInRegularSeason - teamStandings[i].gamesPlayed) +
       teamStandings[i].wins;
 
     print('${teamStandings[i]} maxWins: $maxWins');
@@ -281,7 +284,7 @@ void setWinningMagicNumber(TeamStandings standing, TeamStandings target,
   int winningIndex){
   //Wb + GRb - Wa + 1
   var magic = target.wins +
-    (99 - target.gamesPlayed) -
+    (gamesInRegularSeason - target.gamesPlayed) -
     standing.wins;
   if (standing.favor > target.favor) {
     //team b wins ties
@@ -309,7 +312,7 @@ void _calculatePartyTimeMagicNumbers(List<TeamStandings> teamStandings) {
     
   for (var i = 0; i < teamStandings.length; i++){
     var stand = teamStandings[i];
-    var maxWins = (99 - stand.gamesPlayed) + stand.wins;
+    var maxWins = (gamesInRegularSeason - stand.gamesPlayed) + stand.wins;
     for(var k = 0; k < 5; k++){
       switch(stand.winning[k]){
         case '^':
