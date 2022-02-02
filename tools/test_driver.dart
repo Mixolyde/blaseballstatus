@@ -67,7 +67,10 @@ Future<void> main() async {
   //var allGames = await getAllGames(simData.season, sim:simData.id);
   //print('All Count: ${allGames.length}');
   
-  Standings standings = await getStandings();
-  print('Standings $standings');
+  //Standings standings = await getStandings();
+  //print('Standings $standings');
+  
+  List<Game> games = await getGames(0, 0);
+  print('Games Count: ${games.length}');
   
 }

@@ -59,40 +59,6 @@ void apiTests() {
       expect(current.order.length, greaterThanOrEqualTo(teamCount));
       print('$current');
     });  
-    test('Get games first day of season', () async {
-      var data = await getSimulationData();
-      var current = await getGames(data.season, 0);
-      expect(current, isNotNull);
-      expect(current.length, greaterThanOrEqualTo(10));
-      expect(current[0], isNotNull);      
-      print('Day 0 Game 0: ${current[0]}');
-    });   
-    test('Get games last day of season', () async {
-      var data = await getSimulationData();
-      var current = await getGames(data.season, 98);
-      expect(current, isNotNull);
-      expect(current.length, greaterThanOrEqualTo(10));
-      expect(current[0], isNotNull);      
-      print('Day 98 Game 0: ${current[0]}');
-    });     
-    test('Get all games of gamma8 season', () async {
-      var data = await getSimulationData();
-      var current = await getAllGames(data.season);
-      expect(current, isNotNull);
-      expect(current.length, 12 * 99);
-      expect(current[0], isNotNull);      
-      print('Day 0 Game 0: ${current[0]}');
-      print('Last Game: ${current.last}');
-    }, timeout: Timeout(Duration(minutes: 4)));     
-    test('Get all games of gamma9 season', () async {
-      var data = await getSimulationData();
-      var current = await getAllGames(data.season, sim:'gamma9');
-      expect(current, isNotNull);
-      expect(current.length, 12 * 99);
-      expect(current[0], isNotNull);      
-      print('Day 0 Game 0: ${current[0]}');
-      print('Last Game: ${current.last}');
-    }, timeout: Timeout(Duration(minutes: 4)));     
   });
   group('postseason', () {
     var seasonNumber = 10;
