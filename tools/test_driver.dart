@@ -2,6 +2,7 @@
 // import 'dart:io';
 // import 'package:intl/intl.dart';
 import '../lib/calc_stats.dart';
+import '../lib/chronicler_api.dart';
 import '../lib/database_api.dart';
 // import '../lib/sim_season.dart';
 // import '../lib/site_objects.dart';
@@ -9,7 +10,7 @@ import '../lib/database_api.dart';
 
 /// Test script used for manually executing methods and testing functionality.
 Future<void> main() async {  
-  print(apiUrl);
+  //print(apiUrl);
   
   //overall blaseball status data
   var simData = await getSimulationData();
@@ -70,7 +71,7 @@ Future<void> main() async {
   //Standings standings = await getStandings();
   //print('Standings $standings');
   
-  List<Game> games = await getGames(0, 0);
+  List<Game> games = await getGames(0, day:0);
   print('Games Count: ${games.length}');
   
 }
