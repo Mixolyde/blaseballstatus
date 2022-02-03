@@ -37,7 +37,8 @@ Future<SiteData> calcSiteData(SimulationData simData) async {
     _sub1.id, _sub1.name, 
     _sub2.id, _sub2.name,
     simData.attributes,
-    SimulationData.daysInRegularSeason(simData.id));
+    SimulationData.daysInRegularSeason(simData.id),
+    SimulationData.gamesInRegularSeason(simData.id));
   print(sitedata);
 
   return sitedata;

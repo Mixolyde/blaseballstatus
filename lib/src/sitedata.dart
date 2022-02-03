@@ -10,6 +10,7 @@ class SiteData {
   final String sub2name;
   final List<String> attributes;
   final int daysInSeason;
+  final int gamesInSeason;
 
   
   List<String> get subnicknames => 
@@ -22,13 +23,14 @@ class SiteData {
     this.sub1id = '', this.sub1name = '',
     this.sub2id = '', this.sub2name = '',
     this.attributes = const [],
-    this.daysInSeason = 99});
+    this.daysInSeason = 99,
+    this.gamesInSeason = 99});
   
   SiteData(this.lastUpdate, 
     this.season, this.day,
     this.sub1id, this.sub1name,
     this.sub2id, this.sub2name, 
-    this.attributes, this.daysInSeason);
+    this.attributes, this.daysInSeason, this.gamesInSeason);
   
   factory SiteData.fromJson(Map<String, dynamic> json){
     return SiteData.fromMap(
@@ -43,6 +45,7 @@ class SiteData {
         (json['attributes'] as List<dynamic>)
         .map((t) => t.toString()).toList() as List<String>,      
       daysInSeason: json['daysInSeason'] as int,
+      gamesInSeason: json['gamesInSeason'] == null ? 99 : json['gamesInSeason']
     );
   }
   
@@ -56,6 +59,7 @@ class SiteData {
       'sub2name':   sub2name,
       'attributes': attributes,
       'daysInSeason': daysInSeason,
+      'gamesInSeason': gamesInSeason,
   };
   
   @override
