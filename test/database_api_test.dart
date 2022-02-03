@@ -133,6 +133,6 @@ void apiTests() {
       var current = await getCompletePostseason(data.season);
       print(current);
     });    
-  });
+  }, timeout: Timeout(Duration(minutes: 4)));
   
 }
