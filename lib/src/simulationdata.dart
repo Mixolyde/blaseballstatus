@@ -64,7 +64,7 @@ class SimulationData {
     if(simId == 'gamma9'){
       return 166;
     } else if (simId == 'gamma10'){
-      return 190;
+      return 219;
     } else {
       return 99;
     }
