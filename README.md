@@ -2,6 +2,8 @@
 
 [![Codeship Status for Mixolyde/blaseballstatus](https://app.codeship.com/projects/9d236bb0-d6b8-0138-2ddf-7eb9ef296b97/status?branch=master)](https://app.codeship.com/projects/408806)
 
+[![codecov](https://codecov.io/gh/Mixolyde/blaseballstatus/branch/master/graph/badge.svg?token=HKXDCHU25Z)](https://codecov.io/gh/Mixolyde/blaseballstatus)
+
 ## About
 An attempt to replicate [Playoff Status](http://playoffstatus.com)
  behavior, but for [Blaseball](https://blaseball.com).
