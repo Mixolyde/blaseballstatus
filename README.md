@@ -2,7 +2,7 @@
 
 [![Codeship Status for Mixolyde/blaseballstatus](https://app.codeship.com/projects/9d236bb0-d6b8-0138-2ddf-7eb9ef296b97/status?branch=master)](https://app.codeship.com/projects/408806)
 
-[![Coverage Status](https://coveralls.io/repos/github/Mixolyde/blaseballstatus/badge.svg?branch=master)](https://coveralls.io/github/Mixolyde/blaseballstatus?branch=master)
+[![codecov](https://codecov.io/gh/Mixolyde/blaseballstatus/branch/master/graph/badge.svg?token=HKXDCHU25Z)](https://codecov.io/gh/Mixolyde/blaseballstatus)
 
 ## About
 An attempt to replicate [Playoff Status](http://playoffstatus.com)
@@ -13,18 +13,15 @@ Published at https://playoffstatus.sibr.dev/
 ## TODO
 * Figure out what's up with tied records getting weird sim results
 * Postseason schedule
-* Disable wild/mild and group by buttons on not applicable pages
 * Handle postseason data live
 * Team rank history over season chart
 * Schedule pages
 * Get a twitter account and button
 * Factor future schedule into magic numbers
-* Unit test coverage report
-* Pull database api code out into a separate library
 * Move project to a blaseball-specific account on github
 * Reduce API calls during siesta
 * Copy the live ticker to the top of the page
-* Show era and subera descriptions
+* Show era and sub-era descriptions
 
 ## Planned release schedule
 * v0.0.1 
@@ -65,11 +62,11 @@ Published at https://playoffstatus.sibr.dev/
 * v0.0.9
 - [x] Display data update time in local time zone
 - [x] Disable buttons on certain views
+- [x] Unit test coverage report
 - [ ] Live Postseason chance updates
 * v0.1.0
 - [ ] Team Schedules
 - [ ] Get a twitter account and button
-- [ ] Unit test coverage report
 - [ ] Move project to a blaseball-specific account on github
 
 ## Contributing
@@ -163,6 +160,7 @@ Huge thanks to:
 * [Dart](https://dart.dev/) for being an awesome language!
 * [Peanut and Git plugins](https://github.com/kevmoo) for Dart to auto deploy to gh-pages
 * [Codeship](https://codeship.com) for continuous integration and automated deployment
+* [Codecov](https://app.codecov.io) for code coverage report viewing
 
 Created from templates made available by Stagehand under a BSD-style
 [license](https://github.com/dart-lang/stagehand/blob/master/LICENSE).
