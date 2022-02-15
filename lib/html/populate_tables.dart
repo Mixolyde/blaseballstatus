@@ -1,7 +1,7 @@
 import 'dart:html';
 import 'package:blaseballstatus/site_objects.dart';
 
-void populateWinsBehindTable(List<TeamStandings> subStandings, bool groupByDiv){
+void populateWinsBehindTable(List<TeamStandings> subStandings, bool groupByDiv, SiteData sitedata){
   var table = querySelector('#standingsTable')! as TableElement;
   var standings = subStandings.toList();
   if(groupByDiv == true){
@@ -16,7 +16,7 @@ void populateWinsBehindTable(List<TeamStandings> subStandings, bool groupByDiv){
     var cell = trow.insertCell(5);
     cell.text = row.gamesPlayed.toString();    
     cell = trow.insertCell(6);
-    cell.text = (99 - row.gamesPlayed).toString();       
+    cell.text = (sitedata.gamesInSeason - row.gamesPlayed).toString();       
     cell = trow.insertCell(7);
     cell.text = row.gbDiv;        
     cell = trow.insertCell(8);
@@ -110,7 +110,7 @@ void assignBracketClass(SpanElement span, PlayoffBracketEntry entry){
   }
 }
 
-void populateChancesTable(List<TeamStandings> subStandings, bool groupByDiv){
+void populateChancesTable(List<TeamStandings> subStandings, bool groupByDiv, SiteData sitedata){
   var table = querySelector('#standingsTable') as TableElement?;
   if(table == null){
     print('ERROR: #standingsTable is null');
@@ -127,7 +127,7 @@ void populateChancesTable(List<TeamStandings> subStandings, bool groupByDiv){
   for(var row in standings) {
     var trow = insertCommonCells(table, row);
     var cell = trow.insertCell(5);
-    cell.text = (99 - row.gamesPlayed).toString();  
+    cell.text = (sitedata.gamesInSeason - row.gamesPlayed).toString();  
     for(var i = 0; i < 5; i++){
       var cell = trow.insertCell(6 + i);
       cell.text = row.po[i];
@@ -188,7 +188,7 @@ void populatePostseasonTable(List<List<TeamStandings>> allStandings, bool groupB
   for(var row in standings) {
     var trow = insertCommonCells(table, row, showLeague: true);
     var psRounds = 4;
-    if(sitedata.leagueWildCards){
+    if(sitedata.leagueWildCards || sitedata.leagueMildCards){
       psRounds = 5;
     }
     for(var i = 0; i < psRounds; i++){
@@ -211,7 +211,7 @@ void populatePostseasonTable(List<List<TeamStandings>> allStandings, bool groupB
   } 
 }
 
-void populateWinningTable(List<TeamStandings> subStandings, bool groupByDiv){
+void populateWinningTable(List<TeamStandings> subStandings, bool groupByDiv, SiteData sitedata){
   var table = querySelector('#standingsTable') as TableElement?;
   if(table == null){
     print('ERROR: #standingsTable is null');
@@ -228,7 +228,7 @@ void populateWinningTable(List<TeamStandings> subStandings, bool groupByDiv){
   for(var row in standings) {
     var trow = insertCommonCells(table, row);
     var cell = trow.insertCell(5);
-    cell.text = (99 - row.gamesPlayed).toString();      
+    cell.text = (sitedata.gamesInSeason - row.gamesPlayed).toString();      
     for(var i = 0; i < 5; i++){
       cell = trow.insertCell(6 + i);
       cell.text = row.winning[i];
@@ -252,7 +252,7 @@ void populateWinningTable(List<TeamStandings> subStandings, bool groupByDiv){
   }
 }
 
-void populatePartyTimeTable(List<TeamStandings> subStandings, bool groupByDiv){
+void populatePartyTimeTable(List<TeamStandings> subStandings, bool groupByDiv, SiteData sitedata){
   var table = querySelector('#standingsTable') as TableElement?;
   if(table == null){
     print('ERROR: #standingsTable is null');
@@ -269,7 +269,7 @@ void populatePartyTimeTable(List<TeamStandings> subStandings, bool groupByDiv){
   for(var row in standings) {
     var trow = insertCommonCells(table, row);   
     var cell = trow.insertCell(5);
-    cell.text = (99 - row.gamesPlayed).toString();    
+    cell.text = (sitedata.gamesInSeason - row.gamesPlayed).toString();    
     for(var i = 0; i < 5; i++){
       var cell = trow.insertCell(6 + i);
       cell.text = row.partytime[i];

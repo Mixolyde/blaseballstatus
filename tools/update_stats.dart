@@ -29,8 +29,8 @@ Future<void> main(List<String> args) async {
   print(subStandings[1]);
   
 
-  var postSeason = await getCompletePostseason(simData.season);
   // TODO fix playoff brackets for no wild cards
+  //var postSeason = await getCompletePostseason(simData.season);
   var entries = <PlayoffBracketEntry>[];
   //    await calculatePlayoffBracketEntries(postSeason, subStandings);
       

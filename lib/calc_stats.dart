@@ -1,5 +1,6 @@
 import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
+import 'chronicler_api.dart';
 import 'database_api.dart';
 import 'site_objects.dart';
 
@@ -21,11 +22,13 @@ List<String> _monthOfYear = ['', 'Jan', 'Feb', 'Mar',
 NumberFormat f = NumberFormat('#', 'en_US');
 
 int divSplit = 0;
+int gamesInRegularSeason = 99;
   
 Future<SiteData> calcSiteData(SimulationData simData) async {
   _league = await getLeague();
   _sub1 = await getSubleague(_league.subleagueId1);
   _sub2 = await getSubleague(_league.subleagueId2);
+  gamesInRegularSeason = SimulationData.gamesInRegularSeason(simData.id);
   
   var lastUpdate = getUpdateTime();
   
@@ -34,7 +37,8 @@ Future<SiteData> calcSiteData(SimulationData simData) async {
     _sub1.id, _sub1.name, 
     _sub2.id, _sub2.name,
     simData.attributes,
-    Season.daysInRegularSeason(simData.id));
+    SimulationData.daysInRegularSeason(simData.id),
+    SimulationData.gamesInRegularSeason(simData.id));
   print(sitedata);
 
   return sitedata;
@@ -48,33 +52,24 @@ String getUpdateTime(){
 
 Future<List<List<TeamStandings>>> calcStats(SimulationData simData) async {
   print('Beginning stat calculations for current season: ${simData.season + 1}');
-  
-  List<Game> games;
-  if (!simData.inPostSeason){
-    games = await getGames(simData.season, simData.day, sim:simData.id);
-  } else {
-    //get last day of games
-    games = await getGames(simData.season, 
-        Season.daysInRegularSeason(simData.id), sim:simData.id);
-  }
+ 
   _standings = await getStandings();
 
   _allTeams = await getTeams();
   _tiebreakers = await getTiebreakers(_league.tiebreakersId);
 
   var sub1Standings = 
-    await calculateSubLeague(_sub1, games, simData.inPostSeason);
+    await calculateSubLeague(_sub1, simData);
   var sub2Standings = 
-    await calculateSubLeague(_sub2, games, simData.inPostSeason);
+    await calculateSubLeague(_sub2, simData);
   
   return [sub1Standings, sub2Standings];
     
 }
 
 Future<List<TeamStandings>> calculateSubLeague(Subleague sub, 
-    List<Game> games, bool inPostSeason) async{
-  var day = games[0].day;
-  print('Day ${day + 1} $sub');
+    SimulationData simData) async{
+  print('Day ${simData.day + 1} $sub');
   var div1 = await getDivision(sub.divisionId1);
   var div2 = await getDivision(sub.divisionId2);
   var teams = _allTeams.where((t) => 
@@ -100,9 +95,10 @@ Future<List<TeamStandings>> calculateSubLeague(Subleague sub,
       }
     }
     
-    var gamesPlayed = 99;
-    if (!inPostSeason){
-      gamesPlayed = _standings.gamesPlayed[team.id] ?? gamesPlayed;
+    var gamesPlayed = gamesInRegularSeason;
+    if (!simData.inPostSeason){
+      gamesPlayed = _standings.standings[team.id]!.wins + 
+        _standings.standings[team.id]!.losses;
     }
     
     var standing = 
@@ -111,8 +107,8 @@ Future<List<TeamStandings>> calculateSubLeague(Subleague sub,
       //sub.name.split(' ')[1],
       sub.name,
       divName,
-      _standings.wins[team.id] ?? 0, 
-      _standings.losses[team.id] ?? 0,
+      _standings.standings[team.id]!.wins, 
+      _standings.standings[team.id]!.losses,
       gamesPlayed,
       _tiebreakers.order.indexOf(team.id));
     teamStandings.add(standing);
@@ -212,7 +208,7 @@ void calculateWinningMagicNumbers(List<TeamStandings> teamStandings) {
   var top3Same = teamStandings.take(3).every((team) =>
     team.division == firstDiv);
   for (var i = 0; i < teamStandings.length; i++){
-    var maxWins = (99 - teamStandings[i].gamesPlayed) +
+    var maxWins = (gamesInRegularSeason - teamStandings[i].gamesPlayed) +
       teamStandings[i].wins;
 
     print('${teamStandings[i]} maxWins: $maxWins');
@@ -280,7 +276,7 @@ void setWinningMagicNumber(TeamStandings standing, TeamStandings target,
   int winningIndex){
   //Wb + GRb - Wa + 1
   var magic = target.wins +
-    (99 - target.gamesPlayed) -
+    (gamesInRegularSeason - target.gamesPlayed) -
     standing.wins;
   if (standing.favor > target.favor) {
     //team b wins ties
@@ -308,7 +304,7 @@ void _calculatePartyTimeMagicNumbers(List<TeamStandings> teamStandings) {
     
   for (var i = 0; i < teamStandings.length; i++){
     var stand = teamStandings[i];
-    var maxWins = (99 - stand.gamesPlayed) + stand.wins;
+    var maxWins = (gamesInRegularSeason - stand.gamesPlayed) + stand.wins;
     for(var k = 0; k < 5; k++){
       switch(stand.winning[k]){
         case '^':

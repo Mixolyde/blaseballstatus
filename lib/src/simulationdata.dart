@@ -59,6 +59,25 @@ class SimulationData {
   bool get leagueWildCards => attributes.contains('WILD_CARDS');
   
   bool get leagueMildCards => attributes.contains('MILD_CARDS');
+
+  bool get inPostSeason => day >= SimulationData.daysInRegularSeason(id);
   
-  bool get inPostSeason => day >= Season.daysInRegularSeason(id);
+  static int daysInRegularSeason(String simId) {
+    if(simId == 'gamma9'){
+      return 166;
+    } else if (simId == 'gamma10'){
+      return 219;
+    } else {
+      return 99;
+    }
+  }
+  
+  static int gamesInRegularSeason(String simId) {
+    if (simId == 'gamma10'){
+      return 162;
+    } else {
+      return 99;
+    }
+  }  
+
 }

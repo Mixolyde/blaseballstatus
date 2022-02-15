@@ -41,7 +41,7 @@ void main() {
       var currentSimData = await getSimulationData();
       var simData = SimulationData(
         id: currentSimData.id,
-        day: 166,
+        day: 500,
         league: 'd8545021-e9fc-48a3-af74-48685950a183',
         playOffRound: 3,
         season: 14,

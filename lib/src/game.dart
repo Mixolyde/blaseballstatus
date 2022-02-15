@@ -67,13 +67,14 @@ class Game {
   final bool gameComplete;
   final int season;
   final int day;
+  final bool isPostseason;
   
   Game({this.id = '', this.awayTeam = '', this.awayTeamNickname = '',
     this.awayScore = 0,
     this.homeTeam = '', this.homeTeamNickname = '', 
     this.homeScore = 0,
     this.gameComplete = false,
-    this.season = 0, this.day = 0});
+    this.season = 0, this.day = 0, this.isPostseason = false});
     
   factory Game.fromJson(Map<String, dynamic> json){
     return Game(
@@ -87,12 +88,12 @@ class Game {
       gameComplete: json['gameComplete'] as bool,
       season: json['season'] as int,
       day: json['day'] as int,
-      
+      isPostseason: json['isPostseason'] as bool,
     );
   }
 
   @override
   String toString() => 'Day $day $awayTeamNickname @ $homeTeamNickname '
-    'Completed: $gameComplete Score $awayScore-$homeScore';
+    'Completed: $gameComplete Score:$awayScore-$homeScore IsPostseason: $isPostseason';
   
 }

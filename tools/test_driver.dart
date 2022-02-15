@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 // import 'package:intl/intl.dart';
 import '../lib/calc_stats.dart';
+import '../lib/chronicler_api.dart';
 import '../lib/database_api.dart';
 // import '../lib/sim_season.dart';
 // import '../lib/site_objects.dart';
@@ -9,7 +10,7 @@ import '../lib/database_api.dart';
 
 /// Test script used for manually executing methods and testing functionality.
 Future<void> main() async {  
-  print(apiUrl);
+  //print(apiUrl);
   
   //overall blaseball status data
   var simData = await getSimulationData();
@@ -36,8 +37,8 @@ Future<void> main() async {
   );
 
   //site data
-  var sitedata = await calcSiteData(oldSimData);
-  print(sitedata);
+  //var sitedata = await calcSiteData(oldSimData);
+  //print(sitedata);
   
   //get subleague standings and calculate stats
   //List<List<TeamStandings>> subStandings = await calcStats(oldSimData);
@@ -53,9 +54,7 @@ Future<void> main() async {
   //print(games);
   //print('Count: ${games.length}');
   
-  //var allGames = await getAllGames(0, sim:simData.id);
-  //print('All Count: ${allGames.length}');
-  
+
   //var streamResult = await getEventStreamData(['games', 'standings']);
   //print(streamResult);
   
@@ -65,22 +64,13 @@ Future<void> main() async {
   //var season = await getEventStreamData(['games', 'season']);
   //print (season);
   
-  //var games = await getEventStreamData(['games']);
-  //var playoffs = games['postseasons'];
-  //print(playoffs);
+  //var allGames = await getAllGames(simData.season, sim:simData.id);
+  //print('All Count: ${allGames.length}');
   
-  String contents = File('./test/data/completed_postseason_nowildcard.json').readAsStringSync();
-  //print(contents);
+  //Standings standings = await getStandings();
+  //print('Standings $standings');
   
-  var jsonMap = json.decode(contents);
-  //print(jsonMap);
-  
-  var postseasonMap = jsonMap['postseasons'][0]!;
-  //print(postseasonMap);
-  var completePost = CompletePostseason.fromStreamData(postseasonMap);
-  print(completePost);
-  print(completePost.playoffs);
-  
-  var completePostWildCard = await getCompletePostseason(22);
-  print("Round count: ${completePostWildCard!.playoffs.numberOfRounds}");
+  List<Game> games = await getGames(0, day:0);
+  print('Games Count: ${games.length}');
+
 }

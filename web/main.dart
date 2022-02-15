@@ -74,7 +74,7 @@ Future<void> getContentPages() async {
   querySelector('#pickLeague1')!.text = sitedata.subnicknames[0];
   querySelector('#pickLeague2')!.text = sitedata.subnicknames[1];
 
-  if(sitedata.leagueWildCards){
+  if(sitedata.leagueWildCards || sitedata.leagueMildCards){
     winsbehindHTML = await HttpRequest.getString('winsbehind_wc.html');
     setMainContent(winsbehindHTML);
     magicHTML = await HttpRequest.getString('magic_wc.html');
@@ -112,16 +112,16 @@ Future<void> refreshData() async{
   
   switch(currentView.activeView){
   case View.winsbehind:
-    populateWinsBehindTable(subStandings[currentView.activeLeague], currentView.groupByDiv);
+    populateWinsBehindTable(subStandings[currentView.activeLeague], currentView.groupByDiv, sitedata);
     break;
   case View.winningmagic:
-    populateWinningTable(subStandings[currentView.activeLeague], currentView.groupByDiv);
+    populateWinningTable(subStandings[currentView.activeLeague], currentView.groupByDiv, sitedata);
     break;
   case View.partytimemagic:
-    populatePartyTimeTable(subStandings[currentView.activeLeague], currentView.groupByDiv);
+    populatePartyTimeTable(subStandings[currentView.activeLeague], currentView.groupByDiv, sitedata);
     break;
   case View.chances:
-    populateChancesTable(subStandings[currentView.activeLeague], currentView.groupByDiv);
+    populateChancesTable(subStandings[currentView.activeLeague], currentView.groupByDiv, sitedata);
     break;    
   case View.postseason:
     populatePostseasonTable(subStandings, currentView.groupByDiv, sitedata);
@@ -423,27 +423,27 @@ void redisplayData(){
     setMainContent(winsbehindHTML);
     querySelector('#leagueTitle')!.text = 
       sitedata.subnicknames[currentView.activeLeague]; 
-    populateWinsBehindTable(subStandings[currentView.activeLeague], currentView.groupByDiv);
+    populateWinsBehindTable(subStandings[currentView.activeLeague], currentView.groupByDiv, sitedata);
     break;
   case View.chances:
     setMainContent(magicHTML);
     querySelector('#leagueTitle')!.text = 
       '${sitedata.subnicknames[currentView.activeLeague]} League Playoff Chances';
-    populateChancesTable(subStandings[currentView.activeLeague], currentView.groupByDiv);
+    populateChancesTable(subStandings[currentView.activeLeague], currentView.groupByDiv, sitedata);
     setNotes(chancesNotesHTML);
     break;    
   case View.winningmagic:
     setMainContent(magicHTML);
     querySelector('#leagueTitle')!.text =
       '${sitedata.subnicknames[currentView.activeLeague]} League Winning Magic Numbers';
-    populateWinningTable(subStandings[currentView.activeLeague], currentView.groupByDiv);
+    populateWinningTable(subStandings[currentView.activeLeague], currentView.groupByDiv, sitedata);
     setNotes(winningNotesHTML);
     break;
   case View.partytimemagic:
     setMainContent(magicHTML);
     querySelector('#leagueTitle')!.text =
       '${sitedata.subnicknames[currentView.activeLeague]} League Party Time Magic Numbers';
-    populatePartyTimeTable(subStandings[currentView.activeLeague], currentView.groupByDiv);
+    populatePartyTimeTable(subStandings[currentView.activeLeague], currentView.groupByDiv, sitedata);
     setNotes(partytimeNotesHTML);
     break;
   case View.postseason:

@@ -1,11 +1,11 @@
 import 'dart:math';
 import 'package:meta/meta.dart';
+import 'chronicler_api.dart';
 import 'database_api.dart';
 import 'sim_postseason.dart';
 import 'site_objects.dart';
 
 late SimulationData simData;
-late Season season;
 late CompletePostseason currentPostSeason;
 List<Game> games = [];
 Random rand = Random(0);
@@ -14,22 +14,24 @@ Random rand = Random(0);
 Future<void> setLateData(SimulationData testSimData, 
   CompletePostseason testPostSeason) async {
   simData = testSimData;
-  season = await getSeason();
   currentPostSeason = testPostSeason;
+
 }
 
 Future<void> calculateChances(List<List<TeamStandings>> subStandings, 
   int numSims, List<PlayoffBracketEntry> entries, String simId) async {
   simData = await getSimulationData();
-  season = await getSeason();
   print('Getting game data');
-  games = await getAllGames(simData.season, sim:simId);
+  games = await getGames(simData.season, sim:simId);
+  //TODO fix live postseason stuff
+  /*
   print('Getting postseason data');
   if(simData.inPostSeason) {
     print("Simulation is in PostSeason");
     // build post season from current stream data
     currentPostSeason = await getCurrentPostseason() as CompletePostseason;
   }
+  */
   //print(games[0]);
 
   runSimulations(games, subStandings, numSims);
@@ -324,6 +326,7 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
   }
   
   for (var count = 0; count < numSims; count++){
+    /* TODO fix live postseason simulations
     if(simData.inPostSeason) {
       // set completed round/matchup standings
       print("Simulation is in PostSeason: $currentPostSeason");
@@ -337,7 +340,11 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
       simulateSeason(games, sims);
       simulateUnstartedPostSeason(simsByLeague);
     }
+    */
     
+    simulateSeason(games, sims);
+    simulateUnstartedPostSeason(simsByLeague);
+      
     if (count % 1000 == 0){
       print('Completed simulation count $count');
     }
@@ -386,6 +393,7 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
   print('poCounts $poCounts');
   print('postCounts $postCounts');
   print('League Wild Cards: ${simData.leagueWildCards}');
+  print('League Mild Cards: ${simData.leagueMildCards}');
   standings.forEach((standingList) => standingList.forEach((standing) {
     var top3 = standing.winning.take(3).any((win) => win == '^');
     var top4 = top3 || standing.winning[3] == '^';
@@ -403,15 +411,20 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
       }
       
       //postseason percents
+
       //TODO remove if already calculated by above
+      //TODO handle ^ and X in i=3 and 4
+      //TODO handle clinched 5th place in Mild Card
       if(i == 3 && top3) {
         standing.post[i] = '^';
-      } else if ( i == 3 && top4 && !simData.leagueWildCards){
+      } else if ( i == 3 && top4 
+        && !simData.leagueWildCards && !simData.leagueMildCards){
         standing.post[i] = '^';
-      } else if ( i == 4 && top4 && simData.leagueWildCards){
+      } else if ( i == 4 && top4 && 
+        (simData.leagueWildCards || simData.leagueMildCards)){
         standing.post[i] = '^';
       } else {
-        if(simData.leagueWildCards){
+        if(simData.leagueWildCards || simData.leagueMildCards){
           standing.post[i] = formatPercent(postCounts[standing.id]![i] / numSims);
         } else {
           if (standing.winning[4] == 'PT' && i < 4){
@@ -452,9 +465,68 @@ void simulateSeason(List<Game> games, Map<String, TeamSim> sims){
   });
 }
   
-
-
-
+void simulatePostSeason(List<List<TeamSim>> simsByLeague){
+  int teamCount = simsByLeague.fold(0, (sum, sub) => sum + sub.length);
+  
+  //simulate complete playoff run
+  var leagueChampSims = <TeamSim>[];
+  
+  for (var simLeague in simsByLeague) {
+    sortTeamSims(simLeague);
+    
+    var round1Sims = <TeamSim>[];
+    round1Sims.add(simLeague[0]);
+    round1Sims.add(simLeague[1]);
+    round1Sims.add(simLeague[2]);
+    
+    if (simData.leagueWildCards){
+    
+      // wild card round
+      // pick a random team not in playoffs and simulate
+      var nonPlayoffCount = simLeague.length - 4;
+      var wildCardIndex = rand.nextInt(nonPlayoffCount) + 4;
+      var wildCard = simLeague[wildCardIndex];
+      simLeague.take(4).forEach((sim) => sim.wcSeries = true);
+      wildCard.wcSeries = true;
+      //print('WildCard pick $wildCardIndex $wildCard');
+      //simulate 3 win series with wild card pic
+      var wildSeriesWinner = simulateSeries(simLeague[3], wildCard, 2, teamCount);
+      round1Sims.add(wildSeriesWinner);
+      //print('WildCard pick $wildCardIndex $wildCard WildSeriesWinner $wildSeriesWinner');
+      
+    } else if (simData.leagueMildCards){
+      // mild card round
+      // pick 5th place team and simulate      
+      var mildCard = simLeague[4];
+      simLeague.take(5).forEach((sim) => sim.wcSeries = true);
+      //print('Mild Card pick $mildCard');
+      //simulate 3 win series with mild card pic
+      var mildSeriesWinner = simulateSeries(simLeague[3], mildCard, 2, teamCount);
+      round1Sims.add(mildSeriesWinner);      
+    } else {
+      round1Sims.add(simLeague[3]);
+    }
+    
+    round1Sims.forEach((sim) => sim.r1Series = true);
+    
+    // round 1
+    var r1SeriesWinnerA = simulateSeries(round1Sims[0], round1Sims[3], 3, teamCount);
+    var r1SeriesWinnerB = simulateSeries(round1Sims[1], round1Sims[2], 3, teamCount);
+    
+    // subleague round
+    var slRoundSims = [r1SeriesWinnerA, r1SeriesWinnerB];
+    slRoundSims.forEach((sim) => sim.slSeries = true);
+    
+    var slWinner = simulateSeries(slRoundSims[0], slRoundSims[1], 3, teamCount);
+    leagueChampSims.add(slWinner);
+  }
+  // ilb round
+  leagueChampSims.forEach((sim) => sim.ilbSeries = true);
+  var ilbWinner = simulateSeries(leagueChampSims[0], leagueChampSims[1], 3, teamCount);
+  //print('ILBWinner: $ilbWinner');
+  ilbWinner.ilbChamp = true;
+  
+}
 
 TeamSim simulateGame(TeamSim awaySim, TeamSim homeSim, int teamCount){
   //default away chance
