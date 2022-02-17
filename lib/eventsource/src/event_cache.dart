@@ -1,3 +1,4 @@
+// coverage:ignore-file
 import "package:collection/collection.dart";
 
 import "event.dart";

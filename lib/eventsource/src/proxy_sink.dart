@@ -1,3 +1,4 @@
+// coverage:ignore-file
 /// Just a simple [Sink] implementation that proxies the [add] and [close]
 /// methods.
 class ProxySink<T> implements Sink<T> {

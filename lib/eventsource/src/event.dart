@@ -1,3 +1,4 @@
+// coverage:ignore-file
 class Event implements Comparable<Event> {
   /// An identifier that can be used to allow a client to replay
   /// missed Events by returning the Last-Event-Id header.
