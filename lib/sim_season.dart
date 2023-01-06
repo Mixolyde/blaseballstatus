@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 import 'package:meta/meta.dart';
 import 'chronicler_api.dart';
@@ -21,6 +22,18 @@ Future<void> setLateData(SimulationData testSimData,
 Future<void> calculateChances(List<List<TeamStandings>> subStandings, 
   int numSims, List<PlayoffBracketEntry> entries, String simId) async {
   simData = await getSimulationData();
+  
+  Map<String, String> envVars = Platform.environment;
+  String envBucket = envVars['BUCKET'] ?? "";
+  
+  if(envBucket == "dev/") {
+    //remove wild/mild cards for testing
+    simData.attributes.remove("MILD_CARDS");
+    simData.attributes.remove("WILD_CARDS");
+    
+    print("Removed attributes for testing: ${simData.attributes}");
+  }
+  
   print('Getting game data');
   games = await getGames(simData.season, sim:simId);
   //TODO fix live postseason stuff

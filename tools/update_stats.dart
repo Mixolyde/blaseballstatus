@@ -9,8 +9,6 @@ import '../lib/site_objects.dart';
 const simCount = 'sim-count';
 
 Future<void> main(List<String> args) async {  
-  Map<String, String> envVars = Platform.environment;
-  String envBucket = envVars['BUCKET'] ?? "";
 
   var parser = ArgParser();
   parser.addOption(simCount, abbr: 'c',  defaultsTo: '103');
@@ -19,6 +17,9 @@ Future<void> main(List<String> args) async {
   
   //overall blaseball status data
   var simData = await getSimulationData();
+  
+  Map<String, String> envVars = Platform.environment;
+  String envBucket = envVars['BUCKET'] ?? "";
   
   if(envBucket == "dev/") {
     //remove wild/mild cards for testing
