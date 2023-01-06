@@ -1,10 +1,12 @@
 library s3_api;
 
 import 'dart:convert';
+
 import 'package:http/http.dart';
 import 'site_objects.dart';
 
-String _apiUrl = 'https://blaseball-status.s3.amazonaws.com/data/';
+String envBucket = "";
+String _apiUrl = 'https://blaseball-status.s3.amazonaws.com/data/' + envBucket;
 
 final String _sitedataUrl = _apiUrl + 'sitedata.json';
 final String _entriesUrl = _apiUrl + 'entries.json';

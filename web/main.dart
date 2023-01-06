@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:html';
+import 'dart:js' as js;
 import 'package:cron/cron.dart';
 import 'package:intl/intl.dart';
 
@@ -26,6 +27,12 @@ CurrentView currentView = CurrentView();
 List<PlayoffBracketEntry> entries = [];
 
 void main() {
+
+  String envBucket = js.context['envBucket'] ?? "";
+  s3.envBucket = envBucket;
+  
+  print ("EnvBucket: $envBucket");
+
   apiUrl = 'https://api.sibr.dev/corsmechanics/api.blaseball.com/';
   getContentPages().then((v) {
     print('Retrieved content pages and data');

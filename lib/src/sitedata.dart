@@ -63,7 +63,7 @@ class SiteData {
   };
   
   @override
-  String toString() => '$lastUpdate Season:$season Day:$day $sub1name $sub2name';
+  String toString() => '$lastUpdate Season:$season Day:$day $sub1name $sub2name $attributes';
   
   bool get leagueWildCards => attributes.contains('WILD_CARDS');
   
