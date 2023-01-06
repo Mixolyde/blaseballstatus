@@ -72,9 +72,12 @@ Future<void> main(List<String> args) async {
 }
 
 void uploadFiles() {
+  Map<String, String> envVars = Platform.environment;
+  String envBucket = envVars['BUCKET'] ?? "";
+  print("Environment Bucket: $envBucket");
   Process.run('/usr/bin/aws', [
       's3', 'cp', '/tmp/data/',
-      's3://blaseball-status/data/',
+      's3://blaseball-status/data/' + envBucket,
       '--include="*.json"', 
       '--recursive',
       '--acl=public-read', 
