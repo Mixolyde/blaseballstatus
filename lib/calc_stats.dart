@@ -28,7 +28,7 @@ Future<SiteData> calcSiteData(SimulationData simData) async {
   _league = await getLeague();
   _sub1 = await getSubleague(_league.subleagueId1);
   _sub2 = await getSubleague(_league.subleagueId2);
-  gamesInRegularSeason = SimulationData.gamesInRegularSeason(simData.id);
+  gamesInRegularSeason = SimulationData.gamesInRegularSeason(simData.currentSeasonId);
   
   var lastUpdate = getUpdateTime();
   
@@ -37,8 +37,8 @@ Future<SiteData> calcSiteData(SimulationData simData) async {
     _sub1.id, _sub1.name, 
     _sub2.id, _sub2.name,
     simData.attributes,
-    SimulationData.daysInRegularSeason(simData.id),
-    SimulationData.gamesInRegularSeason(simData.id));
+    SimulationData.daysInRegularSeason(simData.currentSeasonId),
+    SimulationData.gamesInRegularSeason(simData.currentSeasonId));
   print(sitedata);
 
   return sitedata;

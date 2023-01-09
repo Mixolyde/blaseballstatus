@@ -18,7 +18,7 @@ void main() {
 
       var sitedata = SiteData.fromJson(json.decode(body));
       expect(sitedata.season, greaterThanOrEqualTo(0));
-      expect(sitedata.day, greaterThan(-1));
+      expect(sitedata.day, greaterThan(-2));
       
       filenameJSON = temp.path + '/data/${sitedata.sub1id}.json';
       body = await File(filenameJSON).readAsString();

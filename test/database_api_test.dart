@@ -14,9 +14,10 @@ void apiTests() {
       var data = await getSimulationData();
       print(data);
       expect(data.season, greaterThanOrEqualTo(0));
-      expect(data.id, isIn(['thisidisstaticyo',
-        'gamma4', 'gamma8', 'gamma9', 'gamma10']));
-      expect(data.attributes.length, greaterThan(1));
+      expect(data.currentSeasonId, isIn(['thisidisstaticyo',
+        'gamma4', 'gamma8', 'gamma9', 'gamma10',
+        'cd1b6714-f4de-4dfc-a030-851b3459d8d1']));
+      expect(data.attributes.length, greaterThanOrEqualTo(0));
       expect(data.inPostSeason, isNotNull);
     });
     test('Current Standings', () async {

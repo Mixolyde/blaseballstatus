@@ -46,7 +46,7 @@ Future<void> main(List<String> args) async {
   var entries = <PlayoffBracketEntry>[];
   //    await calculatePlayoffBracketEntries(postSeason, subStandings);
       
-  await calculateChances(subStandings, numSims, entries, simData.id);
+  await calculateChances(subStandings, numSims, entries, simData.currentSeasonId);
 
   
   var temp = Directory.systemTemp;

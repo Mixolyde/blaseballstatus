@@ -13,10 +13,11 @@ part 'src/team.dart';
 part 'src/tiebreakers.dart';
 
 String apiUrl = 'https://api.blaseball.com/';
+String api2Url = 'https://api2.blaseball.com/';
 
 final String _dbUrl = apiUrl + 'database/';
 
-final String _ilbId = '4b1a2354-f90a-40ad-9c05-d4c271c5a765';
+final String _ilbId = 'd3182b4d-91b6-4b4e-96a5-13d69e0043b7';
 final String _allTeamsUrl = _dbUrl + 'allTeams';
 final String _divisionUrl = _dbUrl + 'division?id=';
 final String _leagueUrl = _dbUrl + 'league?id=' + _ilbId;
@@ -24,7 +25,8 @@ final String _playoffsUrl = _dbUrl + 'playoffs?number=';
 final String _playoffMatchupsUrl = _dbUrl + 'playoffMatchups?ids=';
 final String _playoffRoundUrl = _dbUrl + 'playoffRound?id=';
 final String _scheduleUrl = apiUrl + 'api/games/schedule/';
-final String _simulationDataUrl = _dbUrl + 'simulationData';
+//final String _simulationDataUrl = _dbUrl + 'simulationData';
+final String _simulationDataUrl = api2Url + 'sim';
 final String _standingsUrl = apiUrl + 'api/standings';
 final String _subleagueUrl = _dbUrl + 'subleague?id=';
 final String _tiebreakersUrl = _dbUrl + 'tiebreakers?id=';
@@ -43,7 +45,12 @@ Future<Division> getDivision(String id) async {
 
 
 Future<League> getLeague() async {
-  var response = await get(Uri.parse(_leagueUrl));
+  SimulationData simData = await getSimulationData();
+  return getLeagueById(simData.league);
+}
+
+Future<League> getLeagueById(String id) async {
+  var response = await get(Uri.parse(_dbUrl + 'league?id=' + id));
   return League.fromJson(json.decode(response.body));
 }
 

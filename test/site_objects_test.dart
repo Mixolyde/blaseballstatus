@@ -10,7 +10,7 @@ void main() {
     test('no league wild cards', () async {
       var currentSimData = await getSimulationData();
       var simData = SimulationData(
-        id: currentSimData.id,
+        currentSeasonId: currentSimData.currentSeasonId,
         day: 113,
         league: 'd8545021-e9fc-48a3-af74-48685950a183',
         playOffRound: 3,
@@ -25,7 +25,7 @@ void main() {
     test('has league wild cards', () async {
       var currentSimData = await getSimulationData();
       var simData = SimulationData(
-        id: currentSimData.id,
+        currentSeasonId: currentSimData.currentSeasonId,
         day: 113,
         league: 'd8545021-e9fc-48a3-af74-48685950a183',
         playOffRound: 3,
@@ -40,7 +40,7 @@ void main() {
     test('in post season', () async {
       var currentSimData = await getSimulationData();
       var simData = SimulationData(
-        id: currentSimData.id,
+        currentSeasonId: currentSimData.currentSeasonId,
         day: 500,
         league: 'd8545021-e9fc-48a3-af74-48685950a183',
         playOffRound: 3,
@@ -55,7 +55,7 @@ void main() {
     test('not in post season', () async {
       var currentSimData = await getSimulationData();
       var simData = SimulationData(
-        id: currentSimData.id,
+        currentSeasonId: currentSimData.currentSeasonId,
         day: 98,
         league: 'd8545021-e9fc-48a3-af74-48685950a183',
         playOffRound: 3,

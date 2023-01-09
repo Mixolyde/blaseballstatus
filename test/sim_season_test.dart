@@ -408,7 +408,7 @@ List<Game> createSeasonOfGames(int numDays, int completedDays,
 Future<void> setSimDataOptions(bool wildCard, int day) async {
   var currentSimData = await getSimulationData();
   var simData = SimulationData(
-    id: currentSimData.id,
+    currentSeasonId: currentSimData.currentSeasonId,
     day: day,
     league: 'd8545021-e9fc-48a3-af74-48685950a183',
     playOffRound: 3,

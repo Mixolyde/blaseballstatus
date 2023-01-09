@@ -15,7 +15,7 @@ void main() {
     test('fake attributes', () async {
       var simData = await getSimulationData();
       var oldSimData = SimulationData(
-        id: simData.id,
+        currentSeasonId: simData.currentSeasonId,
         day: 3,
         league: 'd8545021-e9fc-48a3-af74-48685950a183',
         playOffRound: 3,
@@ -40,7 +40,7 @@ void main() {
     test('real attributes', () async {
       var simData = await getSimulationData();
       var oldSimData = SimulationData(
-        id: simData.id,
+        currentSeasonId: simData.currentSeasonId,
         day: 113,
         league: 'd8545021-e9fc-48a3-af74-48685950a183',
         playOffRound: 3,
