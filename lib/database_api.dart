@@ -1,6 +1,7 @@
 library database_api;
 
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart';
 import 'eventsource/eventsource.dart';
 
@@ -14,6 +15,7 @@ part 'src/tiebreakers.dart';
 
 String apiUrl = 'https://api.blaseball.com/';
 String api2Url = 'https://api2.blaseball.com/';
+String authToken = Platform.environment['AUTH_TOKEN'] ?? "";
 
 final String _dbUrl = apiUrl + 'database/';
 
@@ -32,6 +34,13 @@ final String _subleagueUrl = _dbUrl + 'subleague?id=';
 final String _tiebreakersUrl = _dbUrl + 'tiebreakers?id=';
 final String _streamDataUrl = apiUrl + 'events/streamData';
 
+Future<Response> getWithAuthToken(String url) {
+  return get(
+    Uri.parse(url),
+    headers: {'Cookie': authToken}
+  );
+}
+
 Future<Standings> getStandings() async {
   var response = await get(Uri.parse(_standingsUrl));
   var standings = Standings.fromJson(json.decode(response.body));
@@ -43,15 +52,13 @@ Future<Division> getDivision(String id) async {
   return Division.fromJson(json.decode(response.body));
 }
 
-
 Future<League> getLeague() async {
-  SimulationData simData = await getSimulationData();
-  return getLeagueById(simData.league);
-}
-
-Future<League> getLeagueById(String id) async {
-  var response = await get(Uri.parse(_dbUrl + 'league?id=' + id));
-  return League.fromJson(json.decode(response.body));
+  var response = await get(Uri.parse(_simulationDataUrl));
+  var responsejson = json.decode(response.body);
+  Map<String, dynamic> simJson = responsejson['simData'];
+  Map<String, dynamic> currentLeagueData = simJson['currentLeagueData'];
+  
+  return League.fromJson(currentLeagueData);
 }
 
 Future<SimulationData> getSimulationData() async {

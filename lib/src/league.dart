@@ -8,6 +8,19 @@ part of database_api;
   'id':'d8545021-e9fc-48a3-af74-48685950a183',
   'name':'Internet League Blaseball',
   'tiebreakers':'72a618ed-c61c-4162-a455-3959a2d0e738'
+  
+  api2
+  "currentLeagueData":{
+      "id":"d3182b4d-91b6-4b4e-96a5-13d69e0043b7",
+      "name":"Internet Blaseball League",
+      "subLeagues":[{"id":"5335d626-db8c-4181-950a-e650f5f11d00",
+        "divisions":[
+          {"id":"8b22bdcf-8cf9-46d4-93da-bb75a6413786","name":"Awful Good"},
+          {"id":"67a4acf7-60b6-463d-bcff-63fbf538b3d9","name":"Chaotic Good"}]},
+        {"id":"226dc71f-b3a2-4d0d-814e-1b963781cda9",
+        "divisions":[
+          {"id":"b60a5664-66d8-462a-85ae-9da2d4d9c59e","name":"Awful Evil"},
+          {"id":"0b684565-ecaf-4afc-96d2-f4100f127197","name":"Chaotic Evil"}]}]}
 */
 class League {
   final String id;
@@ -24,12 +37,14 @@ class League {
     this.tiebreakersId = ''});
     
   factory League.fromJson(Map<String, dynamic> json){
+    List<dynamic> subLeagueJson = json['subLeagues'];
     return League(
       id: json['id'] as String,
       name: json['name'] as String,
-      subleagueId1: (json['subleagues'] as List)[0],
-      subleagueId2: (json['subleagues'] as List)[1],
-      tiebreakersId: json['tiebreakers'] as String,
+      subleagueId1: (subLeagueJson[0] as Map<String, dynamic>)['id'],
+      subleagueId2: (subLeagueJson[1] as Map<String, dynamic>)['id'],
+      //tiebreakersId: json['tiebreakers'] as String,
+      tiebreakersId: "",
     );
   }
   

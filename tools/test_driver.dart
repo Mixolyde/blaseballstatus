@@ -16,6 +16,8 @@ Future<void> main() async {
   var simData = await getSimulationData();
   print(simData);
   
+  
+  
   int gamesInRegularSeason = SimulationData.gamesInRegularSeason(simData.currentSeasonId);
   print(gamesInRegularSeason);
   /*

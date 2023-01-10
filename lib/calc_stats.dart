@@ -26,6 +26,7 @@ int gamesInRegularSeason = 99;
   
 Future<SiteData> calcSiteData(SimulationData simData) async {
   _league = await getLeague();
+  print(_league);
   _sub1 = await getSubleague(_league.subleagueId1);
   _sub2 = await getSubleague(_league.subleagueId2);
   gamesInRegularSeason = SimulationData.gamesInRegularSeason(simData.currentSeasonId);
