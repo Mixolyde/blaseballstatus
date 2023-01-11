@@ -52,13 +52,51 @@ Future<Division> getDivision(String id) async {
   return Division.fromJson(json.decode(response.body));
 }
 
-Future<League> getLeague() async {
+Future<League> getLeague({deep:false}) async {
   var response = await get(Uri.parse(_simulationDataUrl));
   var responsejson = json.decode(response.body);
   Map<String, dynamic> simJson = responsejson['simData'];
   Map<String, dynamic> currentLeagueData = simJson['currentLeagueData'];
   
-  return League.fromJson(currentLeagueData);
+  //if not deep
+  if(!deep) {
+    //shallow league
+    return League.fromJson(currentLeagueData);
+  } else {
+    //parse shallow league values
+    League league = League.fromJson(currentLeagueData);
+    //then fill in subleagues and divisions
+    List<dynamic> subLeagueJson = currentLeagueData['subLeagues'];
+    (subLeagueJson[0] as Map<String, dynamic>)['name'] = "Good";
+    (subLeagueJson[1] as Map<String, dynamic>)['name'] = "Evil";
+    
+    List<dynamic> divisions1 =
+      (subLeagueJson[0] as Map<String, dynamic>)['divisions'];
+    List<dynamic> divisions2 =
+      (subLeagueJson[1] as Map<String, dynamic>)['divisions'];
+      
+    divisions1[0]['teams'] = [];
+    divisions1[1]['teams'] = [];
+    divisions2[0]['teams'] = [];
+    divisions2[1]['teams'] = [];
+    
+    league.subleague1 = Subleague.fromJson(
+      (subLeagueJson[0] as Map<String, dynamic>));
+    league.subleague2 = Subleague.fromJson(
+      (subLeagueJson[1] as Map<String, dynamic>));
+      
+    league.subleague1!.division1 = 
+      Division.fromJson(divisions1[0]);
+    league.subleague1!.division2 = 
+      Division.fromJson(divisions1[1]);
+      
+    league.subleague2!.division1 = 
+      Division.fromJson(divisions2[0]);
+    league.subleague2!.division2 = 
+      Division.fromJson(divisions2[1]);
+    
+    return league;
+  }
 }
 
 Future<SimulationData> getSimulationData() async {

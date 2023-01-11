@@ -25,10 +25,10 @@ int divSplit = 0;
 int gamesInRegularSeason = 99;
   
 Future<SiteData> calcSiteData(SimulationData simData) async {
-  _league = await getLeague();
+  _league = await getLeague(deep:true);
   print(_league);
-  _sub1 = await getSubleague(_league.subleagueId1);
-  _sub2 = await getSubleague(_league.subleagueId2);
+  _sub1 = _league.subleague1!;
+  _sub2 = _league.subleague2!;
   gamesInRegularSeason = SimulationData.gamesInRegularSeason(simData.currentSeasonId);
   
   var lastUpdate = getUpdateTime();

@@ -75,8 +75,8 @@ class Subleague {
     return Subleague(
       id: json['id'] as String,
       name: json['name'] as String,
-      divisionId1: (json['divisions'] as List)[0],
-      divisionId2: (json['divisions'] as List)[1],
+      divisionId1: (json['divisions'] as List)[0]['id'],
+      divisionId2: (json['divisions'] as List)[1]['id'],
     );
   }  
   
