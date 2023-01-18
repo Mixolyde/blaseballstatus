@@ -3,23 +3,33 @@ import 'dart:io';
 // import 'package:intl/intl.dart';
 import '../lib/calc_stats.dart';
 import '../lib/chronicler_api.dart';
-import '../lib/database_api.dart';
+import '../lib/database_api.dart' as db;
 import '../lib/sim_season.dart';
 import '../lib/site_objects.dart';
 
 
 /// Test script used for manually executing methods and testing functionality.
 Future<void> main() async {  
+  Map<String, String> envVars = Platform.environment;
+  String envBucket = envVars['BUCKET'] ?? "";
+  db.authToken = envVars['AUTH_TOKEN'] ?? "";
   //print(apiUrl);
   
   //overall blaseball status data
-  var simData = await getSimulationData();
+  var simData = await db.getSimulationData();
   print(simData);
   
+  //int gamesInRegularSeason = db.SimulationData.gamesInRegularSeason(simData.currentSeasonId);
+  //print(gamesInRegularSeason);
+  
+  var allTeams = await db.getTeamsByDivision(simData.currentSeasonId, simData.day);
+  print(allTeams);
   
   
-  int gamesInRegularSeason = SimulationData.gamesInRegularSeason(simData.currentSeasonId);
-  print(gamesInRegularSeason);
+  
+
+  
+  
   /*
     {"phase":"restPhase",
     "startTime":"2023-01-05T23:01:00.000Z",

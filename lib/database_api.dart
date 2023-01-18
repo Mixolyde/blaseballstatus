@@ -35,6 +35,7 @@ final String _tiebreakersUrl = _dbUrl + 'tiebreakers?id=';
 final String _streamDataUrl = apiUrl + 'events/streamData';
 
 Future<Response> getWithAuthToken(String url) {
+  print("Using authToken: $authToken");
   return get(
     Uri.parse(url),
     headers: {'Cookie': authToken}
@@ -116,6 +117,34 @@ Future<List<Team>> getTeams() async {
   List<dynamic> parsed = json.decode(response.body);
   var teams = parsed.map((json) => Team.fromJson(json)).toList();
   return teams;
+}
+
+Future<Map<String,List<Team>>> getTeamsByDivision(String seasonId, int day) async {
+  //https://api2.blaseball.com/seasons/cd1b6714-f4de-4dfc-a030-851b3459d8d1/days/0/teams
+  var response = await getWithAuthToken(
+    api2Url + "seasons/$seasonId/days/$day/teams");
+  //print(response.body);
+  print(response.statusCode);
+  Map<String,dynamic> divisions = json.decode(response.body);
+  Map<String,List<Team>> teamMap = {};
+  print("${divisions.keys}");
+  
+  divisions.keys.forEach((key) {
+    List<Team> teams = [];
+    print("Key: $key");
+    divisions[key].forEach((json){
+      Team team = Team.fromJson(json);
+      List<dynamic> standingList = json['standings'];
+      var thisStanding = standingList
+        .firstWhere((stand) => stand['seasonId'] == seasonId);
+      team.wins = thisStanding['wins'];
+      team.losses = thisStanding['losses'];
+      teams.add(team);
+    });
+    
+    teamMap[key] = teams;
+  });
+  return teamMap;
 }
 
 Future<Tiebreakers> getTiebreakers(String id) async {

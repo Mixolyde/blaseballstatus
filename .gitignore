@@ -1,5 +1,6 @@
 # Temp Files
 *.swp
+token.txt
 
 # Files and directories created by pub
 .dart_tool/

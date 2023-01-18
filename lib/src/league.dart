@@ -1,14 +1,6 @@
 part of database_api;
 
 /*
-  'subleagues': [
-    '7d3a3dd6-9ea1-4535-9d91-bde875c85e80',
-    '93e58443-9617-44d4-8561-e254a1dbd450'
-  ],
-  'id':'d8545021-e9fc-48a3-af74-48685950a183',
-  'name':'Internet League Blaseball',
-  'tiebreakers':'72a618ed-c61c-4162-a455-3959a2d0e738'
-  
   api2
   "currentLeagueData":{
       "id":"d3182b4d-91b6-4b4e-96a5-13d69e0043b7",

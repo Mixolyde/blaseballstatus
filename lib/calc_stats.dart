@@ -7,12 +7,13 @@ import 'site_objects.dart';
 late League _league;
 late Subleague _sub1;
 late Subleague _sub2;
+Map<String, String> divNicknames = {};
 
 List<List<TeamStandings>> subStandings = [];
 
-List<Team> _allTeams = [];
-late Standings _standings;
+Map<String,List<Team>> _allTeams = {};
 late Tiebreakers _tiebreakers;
+
 List<String> _dayOfWeek = ['', 'Mon', 'Tue', 'Wed',
   'Thu', 'Fri', 'Sat', 'Sun'];
 List<String> _monthOfYear = ['', 'Jan', 'Feb', 'Mar',
@@ -29,6 +30,11 @@ Future<SiteData> calcSiteData(SimulationData simData) async {
   print(_league);
   _sub1 = _league.subleague1!;
   _sub2 = _league.subleague2!;
+  divNicknames[_sub1.divisionId1] = _sub1.division1!.name.split(' ')[divSplit];
+  divNicknames[_sub1.divisionId2] = _sub1.division2!.name.split(' ')[divSplit];
+  divNicknames[_sub2.divisionId1] = _sub2.division1!.name.split(' ')[divSplit];
+  divNicknames[_sub2.divisionId2] = _sub2.division2!.name.split(' ')[divSplit];
+  
   gamesInRegularSeason = SimulationData.gamesInRegularSeason(simData.currentSeasonId);
   
   var lastUpdate = getUpdateTime();
@@ -40,7 +46,7 @@ Future<SiteData> calcSiteData(SimulationData simData) async {
     simData.attributes,
     SimulationData.daysInRegularSeason(simData.currentSeasonId),
     SimulationData.gamesInRegularSeason(simData.currentSeasonId));
-  print(sitedata);
+  //print(sitedata);
 
   return sitedata;
 }  
@@ -54,10 +60,11 @@ String getUpdateTime(){
 Future<List<List<TeamStandings>>> calcStats(SimulationData simData) async {
   print('Beginning stat calculations for current season: ${simData.season + 1}');
  
-  _standings = await getStandings();
-
-  _allTeams = await getTeams();
-  _tiebreakers = await getTiebreakers(_league.tiebreakersId);
+  _allTeams = await 
+    getTeamsByDivision(simData.currentSeasonId, simData.day);
+    
+  //_tiebreakers = await getTiebreakers(_league.tiebreakersId);
+  _tiebreakers = getAlphaTiebreakers();
 
   var sub1Standings = 
     await calculateSubLeague(_sub1, simData);
@@ -71,49 +78,35 @@ Future<List<List<TeamStandings>>> calcStats(SimulationData simData) async {
 Future<List<TeamStandings>> calculateSubLeague(Subleague sub, 
     SimulationData simData) async{
   print('Day ${simData.day + 1} $sub');
-  var div1 = await getDivision(sub.divisionId1);
-  var div2 = await getDivision(sub.divisionId2);
-  var teams = _allTeams.where((t) => 
-    div1.teams.contains(t.id) ||
-    div2.teams.contains(t.id)).toList();
+  //var div1 = await getDivision(sub.divisionId1);
+  //var div2 = await getDivision(sub.divisionId2);
+  var teams = [];
+  teams.addAll(_allTeams[sub.divisionId1]!);
+  teams.addAll(_allTeams[sub.divisionId2]!);
+  print("SubLeague Teams Length: {$teams.length}");
 
   
   var teamStandings = <TeamStandings>[];
   for (var team in teams) {
-    var divName ="divName";
-    if(div1.teams.contains(team.id)){
-      if(div1.name.contains(' ')){
-        //TODO figure out divSplit by league name
-        divName = div1.name.split(' ')[divSplit];
-      } else {
-        divName = div1.name;
-      }
-    } else {
-      if(div2.name.contains(' ')){
-        divName = div2.name.split(' ')[divSplit];
-      } else {
-        divName = div2.name;
-      }
-    }
-    
+
     var gamesPlayed = gamesInRegularSeason;
     if (!simData.inPostSeason){
-      gamesPlayed = _standings.standings[team.id]!.wins + 
-        _standings.standings[team.id]!.losses;
+      gamesPlayed = team.wins + team.losses;
     }
     
     var standing = 
       TeamStandings(team.id, 
       team.fullName, team.nickname, team.emoji,
-      //sub.name.split(' ')[1],
       sub.name,
-      divName,
-      _standings.standings[team.id]!.wins, 
-      _standings.standings[team.id]!.losses,
+      divNicknames[team.divisionId]!,
+      team.wins, 
+      team.losses,
       gamesPlayed,
       _tiebreakers.order.indexOf(team.id));
     teamStandings.add(standing);
   }
+  
+  print("SubLeague TeamStandings Length: ${teamStandings.length}");
 
   //sort first then calculate
   sortTeamsNotGrouped(teamStandings);
@@ -375,4 +368,16 @@ String formatGamesBehind(num gb){
   } else {
     return '${gb.toInt()}½';
   }
+}
+
+Tiebreakers getAlphaTiebreakers(){
+  String id = "AlphaTiebreakers";
+  //expand each teamlist into a list of id strings and flatmap them
+  List<String> teamIds = 
+    _allTeams.values.expand<String>((teamList) => 
+      teamList.map((team) => team.id)).toList();
+  //print("TeamIds: $teamIds");
+  teamIds.sort();
+  return Tiebreakers(id: id, order: teamIds);
+  
 }

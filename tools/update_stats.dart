@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:args/args.dart';
 import '../lib/calc_stats.dart';
-import '../lib/database_api.dart';
+import '../lib/database_api.dart' as db;
 import '../lib/sim_season.dart';
 import '../lib/site_objects.dart';
 
@@ -16,10 +16,11 @@ Future<void> main(List<String> args) async {
   var numSims = int.parse(results[simCount]);
   
   //overall blaseball status data
-  var simData = await getSimulationData();
+  var simData = await db.getSimulationData();
   
   Map<String, String> envVars = Platform.environment;
   String envBucket = envVars['BUCKET'] ?? "";
+  db.authToken = envVars['AUTH_TOKEN'] ?? "";
   
   if(envBucket == "dev/") {
     //remove wild/mild cards for testing

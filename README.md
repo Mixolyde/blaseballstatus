@@ -63,8 +63,10 @@ Published at https://playoffstatus.sibr.dev/
 - [x] Display data update time in local time zone
 - [x] Disable buttons on certain views
 - [x] Unit test coverage report
-- [ ] Live Postseason chance updates
+* v0.0.10
+- [ ] Update to api2
 * v0.1.0
+- [ ] Live Postseason chance updates
 - [ ] Team Schedules
 - [ ] Get a twitter account and button
 - [ ] Move project to a blaseball-specific account on github
