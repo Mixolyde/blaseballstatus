@@ -36,6 +36,7 @@ Future<void> calculateChances(List<List<TeamStandings>> subStandings,
   
   print('Getting game data');
   games = await getGames(simData.season, sim:simId);
+  print("Games fetched count: ${games.length}");
   //TODO fix live postseason stuff
   /*
   print('Getting postseason data');

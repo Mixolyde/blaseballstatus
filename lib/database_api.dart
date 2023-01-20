@@ -42,6 +42,7 @@ Future<Response> getWithAuthToken(String url) {
   );
 }
 
+/*
 Future<Standings> getStandings() async {
   var response = await get(Uri.parse(_standingsUrl));
   var standings = Standings.fromJson(json.decode(response.body));
@@ -52,6 +53,7 @@ Future<Division> getDivision(String id) async {
   var response = await get(Uri.parse(_divisionUrl + id));
   return Division.fromJson(json.decode(response.body));
 }
+*/
 
 Future<League> getLeague({deep:false}) async {
   var response = await get(Uri.parse(_simulationDataUrl));
@@ -107,6 +109,7 @@ Future<SimulationData> getSimulationData() async {
   return SimulationData.fromJson(json.decode(response.body));
 }
 
+/*
 Future<Subleague> getSubleague(String id) async {
   var response = await get(Uri.parse(_subleagueUrl + id));
   return Subleague.fromJson(json.decode(response.body));
@@ -118,6 +121,7 @@ Future<List<Team>> getTeams() async {
   var teams = parsed.map((json) => Team.fromJson(json)).toList();
   return teams;
 }
+*/
 
 Future<Map<String,List<Team>>> getTeamsByDivision(String seasonId, int day) async {
   //https://api2.blaseball.com/seasons/cd1b6714-f4de-4dfc-a030-851b3459d8d1/days/0/teams
@@ -147,11 +151,13 @@ Future<Map<String,List<Team>>> getTeamsByDivision(String seasonId, int day) asyn
   return teamMap;
 }
 
+/*
 Future<Tiebreakers> getTiebreakers(String id) async {
   var response = await get(Uri.parse(_tiebreakersUrl + id));
   var decjson = json.decode(response.body)[0];
   return Tiebreakers.fromJson(decjson);
 }
+*/
 
 Future<Playoffs?> getPlayoffs(int season) async {
   print('GetPlayoffs Request URL: ${_playoffsUrl + season.toString()}');

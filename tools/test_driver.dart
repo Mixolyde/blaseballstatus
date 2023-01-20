@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 // import 'package:intl/intl.dart';
 import '../lib/calc_stats.dart';
-import '../lib/chronicler_api.dart';
+import '../lib/chronicler_api.dart' as chron;
 import '../lib/database_api.dart' as db;
 import '../lib/sim_season.dart';
 import '../lib/site_objects.dart';
@@ -22,11 +22,12 @@ Future<void> main() async {
   //int gamesInRegularSeason = db.SimulationData.gamesInRegularSeason(simData.currentSeasonId);
   //print(gamesInRegularSeason);
   
-  var allTeams = await db.getTeamsByDivision(simData.currentSeasonId, simData.day);
-  print(allTeams);
+  //var allTeams = await db.getTeamsByDivision(simData.currentSeasonId, simData.day);
+  //print(allTeams);
   
-  
-  
+  var allGames = await chron.getAllGames();
+  print("AllGames length: ${allGames.length}");
+  allGames.take(20).forEach((game) => print(game));
 
   
   

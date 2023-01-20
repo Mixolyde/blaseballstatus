@@ -5,9 +5,7 @@ import 'dart:js' as js;
 import 'package:cron/cron.dart';
 import 'package:intl/intl.dart';
 
-import 'package:blaseballstatus/calc_stats.dart';
 import 'package:blaseballstatus/current_view.dart';
-import 'package:blaseballstatus/database_api.dart';
 import 'package:blaseballstatus/s3_api.dart' as s3;
 import 'package:blaseballstatus/site_objects.dart';
 import 'package:blaseballstatus/html/populate_tables.dart';
@@ -26,6 +24,8 @@ late SiteData sitedata;
 CurrentView currentView = CurrentView();
 List<PlayoffBracketEntry> entries = [];
 
+List<List<TeamStandings>> subStandings = [];
+
 void main() {
 
   String envBucket = js.context['envBucket'] ?? "";
@@ -33,7 +33,7 @@ void main() {
   
   print ("EnvBucket: $envBucket");
 
-  apiUrl = 'https://api.sibr.dev/corsmechanics/api.blaseball.com/';
+  //apiUrl = 'https://api.sibr.dev/corsmechanics/api.blaseball.com/';
   getContentPages().then((v) {
     print('Retrieved content pages and data');
     

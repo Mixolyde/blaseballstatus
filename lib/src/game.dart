@@ -65,35 +65,47 @@ class Game {
   final String homeTeamNickname;
   final num homeScore;
   final bool gameComplete;
-  final int season;
+  final String seasonId;
   final int day;
-  final bool isPostseason;
+  final String gameWinnerId;
   
   Game({this.id = '', this.awayTeam = '', this.awayTeamNickname = '',
     this.awayScore = 0,
     this.homeTeam = '', this.homeTeamNickname = '', 
     this.homeScore = 0,
     this.gameComplete = false,
-    this.season = 0, this.day = 0, this.isPostseason = false});
+    this.seasonId = '', this.day = 0,
+    this.gameWinnerId = ''});
     
   factory Game.fromJson(Map<String, dynamic> json){
+    Map<String,dynamic> awayTeamMap = json['awayTeam']!;
+    Map<String,dynamic> homeTeamMap = json['homeTeam']!;
+    List<dynamic> gameStatesList = json['gameStates']!;
+    print("Id: ${json['id']} Day: ${json['day']}");
+    num awayScore = 0;
+    num homeScore = 0;
+    if(gameStatesList.length > 0){
+      awayScore = gameStatesList[0]['awayScore'] as num? ?? 0;
+      homeScore = gameStatesList[0]['homeScore'] as num? ?? 0;
+    }
+    
     return Game(
       id: json['id'] as String,
-      awayTeam: json['awayTeam'] as String,
-      awayTeamNickname: json['awayTeamNickname'] as String,
-      awayScore: json['awayScore'] as num? ?? 0,
-      homeTeam: json['homeTeam'] as String,
-      homeTeamNickname: json['homeTeamNickname'] as String,
-      homeScore: json['homeScore'] as num? ?? 0,      
-      gameComplete: json['gameComplete'] as bool,
-      season: json['season'] as int,
+      awayTeam: awayTeamMap['id'] as String,
+      awayTeamNickname: awayTeamMap['nickname'] as String,
+      awayScore: awayScore,
+      homeTeam: homeTeamMap['id'] as String,
+      homeTeamNickname: homeTeamMap['nickname'] as String,
+      homeScore: homeScore,      
+      gameComplete: json['complete'] as bool,
+      seasonId: json['seasonId'] as String,
       day: json['day'] as int,
-      isPostseason: json['isPostseason'] as bool,
+      gameWinnerId: json['gameWinnerId'] as String? ?? '',
     );
   }
 
   @override
   String toString() => 'Day $day $awayTeamNickname @ $homeTeamNickname '
-    'Completed: $gameComplete Score:$awayScore-$homeScore IsPostseason: $isPostseason';
+    'Completed: $gameComplete Score:$awayScore-$homeScore';
   
 }

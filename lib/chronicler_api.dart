@@ -6,6 +6,7 @@ import 'database_api.dart';
 
 
 String apiUrl = 'https://api.sibr.dev/chronicler/v1/';
+String api2Url = 'https://api2.sibr.dev/chronicler/v0/';
 
 final String _gamesUrl = apiUrl + 'games';
 
@@ -43,14 +44,13 @@ Future<List<Game>> getGames(int season, {int? day,
 }
 
 
-/*
-Future<List<Game>> getAllGames(int season) async {
-  var response = await get(Uri.parse(_gamesUrl 
-    + season.toString() ));
+Future<List<Game>> getAllGames() async {
+  var response = await get(Uri.parse(
+    api2Url + "entities?kind=game" ));
   //print('Response body: ${response.body}');
   
   var games = <Game>[];
-  List<dynamic> objects = json.decode(response.body)['data'];
+  List<dynamic> objects = json.decode(response.body)['items'];
   for (var o in objects) {
     games.add(Game.fromJson(o['data']));
   }
@@ -58,4 +58,3 @@ Future<List<Game>> getAllGames(int season) async {
   return games;
 }
 
-*/
