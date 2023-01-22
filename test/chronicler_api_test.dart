@@ -9,6 +9,7 @@ void main() {
 
 void apiTests() {
   group('games', () {
+    /* TODO replace with new games method tests
     test('Get games first day of season', () async {
       var data = await getSimulationData();
       var current = await getGames(data.season, day:0);
@@ -69,7 +70,8 @@ void apiTests() {
       expect(current[0], isNotNull);      
       print('Day 0 Game 0: ${current[0]}');
       print('Last Game: ${current.last}');
-    }, timeout: Timeout(Duration(minutes: 4)));         
+    }, timeout: Timeout(Duration(minutes: 4)));   
+    */    
   });
   
 }

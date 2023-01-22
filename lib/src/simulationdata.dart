@@ -74,20 +74,16 @@ class SimulationData {
       return 166;
     } else if (simId == 'gamma10'){
       return 219;
-    } else if (simId.startsWith("cd1b6714")){
-      return 90;
     } else {
-      return 99;
-    }
+      return 90;
+    } 
   }
   
   static int gamesInRegularSeason(String simId) {
     if (simId == 'gamma10'){
       return 162;
-    } else if (simId.startsWith("cd1b6714")){
-      return 90;      
     } else {
-      return 99;
+      return 90;
     }
   }  
 

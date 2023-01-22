@@ -25,7 +25,7 @@ Future<void> main() async {
   //var allTeams = await db.getTeamsByDivision(simData.currentSeasonId, simData.day);
   //print(allTeams);
   
-  var allGames = await chron.getAllGames();
+  var allGames = await chron.getAllRegularSeasonGames(simData.currentSeasonId);
   print("AllGames length: ${allGames.length}");
   allGames.take(20).forEach((game) => print(game));
 

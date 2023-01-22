@@ -17,18 +17,6 @@ Future<void> main(List<String> args) async {
   
   //overall blaseball status data
   var simData = await db.getSimulationData();
-  
-  Map<String, String> envVars = Platform.environment;
-  String envBucket = envVars['BUCKET'] ?? "";
-  db.authToken = envVars['AUTH_TOKEN'] ?? "";
-  
-  if(envBucket == "dev/") {
-    //remove wild/mild cards for testing
-    simData.attributes.remove("MILD_CARDS");
-    simData.attributes.remove("WILD_CARDS");
-    
-    print("Removed attributes for testing: ${simData.attributes}");
-  }
 
   //site data
   var sitedata = await calcSiteData(simData);

@@ -23,19 +23,8 @@ Future<void> calculateChances(List<List<TeamStandings>> subStandings,
   int numSims, List<PlayoffBracketEntry> entries, String simId) async {
   simData = await getSimulationData();
   
-  Map<String, String> envVars = Platform.environment;
-  String envBucket = envVars['BUCKET'] ?? "";
-  
-  if(envBucket == "dev/") {
-    //remove wild/mild cards for testing
-    simData.attributes.remove("MILD_CARDS");
-    simData.attributes.remove("WILD_CARDS");
-    
-    print("Removed attributes for testing: ${simData.attributes}");
-  }
-  
   print('Getting game data');
-  games = await getGames(simData.season, sim:simId);
+  games = await getAllRegularSeasonGames(simData.currentSeasonId);
   print("Games fetched count: ${games.length}");
   //TODO fix live postseason stuff
   /*
@@ -455,8 +444,8 @@ void runSimulations(List<Game> games, List<List<TeamStandings>> standings,
 }
 
 void simulateSeason(List<Game> games, Map<String, TeamSim> sims){
-  print('SimulateSeason with TeamSim keys:');
-  print(sims.keys.join(' '));
+  //print('SimulateSeason with TeamSim keys:');
+  //print(sims.keys.join(' '));
   //print(sims);
   //print(games[0]);
   //simulate unplayed games

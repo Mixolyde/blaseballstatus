@@ -81,7 +81,7 @@ class Game {
     Map<String,dynamic> awayTeamMap = json['awayTeam']!;
     Map<String,dynamic> homeTeamMap = json['homeTeam']!;
     List<dynamic> gameStatesList = json['gameStates']!;
-    print("Id: ${json['id']} Day: ${json['day']}");
+    //print("Id: ${json['id']} Day: ${json['day']}");
     num awayScore = 0;
     num homeScore = 0;
     if(gameStatesList.length > 0){

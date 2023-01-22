@@ -357,7 +357,7 @@ Game createRandomGame(int day, bool completed,
     homeTeam: home,
     homeTeamNickname: '$home Nickname',
     homeScore: homeScore,
-    season: 0,
+    seasonId: 'test',
    
   );
     

@@ -14,9 +14,7 @@ void apiTests() {
       var data = await getSimulationData();
       print(data);
       expect(data.season, greaterThanOrEqualTo(0));
-      expect(data.currentSeasonId, isIn(['thisidisstaticyo',
-        'gamma4', 'gamma8', 'gamma9', 'gamma10',
-        'cd1b6714-f4de-4dfc-a030-851b3459d8d1']));
+      expect(data.currentSeasonId.length, 36);
       expect(data.attributes.length, greaterThanOrEqualTo(0));
       expect(data.inPostSeason, isNotNull);
     });
@@ -63,6 +61,7 @@ void apiTests() {
     });  
     */
   });
+  /* TODO postseasons
   group('postseason', () {
     var seasonNumber = 10;
     //var teamCount = 20;
@@ -150,5 +149,5 @@ void apiTests() {
       */
     });    
   }, timeout: Timeout(Duration(minutes: 4)));
-  
+  */
 }
