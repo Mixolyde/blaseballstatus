@@ -11,11 +11,11 @@ jobs:
     - uses: actions/checkout@v2
     - uses: dart-lang/setup-dart@v1
     - name: Install dependencies
-      run: pub get
+      run: dart pub get
     - name: Run tests with coverage
-      run: pub run test --coverage="coverage"
+      run: dart run test --coverage="coverage"
     - name: Convert coverage to ICOV
-      run: pub run coverage:format_coverage --lcov --in=coverage --out=coverage.lcov --packages=.packages --check-ignore --report-on=lib
+      run: dart pub run coverage:format_coverage --lcov --in=coverage --out=coverage.lcov --packages=.packages --check-ignore --report-on=lib
     - name: Upload coverage to Codecov  
       uses: codecov/codecov-action@v1.0.2
       with:
