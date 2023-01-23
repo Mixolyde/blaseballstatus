@@ -10348,7 +10348,6 @@ $.lV=null
 $.n8=null
 $.n7=null
 $.hv=A.bu(t.N,t.Y)
-$.aR=A.f([],t.cQ)
 $.oH=""
 $.l6=null
 $.lo=null
@@ -10366,7 +10365,8 @@ $.oc=A.c_("partytimeNotesHTML")
 $.mh=A.c_("postseasonHTML")
 $.od=A.c_("winningNotesHTML")
 $.R=A.c_("sitedata")
-$.lb=A.f([],t.ap)})();(function lazyInitializers(){var s=hunkHelpers.lazyFinal,r=hunkHelpers.lazy
+$.lb=A.f([],t.ap)
+$.aR=A.f([],t.cQ)})();(function lazyInitializers(){var s=hunkHelpers.lazyFinal,r=hunkHelpers.lazy
 s($,"uK","lK",()=>A.oL("_$dart_dartClosure"))
 s($,"vU","lN",()=>B.f.dW(new A.ls(),A.aJ("aq<P>")))
 s($,"v4","pf",()=>A.bz(A.jL({
