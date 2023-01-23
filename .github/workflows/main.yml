@@ -12,6 +12,7 @@ jobs:
     - uses: dart-lang/setup-dart@v1
     - name: Install dependencies
       run: dart pub get
+    - run: export AUTH_TOKEN='${{secrets.AUTH_TOKEN}}'
     - name: Run tests with coverage
       run: dart run test --coverage="coverage"
     - name: Convert coverage to ICOV
