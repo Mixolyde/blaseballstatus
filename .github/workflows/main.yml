@@ -13,6 +13,8 @@ jobs:
     - name: Install dependencies
       run: dart pub get
     - name: Run tests with coverage
+      env:
+        AUTH_TOKEN: ${{secrets.AUTH_TOKEN}}
       run: dart run test --coverage="coverage"
     - name: Convert coverage to ICOV
       run: dart pub run coverage:format_coverage --lcov --in=coverage --out=coverage.lcov --check-ignore --report-on=lib

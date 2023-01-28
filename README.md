@@ -11,6 +11,9 @@ An attempt to replicate [Playoff Status](http://playoffstatus.com)
 Published at https://playoffstatus.sibr.dev/
 
 ## TODO
+* Replace old test code with new api calls
+* Figure out postseason calculations
+* Figure out new tiebreakers
 * Figure out what's up with tied records getting weird sim results
 * Postseason schedule
 * Handle postseason data live
@@ -64,7 +67,8 @@ Published at https://playoffstatus.sibr.dev/
 - [x] Disable buttons on certain views
 - [x] Unit test coverage report
 * v0.0.10
-- [ ] Update to api2
+- [x] Update to api2
+- [ ] Find and fix bugs in new version
 * v0.1.0
 - [ ] Live Postseason chance updates
 - [ ] Team Schedules
